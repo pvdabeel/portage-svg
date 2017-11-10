@@ -1,0 +1,110 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="sys-apps/hwids-20171003", color=red, width=4, href="../sys-apps/hwids-20171003.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack348436 {
+dependency469573 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>pkgconfig</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency469573:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond113043 {
+dependency469574 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>udev</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack348437 {
+dependency469575 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>udev</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency469574:e -> dependency469575:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency469574:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack348438 {
+dependency469576 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>pciutils</TD></TR><TR><TD>smaller</TD></TR><TR><TD>3.1.9-r2</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency469576:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack348439 {
+dependency469577 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>usbutils</TD></TR><TR><TD>smaller</TD></TR><TR><TD>005-r1</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency469577:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice348436 {
+color=black;
+nodesep=1;
+choice11810511411611797108471121071039911111010210510345484511449 [label="virtual/pkgconfig-0-r1", color=red, width=4,href="../virtual/pkgconfig-0-r1.svg"];
+dependency469573:e -> choice11810511411611797108471121071039911111010210510345484511449:w [style=dotted,weight="100"];
+}
+subgraph choice348437 {
+color=black;
+nodesep=1;
+choice118105114116117971084711710010111845504953 [label="virtual/udev-215", color=red, width=4,href="../virtual/udev-215.svg"];
+choice118105114116117971084711710010111845504955 [label="virtual/udev-217", color=red, width=4,href="../virtual/udev-217.svg"];
+dependency469575:e -> choice118105114116117971084711710010111845504953:w [style=dotted,weight="100"];
+dependency469575:e -> choice118105114116117971084711710010111845504955:w [style=dotted,weight="100"];
+}
+subgraph choice348438 {
+color=black;
+nodesep=1;
+choice11512111545971121121154711299105117116105108115455146524649 [label="sys-apps/pciutils-3.4.1", color=red, width=4,href="../sys-apps/pciutils-3.4.1.svg"];
+choice11512111545971121121154711299105117116105108115455146534652 [label="sys-apps/pciutils-3.5.4", color=red, width=4,href="../sys-apps/pciutils-3.5.4.svg"];
+choice11512111545971121121154711299105117116105108115455146534653 [label="sys-apps/pciutils-3.5.5", color=red, width=4,href="../sys-apps/pciutils-3.5.5.svg"];
+dependency469576:e -> choice11512111545971121121154711299105117116105108115455146524649:w [style=dotted,weight="100"];
+dependency469576:e -> choice11512111545971121121154711299105117116105108115455146534652:w [style=dotted,weight="100"];
+dependency469576:e -> choice11512111545971121121154711299105117116105108115455146534653:w [style=dotted,weight="100"];
+}
+subgraph choice348439 {
+color=black;
+nodesep=1;
+choice11512111545971121121154711711598117116105108115454848564511449 [label="sys-apps/usbutils-008-r1", color=red, width=4,href="../sys-apps/usbutils-008-r1.svg"];
+dependency469577:e -> choice11512111545971121121154711711598117116105108115454848564511449:w [style=dotted,weight="100"];
+}
+}
+
+}

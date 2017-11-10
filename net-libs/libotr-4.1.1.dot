@@ -1,0 +1,82 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="net-libs/libotr-4.1.1", color=red, width=4, href="../net-libs/libotr-4.1.1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack307406 {
+dependency417666 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libgcrypt</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.2</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency417666:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack307407 {
+dependency417667 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libgpg-error</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency417667:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice307406 {
+color=black;
+nodesep=1;
+choice100101118451081059811547108105981039911412111211645494653465445114494849 [label="dev-libs/libgcrypt-1.5.6-r101", color=red, width=4,href="../dev-libs/libgcrypt-1.5.6-r101.svg"];
+choice1001011184510810598115471081059810399114121112116454946564649 [label="dev-libs/libgcrypt-1.8.1", color=red, width=4,href="../dev-libs/libgcrypt-1.8.1.svg"];
+dependency417666:e -> choice100101118451081059811547108105981039911412111211645494653465445114494849:w [style=dotted,weight="100"];
+dependency417666:e -> choice1001011184510810598115471081059810399114121112116454946564649:w [style=dotted,weight="100"];
+}
+subgraph choice307407 {
+color=black;
+nodesep=1;
+choice100101118451081059811547108105981031121034510111411411111445494650554511449 [label="dev-libs/libgpg-error-1.27-r1", color=red, width=4,href="../dev-libs/libgpg-error-1.27-r1.svg"];
+dependency417667:e -> choice100101118451081059811547108105981031121034510111411411111445494650554511449:w [style=dotted,weight="100"];
+}
+}
+
+}

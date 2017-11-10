@@ -1,0 +1,96 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="media-fonts/corefonts-1-r7", color=red, width=4, href="../media-fonts/corefonts-1-r7.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond86438 {
+dependency348641 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>X</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack256925 {
+dependency348642 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>x11-apps</TD></TR><TR><TD>mkfontdir</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency348641:e -> dependency348642:w [weight=20,style="dashed",arrowhead="vee"];
+subgraph pack256926 {
+dependency348643 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>media-fonts</TD></TR><TR><TD>encodings</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency348641:e -> dependency348643:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency348641:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack256927 {
+dependency348644 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>cabextract</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency348644:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice256925 {
+color=black;
+nodesep=1;
+choice1204949459711211211547109107102111110116100105114454946484655 [label="x11-apps/mkfontdir-1.0.7", color=red, width=4,href="../x11-apps/mkfontdir-1.0.7.svg"];
+dependency348642:e -> choice1204949459711211211547109107102111110116100105114454946484655:w [style=dotted,weight="100"];
+}
+subgraph choice256926 {
+color=black;
+nodesep=1;
+choice10910110010597451021111101161154710111099111100105110103115454946484652 [label="media-fonts/encodings-1.0.4", color=red, width=4,href="../media-fonts/encodings-1.0.4.svg"];
+choice109101100105974510211111011611547101110991111001051101031154549464846524511449 [label="media-fonts/encodings-1.0.4-r1", color=red, width=4,href="../media-fonts/encodings-1.0.4-r1.svg"];
+dependency348643:e -> choice10910110010597451021111101161154710111099111100105110103115454946484652:w [style=dotted,weight="100"];
+dependency348643:e -> choice109101100105974510211111011611547101110991111001051101031154549464846524511449:w [style=dotted,weight="100"];
+}
+subgraph choice256927 {
+color=black;
+nodesep=1;
+choice9711211245971149910447999798101120116114979911645494654 [label="app-arch/cabextract-1.6", color=red, width=4,href="../app-arch/cabextract-1.6.svg"];
+dependency348644:e -> choice9711211245971149910447999798101120116114979911645494654:w [style=dotted,weight="100"];
+}
+}
+
+}

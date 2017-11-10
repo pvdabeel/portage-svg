@@ -1,0 +1,106 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="dev-dotnet/mono-addins-0.6.2", color=red, width=4, href="../dev-dotnet/mono-addins-0.6.2.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack52514 {
+dependency71578 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>pkgconfig</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency71578:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph cond17473 {
+dependency71579 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>gtk</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack52515 {
+dependency71580 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-dotnet</TD></TR><TR><TD>gtk-sharp</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency71579:e -> dependency71580:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency71579:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack52516 {
+dependency71581 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>mono</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency71581:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice52514 {
+color=black;
+nodesep=1;
+choice11810511411611797108471121071039911111010210510345484511449 [label="virtual/pkgconfig-0-r1", color=red, width=4,href="../virtual/pkgconfig-0-r1.svg"];
+dependency71578:e -> choice11810511411611797108471121071039911111010210510345484511449:w [style=dotted,weight="100"];
+}
+subgraph choice52515 {
+color=black;
+nodesep=1;
+choice100101118451001111161101011164710311610745115104971141124550464950465049 [label="dev-dotnet/gtk-sharp-2.12.21", color=red, width=4,href="../dev-dotnet/gtk-sharp-2.12.21.svg"];
+dependency71580:e -> choice100101118451001111161101011164710311610745115104971141124550464950465049:w [style=dotted,weight="100"];
+}
+subgraph choice52516 {
+color=black;
+nodesep=1;
+choice100101118451089711010347109111110111455046494846574511450 [label="dev-lang/mono-2.10.9-r2", color=red, width=4,href="../dev-lang/mono-2.10.9-r2.svg"];
+choice1001011184510897110103471091111101114552465246494648 [label="dev-lang/mono-4.4.1.0", color=red, width=4,href="../dev-lang/mono-4.4.1.0.svg"];
+choice1001011184510897110103471091111101114552465446494653 [label="dev-lang/mono-4.6.1.5", color=red, width=4,href="../dev-lang/mono-4.6.1.5.svg"];
+choice10010111845108971101034710911111011145524654464946534511449 [label="dev-lang/mono-4.6.1.5-r1", color=red, width=4,href="../dev-lang/mono-4.6.1.5-r1.svg"];
+choice10010111845108971101034710911111011145524656464846525053 [label="dev-lang/mono-4.8.0.425", color=red, width=4,href="../dev-lang/mono-4.8.0.425.svg"];
+choice10010111845108971101034710911111011145524656464846525753 [label="dev-lang/mono-4.8.0.495", color=red, width=4,href="../dev-lang/mono-4.8.0.495.svg"];
+choice10010111845108971101034710911111011145524656464846535052 [label="dev-lang/mono-4.8.0.524", color=red, width=4,href="../dev-lang/mono-4.8.0.524.svg"];
+dependency71581:e -> choice100101118451089711010347109111110111455046494846574511450:w [style=dotted,weight="100"];
+dependency71581:e -> choice1001011184510897110103471091111101114552465246494648:w [style=dotted,weight="100"];
+dependency71581:e -> choice1001011184510897110103471091111101114552465446494653:w [style=dotted,weight="100"];
+dependency71581:e -> choice10010111845108971101034710911111011145524654464946534511449:w [style=dotted,weight="100"];
+dependency71581:e -> choice10010111845108971101034710911111011145524656464846525053:w [style=dotted,weight="100"];
+dependency71581:e -> choice10010111845108971101034710911111011145524656464846525753:w [style=dotted,weight="100"];
+dependency71581:e -> choice10010111845108971101034710911111011145524656464846535052:w [style=dotted,weight="100"];
+}
+}
+
+}

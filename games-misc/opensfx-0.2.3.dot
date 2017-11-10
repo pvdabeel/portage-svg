@@ -1,0 +1,82 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="games-misc/opensfx-0.2.3", color=red, width=4, href="../games-misc/opensfx-0.2.3.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack215113 {
+dependency300573 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>games-util</TD></TR><TR><TD>catcodec</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency300573:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack215114 {
+dependency300574 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>games-misc</TD></TR><TR><TD>games-envd</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency300574:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice215113 {
+color=black;
+nodesep=1;
+choice10397109101115451171161051084799971169911110010199454946484651 [label="games-util/catcodec-1.0.3", color=red, width=4,href="../games-util/catcodec-1.0.3.svg"];
+choice10397109101115451171161051084799971169911110010199454946484653 [label="games-util/catcodec-1.0.5", color=red, width=4,href="../games-util/catcodec-1.0.5.svg"];
+dependency300573:e -> choice10397109101115451171161051084799971169911110010199454946484651:w [style=dotted,weight="100"];
+dependency300573:e -> choice10397109101115451171161051084799971169911110010199454946484653:w [style=dotted,weight="100"];
+}
+subgraph choice215114 {
+color=black;
+nodesep=1;
+choice1039710910111545109105115994710397109101115451011101181004548 [label="games-misc/games-envd-0", color=red, width=4,href="../games-misc/games-envd-0.svg"];
+dependency300574:e -> choice1039710910111545109105115994710397109101115451011101181004548:w [style=dotted,weight="100"];
+}
+}
+
+}

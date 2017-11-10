@@ -1,0 +1,124 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="app-emacs/auctex-11.88", color=red, width=4, href="../app-emacs/auctex-11.88.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack14211 {
+dependency19509 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>texinfo</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>4.2-r5</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency19509:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph cond4900 {
+dependency19510 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>preview-latex</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack14212 {
+dependency19511 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-text</TD></TR><TR><TD>dvipng</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency19510:e -> dependency19511:w [weight=20,style="dashed",arrowhead="vee"];
+subgraph pack14213 {
+dependency19512 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-text</TD></TR><TR><TD>ghostscript-gpl</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency19510:e -> dependency19512:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency19510:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack14214 {
+dependency19513 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>emacs</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>23</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency19513:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack14215 {
+dependency19514 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>latex-base</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency19514:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice14211 {
+color=black;
+nodesep=1;
+choice11512111545971121121154711610112010511010211145544649 [label="sys-apps/texinfo-6.1", color=red, width=4,href="../sys-apps/texinfo-6.1.svg"];
+choice11512111545971121121154711610112010511010211145544651 [label="sys-apps/texinfo-6.3", color=red, width=4,href="../sys-apps/texinfo-6.3.svg"];
+choice11512111545971121121154711610112010511010211145544652 [label="sys-apps/texinfo-6.4", color=red, width=4,href="../sys-apps/texinfo-6.4.svg"];
+choice11512111545971121121154711610112010511010211145544653 [label="sys-apps/texinfo-6.5", color=red, width=4,href="../sys-apps/texinfo-6.5.svg"];
+dependency19509:e -> choice11512111545971121121154711610112010511010211145544649:w [style=dotted,weight="100"];
+dependency19509:e -> choice11512111545971121121154711610112010511010211145544651:w [style=dotted,weight="100"];
+dependency19509:e -> choice11512111545971121121154711610112010511010211145544652:w [style=dotted,weight="100"];
+dependency19509:e -> choice11512111545971121121154711610112010511010211145544653:w [style=dotted,weight="100"];
+}
+subgraph choice14212 {
+color=black;
+nodesep=1;
+choice9711211245116101120116471001181051121101034549464953 [label="app-text/dvipng-1.15", color=red, width=4,href="../app-text/dvipng-1.15.svg"];
+dependency19511:e -> choice9711211245116101120116471001181051121101034549464953:w [style=dotted,weight="100"];
+}
+subgraph choice14213 {
+color=black;
+nodesep=1;
+choice97112112451161011201164710310411111511611599114105112116451031121084557465049 [label="app-text/ghostscript-gpl-9.21", color=red, width=4,href="../app-text/ghostscript-gpl-9.21.svg"];
+dependency19512:e -> choice97112112451161011201164710310411111511611599114105112116451031121084557465049:w [style=dotted,weight="100"];
+}
+subgraph choice14214 {
+color=black;
+nodesep=1;
+choice11810511411611797108471011099799115455051 [label="virtual/emacs-23", color=red, width=4,href="../virtual/emacs-23.svg"];
+choice11810511411611797108471011099799115455052 [label="virtual/emacs-24", color=red, width=4,href="../virtual/emacs-24.svg"];
+choice11810511411611797108471011099799115455053 [label="virtual/emacs-25", color=red, width=4,href="../virtual/emacs-25.svg"];
+dependency19513:e -> choice11810511411611797108471011099799115455051:w [style=dotted,weight="100"];
+dependency19513:e -> choice11810511411611797108471011099799115455052:w [style=dotted,weight="100"];
+dependency19513:e -> choice11810511411611797108471011099799115455053:w [style=dotted,weight="100"];
+}
+subgraph choice14215 {
+color=black;
+nodesep=1;
+choice11810511411611797108471089711610112045989711510145494648 [label="virtual/latex-base-1.0", color=red, width=4,href="../virtual/latex-base-1.0.svg"];
+dependency19514:e -> choice11810511411611797108471089711610112045989711510145494648:w [style=dotted,weight="100"];
+}
+}
+
+}

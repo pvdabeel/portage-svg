@@ -1,0 +1,76 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="dev-embedded/ftdi_eeprom-1.0", color=red, width=4, href="../dev-embedded/ftdi_eeprom-1.0.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack52709 {
+dependency71803 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-embedded</TD></TR><TR><TD>libftdi</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency71803:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice52709 {
+color=black;
+nodesep=1;
+choice100101118451011099810110010010110047108105981021161001054548464957 [label="dev-embedded/libftdi-0.19", color=red, width=4,href="../dev-embedded/libftdi-0.19.svg"];
+choice1001011184510110998101100100101100471081059810211610010545484650484511449 [label="dev-embedded/libftdi-0.20-r1", color=red, width=4,href="../dev-embedded/libftdi-0.20-r1.svg"];
+choice10010111845101109981011001001011004710810598102116100105454946504511449 [label="dev-embedded/libftdi-1.2-r1", color=red, width=4,href="../dev-embedded/libftdi-1.2-r1.svg"];
+choice100101118451011099810110010010110047108105981021161001054557575757 [label="dev-embedded/libftdi-9999", color=red, width=4,href="../dev-embedded/libftdi-9999.svg"];
+dependency71803:e -> choice100101118451011099810110010010110047108105981021161001054548464957:w [style=dotted,weight="100"];
+dependency71803:e -> choice1001011184510110998101100100101100471081059810211610010545484650484511449:w [style=dotted,weight="100"];
+dependency71803:e -> choice10010111845101109981011001001011004710810598102116100105454946504511449:w [style=dotted,weight="100"];
+dependency71803:e -> choice100101118451011099810110010010110047108105981021161001054557575757:w [style=dotted,weight="100"];
+}
+}
+
+}

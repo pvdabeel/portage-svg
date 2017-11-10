@@ -1,0 +1,88 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="net-irc/irssi-xmpp-0.53", color=red, width=4, href="../net-irc/irssi-xmpp-0.53.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack305001 {
+dependency414374 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>net-irc</TD></TR><TR><TD>irssi</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>0.8.13</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency414374:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack305002 {
+dependency414375 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>net-libs</TD></TR><TR><TD>loudmouth</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.4.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency414375:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice305001 {
+color=black;
+nodesep=1;
+choice110101116451051149947105114115115105454946484652 [label="net-irc/irssi-1.0.4", color=red, width=4,href="../net-irc/irssi-1.0.4.svg"];
+choice110101116451051149947105114115115105454946484653 [label="net-irc/irssi-1.0.5", color=red, width=4,href="../net-irc/irssi-1.0.5.svg"];
+choice1101011164510511499471051141151151054557575757 [label="net-irc/irssi-9999", color=red, width=4,href="../net-irc/irssi-9999.svg"];
+dependency414374:e -> choice110101116451051149947105114115115105454946484652:w [style=dotted,weight="100"];
+dependency414374:e -> choice110101116451051149947105114115115105454946484653:w [style=dotted,weight="100"];
+dependency414374:e -> choice1101011164510511499471051141151151054557575757:w [style=dotted,weight="100"];
+}
+subgraph choice305002 {
+color=black;
+nodesep=1;
+choice1101011164510810598115471081111171001091111171161044549465246514511450 [label="net-libs/loudmouth-1.4.3-r2", color=red, width=4,href="../net-libs/loudmouth-1.4.3-r2.svg"];
+choice1101011164510810598115471081111171001091111171161044549465346504511449 [label="net-libs/loudmouth-1.5.2-r1", color=red, width=4,href="../net-libs/loudmouth-1.5.2-r1.svg"];
+choice110101116451081059811547108111117100109111117116104454946534651 [label="net-libs/loudmouth-1.5.3", color=red, width=4,href="../net-libs/loudmouth-1.5.3.svg"];
+dependency414375:e -> choice1101011164510810598115471081111171001091111171161044549465246514511450:w [style=dotted,weight="100"];
+dependency414375:e -> choice1101011164510810598115471081111171001091111171161044549465346504511449:w [style=dotted,weight="100"];
+dependency414375:e -> choice110101116451081059811547108111117100109111117116104454946534651:w [style=dotted,weight="100"];
+}
+}
+
+}

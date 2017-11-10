@@ -1,0 +1,110 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="dev-vcs/cvsd-1.0.7", color=red, width=4, href="../dev-vcs/cvsd-1.0.7.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph cond78966 {
+dependency289620 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>tcpd</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack206339 {
+dependency289621 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>tcp-wrappers</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>7.6</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency289620:e -> dependency289621:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency289620:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack206340 {
+dependency289622 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>perl</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>5.8.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency289622:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack206341 {
+dependency289623 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-vcs</TD></TR><TR><TD>cvs</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.11.6</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency289623:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice206339 {
+color=black;
+nodesep=1;
+choice115121115459711211211547116991124511911497112112101114115455546544650504511449 [label="sys-apps/tcp-wrappers-7.6.22-r1", color=red, width=4,href="../sys-apps/tcp-wrappers-7.6.22-r1.svg"];
+dependency289621:e -> choice115121115459711211211547116991124511911497112112101114115455546544650504511449:w [style=dotted,weight="100"];
+}
+subgraph choice206340 {
+color=black;
+nodesep=1;
+choice100101118451089711010347112101114108455346505246494511450 [label="dev-lang/perl-5.24.1-r2", color=red, width=4,href="../dev-lang/perl-5.24.1-r2.svg"];
+choice10010111845108971101034711210111410845534650524650 [label="dev-lang/perl-5.24.2", color=red, width=4,href="../dev-lang/perl-5.24.2.svg"];
+choice10010111845108971101034711210111410845534650524651 [label="dev-lang/perl-5.24.3", color=red, width=4,href="../dev-lang/perl-5.24.3.svg"];
+choice10010111845108971101034711210111410845534650544648 [label="dev-lang/perl-5.26.0", color=red, width=4,href="../dev-lang/perl-5.26.0.svg"];
+choice10010111845108971101034711210111410845534650544649 [label="dev-lang/perl-5.26.1", color=red, width=4,href="../dev-lang/perl-5.26.1.svg"];
+choice100101118451089711010347112101114108455346505446494511449 [label="dev-lang/perl-5.26.1-r1", color=red, width=4,href="../dev-lang/perl-5.26.1-r1.svg"];
+choice10010111845108971101034711210111410845534650544657575757 [label="dev-lang/perl-5.26.9999", color=red, width=4,href="../dev-lang/perl-5.26.9999.svg"];
+choice10010111845108971101034711210111410845534650564657575757 [label="dev-lang/perl-5.28.9999", color=red, width=4,href="../dev-lang/perl-5.28.9999.svg"];
+dependency289622:e -> choice100101118451089711010347112101114108455346505246494511450:w [style=dotted,weight="100"];
+dependency289622:e -> choice10010111845108971101034711210111410845534650524650:w [style=dotted,weight="100"];
+dependency289622:e -> choice10010111845108971101034711210111410845534650524651:w [style=dotted,weight="100"];
+dependency289622:e -> choice10010111845108971101034711210111410845534650544648:w [style=dotted,weight="100"];
+dependency289622:e -> choice10010111845108971101034711210111410845534650544649:w [style=dotted,weight="100"];
+dependency289622:e -> choice100101118451089711010347112101114108455346505446494511449:w [style=dotted,weight="100"];
+dependency289622:e -> choice10010111845108971101034711210111410845534650544657575757:w [style=dotted,weight="100"];
+dependency289622:e -> choice10010111845108971101034711210111410845534650564657575757:w [style=dotted,weight="100"];
+}
+subgraph choice206341 {
+color=black;
+nodesep=1;
+choice100101118451189911547991181154549464950464950451144949 [label="dev-vcs/cvs-1.12.12-r11", color=red, width=4,href="../dev-vcs/cvs-1.12.12-r11.svg"];
+choice100101118451189911547991181154549464950464950451144950 [label="dev-vcs/cvs-1.12.12-r12", color=red, width=4,href="../dev-vcs/cvs-1.12.12-r12.svg"];
+dependency289623:e -> choice100101118451189911547991181154549464950464950451144949:w [style=dotted,weight="100"];
+dependency289623:e -> choice100101118451189911547991181154549464950464950451144950:w [style=dotted,weight="100"];
+}
+}
+
+}

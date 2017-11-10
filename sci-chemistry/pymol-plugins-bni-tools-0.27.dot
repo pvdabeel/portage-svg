@@ -1,0 +1,120 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="sci-chemistry/pymol-plugins-bni-tools-0.27", color=red, width=4, href="../sci-chemistry/pymol-plugins-bni-tools-0.27.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack329513 {
+dependency447004 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>unzip</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency447004:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph cond109715 {
+dependency447005 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>python_targets_python2_7</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack329514 {
+dependency447006 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>python</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2.7.5-r2</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency447005:e -> dependency447006:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency447005:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack329515 {
+dependency447007 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>python-exec</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency447007:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack329516 {
+dependency447008 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sci-chemistry</TD></TR><TR><TD>pymol</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency447008:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice329513 {
+color=black;
+nodesep=1;
+choice971121124597114991044711711012210511245544648951125048 [label="app-arch/unzip-6.0_p20", color=red, width=4,href="../app-arch/unzip-6.0_p20.svg"];
+dependency447004:e -> choice971121124597114991044711711012210511245544648951125048:w [style=dotted,weight="100"];
+}
+subgraph choice329514 {
+color=black;
+nodesep=1;
+choice10010111845108971101034711212111610411111045504655464950 [label="dev-lang/python-2.7.12", color=red, width=4,href="../dev-lang/python-2.7.12.svg"];
+choice10010111845108971101034711212111610411111045504655464952 [label="dev-lang/python-2.7.14", color=red, width=4,href="../dev-lang/python-2.7.14.svg"];
+choice100101118451089711010347112121116104111110455146524653 [label="dev-lang/python-3.4.5", color=red, width=4,href="../dev-lang/python-3.4.5.svg"];
+choice100101118451089711010347112121116104111110455146524654 [label="dev-lang/python-3.4.6", color=red, width=4,href="../dev-lang/python-3.4.6.svg"];
+choice100101118451089711010347112121116104111110455146534652 [label="dev-lang/python-3.5.4", color=red, width=4,href="../dev-lang/python-3.5.4.svg"];
+choice100101118451089711010347112121116104111110455146544651 [label="dev-lang/python-3.6.3", color=red, width=4,href="../dev-lang/python-3.6.3.svg"];
+dependency447006:e -> choice10010111845108971101034711212111610411111045504655464950:w [style=dotted,weight="100"];
+dependency447006:e -> choice10010111845108971101034711212111610411111045504655464952:w [style=dotted,weight="100"];
+dependency447006:e -> choice100101118451089711010347112121116104111110455146524653:w [style=dotted,weight="100"];
+dependency447006:e -> choice100101118451089711010347112121116104111110455146524654:w [style=dotted,weight="100"];
+dependency447006:e -> choice100101118451089711010347112121116104111110455146534652:w [style=dotted,weight="100"];
+dependency447006:e -> choice100101118451089711010347112121116104111110455146544651:w [style=dotted,weight="100"];
+}
+subgraph choice329515 {
+color=black;
+nodesep=1;
+choice1001011184510897110103471121211161041111104510112010199455046524652 [label="dev-lang/python-exec-2.4.4", color=red, width=4,href="../dev-lang/python-exec-2.4.4.svg"];
+choice1001011184510897110103471121211161041111104510112010199455046524653 [label="dev-lang/python-exec-2.4.5", color=red, width=4,href="../dev-lang/python-exec-2.4.5.svg"];
+choice10010111845108971101034711212111610411111045101120101994557575757 [label="dev-lang/python-exec-9999", color=red, width=4,href="../dev-lang/python-exec-9999.svg"];
+dependency447007:e -> choice1001011184510897110103471121211161041111104510112010199455046524652:w [style=dotted,weight="100"];
+dependency447007:e -> choice1001011184510897110103471121211161041111104510112010199455046524653:w [style=dotted,weight="100"];
+dependency447007:e -> choice10010111845108971101034711212111610411111045101120101994557575757:w [style=dotted,weight="100"];
+}
+subgraph choice329516 {
+color=black;
+nodesep=1;
+choice1159910545991041011091051151161141214711212110911110845494656465246484511449 [label="sci-chemistry/pymol-1.8.4.0-r1", color=red, width=4,href="../sci-chemistry/pymol-1.8.4.0-r1.svg"];
+choice115991054599104101109105115116114121471121211091111084549465646544648 [label="sci-chemistry/pymol-1.8.6.0", color=red, width=4,href="../sci-chemistry/pymol-1.8.6.0.svg"];
+dependency447008:e -> choice1159910545991041011091051151161141214711212110911110845494656465246484511449:w [style=dotted,weight="100"];
+dependency447008:e -> choice115991054599104101109105115116114121471121211091111084549465646544648:w [style=dotted,weight="100"];
+}
+}
+
+}

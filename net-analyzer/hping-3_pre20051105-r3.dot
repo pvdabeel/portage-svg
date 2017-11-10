@@ -1,0 +1,96 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="net-analyzer/hping-3_pre20051105-r3", color=red, width=4, href="../net-analyzer/hping-3_pre20051105-r3.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph cond98605 {
+dependency399587 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>tcl</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack294486 {
+dependency399588 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>tcl</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency399587:e -> dependency399588:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency399587:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack294487 {
+dependency399589 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>net-libs</TD></TR><TR><TD>libpcap</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency399589:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice294486 {
+color=black;
+nodesep=1;
+choice1001011184510897110103471169910845564653464955 [label="dev-lang/tcl-8.5.17", color=red, width=4,href="../dev-lang/tcl-8.5.17.svg"];
+choice100101118451089711010347116991084556465346495545114494848 [label="dev-lang/tcl-8.5.17-r100", color=red, width=4,href="../dev-lang/tcl-8.5.17-r100.svg"];
+choice10010111845108971101034711699108455646544653 [label="dev-lang/tcl-8.6.5", color=red, width=4,href="../dev-lang/tcl-8.6.5.svg"];
+choice10010111845108971101034711699108455646544654 [label="dev-lang/tcl-8.6.6", color=red, width=4,href="../dev-lang/tcl-8.6.6.svg"];
+choice10010111845108971101034711699108455646544655 [label="dev-lang/tcl-8.6.7", color=red, width=4,href="../dev-lang/tcl-8.6.7.svg"];
+dependency399588:e -> choice1001011184510897110103471169910845564653464955:w [style=dotted,weight="100"];
+dependency399588:e -> choice100101118451089711010347116991084556465346495545114494848:w [style=dotted,weight="100"];
+dependency399588:e -> choice10010111845108971101034711699108455646544653:w [style=dotted,weight="100"];
+dependency399588:e -> choice10010111845108971101034711699108455646544654:w [style=dotted,weight="100"];
+dependency399588:e -> choice10010111845108971101034711699108455646544655:w [style=dotted,weight="100"];
+}
+subgraph choice294487 {
+color=black;
+nodesep=1;
+choice110101116451081059811547108105981129997112454946564649 [label="net-libs/libpcap-1.8.1", color=red, width=4,href="../net-libs/libpcap-1.8.1.svg"];
+choice1101011164510810598115471081059811299971124549465646494511449 [label="net-libs/libpcap-1.8.1-r1", color=red, width=4,href="../net-libs/libpcap-1.8.1-r1.svg"];
+choice1101011164510810598115471081059811299971124557575757 [label="net-libs/libpcap-9999", color=red, width=4,href="../net-libs/libpcap-9999.svg"];
+dependency399589:e -> choice110101116451081059811547108105981129997112454946564649:w [style=dotted,weight="100"];
+dependency399589:e -> choice1101011164510810598115471081059811299971124549465646494511449:w [style=dotted,weight="100"];
+dependency399589:e -> choice1101011164510810598115471081059811299971124557575757:w [style=dotted,weight="100"];
+}
+}
+
+}

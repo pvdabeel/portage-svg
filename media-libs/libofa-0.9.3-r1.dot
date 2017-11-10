@@ -1,0 +1,132 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="media-libs/libofa-0.9.3-r1", color=red, width=4, href="../media-libs/libofa-0.9.3-r1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack269044 {
+dependency364643 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>pkgconfig</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>0-r1</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency364643:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack269045 {
+dependency364644 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>expat</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency364644:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack269046 {
+dependency364645 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>net-misc</TD></TR><TR><TD>curl</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency364645:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack269047 {
+dependency364646 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sci-libs</TD></TR><TR><TD>fftw</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>3.3.3-r2</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency364646:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond89897 {
+dependency364647 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>abi_x86_32</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack269048 {
+dependency364648 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>app-emulation</TD></TR><TR><TD>emul-linux-x86-medialibs</TD></TR><TR><TD>smallerequal</TD></TR><TR><TD>20140508-r2</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency364647:e -> dependency364648:w [weight=20,style="dashed",arrowhead="vee"];
+subgraph pack269049 {
+dependency364649 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>app-emulation</TD></TR><TR><TD>emul-linux-x86-medialibs</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency364647:e -> dependency364649:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency364647:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice269044 {
+color=black;
+nodesep=1;
+choice11810511411611797108471121071039911111010210510345484511449 [label="virtual/pkgconfig-0-r1", color=red, width=4,href="../virtual/pkgconfig-0-r1.svg"];
+dependency364643:e -> choice11810511411611797108471121071039911111010210510345484511449:w [style=dotted,weight="100"];
+}
+subgraph choice269045 {
+color=black;
+nodesep=1;
+choice10010111845108105981154710112011297116455046504649 [label="dev-libs/expat-2.2.1", color=red, width=4,href="../dev-libs/expat-2.2.1.svg"];
+choice10010111845108105981154710112011297116455046504652 [label="dev-libs/expat-2.2.4", color=red, width=4,href="../dev-libs/expat-2.2.4.svg"];
+choice10010111845108105981154710112011297116455046504653 [label="dev-libs/expat-2.2.5", color=red, width=4,href="../dev-libs/expat-2.2.5.svg"];
+dependency364644:e -> choice10010111845108105981154710112011297116455046504649:w [style=dotted,weight="100"];
+dependency364644:e -> choice10010111845108105981154710112011297116455046504652:w [style=dotted,weight="100"];
+dependency364644:e -> choice10010111845108105981154710112011297116455046504653:w [style=dotted,weight="100"];
+}
+subgraph choice269046 {
+color=black;
+nodesep=1;
+choice1101011164510910511599479911711410845554653534649 [label="net-misc/curl-7.55.1", color=red, width=4,href="../net-misc/curl-7.55.1.svg"];
+choice1101011164510910511599479911711410845554653544648 [label="net-misc/curl-7.56.0", color=red, width=4,href="../net-misc/curl-7.56.0.svg"];
+choice1101011164510910511599479911711410845554653544649 [label="net-misc/curl-7.56.1", color=red, width=4,href="../net-misc/curl-7.56.1.svg"];
+dependency364645:e -> choice1101011164510910511599479911711410845554653534649:w [style=dotted,weight="100"];
+dependency364645:e -> choice1101011164510910511599479911711410845554653544648:w [style=dotted,weight="100"];
+dependency364645:e -> choice1101011164510910511599479911711410845554653544649:w [style=dotted,weight="100"];
+}
+subgraph choice269047 {
+color=black;
+nodesep=1;
+choice115991054510810598115471021021161194550464946534511457 [label="sci-libs/fftw-2.1.5-r9", color=red, width=4,href="../sci-libs/fftw-2.1.5-r9.svg"];
+choice115991054510810598115471021021161194551465146549511250 [label="sci-libs/fftw-3.3.6_p2", color=red, width=4,href="../sci-libs/fftw-3.3.6_p2.svg"];
+choice115991054510810598115471021021161194557575757 [label="sci-libs/fftw-9999", color=red, width=4,href="../sci-libs/fftw-9999.svg"];
+dependency364646:e -> choice115991054510810598115471021021161194550464946534511457:w [style=dotted,weight="100"];
+dependency364646:e -> choice115991054510810598115471021021161194551465146549511250:w [style=dotted,weight="100"];
+dependency364646:e -> choice115991054510810598115471021021161194557575757:w [style=dotted,weight="100"];
+}
+subgraph choice269048 {
+color=black;
+nodesep=1;
+}
+subgraph choice269049 {
+color=black;
+nodesep=1;
+}
+}
+
+}

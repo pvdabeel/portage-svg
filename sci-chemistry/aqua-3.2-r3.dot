@@ -1,0 +1,90 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="sci-chemistry/aqua-3.2-r3", color=red, width=4, href="../sci-chemistry/aqua-3.2-r3.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack328473 {
+dependency445717 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-shells</TD></TR><TR><TD>tcsh</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency445717:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack328474 {
+dependency445718 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>fortran</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency445718:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack328475 {
+dependency445719 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sci-chemistry</TD></TR><TR><TD>procheck</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency445719:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice328473 {
+color=black;
+nodesep=1;
+choice971121124511510410110810811547116991151044554465048464848 [label="app-shells/tcsh-6.20.00", color=red, width=4,href="../app-shells/tcsh-6.20.00.svg"];
+dependency445717:e -> choice971121124511510410110810811547116991151044554465048464848:w [style=dotted,weight="100"];
+}
+subgraph choice328474 {
+color=black;
+nodesep=1;
+choice1181051141161179710847102111114116114971104548 [label="virtual/fortran-0", color=red, width=4,href="../virtual/fortran-0.svg"];
+dependency445718:e -> choice1181051141161179710847102111114116114971104548:w [style=dotted,weight="100"];
+}
+subgraph choice328475 {
+color=black;
+nodesep=1;
+choice1159910545991041011091051151161141214711211411199104101991074551465346524511451 [label="sci-chemistry/procheck-3.5.4-r3", color=red, width=4,href="../sci-chemistry/procheck-3.5.4-r3.svg"];
+dependency445719:e -> choice1159910545991041011091051151161141214711211411199104101991074551465346524511451:w [style=dotted,weight="100"];
+}
+}
+
+}

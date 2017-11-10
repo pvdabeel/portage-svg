@@ -1,0 +1,139 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="net-im/skypetab-ng-9999", color=red, width=4, href="../net-im/skypetab-ng-9999.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack304390 {
+dependency413562 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-vcs</TD></TR><TR><TD>git</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency413562:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack304391 {
+dependency413563 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-qt</TD></TR><TR><TD>qtcore</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency413563:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack304392 {
+dependency413564 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-qt</TD></TR><TR><TD>qtgui</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency413564:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph any6680 {
+dependency413565 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD CELLPADDING="10">any_of_group</TD></TR></TABLE>>, shape=none, color=red];subgraph pack304393 {
+dependency413566 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>net-im</TD></TR><TR><TD>skype</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>4.1</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency413565:e -> dependency413566:w [weight=20,style="dotted",arrowhead="oinv"];
+subgraph pack304394 {
+dependency413567 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>net-im</TD></TR><TR><TD>skype</TD></TR><TR><TD>smaller</TD></TR><TR><TD>4.1</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency413565:e -> dependency413567:w [weight=20,style="dotted",arrowhead="oinv"];
+}
+id:e -> dependency413565:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice304390 {
+color=black;
+nodesep=1;
+choice10010111845118991154710310511645504649514654 [label="dev-vcs/git-2.13.6", color=red, width=4,href="../dev-vcs/git-2.13.6.svg"];
+choice10010111845118991154710310511645504649524651 [label="dev-vcs/git-2.14.3", color=red, width=4,href="../dev-vcs/git-2.14.3.svg"];
+choice10010111845118991154710310511645504649534648 [label="dev-vcs/git-2.15.0", color=red, width=4,href="../dev-vcs/git-2.15.0.svg"];
+choice1001011184511899115471031051164557575757 [label="dev-vcs/git-9999", color=red, width=4,href="../dev-vcs/git-9999.svg"];
+choice10010111845118991154710310511645575757574511449 [label="dev-vcs/git-9999-r1", color=red, width=4,href="../dev-vcs/git-9999-r1.svg"];
+choice10010111845118991154710310511645575757574511450 [label="dev-vcs/git-9999-r2", color=red, width=4,href="../dev-vcs/git-9999-r2.svg"];
+choice10010111845118991154710310511645575757574511451 [label="dev-vcs/git-9999-r3", color=red, width=4,href="../dev-vcs/git-9999-r3.svg"];
+dependency413562:e -> choice10010111845118991154710310511645504649514654:w [style=dotted,weight="100"];
+dependency413562:e -> choice10010111845118991154710310511645504649524651:w [style=dotted,weight="100"];
+dependency413562:e -> choice10010111845118991154710310511645504649534648:w [style=dotted,weight="100"];
+dependency413562:e -> choice1001011184511899115471031051164557575757:w [style=dotted,weight="100"];
+dependency413562:e -> choice10010111845118991154710310511645575757574511449:w [style=dotted,weight="100"];
+dependency413562:e -> choice10010111845118991154710310511645575757574511450:w [style=dotted,weight="100"];
+dependency413562:e -> choice10010111845118991154710310511645575757574511451:w [style=dotted,weight="100"];
+}
+subgraph choice304391 {
+color=black;
+nodesep=1;
+choice1001011184511311647113116991111141014552465646554511450 [label="dev-qt/qtcore-4.8.7-r2", color=red, width=4,href="../dev-qt/qtcore-4.8.7-r2.svg"];
+choice1001011184511311647113116991111141014552465646554511451 [label="dev-qt/qtcore-4.8.7-r3", color=red, width=4,href="../dev-qt/qtcore-4.8.7-r3.svg"];
+choice1001011184511311647113116991111141014553465546494511451 [label="dev-qt/qtcore-5.7.1-r3", color=red, width=4,href="../dev-qt/qtcore-5.7.1-r3.svg"];
+choice100101118451131164711311699111114101455346574650 [label="dev-qt/qtcore-5.9.2", color=red, width=4,href="../dev-qt/qtcore-5.9.2.svg"];
+dependency413563:e -> choice1001011184511311647113116991111141014552465646554511450:w [style=dotted,weight="100"];
+dependency413563:e -> choice1001011184511311647113116991111141014552465646554511451:w [style=dotted,weight="100"];
+dependency413563:e -> choice1001011184511311647113116991111141014553465546494511451:w [style=dotted,weight="100"];
+dependency413563:e -> choice100101118451131164711311699111114101455346574650:w [style=dotted,weight="100"];
+}
+subgraph choice304392 {
+color=black;
+nodesep=1;
+choice1001011184511311647113116103117105455246564655 [label="dev-qt/qtgui-4.8.7", color=red, width=4,href="../dev-qt/qtgui-4.8.7.svg"];
+choice10010111845113116471131161031171054553465546494511449 [label="dev-qt/qtgui-5.7.1-r1", color=red, width=4,href="../dev-qt/qtgui-5.7.1-r1.svg"];
+choice1001011184511311647113116103117105455346574650 [label="dev-qt/qtgui-5.9.2", color=red, width=4,href="../dev-qt/qtgui-5.9.2.svg"];
+dependency413564:e -> choice1001011184511311647113116103117105455246564655:w [style=dotted,weight="100"];
+dependency413564:e -> choice10010111845113116471131161031171054553465546494511449:w [style=dotted,weight="100"];
+dependency413564:e -> choice1001011184511311647113116103117105455346574650:w [style=dotted,weight="100"];
+}
+subgraph choice304393 {
+color=black;
+nodesep=1;
+choice11010111645105109471151071211121014552465146484651554511453 [label="net-im/skype-4.3.0.37-r5", color=red, width=4,href="../net-im/skype-4.3.0.37-r5.svg"];
+choice11010111645105109471151071211121014552465146484651554511454 [label="net-im/skype-4.3.0.37-r6", color=red, width=4,href="../net-im/skype-4.3.0.37-r6.svg"];
+dependency413566:e -> choice11010111645105109471151071211121014552465146484651554511453:w [style=dotted,weight="100"];
+dependency413566:e -> choice11010111645105109471151071211121014552465146484651554511454:w [style=dotted,weight="100"];
+}
+subgraph choice304394 {
+color=black;
+nodesep=1;
+choice11010111645105109471151071211121014552465146484651554511453 [label="net-im/skype-4.3.0.37-r5", color=red, width=4,href="../net-im/skype-4.3.0.37-r5.svg"];
+choice11010111645105109471151071211121014552465146484651554511454 [label="net-im/skype-4.3.0.37-r6", color=red, width=4,href="../net-im/skype-4.3.0.37-r6.svg"];
+dependency413567:e -> choice11010111645105109471151071211121014552465146484651554511453:w [style=dotted,weight="100"];
+dependency413567:e -> choice11010111645105109471151071211121014552465146484651554511454:w [style=dotted,weight="100"];
+}
+}
+
+}

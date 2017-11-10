@@ -1,0 +1,120 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="net-proxy/redsocks-9999", color=red, width=4, href="../net-proxy/redsocks-9999.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack321248 {
+dependency436635 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-vcs</TD></TR><TR><TD>git</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.8.2.1</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency436635:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack321249 {
+dependency436636 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>pkgconfig</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency436636:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack321250 {
+dependency436637 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libevent</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency436637:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack321251 {
+dependency436638 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>net-firewall</TD></TR><TR><TD>iptables</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency436638:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice321248 {
+color=black;
+nodesep=1;
+choice10010111845118991154710310511645504649514654 [label="dev-vcs/git-2.13.6", color=red, width=4,href="../dev-vcs/git-2.13.6.svg"];
+choice10010111845118991154710310511645504649524651 [label="dev-vcs/git-2.14.3", color=red, width=4,href="../dev-vcs/git-2.14.3.svg"];
+choice10010111845118991154710310511645504649534648 [label="dev-vcs/git-2.15.0", color=red, width=4,href="../dev-vcs/git-2.15.0.svg"];
+choice1001011184511899115471031051164557575757 [label="dev-vcs/git-9999", color=red, width=4,href="../dev-vcs/git-9999.svg"];
+choice10010111845118991154710310511645575757574511449 [label="dev-vcs/git-9999-r1", color=red, width=4,href="../dev-vcs/git-9999-r1.svg"];
+choice10010111845118991154710310511645575757574511450 [label="dev-vcs/git-9999-r2", color=red, width=4,href="../dev-vcs/git-9999-r2.svg"];
+choice10010111845118991154710310511645575757574511451 [label="dev-vcs/git-9999-r3", color=red, width=4,href="../dev-vcs/git-9999-r3.svg"];
+dependency436635:e -> choice10010111845118991154710310511645504649514654:w [style=dotted,weight="100"];
+dependency436635:e -> choice10010111845118991154710310511645504649524651:w [style=dotted,weight="100"];
+dependency436635:e -> choice10010111845118991154710310511645504649534648:w [style=dotted,weight="100"];
+dependency436635:e -> choice1001011184511899115471031051164557575757:w [style=dotted,weight="100"];
+dependency436635:e -> choice10010111845118991154710310511645575757574511449:w [style=dotted,weight="100"];
+dependency436635:e -> choice10010111845118991154710310511645575757574511450:w [style=dotted,weight="100"];
+dependency436635:e -> choice10010111845118991154710310511645575757574511451:w [style=dotted,weight="100"];
+}
+subgraph choice321249 {
+color=black;
+nodesep=1;
+choice11810511411611797108471121071039911111010210510345484511449 [label="virtual/pkgconfig-0-r1", color=red, width=4,href="../virtual/pkgconfig-0-r1.svg"];
+dependency436636:e -> choice11810511411611797108471121071039911111010210510345484511449:w [style=dotted,weight="100"];
+}
+subgraph choice321250 {
+color=black;
+nodesep=1;
+choice10010111845108105981154710810598101118101110116455046494656 [label="dev-libs/libevent-2.1.8", color=red, width=4,href="../dev-libs/libevent-2.1.8.svg"];
+choice100101118451081059811547108105981011181011101164557575757 [label="dev-libs/libevent-9999", color=red, width=4,href="../dev-libs/libevent-9999.svg"];
+dependency436637:e -> choice10010111845108105981154710810598101118101110116455046494656:w [style=dotted,weight="100"];
+dependency436637:e -> choice100101118451081059811547108105981011181011101164557575757:w [style=dotted,weight="100"];
+}
+subgraph choice321251 {
+color=black;
+nodesep=1;
+choice1101011164510210511410111997108108471051121169798108101115454946524650494511449 [label="net-firewall/iptables-1.4.21-r1", color=red, width=4,href="../net-firewall/iptables-1.4.21-r1.svg"];
+choice1101011164510210511410111997108108471051121169798108101115454946524650494511452 [label="net-firewall/iptables-1.4.21-r4", color=red, width=4,href="../net-firewall/iptables-1.4.21-r4.svg"];
+choice11010111645102105114101119971081084710511211697981081011154549465446484511449 [label="net-firewall/iptables-1.6.0-r1", color=red, width=4,href="../net-firewall/iptables-1.6.0-r1.svg"];
+choice11010111645102105114101119971081084710511211697981081011154549465446494511450 [label="net-firewall/iptables-1.6.1-r2", color=red, width=4,href="../net-firewall/iptables-1.6.1-r2.svg"];
+dependency436638:e -> choice1101011164510210511410111997108108471051121169798108101115454946524650494511449:w [style=dotted,weight="100"];
+dependency436638:e -> choice1101011164510210511410111997108108471051121169798108101115454946524650494511452:w [style=dotted,weight="100"];
+dependency436638:e -> choice11010111645102105114101119971081084710511211697981081011154549465446484511449:w [style=dotted,weight="100"];
+dependency436638:e -> choice11010111645102105114101119971081084710511211697981081011154549465446494511450:w [style=dotted,weight="100"];
+}
+}
+
+}

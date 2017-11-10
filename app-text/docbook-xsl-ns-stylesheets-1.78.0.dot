@@ -1,0 +1,92 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="app-text/docbook-xsl-ns-stylesheets-1.78.0", color=red, width=4, href="../app-text/docbook-xsl-ns-stylesheets-1.78.0.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond14487 {
+dependency56400 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>ruby</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack40876 {
+dependency56401 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>ruby</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency56400:e -> dependency56401:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency56400:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack40877 {
+dependency56402 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-text</TD></TR><TR><TD>build-docbook-catalog</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.4</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency56402:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice40876 {
+color=black;
+nodesep=1;
+choice10010111845108971101034711411798121455046504656 [label="dev-lang/ruby-2.2.8", color=red, width=4,href="../dev-lang/ruby-2.2.8.svg"];
+choice10010111845108971101034711411798121455046514653 [label="dev-lang/ruby-2.3.5", color=red, width=4,href="../dev-lang/ruby-2.3.5.svg"];
+choice10010111845108971101034711411798121455046524650 [label="dev-lang/ruby-2.4.2", color=red, width=4,href="../dev-lang/ruby-2.4.2.svg"];
+dependency56401:e -> choice10010111845108971101034711411798121455046504656:w [style=dotted,weight="100"];
+dependency56401:e -> choice10010111845108971101034711411798121455046514653:w [style=dotted,weight="100"];
+dependency56401:e -> choice10010111845108971101034711411798121455046524650:w [style=dotted,weight="100"];
+}
+subgraph choice40877 {
+color=black;
+nodesep=1;
+choice971121124511610112011647981171051081004510011199981111111074599971169710811110345494649574649 [label="app-text/build-docbook-catalog-1.19.1", color=red, width=4,href="../app-text/build-docbook-catalog-1.19.1.svg"];
+choice97112112451161011201164798117105108100451001119998111111107459997116971081111034549465048 [label="app-text/build-docbook-catalog-1.20", color=red, width=4,href="../app-text/build-docbook-catalog-1.20.svg"];
+choice97112112451161011201164798117105108100451001119998111111107459997116971081111034549465049 [label="app-text/build-docbook-catalog-1.21", color=red, width=4,href="../app-text/build-docbook-catalog-1.21.svg"];
+dependency56402:e -> choice971121124511610112011647981171051081004510011199981111111074599971169710811110345494649574649:w [style=dotted,weight="100"];
+dependency56402:e -> choice97112112451161011201164798117105108100451001119998111111107459997116971081111034549465048:w [style=dotted,weight="100"];
+dependency56402:e -> choice97112112451161011201164798117105108100451001119998111111107459997116971081111034549465049:w [style=dotted,weight="100"];
+}
+}
+
+}

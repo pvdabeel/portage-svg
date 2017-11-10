@@ -1,0 +1,120 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="sys-block/hpacucli-9.40.12.0", color=red, width=4, href="../sys-block/hpacucli-9.40.12.0.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack353320 {
+dependency476342 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>rpm2targz</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>9.0.0.3g</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency476342:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack353321 {
+dependency476343 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>coreutils</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency476343:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack353322 {
+dependency476344 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>util-linux</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2.20.1</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency476344:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack353323 {
+dependency476345 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-process</TD></TR><TR><TD>procps</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency476345:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice353320 {
+color=black;
+nodesep=1;
+choice971121124597114991044711411210950116971141031224557464846484653103 [label="app-arch/rpm2targz-9.0.0.5g", color=red, width=4,href="../app-arch/rpm2targz-9.0.0.5g.svg"];
+dependency476342:e -> choice971121124597114991044711411210950116971141031224557464846484653103:w [style=dotted,weight="100"];
+}
+subgraph choice353321 {
+color=black;
+nodesep=1;
+choice115121115459711211211547991111141011171161051081154556465053 [label="sys-apps/coreutils-8.25", color=red, width=4,href="../sys-apps/coreutils-8.25.svg"];
+choice115121115459711211211547991111141011171161051081154556465054 [label="sys-apps/coreutils-8.26", color=red, width=4,href="../sys-apps/coreutils-8.26.svg"];
+choice115121115459711211211547991111141011171161051081154556465055 [label="sys-apps/coreutils-8.27", color=red, width=4,href="../sys-apps/coreutils-8.27.svg"];
+choice115121115459711211211547991111141011171161051081154556465056 [label="sys-apps/coreutils-8.28", color=red, width=4,href="../sys-apps/coreutils-8.28.svg"];
+choice1151211154597112112115479911111410111711610510811545564650564511449 [label="sys-apps/coreutils-8.28-r1", color=red, width=4,href="../sys-apps/coreutils-8.28-r1.svg"];
+dependency476343:e -> choice115121115459711211211547991111141011171161051081154556465053:w [style=dotted,weight="100"];
+dependency476343:e -> choice115121115459711211211547991111141011171161051081154556465054:w [style=dotted,weight="100"];
+dependency476343:e -> choice115121115459711211211547991111141011171161051081154556465055:w [style=dotted,weight="100"];
+dependency476343:e -> choice115121115459711211211547991111141011171161051081154556465056:w [style=dotted,weight="100"];
+dependency476343:e -> choice1151211154597112112115479911111410111711610510811545564650564511449:w [style=dotted,weight="100"];
+}
+subgraph choice353322 {
+color=black;
+nodesep=1;
+choice1151211154597112112115471171161051084510810511011712045504650564650 [label="sys-apps/util-linux-2.28.2", color=red, width=4,href="../sys-apps/util-linux-2.28.2.svg"];
+choice11512111545971121121154711711610510845108105110117120455046505746504511449 [label="sys-apps/util-linux-2.29.2-r1", color=red, width=4,href="../sys-apps/util-linux-2.29.2-r1.svg"];
+choice1151211154597112112115471171161051084510810511011712045504651484649 [label="sys-apps/util-linux-2.30.1", color=red, width=4,href="../sys-apps/util-linux-2.30.1.svg"];
+choice1151211154597112112115471171161051084510810511011712045504651484650 [label="sys-apps/util-linux-2.30.2", color=red, width=4,href="../sys-apps/util-linux-2.30.2.svg"];
+choice115121115459711211211547117116105108451081051101171204550465149 [label="sys-apps/util-linux-2.31", color=red, width=4,href="../sys-apps/util-linux-2.31.svg"];
+choice115121115459711211211547117116105108451081051101171204557575757 [label="sys-apps/util-linux-9999", color=red, width=4,href="../sys-apps/util-linux-9999.svg"];
+dependency476344:e -> choice1151211154597112112115471171161051084510810511011712045504650564650:w [style=dotted,weight="100"];
+dependency476344:e -> choice11512111545971121121154711711610510845108105110117120455046505746504511449:w [style=dotted,weight="100"];
+dependency476344:e -> choice1151211154597112112115471171161051084510810511011712045504651484649:w [style=dotted,weight="100"];
+dependency476344:e -> choice1151211154597112112115471171161051084510810511011712045504651484650:w [style=dotted,weight="100"];
+dependency476344:e -> choice115121115459711211211547117116105108451081051101171204550465149:w [style=dotted,weight="100"];
+dependency476344:e -> choice115121115459711211211547117116105108451081051101171204557575757:w [style=dotted,weight="100"];
+}
+subgraph choice353323 {
+color=black;
+nodesep=1;
+choice1151211154511211411199101115115471121141119911211545514651464950 [label="sys-process/procps-3.3.12", color=red, width=4,href="../sys-process/procps-3.3.12.svg"];
+choice11512111545112114111991011151154711211411199112115455146514649504511449 [label="sys-process/procps-3.3.12-r1", color=red, width=4,href="../sys-process/procps-3.3.12-r1.svg"];
+dependency476345:e -> choice1151211154511211411199101115115471121141119911211545514651464950:w [style=dotted,weight="100"];
+dependency476345:e -> choice11512111545112114111991011151154711211411199112115455146514649504511449:w [style=dotted,weight="100"];
+}
+}
+
+}

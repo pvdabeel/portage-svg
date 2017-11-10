@@ -1,0 +1,90 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="games-fps/doomsday-resources-1.01-r1", color=red, width=4, href="../games-fps/doomsday-resources-1.01-r1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack213519 {
+dependency298371 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>unzip</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency298371:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack213520 {
+dependency298372 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>games-fps</TD></TR><TR><TD>doomsday</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.9.8</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency298372:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack213521 {
+dependency298373 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>games-misc</TD></TR><TR><TD>games-envd</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency298373:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice213519 {
+color=black;
+nodesep=1;
+choice971121124597114991044711711012210511245544648951125048 [label="app-arch/unzip-6.0_p20", color=red, width=4,href="../app-arch/unzip-6.0_p20.svg"];
+dependency298371:e -> choice971121124597114991044711711012210511245544648951125048:w [style=dotted,weight="100"];
+}
+subgraph choice213520 {
+color=black;
+nodesep=1;
+choice1039710910111545102112115471001111111091151009712145494649534656 [label="games-fps/doomsday-1.15.8", color=red, width=4,href="../games-fps/doomsday-1.15.8.svg"];
+dependency298372:e -> choice1039710910111545102112115471001111111091151009712145494649534656:w [style=dotted,weight="100"];
+}
+subgraph choice213521 {
+color=black;
+nodesep=1;
+choice1039710910111545109105115994710397109101115451011101181004548 [label="games-misc/games-envd-0", color=red, width=4,href="../games-misc/games-envd-0.svg"];
+dependency298373:e -> choice1039710910111545109105115994710397109101115451011101181004548:w [style=dotted,weight="100"];
+}
+}
+
+}

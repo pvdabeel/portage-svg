@@ -1,0 +1,94 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="app-text/docbook-xml-simple-dtd-1.0-r2", color=red, width=4, href="../app-text/docbook-xml-simple-dtd-1.0-r2.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack40865 {
+dependency56389 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>unzip</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>5.41</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency56389:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack40866 {
+dependency56390 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-text</TD></TR><TR><TD>sgml-common</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>0.6.3-r2</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency56390:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack40867 {
+dependency56391 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-text</TD></TR><TR><TD>build-docbook-catalog</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.6</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency56391:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice40865 {
+color=black;
+nodesep=1;
+choice971121124597114991044711711012210511245544648951125048 [label="app-arch/unzip-6.0_p20", color=red, width=4,href="../app-arch/unzip-6.0_p20.svg"];
+dependency56389:e -> choice971121124597114991044711711012210511245544648951125048:w [style=dotted,weight="100"];
+}
+subgraph choice40866 {
+color=black;
+nodesep=1;
+choice97112112451161011201164711510310910845991111091091111104548465446514511453 [label="app-text/sgml-common-0.6.3-r5", color=red, width=4,href="../app-text/sgml-common-0.6.3-r5.svg"];
+dependency56390:e -> choice97112112451161011201164711510310910845991111091091111104548465446514511453:w [style=dotted,weight="100"];
+}
+subgraph choice40867 {
+color=black;
+nodesep=1;
+choice971121124511610112011647981171051081004510011199981111111074599971169710811110345494649574649 [label="app-text/build-docbook-catalog-1.19.1", color=red, width=4,href="../app-text/build-docbook-catalog-1.19.1.svg"];
+choice97112112451161011201164798117105108100451001119998111111107459997116971081111034549465048 [label="app-text/build-docbook-catalog-1.20", color=red, width=4,href="../app-text/build-docbook-catalog-1.20.svg"];
+choice97112112451161011201164798117105108100451001119998111111107459997116971081111034549465049 [label="app-text/build-docbook-catalog-1.21", color=red, width=4,href="../app-text/build-docbook-catalog-1.21.svg"];
+dependency56391:e -> choice971121124511610112011647981171051081004510011199981111111074599971169710811110345494649574649:w [style=dotted,weight="100"];
+dependency56391:e -> choice97112112451161011201164798117105108100451001119998111111107459997116971081111034549465048:w [style=dotted,weight="100"];
+dependency56391:e -> choice97112112451161011201164798117105108100451001119998111111107459997116971081111034549465049:w [style=dotted,weight="100"];
+}
+}
+
+}

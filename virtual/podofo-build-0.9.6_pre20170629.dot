@@ -1,0 +1,90 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="virtual/podofo-build-0.9.6_pre20170629", color=red, width=4, href="../virtual/podofo-build-0.9.6_pre20170629.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond118914 {
+dependency498892 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>boost</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack370890 {
+dependency498893 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>boost</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency498892:e -> dependency498893:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency498892:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack370891 {
+dependency498894 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-text</TD></TR><TR><TD>podofo</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency498894:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice370890 {
+color=black;
+nodesep=1;
+choice10010111845108105981154798111111115116454946545046484511449 [label="dev-libs/boost-1.62.0-r1", color=red, width=4,href="../dev-libs/boost-1.62.0-r1.svg"];
+choice1001011184510810598115479811111111511645494654514648 [label="dev-libs/boost-1.63.0", color=red, width=4,href="../dev-libs/boost-1.63.0.svg"];
+choice1001011184510810598115479811111111511645494654534648 [label="dev-libs/boost-1.65.0", color=red, width=4,href="../dev-libs/boost-1.65.0.svg"];
+dependency498893:e -> choice10010111845108105981154798111111115116454946545046484511449:w [style=dotted,weight="100"];
+dependency498893:e -> choice1001011184510810598115479811111111511645494654514648:w [style=dotted,weight="100"];
+dependency498893:e -> choice1001011184510810598115479811111111511645494654534648:w [style=dotted,weight="100"];
+}
+subgraph choice370891 {
+color=black;
+nodesep=1;
+choice9711211245116101120116471121111001111021114548465746549511211410150484955485348564511449 [label="app-text/podofo-0.9.6_pre20170508-r1", color=red, width=4,href="../app-text/podofo-0.9.6_pre20170508-r1.svg"];
+choice971121124511610112011647112111100111102111454846574654951121141015048495548545057 [label="app-text/podofo-0.9.6_pre20170629", color=red, width=4,href="../app-text/podofo-0.9.6_pre20170629.svg"];
+dependency498894:e -> choice9711211245116101120116471121111001111021114548465746549511211410150484955485348564511449:w [style=dotted,weight="100"];
+dependency498894:e -> choice971121124511610112011647112111100111102111454846574654951121141015048495548545057:w [style=dotted,weight="100"];
+}
+}
+
+}

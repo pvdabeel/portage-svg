@@ -1,0 +1,156 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="sys-cluster/drbd-utils-8.9.3", color=red, width=4, href="../sys-cluster/drbd-utils-8.9.3.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack355690 {
+dependency479285 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>pkgconfig</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency479285:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph cond115228 {
+dependency479286 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>heartbeat</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack355691 {
+dependency479287 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-cluster</TD></TR><TR><TD>heartbeat</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency479286:e -> dependency479287:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency479286:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph cond115229 {
+dependency479288 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>pacemaker</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack355692 {
+dependency479289 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-cluster</TD></TR><TR><TD>pacemaker</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency479288:e -> dependency479289:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency479288:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph cond115230 {
+dependency479290 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>udev</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack355693 {
+dependency479291 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>udev</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency479290:e -> dependency479291:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency479290:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack355694 {
+dependency479292 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">strong</TD></TR><TR><TD>sys-cluster</TD></TR><TR><TD>drbd</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency479292:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice355690 {
+color=black;
+nodesep=1;
+choice11810511411611797108471121071039911111010210510345484511449 [label="virtual/pkgconfig-0-r1", color=red, width=4,href="../virtual/pkgconfig-0-r1.svg"];
+dependency479285:e -> choice11810511411611797108471121071039911111010210510345484511449:w [style=dotted,weight="100"];
+}
+subgraph choice355691 {
+color=black;
+nodesep=1;
+choice1151211154599108117115116101114471041019711411698101971164551464846534511451 [label="sys-cluster/heartbeat-3.0.5-r3", color=red, width=4,href="../sys-cluster/heartbeat-3.0.5-r3.svg"];
+choice115121115459910811711511610111447104101971141169810197116455146484654 [label="sys-cluster/heartbeat-3.0.6", color=red, width=4,href="../sys-cluster/heartbeat-3.0.6.svg"];
+dependency479287:e -> choice1151211154599108117115116101114471041019711411698101971164551464846534511451:w [style=dotted,weight="100"];
+dependency479287:e -> choice115121115459910811711511610111447104101971141169810197116455146484654:w [style=dotted,weight="100"];
+}
+subgraph choice355692 {
+color=black;
+nodesep=1;
+choice115121115459910811711511610111447112979910110997107101114454946494649504511450 [label="sys-cluster/pacemaker-1.1.12-r2", color=red, width=4,href="../sys-cluster/pacemaker-1.1.12-r2.svg"];
+choice11512111545991081171151161011144711297991011099710710111445494649464952 [label="sys-cluster/pacemaker-1.1.14", color=red, width=4,href="../sys-cluster/pacemaker-1.1.14.svg"];
+choice11512111545991081171151161011144711297991011099710710111445494649464954 [label="sys-cluster/pacemaker-1.1.16", color=red, width=4,href="../sys-cluster/pacemaker-1.1.16.svg"];
+dependency479289:e -> choice115121115459910811711511610111447112979910110997107101114454946494649504511450:w [style=dotted,weight="100"];
+dependency479289:e -> choice11512111545991081171151161011144711297991011099710710111445494649464952:w [style=dotted,weight="100"];
+dependency479289:e -> choice11512111545991081171151161011144711297991011099710710111445494649464954:w [style=dotted,weight="100"];
+}
+subgraph choice355693 {
+color=black;
+nodesep=1;
+choice118105114116117971084711710010111845504953 [label="virtual/udev-215", color=red, width=4,href="../virtual/udev-215.svg"];
+choice118105114116117971084711710010111845504955 [label="virtual/udev-217", color=red, width=4,href="../virtual/udev-217.svg"];
+dependency479291:e -> choice118105114116117971084711710010111845504953:w [style=dotted,weight="100"];
+dependency479291:e -> choice118105114116117971084711710010111845504955:w [style=dotted,weight="100"];
+}
+subgraph choice355694 {
+color=black;
+nodesep=1;
+choice1151211154599108117115116101114471001149810045564648464954 [label="sys-cluster/drbd-8.0.16", color=red, width=4,href="../sys-cluster/drbd-8.0.16.svg"];
+choice1151211154599108117115116101114471001149810045564651464948 [label="sys-cluster/drbd-8.3.10", color=red, width=4,href="../sys-cluster/drbd-8.3.10.svg"];
+choice11512111545991081171151161011144710011498100455646514649494511449 [label="sys-cluster/drbd-8.3.11-r1", color=red, width=4,href="../sys-cluster/drbd-8.3.11-r1.svg"];
+choice1151211154599108117115116101114471001149810045564651464950 [label="sys-cluster/drbd-8.3.12", color=red, width=4,href="../sys-cluster/drbd-8.3.12.svg"];
+choice1151211154599108117115116101114471001149810045564651464951 [label="sys-cluster/drbd-8.3.13", color=red, width=4,href="../sys-cluster/drbd-8.3.13.svg"];
+choice1151211154599108117115116101114471001149810045564651464953 [label="sys-cluster/drbd-8.3.15", color=red, width=4,href="../sys-cluster/drbd-8.3.15.svg"];
+choice11512111545991081171151161011144710011498100455646514655 [label="sys-cluster/drbd-8.3.7", color=red, width=4,href="../sys-cluster/drbd-8.3.7.svg"];
+choice115121115459910811711511610111447100114981004556465146564649 [label="sys-cluster/drbd-8.3.8.1", color=red, width=4,href="../sys-cluster/drbd-8.3.8.1.svg"];
+choice1151211154599108117115116101114471001149810045564651465646494511449 [label="sys-cluster/drbd-8.3.8.1-r1", color=red, width=4,href="../sys-cluster/drbd-8.3.8.1-r1.svg"];
+choice11512111545991081171151161011144710011498100455646524648 [label="sys-cluster/drbd-8.4.0", color=red, width=4,href="../sys-cluster/drbd-8.4.0.svg"];
+choice11512111545991081171151161011144710011498100455646524650 [label="sys-cluster/drbd-8.4.2", color=red, width=4,href="../sys-cluster/drbd-8.4.2.svg"];
+choice11512111545991081171151161011144710011498100455646524651 [label="sys-cluster/drbd-8.4.3", color=red, width=4,href="../sys-cluster/drbd-8.4.3.svg"];
+choice115121115459910811711511610111447100114981004556465246514511449 [label="sys-cluster/drbd-8.4.3-r1", color=red, width=4,href="../sys-cluster/drbd-8.4.3-r1.svg"];
+choice115121115459910811711511610111447100114981004556465246514511450 [label="sys-cluster/drbd-8.4.3-r2", color=red, width=4,href="../sys-cluster/drbd-8.4.3-r2.svg"];
+dependency479292:e -> choice1151211154599108117115116101114471001149810045564648464954:w [style=dotted,weight="100"];
+dependency479292:e -> choice1151211154599108117115116101114471001149810045564651464948:w [style=dotted,weight="100"];
+dependency479292:e -> choice11512111545991081171151161011144710011498100455646514649494511449:w [style=dotted,weight="100"];
+dependency479292:e -> choice1151211154599108117115116101114471001149810045564651464950:w [style=dotted,weight="100"];
+dependency479292:e -> choice1151211154599108117115116101114471001149810045564651464951:w [style=dotted,weight="100"];
+dependency479292:e -> choice1151211154599108117115116101114471001149810045564651464953:w [style=dotted,weight="100"];
+dependency479292:e -> choice11512111545991081171151161011144710011498100455646514655:w [style=dotted,weight="100"];
+dependency479292:e -> choice115121115459910811711511610111447100114981004556465146564649:w [style=dotted,weight="100"];
+dependency479292:e -> choice1151211154599108117115116101114471001149810045564651465646494511449:w [style=dotted,weight="100"];
+dependency479292:e -> choice11512111545991081171151161011144710011498100455646524648:w [style=dotted,weight="100"];
+dependency479292:e -> choice11512111545991081171151161011144710011498100455646524650:w [style=dotted,weight="100"];
+dependency479292:e -> choice11512111545991081171151161011144710011498100455646524651:w [style=dotted,weight="100"];
+dependency479292:e -> choice115121115459910811711511610111447100114981004556465246514511449:w [style=dotted,weight="100"];
+dependency479292:e -> choice115121115459910811711511610111447100114981004556465246514511450:w [style=dotted,weight="100"];
+}
+}
+
+}

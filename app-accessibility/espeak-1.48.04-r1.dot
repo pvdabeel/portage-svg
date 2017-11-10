@@ -1,0 +1,118 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="app-accessibility/espeak-1.48.04-r1", color=red, width=4, href="../app-accessibility/espeak-1.48.04-r1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack187 {
+dependency234 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>unzip</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency234:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph cond45 {
+dependency235 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>portaudio</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack188 {
+dependency236 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>media-libs</TD></TR><TR><TD>portaudio</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>19_pre20071207</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency235:e -> dependency236:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency235:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph cond46 {
+dependency237 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>pulseaudio</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack189 {
+dependency238 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>media-sound</TD></TR><TR><TD>pulseaudio</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency237:e -> dependency238:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency237:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack190 {
+dependency239 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>media-sound</TD></TR><TR><TD>sox</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency239:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice187 {
+color=black;
+nodesep=1;
+choice971121124597114991044711711012210511245544648951125048 [label="app-arch/unzip-6.0_p20", color=red, width=4,href="../app-arch/unzip-6.0_p20.svg"];
+dependency234:e -> choice971121124597114991044711711012210511245544648951125048:w [style=dotted,weight="100"];
+}
+subgraph choice188 {
+color=black;
+nodesep=1;
+choice1091011001059745108105981154711211111411697117100105111454957464854464848 [label="media-libs/portaudio-19.06.00", color=red, width=4,href="../media-libs/portaudio-19.06.00.svg"];
+choice10910110010597451081059811547112111114116971171001051114549574648544648484511449 [label="media-libs/portaudio-19.06.00-r1", color=red, width=4,href="../media-libs/portaudio-19.06.00-r1.svg"];
+choice1091011001059745108105981154711211111411697117100105111454957951121141015048495248495148 [label="media-libs/portaudio-19_pre20140130", color=red, width=4,href="../media-libs/portaudio-19_pre20140130.svg"];
+dependency236:e -> choice1091011001059745108105981154711211111411697117100105111454957464854464848:w [style=dotted,weight="100"];
+dependency236:e -> choice10910110010597451081059811547112111114116971171001051114549574648544648484511449:w [style=dotted,weight="100"];
+dependency236:e -> choice1091011001059745108105981154711211111411697117100105111454957951121141015048495248495148:w [style=dotted,weight="100"];
+}
+subgraph choice189 {
+color=black;
+nodesep=1;
+choice109101100105974511511111711010047112117108115101971171001051114549484648 [label="media-sound/pulseaudio-10.0", color=red, width=4,href="../media-sound/pulseaudio-10.0.svg"];
+choice109101100105974511511111711010047112117108115101971171001051114549484657574649 [label="media-sound/pulseaudio-10.99.1", color=red, width=4,href="../media-sound/pulseaudio-10.99.1.svg"];
+choice109101100105974511511111711010047112117108115101971171001051114549494648 [label="media-sound/pulseaudio-11.0", color=red, width=4,href="../media-sound/pulseaudio-11.0.svg"];
+choice109101100105974511511111711010047112117108115101971171001051114549494649 [label="media-sound/pulseaudio-11.1", color=red, width=4,href="../media-sound/pulseaudio-11.1.svg"];
+dependency238:e -> choice109101100105974511511111711010047112117108115101971171001051114549484648:w [style=dotted,weight="100"];
+dependency238:e -> choice109101100105974511511111711010047112117108115101971171001051114549484657574649:w [style=dotted,weight="100"];
+dependency238:e -> choice109101100105974511511111711010047112117108115101971171001051114549494648:w [style=dotted,weight="100"];
+dependency238:e -> choice109101100105974511511111711010047112117108115101971171001051114549494649:w [style=dotted,weight="100"];
+}
+subgraph choice190 {
+color=black;
+nodesep=1;
+choice10910110010597451151111171101004711511112045495246524650 [label="media-sound/sox-14.4.2", color=red, width=4,href="../media-sound/sox-14.4.2.svg"];
+dependency239:e -> choice10910110010597451151111171101004711511112045495246524650:w [style=dotted,weight="100"];
+}
+}
+
+}

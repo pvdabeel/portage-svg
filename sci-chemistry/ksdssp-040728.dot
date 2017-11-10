@@ -1,0 +1,84 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="sci-chemistry/ksdssp-040728", color=red, width=4, href="../sci-chemistry/ksdssp-040728.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack329123 {
+dependency446542 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>sharutils</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency446542:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack329124 {
+dependency446543 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sci-libs</TD></TR><TR><TD>libpdb++</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency446543:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice329123 {
+color=black;
+nodesep=1;
+choice97112112459711499104471151049711411711610510811545524649524511449 [label="app-arch/sharutils-4.14-r1", color=red, width=4,href="../app-arch/sharutils-4.14-r1.svg"];
+choice97112112459711499104471151049711411711610510811545524649534649 [label="app-arch/sharutils-4.15.1", color=red, width=4,href="../app-arch/sharutils-4.15.1.svg"];
+choice97112112459711499104471151049711411711610510811545524649534650 [label="app-arch/sharutils-4.15.2", color=red, width=4,href="../app-arch/sharutils-4.15.2.svg"];
+dependency446542:e -> choice97112112459711499104471151049711411711610510811545524649524511449:w [style=dotted,weight="100"];
+dependency446542:e -> choice97112112459711499104471151049711411711610510811545524649534649:w [style=dotted,weight="100"];
+dependency446542:e -> choice97112112459711499104471151049711411711610510811545524649534650:w [style=dotted,weight="100"];
+}
+subgraph choice329124 {
+color=black;
+nodesep=1;
+choice1159910545108105981154710810598112100984343454852485550564511449 [label="sci-libs/libpdb++-040728-r1", color=red, width=4,href="../sci-libs/libpdb++-040728-r1.svg"];
+dependency446543:e -> choice1159910545108105981154710810598112100984343454852485550564511449:w [style=dotted,weight="100"];
+}
+}
+
+}

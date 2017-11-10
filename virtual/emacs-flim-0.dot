@@ -1,0 +1,83 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="virtual/emacs-flim-0", color=red, width=4, href="../virtual/emacs-flim-0.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph any8535 {
+dependency497366 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD CELLPADDING="10">any_of_group</TD></TR></TABLE>>, shape=none, color=red];subgraph pack369661 {
+dependency497367 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-emacs</TD></TR><TR><TD>flim</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency497366:e -> dependency497367:w [weight=20,style="dotted",arrowhead="oinv"];
+subgraph pack369662 {
+dependency497368 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-emacs</TD></TR><TR><TD>limit</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency497366:e -> dependency497368:w [weight=20,style="dotted",arrowhead="oinv"];
+}
+id:e -> dependency497366:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice369661 {
+color=black;
+nodesep=1;
+choice9711211245101109979911547102108105109454946495246574511450 [label="app-emacs/flim-1.14.9-r2", color=red, width=4,href="../app-emacs/flim-1.14.9-r2.svg"];
+dependency497367:e -> choice9711211245101109979911547102108105109454946495246574511450:w [style=dotted,weight="100"];
+}
+subgraph choice369662 {
+color=black;
+nodesep=1;
+choice9711211245101109979911547108105109105116454946495246494895112114101504848564949505350515150 [label="app-emacs/limit-1.14.10_pre200811252332", color=red, width=4,href="../app-emacs/limit-1.14.10_pre200811252332.svg"];
+dependency497368:e -> choice9711211245101109979911547108105109105116454946495246494895112114101504848564949505350515150:w [style=dotted,weight="100"];
+}
+}
+
+}

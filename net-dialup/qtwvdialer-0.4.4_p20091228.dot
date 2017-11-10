@@ -1,0 +1,84 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="net-dialup/qtwvdialer-0.4.4_p20091228", color=red, width=4, href="../net-dialup/qtwvdialer-0.4.4_p20091228.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack299615 {
+dependency406915 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-qt</TD></TR><TR><TD>qtgui</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency406915:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack299616 {
+dependency406916 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>net-dialup</TD></TR><TR><TD>wvdial</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency406916:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice299615 {
+color=black;
+nodesep=1;
+choice1001011184511311647113116103117105455246564655 [label="dev-qt/qtgui-4.8.7", color=red, width=4,href="../dev-qt/qtgui-4.8.7.svg"];
+choice10010111845113116471131161031171054553465546494511449 [label="dev-qt/qtgui-5.7.1-r1", color=red, width=4,href="../dev-qt/qtgui-5.7.1-r1.svg"];
+choice1001011184511311647113116103117105455346574650 [label="dev-qt/qtgui-5.9.2", color=red, width=4,href="../dev-qt/qtgui-5.9.2.svg"];
+dependency406915:e -> choice1001011184511311647113116103117105455246564655:w [style=dotted,weight="100"];
+dependency406915:e -> choice10010111845113116471131161031171054553465546494511449:w [style=dotted,weight="100"];
+dependency406915:e -> choice1001011184511311647113116103117105455346574650:w [style=dotted,weight="100"];
+}
+subgraph choice299616 {
+color=black;
+nodesep=1;
+choice110101116451001059710811711247119118100105971084549465449 [label="net-dialup/wvdial-1.61", color=red, width=4,href="../net-dialup/wvdial-1.61.svg"];
+dependency406916:e -> choice110101116451001059710811711247119118100105971084549465449:w [style=dotted,weight="100"];
+}
+}
+
+}

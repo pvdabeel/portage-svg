@@ -1,0 +1,112 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="net-dns/openresolv-3.9.0", color=red, width=4, href="../net-dns/openresolv-3.9.0.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack300442 {
+dependency408161 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>net-dns</TD></TR><TR><TD>dnsmasq</TD></TR><TR><TD>smaller</TD></TR><TR><TD>2.40-r1</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency408161:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack300443 {
+dependency408162 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>net-dns</TD></TR><TR><TD>resolvconf-gentoo</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency408162:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond100987 {
+dependency408163 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>selinux</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack300444 {
+dependency408164 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sec-policy</TD></TR><TR><TD>selinux-resolvconf</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency408163:e -> dependency408164:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency408163:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice300442 {
+color=black;
+nodesep=1;
+choice1101011164510011011547100110115109971151134550465554 [label="net-dns/dnsmasq-2.76", color=red, width=4,href="../net-dns/dnsmasq-2.76.svg"];
+choice11010111645100110115471001101151099711511345504655544511449 [label="net-dns/dnsmasq-2.76-r1", color=red, width=4,href="../net-dns/dnsmasq-2.76-r1.svg"];
+choice1101011164510011011547100110115109971151134550465555 [label="net-dns/dnsmasq-2.77", color=red, width=4,href="../net-dns/dnsmasq-2.77.svg"];
+choice11010111645100110115471001101151099711511345504655554511449 [label="net-dns/dnsmasq-2.77-r1", color=red, width=4,href="../net-dns/dnsmasq-2.77-r1.svg"];
+choice1101011164510011011547100110115109971151134550465556 [label="net-dns/dnsmasq-2.78", color=red, width=4,href="../net-dns/dnsmasq-2.78.svg"];
+dependency408161:e -> choice1101011164510011011547100110115109971151134550465554:w [style=dotted,weight="100"];
+dependency408161:e -> choice11010111645100110115471001101151099711511345504655544511449:w [style=dotted,weight="100"];
+dependency408161:e -> choice1101011164510011011547100110115109971151134550465555:w [style=dotted,weight="100"];
+dependency408161:e -> choice11010111645100110115471001101151099711511345504655554511449:w [style=dotted,weight="100"];
+dependency408161:e -> choice1101011164510011011547100110115109971151134550465556:w [style=dotted,weight="100"];
+}
+subgraph choice300443 {
+color=black;
+nodesep=1;
+}
+subgraph choice300444 {
+color=black;
+nodesep=1;
+choice11510199451121111081059912147115101108105110117120451141011151111081189911111010245504650484955485048524511449 [label="sec-policy/selinux-resolvconf-2.20170204-r1", color=red, width=4,href="../sec-policy/selinux-resolvconf-2.20170204-r1.svg"];
+choice11510199451121111081059912147115101108105110117120451141011151111081189911111010245504650484955485048524511450 [label="sec-policy/selinux-resolvconf-2.20170204-r2", color=red, width=4,href="../sec-policy/selinux-resolvconf-2.20170204-r2.svg"];
+choice11510199451121111081059912147115101108105110117120451141011151111081189911111010245504650484955485048524511451 [label="sec-policy/selinux-resolvconf-2.20170204-r3", color=red, width=4,href="../sec-policy/selinux-resolvconf-2.20170204-r3.svg"];
+choice11510199451121111081059912147115101108105110117120451141011151111081189911111010245504650484955485048524511452 [label="sec-policy/selinux-resolvconf-2.20170204-r4", color=red, width=4,href="../sec-policy/selinux-resolvconf-2.20170204-r4.svg"];
+choice11510199451121111081059912147115101108105110117120451141011151111081189911111010245504650484955485648534511450 [label="sec-policy/selinux-resolvconf-2.20170805-r2", color=red, width=4,href="../sec-policy/selinux-resolvconf-2.20170805-r2.svg"];
+choice11510199451121111081059912147115101108105110117120451141011151111081189911111010245504650484955485648534511451 [label="sec-policy/selinux-resolvconf-2.20170805-r3", color=red, width=4,href="../sec-policy/selinux-resolvconf-2.20170805-r3.svg"];
+choice1151019945112111108105991214711510110810511011712045114101115111108118991111101024557575757 [label="sec-policy/selinux-resolvconf-9999", color=red, width=4,href="../sec-policy/selinux-resolvconf-9999.svg"];
+dependency408164:e -> choice11510199451121111081059912147115101108105110117120451141011151111081189911111010245504650484955485048524511449:w [style=dotted,weight="100"];
+dependency408164:e -> choice11510199451121111081059912147115101108105110117120451141011151111081189911111010245504650484955485048524511450:w [style=dotted,weight="100"];
+dependency408164:e -> choice11510199451121111081059912147115101108105110117120451141011151111081189911111010245504650484955485048524511451:w [style=dotted,weight="100"];
+dependency408164:e -> choice11510199451121111081059912147115101108105110117120451141011151111081189911111010245504650484955485048524511452:w [style=dotted,weight="100"];
+dependency408164:e -> choice11510199451121111081059912147115101108105110117120451141011151111081189911111010245504650484955485648534511450:w [style=dotted,weight="100"];
+dependency408164:e -> choice11510199451121111081059912147115101108105110117120451141011151111081189911111010245504650484955485648534511451:w [style=dotted,weight="100"];
+dependency408164:e -> choice1151019945112111108105991214711510110810511011712045114101115111108118991111101024557575757:w [style=dotted,weight="100"];
+}
+}
+
+}

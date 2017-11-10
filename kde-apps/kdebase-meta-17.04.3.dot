@@ -1,0 +1,96 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="kde-apps/kdebase-meta-17.04.3", color=red, width=4, href="../kde-apps/kdebase-meta-17.04.3.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack230404 {
+dependency318048 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>kde-apps</TD></TR><TR><TD>kdecore-meta</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>17.04.3</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency318048:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack230405 {
+dependency318049 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>plasma-meta</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>5.10.5</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency318049:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack230406 {
+dependency318050 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>kde-apps</TD></TR><TR><TD>kdebase-meta</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency318050:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice230404 {
+color=black;
+nodesep=1;
+choice1071001014597112112115471071001019911111410145109101116974549554648524651 [label="kde-apps/kdecore-meta-17.04.3", color=red, width=4,href="../kde-apps/kdecore-meta-17.04.3.svg"];
+choice1071001014597112112115471071001019911111410145109101116974549554648564651 [label="kde-apps/kdecore-meta-17.08.3", color=red, width=4,href="../kde-apps/kdecore-meta-17.08.3.svg"];
+dependency318048:e -> choice1071001014597112112115471071001019911111410145109101116974549554648524651:w [style=dotted,weight="100"];
+dependency318048:e -> choice1071001014597112112115471071001019911111410145109101116974549554648564651:w [style=dotted,weight="100"];
+}
+subgraph choice230405 {
+color=black;
+nodesep=1;
+choice107100101451121089711510997471121089711510997451091011169745534649484653 [label="kde-plasma/plasma-meta-5.10.5", color=red, width=4,href="../kde-plasma/plasma-meta-5.10.5.svg"];
+choice107100101451121089711510997471121089711510997451091011169745534649494651 [label="kde-plasma/plasma-meta-5.11.3", color=red, width=4,href="../kde-plasma/plasma-meta-5.11.3.svg"];
+dependency318049:e -> choice107100101451121089711510997471121089711510997451091011169745534649484653:w [style=dotted,weight="100"];
+dependency318049:e -> choice107100101451121089711510997471121089711510997451091011169745534649494651:w [style=dotted,weight="100"];
+}
+subgraph choice230406 {
+color=black;
+nodesep=1;
+choice107100101459711211211547107100101989711510145109101116974549554648524651 [label="kde-apps/kdebase-meta-17.04.3", color=red, width=4,href="../kde-apps/kdebase-meta-17.04.3.svg"];
+choice107100101459711211211547107100101989711510145109101116974549554648564651 [label="kde-apps/kdebase-meta-17.08.3", color=red, width=4,href="../kde-apps/kdebase-meta-17.08.3.svg"];
+dependency318050:e -> choice107100101459711211211547107100101989711510145109101116974549554648524651:w [style=dotted,weight="100"];
+dependency318050:e -> choice107100101459711211211547107100101989711510145109101116974549554648564651:w [style=dotted,weight="100"];
+}
+}
+
+}

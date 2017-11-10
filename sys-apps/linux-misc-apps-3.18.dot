@@ -1,0 +1,126 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="sys-apps/linux-misc-apps-3.18", color=red, width=4, href="../sys-apps/linux-misc-apps-3.18.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack348911 {
+dependency470265 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>pkgconfig</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency470265:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph cond113244 {
+dependency470266 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>tcpd</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack348912 {
+dependency470267 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>tcp-wrappers</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency470266:e -> dependency470267:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency470266:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack348913 {
+dependency470268 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>glib</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2.6</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency470268:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack348914 {
+dependency470269 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>hwids</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency470269:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack348915 {
+dependency470270 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>sys-power</TD></TR><TR><TD>pmtools</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency470270:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice348911 {
+color=black;
+nodesep=1;
+choice11810511411611797108471121071039911111010210510345484511449 [label="virtual/pkgconfig-0-r1", color=red, width=4,href="../virtual/pkgconfig-0-r1.svg"];
+dependency470265:e -> choice11810511411611797108471121071039911111010210510345484511449:w [style=dotted,weight="100"];
+}
+subgraph choice348912 {
+color=black;
+nodesep=1;
+choice115121115459711211211547116991124511911497112112101114115455546544650504511449 [label="sys-apps/tcp-wrappers-7.6.22-r1", color=red, width=4,href="../sys-apps/tcp-wrappers-7.6.22-r1.svg"];
+dependency470267:e -> choice115121115459711211211547116991124511911497112112101114115455546544650504511449:w [style=dotted,weight="100"];
+}
+subgraph choice348913 {
+color=black;
+nodesep=1;
+choice10010111845108105981154710310810598455046534846514511449 [label="dev-libs/glib-2.50.3-r1", color=red, width=4,href="../dev-libs/glib-2.50.3-r1.svg"];
+choice1001011184510810598115471031081059845504653504651 [label="dev-libs/glib-2.52.3", color=red, width=4,href="../dev-libs/glib-2.52.3.svg"];
+dependency470268:e -> choice10010111845108105981154710310810598455046534846514511449:w [style=dotted,weight="100"];
+dependency470268:e -> choice1001011184510810598115471031081059845504653504651:w [style=dotted,weight="100"];
+}
+subgraph choice348914 {
+color=black;
+nodesep=1;
+choice115121115459711211211547104119105100115455048495548515056 [label="sys-apps/hwids-20170328", color=red, width=4,href="../sys-apps/hwids-20170328.svg"];
+choice115121115459711211211547104119105100115455048495548554953 [label="sys-apps/hwids-20170715", color=red, width=4,href="../sys-apps/hwids-20170715.svg"];
+choice115121115459711211211547104119105100115455048495549484851 [label="sys-apps/hwids-20171003", color=red, width=4,href="../sys-apps/hwids-20171003.svg"];
+choice115121115459711211211547104119105100115455757575757575757 [label="sys-apps/hwids-99999999", color=red, width=4,href="../sys-apps/hwids-99999999.svg"];
+dependency470269:e -> choice115121115459711211211547104119105100115455048495548515056:w [style=dotted,weight="100"];
+dependency470269:e -> choice115121115459711211211547104119105100115455048495548554953:w [style=dotted,weight="100"];
+dependency470269:e -> choice115121115459711211211547104119105100115455048495549484851:w [style=dotted,weight="100"];
+dependency470269:e -> choice115121115459711211211547104119105100115455757575757575757:w [style=dotted,weight="100"];
+}
+subgraph choice348915 {
+color=black;
+nodesep=1;
+choice1151211154511211111910111447112109116111111108115455048485549494954 [label="sys-power/pmtools-20071116", color=red, width=4,href="../sys-power/pmtools-20071116.svg"];
+choice1151211154511211111910111447112109116111111108115455048494948515051 [label="sys-power/pmtools-20110323", color=red, width=4,href="../sys-power/pmtools-20110323.svg"];
+choice11512111545112111119101114471121091161111111081154550484949485150514511449 [label="sys-power/pmtools-20110323-r1", color=red, width=4,href="../sys-power/pmtools-20110323-r1.svg"];
+dependency470270:e -> choice1151211154511211111910111447112109116111111108115455048485549494954:w [style=dotted,weight="100"];
+dependency470270:e -> choice1151211154511211111910111447112109116111111108115455048494948515051:w [style=dotted,weight="100"];
+dependency470270:e -> choice11512111545112111119101114471121091161111111081154550484949485150514511449:w [style=dotted,weight="100"];
+}
+}
+
+}

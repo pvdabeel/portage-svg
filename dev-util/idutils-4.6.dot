@@ -1,0 +1,110 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="dev-util/idutils-4.6", color=red, width=4, href="../dev-util/idutils-4.6.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond78276 {
+dependency286132 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>nls</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack203610 {
+dependency286133 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-devel</TD></TR><TR><TD>gettext</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency286132:e -> dependency286133:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency286132:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph cond78277 {
+dependency286134 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>emacs</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack203611 {
+dependency286135 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>emacs</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency286134:e -> dependency286135:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency286134:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph cond78278 {
+dependency286136 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>nls</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack203612 {
+dependency286137 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>libintl</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency286136:e -> dependency286137:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency286136:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice203610 {
+color=black;
+nodesep=1;
+choice1151211154510010111810110847103101116116101120116454846495746564649 [label="sys-devel/gettext-0.19.8.1", color=red, width=4,href="../sys-devel/gettext-0.19.8.1.svg"];
+dependency286133:e -> choice1151211154510010111810110847103101116116101120116454846495746564649:w [style=dotted,weight="100"];
+}
+subgraph choice203611 {
+color=black;
+nodesep=1;
+choice11810511411611797108471011099799115455051 [label="virtual/emacs-23", color=red, width=4,href="../virtual/emacs-23.svg"];
+choice11810511411611797108471011099799115455052 [label="virtual/emacs-24", color=red, width=4,href="../virtual/emacs-24.svg"];
+choice11810511411611797108471011099799115455053 [label="virtual/emacs-25", color=red, width=4,href="../virtual/emacs-25.svg"];
+dependency286135:e -> choice11810511411611797108471011099799115455051:w [style=dotted,weight="100"];
+dependency286135:e -> choice11810511411611797108471011099799115455052:w [style=dotted,weight="100"];
+dependency286135:e -> choice11810511411611797108471011099799115455053:w [style=dotted,weight="100"];
+}
+subgraph choice203612 {
+color=black;
+nodesep=1;
+choice1181051141161179710847108105981051101161084548 [label="virtual/libintl-0", color=red, width=4,href="../virtual/libintl-0.svg"];
+choice11810511411611797108471081059810511011610845484511449 [label="virtual/libintl-0-r1", color=red, width=4,href="../virtual/libintl-0-r1.svg"];
+choice11810511411611797108471081059810511011610845484511450 [label="virtual/libintl-0-r2", color=red, width=4,href="../virtual/libintl-0-r2.svg"];
+dependency286137:e -> choice1181051141161179710847108105981051101161084548:w [style=dotted,weight="100"];
+dependency286137:e -> choice11810511411611797108471081059810511011610845484511449:w [style=dotted,weight="100"];
+dependency286137:e -> choice11810511411611797108471081059810511011610845484511450:w [style=dotted,weight="100"];
+}
+}
+
+}

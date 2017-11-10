@@ -1,0 +1,84 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="app-laptop/radeontool-1.6.3", color=red, width=4, href="../app-laptop/radeontool-1.6.3.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack31484 {
+dependency44310 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>pkgconfig</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency44310:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack31485 {
+dependency44311 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>x11-libs</TD></TR><TR><TD>libpciaccess</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>0.12.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency44311:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice31484 {
+color=black;
+nodesep=1;
+choice11810511411611797108471121071039911111010210510345484511449 [label="virtual/pkgconfig-0-r1", color=red, width=4,href="../virtual/pkgconfig-0-r1.svg"];
+dependency44310:e -> choice11810511411611797108471121071039911111010210510345484511449:w [style=dotted,weight="100"];
+}
+subgraph choice31485 {
+color=black;
+nodesep=1;
+choice1204949451081059811547108105981129910597999910111511545484649514652 [label="x11-libs/libpciaccess-0.13.4", color=red, width=4,href="../x11-libs/libpciaccess-0.13.4.svg"];
+choice1204949451081059811547108105981129910597999910111511545484649514653 [label="x11-libs/libpciaccess-0.13.5", color=red, width=4,href="../x11-libs/libpciaccess-0.13.5.svg"];
+choice120494945108105981154710810598112991059799991011151154548464952 [label="x11-libs/libpciaccess-0.14", color=red, width=4,href="../x11-libs/libpciaccess-0.14.svg"];
+dependency44311:e -> choice1204949451081059811547108105981129910597999910111511545484649514652:w [style=dotted,weight="100"];
+dependency44311:e -> choice1204949451081059811547108105981129910597999910111511545484649514653:w [style=dotted,weight="100"];
+dependency44311:e -> choice120494945108105981154710810598112991059799991011151154548464952:w [style=dotted,weight="100"];
+}
+}
+
+}

@@ -1,0 +1,102 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="sys-fabric/libcxgb3-1.3.1-r2", color=red, width=4, href="../sys-fabric/libcxgb3-1.3.1-r2.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack360860 {
+dependency485751 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>rpm2targz</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>9.0.0.3g</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency485751:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack360861 {
+dependency485752 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-fabric</TD></TR><TR><TD>libibverbs</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency485752:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack360862 {
+dependency485753 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>sys-fabric</TD></TR><TR><TD>libcxgb3</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency485753:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack360863 {
+dependency485754 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>sys-fabric</TD></TR><TR><TD>libcxgb3</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency485754:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice360860 {
+color=black;
+nodesep=1;
+choice971121124597114991044711411210950116971141031224557464846484653103 [label="app-arch/rpm2targz-9.0.0.5g", color=red, width=4,href="../app-arch/rpm2targz-9.0.0.5g.svg"];
+dependency485751:e -> choice971121124597114991044711411210950116971141031224557464846484653103:w [style=dotted,weight="100"];
+}
+subgraph choice360861 {
+color=black;
+nodesep=1;
+choice1151211154510297981141059947108105981059811810111498115454946494655 [label="sys-fabric/libibverbs-1.1.7", color=red, width=4,href="../sys-fabric/libibverbs-1.1.7.svg"];
+choice11512111545102979811410599471081059810598118101114981154549464946554511449 [label="sys-fabric/libibverbs-1.1.7-r1", color=red, width=4,href="../sys-fabric/libibverbs-1.1.7-r1.svg"];
+dependency485752:e -> choice1151211154510297981141059947108105981059811810111498115454946494655:w [style=dotted,weight="100"];
+dependency485752:e -> choice11512111545102979811410599471081059810598118101114981154549464946554511449:w [style=dotted,weight="100"];
+}
+subgraph choice360862 {
+color=black;
+nodesep=1;
+choice1151211154510297981141059947108105989912010398514549465146494511450 [label="sys-fabric/libcxgb3-1.3.1-r2", color=red, width=4,href="../sys-fabric/libcxgb3-1.3.1-r2.svg"];
+dependency485753:e -> choice1151211154510297981141059947108105989912010398514549465146494511450:w [style=dotted,weight="100"];
+}
+subgraph choice360863 {
+color=black;
+nodesep=1;
+choice1151211154510297981141059947108105989912010398514549465146494511450 [label="sys-fabric/libcxgb3-1.3.1-r2", color=red, width=4,href="../sys-fabric/libcxgb3-1.3.1-r2.svg"];
+dependency485754:e -> choice1151211154510297981141059947108105989912010398514549465146494511450:w [style=dotted,weight="100"];
+}
+}
+
+}

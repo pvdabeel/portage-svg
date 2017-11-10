@@ -1,0 +1,100 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="media-sound/coquillo-1.12", color=red, width=4, href="../media-sound/coquillo-1.12.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack280640 {
+dependency379862 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-qt</TD></TR><TR><TD>qtcore</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>4.6</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency379862:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack280641 {
+dependency379863 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-qt</TD></TR><TR><TD>qtgui</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>4.6</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency379863:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack280642 {
+dependency379864 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>media-libs</TD></TR><TR><TD>taglib</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.7</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency379864:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice280640 {
+color=black;
+nodesep=1;
+choice1001011184511311647113116991111141014552465646554511450 [label="dev-qt/qtcore-4.8.7-r2", color=red, width=4,href="../dev-qt/qtcore-4.8.7-r2.svg"];
+choice1001011184511311647113116991111141014552465646554511451 [label="dev-qt/qtcore-4.8.7-r3", color=red, width=4,href="../dev-qt/qtcore-4.8.7-r3.svg"];
+choice1001011184511311647113116991111141014553465546494511451 [label="dev-qt/qtcore-5.7.1-r3", color=red, width=4,href="../dev-qt/qtcore-5.7.1-r3.svg"];
+choice100101118451131164711311699111114101455346574650 [label="dev-qt/qtcore-5.9.2", color=red, width=4,href="../dev-qt/qtcore-5.9.2.svg"];
+dependency379862:e -> choice1001011184511311647113116991111141014552465646554511450:w [style=dotted,weight="100"];
+dependency379862:e -> choice1001011184511311647113116991111141014552465646554511451:w [style=dotted,weight="100"];
+dependency379862:e -> choice1001011184511311647113116991111141014553465546494511451:w [style=dotted,weight="100"];
+dependency379862:e -> choice100101118451131164711311699111114101455346574650:w [style=dotted,weight="100"];
+}
+subgraph choice280641 {
+color=black;
+nodesep=1;
+choice1001011184511311647113116103117105455246564655 [label="dev-qt/qtgui-4.8.7", color=red, width=4,href="../dev-qt/qtgui-4.8.7.svg"];
+choice10010111845113116471131161031171054553465546494511449 [label="dev-qt/qtgui-5.7.1-r1", color=red, width=4,href="../dev-qt/qtgui-5.7.1-r1.svg"];
+choice1001011184511311647113116103117105455346574650 [label="dev-qt/qtgui-5.9.2", color=red, width=4,href="../dev-qt/qtgui-5.9.2.svg"];
+dependency379863:e -> choice1001011184511311647113116103117105455246564655:w [style=dotted,weight="100"];
+dependency379863:e -> choice10010111845113116471131161031171054553465546494511449:w [style=dotted,weight="100"];
+dependency379863:e -> choice1001011184511311647113116103117105455346574650:w [style=dotted,weight="100"];
+}
+subgraph choice280642 {
+color=black;
+nodesep=1;
+choice109101100105974510810598115471169710310810598454946494946494511449 [label="media-libs/taglib-1.11.1-r1", color=red, width=4,href="../media-libs/taglib-1.11.1-r1.svg"];
+dependency379864:e -> choice109101100105974510810598115471169710310810598454946494946494511449:w [style=dotted,weight="100"];
+}
+}
+
+}

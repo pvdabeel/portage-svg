@@ -1,0 +1,86 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="media-libs/libggimisc-2.2.2", color=red, width=4, href="../media-libs/libggimisc-2.2.2.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph cond89666 {
+dependency363596 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>svga</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack268285 {
+dependency363597 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>media-libs</TD></TR><TR><TD>svgalib</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency363596:e -> dependency363597:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency363596:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack268286 {
+dependency363598 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>media-libs</TD></TR><TR><TD>libggi</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2.2.2</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency363598:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice268285 {
+color=black;
+nodesep=1;
+choice109101100105974510810598115471151181039710810598454946574650534511452 [label="media-libs/svgalib-1.9.25-r4", color=red, width=4,href="../media-libs/svgalib-1.9.25-r4.svg"];
+choice109101100105974510810598115471151181039710810598454946574650534511453 [label="media-libs/svgalib-1.9.25-r5", color=red, width=4,href="../media-libs/svgalib-1.9.25-r5.svg"];
+dependency363597:e -> choice109101100105974510810598115471151181039710810598454946574650534511452:w [style=dotted,weight="100"];
+dependency363597:e -> choice109101100105974510810598115471151181039710810598454946574650534511453:w [style=dotted,weight="100"];
+}
+subgraph choice268286 {
+color=black;
+nodesep=1;
+choice1091011001059745108105981154710810598103103105455046504650 [label="media-libs/libggi-2.2.2", color=red, width=4,href="../media-libs/libggi-2.2.2.svg"];
+dependency363598:e -> choice1091011001059745108105981154710810598103103105455046504650:w [style=dotted,weight="100"];
+}
+}
+
+}

@@ -1,0 +1,82 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="media-video/mpeg-tools-1.5b-r4", color=red, width=4, href="../media-video/mpeg-tools-1.5b-r4.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack291071 {
+dependency394572 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>jpeg</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency394572:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack291072 {
+dependency394573 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>x11-libs</TD></TR><TR><TD>libX11</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency394573:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice291071 {
+color=black;
+nodesep=1;
+choice118105114116117971084710611210110345484511450 [label="virtual/jpeg-0-r2", color=red, width=4,href="../virtual/jpeg-0-r2.svg"];
+choice1181051141161179710847106112101103455450 [label="virtual/jpeg-62", color=red, width=4,href="../virtual/jpeg-62.svg"];
+dependency394572:e -> choice118105114116117971084710611210110345484511450:w [style=dotted,weight="100"];
+dependency394572:e -> choice1181051141161179710847106112101103455450:w [style=dotted,weight="100"];
+}
+subgraph choice291072 {
+color=black;
+nodesep=1;
+choice120494945108105981154710810598884949454946544653 [label="x11-libs/libX11-1.6.5", color=red, width=4,href="../x11-libs/libX11-1.6.5.svg"];
+dependency394573:e -> choice120494945108105981154710810598884949454946544653:w [style=dotted,weight="100"];
+}
+}
+
+}

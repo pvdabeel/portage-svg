@@ -1,0 +1,122 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="sys-cluster/libcircle-0.2.1_rc1", color=red, width=4, href="../sys-cluster/libcircle-0.2.1_rc1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond115409 {
+dependency480624 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>doc</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack356814 {
+dependency480625 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-doc</TD></TR><TR><TD>doxygen</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency480624:e -> dependency480625:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency480624:w [weight=20,style="solid",arrowhead="vee"];
+subgraph cond115410 {
+dependency480626 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>test</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack356815 {
+dependency480627 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>check</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency480626:e -> dependency480627:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency480626:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack356816 {
+dependency480628 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-portage</TD></TR><TR><TD>elt-patches</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>20170422</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency480628:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack356817 {
+dependency480629 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>mpi</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency480629:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice356814 {
+color=black;
+nodesep=1;
+choice9711211245100111994710011112012110310111045494656464950 [label="app-doc/doxygen-1.8.12", color=red, width=4,href="../app-doc/doxygen-1.8.12.svg"];
+choice97112112451001119947100111120121103101110454946564649514511449 [label="app-doc/doxygen-1.8.13-r1", color=red, width=4,href="../app-doc/doxygen-1.8.13-r1.svg"];
+choice971121124510011199471001111201211031011104557575757 [label="app-doc/doxygen-9999", color=red, width=4,href="../app-doc/doxygen-9999.svg"];
+dependency480625:e -> choice9711211245100111994710011112012110310111045494656464950:w [style=dotted,weight="100"];
+dependency480625:e -> choice97112112451001119947100111120121103101110454946564649514511449:w [style=dotted,weight="100"];
+dependency480625:e -> choice971121124510011199471001111201211031011104557575757:w [style=dotted,weight="100"];
+}
+subgraph choice356815 {
+color=black;
+nodesep=1;
+choice1001011184510810598115479910410199107454846494846484511449 [label="dev-libs/check-0.10.0-r1", color=red, width=4,href="../dev-libs/check-0.10.0-r1.svg"];
+choice100101118451081059811547991041019910745484649504648 [label="dev-libs/check-0.12.0", color=red, width=4,href="../dev-libs/check-0.12.0.svg"];
+dependency480627:e -> choice1001011184510810598115479910410199107454846494846484511449:w [style=dotted,weight="100"];
+dependency480627:e -> choice100101118451081059811547991041019910745484649504648:w [style=dotted,weight="100"];
+}
+subgraph choice356816 {
+color=black;
+nodesep=1;
+choice97112112451121111141169710310147101108116451129711699104101115455048495548514955 [label="app-portage/elt-patches-20170317", color=red, width=4,href="../app-portage/elt-patches-20170317.svg"];
+choice97112112451121111141169710310147101108116451129711699104101115455048495548525050 [label="app-portage/elt-patches-20170422", color=red, width=4,href="../app-portage/elt-patches-20170422.svg"];
+choice97112112451121111141169710310147101108116451129711699104101115455048495548564953 [label="app-portage/elt-patches-20170815", color=red, width=4,href="../app-portage/elt-patches-20170815.svg"];
+choice971121124511211111411697103101471011081164511297116991041011154550484955485650544649 [label="app-portage/elt-patches-20170826.1", color=red, width=4,href="../app-portage/elt-patches-20170826.1.svg"];
+dependency480628:e -> choice97112112451121111141169710310147101108116451129711699104101115455048495548514955:w [style=dotted,weight="100"];
+dependency480628:e -> choice97112112451121111141169710310147101108116451129711699104101115455048495548525050:w [style=dotted,weight="100"];
+dependency480628:e -> choice97112112451121111141169710310147101108116451129711699104101115455048495548564953:w [style=dotted,weight="100"];
+dependency480628:e -> choice971121124511211111411697103101471011081164511297116991041011154550484955485650544649:w [style=dotted,weight="100"];
+}
+subgraph choice356817 {
+color=black;
+nodesep=1;
+choice1181051141161179710847109112105455046484511451 [label="virtual/mpi-2.0-r3", color=red, width=4,href="../virtual/mpi-2.0-r3.svg"];
+choice1181051141161179710847109112105455046484511452 [label="virtual/mpi-2.0-r4", color=red, width=4,href="../virtual/mpi-2.0-r4.svg"];
+dependency480629:e -> choice1181051141161179710847109112105455046484511451:w [style=dotted,weight="100"];
+dependency480629:e -> choice1181051141161179710847109112105455046484511452:w [style=dotted,weight="100"];
+}
+}
+
+}

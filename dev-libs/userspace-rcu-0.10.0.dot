@@ -1,0 +1,78 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="dev-libs/userspace-rcu-0.10.0", color=red, width=4, href="../dev-libs/userspace-rcu-0.10.0.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond25977 {
+dependency119968 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>test</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack90392 {
+dependency119969 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-process</TD></TR><TR><TD>time</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency119968:e -> dependency119969:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency119968:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice90392 {
+color=black;
+nodesep=1;
+choice115121115451121141119910111511547116105109101454946554511449 [label="sys-process/time-1.7-r1", color=red, width=4,href="../sys-process/time-1.7-r1.svg"];
+choice115121115451121141119910111511547116105109101454946554511451 [label="sys-process/time-1.7-r3", color=red, width=4,href="../sys-process/time-1.7-r3.svg"];
+choice115121115451121141119910111511547116105109101454946554650 [label="sys-process/time-1.7.2", color=red, width=4,href="../sys-process/time-1.7.2.svg"];
+dependency119969:e -> choice115121115451121141119910111511547116105109101454946554511449:w [style=dotted,weight="100"];
+dependency119969:e -> choice115121115451121141119910111511547116105109101454946554511451:w [style=dotted,weight="100"];
+dependency119969:e -> choice115121115451121141119910111511547116105109101454946554650:w [style=dotted,weight="100"];
+}
+}
+
+}

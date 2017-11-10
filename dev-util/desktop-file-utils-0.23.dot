@@ -1,0 +1,114 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="dev-util/desktop-file-utils-0.23", color=red, width=4, href="../dev-util/desktop-file-utils-0.23.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack202443 {
+dependency284641 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>xz-utils</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency284641:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack202444 {
+dependency284642 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>pkgconfig</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency284642:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph cond77977 {
+dependency284643 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>emacs</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack202445 {
+dependency284644 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>emacs</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency284643:e -> dependency284644:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency284643:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack202446 {
+dependency284645 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>glib</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2.12</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency284645:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice202443 {
+color=black;
+nodesep=1;
+choice971121124597114991044712012245117116105108115455346504650 [label="app-arch/xz-utils-5.2.2", color=red, width=4,href="../app-arch/xz-utils-5.2.2.svg"];
+choice971121124597114991044712012245117116105108115455346504651 [label="app-arch/xz-utils-5.2.3", color=red, width=4,href="../app-arch/xz-utils-5.2.3.svg"];
+choice9711211245971149910447120122451171161051081154557575757 [label="app-arch/xz-utils-9999", color=red, width=4,href="../app-arch/xz-utils-9999.svg"];
+dependency284641:e -> choice971121124597114991044712012245117116105108115455346504650:w [style=dotted,weight="100"];
+dependency284641:e -> choice971121124597114991044712012245117116105108115455346504651:w [style=dotted,weight="100"];
+dependency284641:e -> choice9711211245971149910447120122451171161051081154557575757:w [style=dotted,weight="100"];
+}
+subgraph choice202444 {
+color=black;
+nodesep=1;
+choice11810511411611797108471121071039911111010210510345484511449 [label="virtual/pkgconfig-0-r1", color=red, width=4,href="../virtual/pkgconfig-0-r1.svg"];
+dependency284642:e -> choice11810511411611797108471121071039911111010210510345484511449:w [style=dotted,weight="100"];
+}
+subgraph choice202445 {
+color=black;
+nodesep=1;
+choice11810511411611797108471011099799115455051 [label="virtual/emacs-23", color=red, width=4,href="../virtual/emacs-23.svg"];
+choice11810511411611797108471011099799115455052 [label="virtual/emacs-24", color=red, width=4,href="../virtual/emacs-24.svg"];
+choice11810511411611797108471011099799115455053 [label="virtual/emacs-25", color=red, width=4,href="../virtual/emacs-25.svg"];
+dependency284644:e -> choice11810511411611797108471011099799115455051:w [style=dotted,weight="100"];
+dependency284644:e -> choice11810511411611797108471011099799115455052:w [style=dotted,weight="100"];
+dependency284644:e -> choice11810511411611797108471011099799115455053:w [style=dotted,weight="100"];
+}
+subgraph choice202446 {
+color=black;
+nodesep=1;
+choice10010111845108105981154710310810598455046534846514511449 [label="dev-libs/glib-2.50.3-r1", color=red, width=4,href="../dev-libs/glib-2.50.3-r1.svg"];
+choice1001011184510810598115471031081059845504653504651 [label="dev-libs/glib-2.52.3", color=red, width=4,href="../dev-libs/glib-2.52.3.svg"];
+dependency284645:e -> choice10010111845108105981154710310810598455046534846514511449:w [style=dotted,weight="100"];
+dependency284645:e -> choice1001011184510810598115471031081059845504653504651:w [style=dotted,weight="100"];
+}
+}
+
+}

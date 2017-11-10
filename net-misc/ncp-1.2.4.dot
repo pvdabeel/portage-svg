@@ -1,0 +1,90 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="net-misc/ncp-1.2.4", color=red, width=4, href="../net-misc/ncp-1.2.4.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond105899 {
+dependency427561 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>diet</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack314415 {
+dependency427562 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>dietlibc</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency427561:e -> dependency427562:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency427561:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack314416 {
+dependency427563 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libowfat</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>0.28-r1</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency427563:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice314415 {
+color=black;
+nodesep=1;
+choice10010111845108105981154710010510111610810598994548465151951121141015048494948524851 [label="dev-libs/dietlibc-0.33_pre20110403", color=red, width=4,href="../dev-libs/dietlibc-0.33_pre20110403.svg"];
+choice10010111845108105981154710010510111610810598994548465152951121141015048495248555057 [label="dev-libs/dietlibc-0.34_pre20140729", color=red, width=4,href="../dev-libs/dietlibc-0.34_pre20140729.svg"];
+dependency427562:e -> choice10010111845108105981154710010510111610810598994548465151951121141015048494948524851:w [style=dotted,weight="100"];
+dependency427562:e -> choice10010111845108105981154710010510111610810598994548465152951121141015048495248555057:w [style=dotted,weight="100"];
+}
+subgraph choice314416 {
+color=black;
+nodesep=1;
+choice10010111845108105981154710810598111119102971164548465057 [label="dev-libs/libowfat-0.29", color=red, width=4,href="../dev-libs/libowfat-0.29.svg"];
+choice10010111845108105981154710810598111119102971164548465148 [label="dev-libs/libowfat-0.30", color=red, width=4,href="../dev-libs/libowfat-0.30.svg"];
+choice10010111845108105981154710810598111119102971164548465149 [label="dev-libs/libowfat-0.31", color=red, width=4,href="../dev-libs/libowfat-0.31.svg"];
+dependency427563:e -> choice10010111845108105981154710810598111119102971164548465057:w [style=dotted,weight="100"];
+dependency427563:e -> choice10010111845108105981154710810598111119102971164548465148:w [style=dotted,weight="100"];
+dependency427563:e -> choice10010111845108105981154710810598111119102971164548465149:w [style=dotted,weight="100"];
+}
+}
+
+}

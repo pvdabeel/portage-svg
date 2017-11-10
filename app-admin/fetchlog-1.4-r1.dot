@@ -1,0 +1,90 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="app-admin/fetchlog-1.4-r1", color=red, width=4, href="../app-admin/fetchlog-1.4-r1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond594 {
+dependency2294 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>snmp</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack1650 {
+dependency2295 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-perl</TD></TR><TR><TD>Net-SNMP</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>4.0.1-r2</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency2294:e -> dependency2295:w [weight=20,style="dashed",arrowhead="vee"];
+subgraph pack1651 {
+dependency2296 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>net-analyzer</TD></TR><TR><TD>net-snmp</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>5.0.6</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency2294:e -> dependency2296:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency2294:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice1650 {
+color=black;
+nodesep=1;
+choice10010111845112101114108477810111645837877804554464846494511449 [label="dev-perl/Net-SNMP-6.0.1-r1", color=red, width=4,href="../dev-perl/Net-SNMP-6.0.1-r1.svg"];
+choice10010111845112101114108477810111645837877804554464846494511450 [label="dev-perl/Net-SNMP-6.0.1-r2", color=red, width=4,href="../dev-perl/Net-SNMP-6.0.1-r2.svg"];
+dependency2295:e -> choice10010111845112101114108477810111645837877804554464846494511449:w [style=dotted,weight="100"];
+dependency2295:e -> choice10010111845112101114108477810111645837877804554464846494511450:w [style=dotted,weight="100"];
+}
+subgraph choice1651 {
+color=black;
+nodesep=1;
+choice11010111645971109710812112210111447110101116451151101091124553465546514511453 [label="net-analyzer/net-snmp-5.7.3-r5", color=red, width=4,href="../net-analyzer/net-snmp-5.7.3-r5.svg"];
+choice11010111645971109710812112210111447110101116451151101091124553465546514511454 [label="net-analyzer/net-snmp-5.7.3-r6", color=red, width=4,href="../net-analyzer/net-snmp-5.7.3-r6.svg"];
+choice11010111645971109710812112210111447110101116451151101091124553465546519511251 [label="net-analyzer/net-snmp-5.7.3_p3", color=red, width=4,href="../net-analyzer/net-snmp-5.7.3_p3.svg"];
+dependency2296:e -> choice11010111645971109710812112210111447110101116451151101091124553465546514511453:w [style=dotted,weight="100"];
+dependency2296:e -> choice11010111645971109710812112210111447110101116451151101091124553465546514511454:w [style=dotted,weight="100"];
+dependency2296:e -> choice11010111645971109710812112210111447110101116451151101091124553465546519511251:w [style=dotted,weight="100"];
+}
+}
+
+}

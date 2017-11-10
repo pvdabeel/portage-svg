@@ -1,0 +1,92 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="games-puzzle/sdl-jewels-1.1.1", color=red, width=4, href="../games-puzzle/sdl-jewels-1.1.1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack216102 {
+dependency301651 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>media-libs</TD></TR><TR><TD>libsdl</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency301651:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack216103 {
+dependency301652 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>opengl</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency301652:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack216104 {
+dependency301653 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>games-misc</TD></TR><TR><TD>games-envd</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency301653:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice216102 {
+color=black;
+nodesep=1;
+choice1091011001059745108105981154710810598115100108454946504649534511457 [label="media-libs/libsdl-1.2.15-r9", color=red, width=4,href="../media-libs/libsdl-1.2.15-r9.svg"];
+dependency301651:e -> choice1091011001059745108105981154710810598115100108454946504649534511457:w [style=dotted,weight="100"];
+}
+subgraph choice216103 {
+color=black;
+nodesep=1;
+choice118105114116117971084711111210111010310845554648 [label="virtual/opengl-7.0", color=red, width=4,href="../virtual/opengl-7.0.svg"];
+choice1181051141161179710847111112101110103108455546484511449 [label="virtual/opengl-7.0-r1", color=red, width=4,href="../virtual/opengl-7.0-r1.svg"];
+dependency301652:e -> choice118105114116117971084711111210111010310845554648:w [style=dotted,weight="100"];
+dependency301652:e -> choice1181051141161179710847111112101110103108455546484511449:w [style=dotted,weight="100"];
+}
+subgraph choice216104 {
+color=black;
+nodesep=1;
+choice1039710910111545109105115994710397109101115451011101181004548 [label="games-misc/games-envd-0", color=red, width=4,href="../games-misc/games-envd-0.svg"];
+dependency301653:e -> choice1039710910111545109105115994710397109101115451011101181004548:w [style=dotted,weight="100"];
+}
+}
+
+}

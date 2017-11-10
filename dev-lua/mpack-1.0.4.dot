@@ -1,0 +1,136 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="dev-lua/mpack-1.0.4", color=red, width=4, href="../dev-lua/mpack-1.0.4.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond26411 {
+dependency121646 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>test</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack91609 {
+dependency121647 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-lua</TD></TR><TR><TD>busted</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency121646:e -> dependency121647:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency121646:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack91610 {
+dependency121648 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>pkgconfig</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency121648:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph cond26412 {
+dependency121649 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>negative</TD></TR><TR><TD>luajit</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack91611 {
+dependency121650 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>lua</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>5.1</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency121649:e -> dependency121650:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency121649:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph cond26413 {
+dependency121651 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>luajit</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack91612 {
+dependency121652 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>luajit</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency121651:e -> dependency121652:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency121651:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice91609 {
+color=black;
+nodesep=1;
+choice1001011184510811797479811711511610110045504648951149949499511248 [label="dev-lua/busted-2.0_rc11_p0", color=red, width=4,href="../dev-lua/busted-2.0_rc11_p0.svg"];
+choice1001011184510811797479811711511610110045504648951149949509511249 [label="dev-lua/busted-2.0_rc12_p1", color=red, width=4,href="../dev-lua/busted-2.0_rc12_p1.svg"];
+dependency121647:e -> choice1001011184510811797479811711511610110045504648951149949499511248:w [style=dotted,weight="100"];
+dependency121647:e -> choice1001011184510811797479811711511610110045504648951149949509511249:w [style=dotted,weight="100"];
+}
+subgraph choice91610 {
+color=black;
+nodesep=1;
+choice11810511411611797108471121071039911111010210510345484511449 [label="virtual/pkgconfig-0-r1", color=red, width=4,href="../virtual/pkgconfig-0-r1.svg"];
+dependency121648:e -> choice11810511411611797108471121071039911111010210510345484511449:w [style=dotted,weight="100"];
+}
+subgraph choice91611 {
+color=black;
+nodesep=1;
+choice1001011184510897110103471081179745534649465345114494848 [label="dev-lang/lua-5.1.5-r100", color=red, width=4,href="../dev-lang/lua-5.1.5-r100.svg"];
+choice1001011184510897110103471081179745534649465345114494849 [label="dev-lang/lua-5.1.5-r101", color=red, width=4,href="../dev-lang/lua-5.1.5-r101.svg"];
+choice100101118451089711010347108117974553464946534511452 [label="dev-lang/lua-5.1.5-r4", color=red, width=4,href="../dev-lang/lua-5.1.5-r4.svg"];
+choice10010111845108971101034710811797455346504651 [label="dev-lang/lua-5.2.3", color=red, width=4,href="../dev-lang/lua-5.2.3.svg"];
+choice100101118451089711010347108117974553465046514511449 [label="dev-lang/lua-5.2.3-r1", color=red, width=4,href="../dev-lang/lua-5.2.3-r1.svg"];
+choice100101118451089711010347108117974553465046514511450 [label="dev-lang/lua-5.2.3-r2", color=red, width=4,href="../dev-lang/lua-5.2.3-r2.svg"];
+choice10010111845108971101034710811797455346514651 [label="dev-lang/lua-5.3.3", color=red, width=4,href="../dev-lang/lua-5.3.3.svg"];
+choice100101118451089711010347108117974553465146514511449 [label="dev-lang/lua-5.3.3-r1", color=red, width=4,href="../dev-lang/lua-5.3.3-r1.svg"];
+dependency121650:e -> choice1001011184510897110103471081179745534649465345114494848:w [style=dotted,weight="100"];
+dependency121650:e -> choice1001011184510897110103471081179745534649465345114494849:w [style=dotted,weight="100"];
+dependency121650:e -> choice100101118451089711010347108117974553464946534511452:w [style=dotted,weight="100"];
+dependency121650:e -> choice10010111845108971101034710811797455346504651:w [style=dotted,weight="100"];
+dependency121650:e -> choice100101118451089711010347108117974553465046514511449:w [style=dotted,weight="100"];
+dependency121650:e -> choice100101118451089711010347108117974553465046514511450:w [style=dotted,weight="100"];
+dependency121650:e -> choice10010111845108971101034710811797455346514651:w [style=dotted,weight="100"];
+dependency121650:e -> choice100101118451089711010347108117974553465146514511449:w [style=dotted,weight="100"];
+}
+subgraph choice91612 {
+color=black;
+nodesep=1;
+choice10010111845108971101034710811797106105116454946494654 [label="dev-lang/luajit-1.1.6", color=red, width=4,href="../dev-lang/luajit-1.1.6.svg"];
+choice10010111845108971101034710811797106105116455046484650 [label="dev-lang/luajit-2.0.2", color=red, width=4,href="../dev-lang/luajit-2.0.2.svg"];
+choice10010111845108971101034710811797106105116455046484651 [label="dev-lang/luajit-2.0.3", color=red, width=4,href="../dev-lang/luajit-2.0.3.svg"];
+choice100101118451089711010347108117971061051164550464846514511449 [label="dev-lang/luajit-2.0.3-r1", color=red, width=4,href="../dev-lang/luajit-2.0.3-r1.svg"];
+choice10010111845108971101034710811797106105116455046484652 [label="dev-lang/luajit-2.0.4", color=red, width=4,href="../dev-lang/luajit-2.0.4.svg"];
+dependency121652:e -> choice10010111845108971101034710811797106105116454946494654:w [style=dotted,weight="100"];
+dependency121652:e -> choice10010111845108971101034710811797106105116455046484650:w [style=dotted,weight="100"];
+dependency121652:e -> choice10010111845108971101034710811797106105116455046484651:w [style=dotted,weight="100"];
+dependency121652:e -> choice100101118451089711010347108117971061051164550464846514511449:w [style=dotted,weight="100"];
+dependency121652:e -> choice10010111845108971101034710811797106105116455046484652:w [style=dotted,weight="100"];
+}
+}
+
+}

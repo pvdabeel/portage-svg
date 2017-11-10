@@ -1,0 +1,114 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="dev-util/mdds-1.2.2", color=red, width=4, href="../dev-util/mdds-1.2.2.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond78433 {
+dependency287104 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>doc</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack204413 {
+dependency287105 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-doc</TD></TR><TR><TD>doxygen</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency287104:e -> dependency287105:w [weight=20,style="dashed",arrowhead="vee"];
+subgraph pack204414 {
+dependency287106 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-python</TD></TR><TR><TD>sphinx</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency287104:e -> dependency287106:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency287104:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack204415 {
+dependency287107 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>boost</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency287107:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice204413 {
+color=black;
+nodesep=1;
+choice9711211245100111994710011112012110310111045494656464950 [label="app-doc/doxygen-1.8.12", color=red, width=4,href="../app-doc/doxygen-1.8.12.svg"];
+choice97112112451001119947100111120121103101110454946564649514511449 [label="app-doc/doxygen-1.8.13-r1", color=red, width=4,href="../app-doc/doxygen-1.8.13-r1.svg"];
+choice971121124510011199471001111201211031011104557575757 [label="app-doc/doxygen-9999", color=red, width=4,href="../app-doc/doxygen-9999.svg"];
+dependency287105:e -> choice9711211245100111994710011112012110310111045494656464950:w [style=dotted,weight="100"];
+dependency287105:e -> choice97112112451001119947100111120121103101110454946564649514511449:w [style=dotted,weight="100"];
+dependency287105:e -> choice971121124510011199471001111201211031011104557575757:w [style=dotted,weight="100"];
+}
+subgraph choice204414 {
+color=black;
+nodesep=1;
+choice10010111845112121116104111110471151121041051101204549465046504511449 [label="dev-python/sphinx-1.2.2-r1", color=red, width=4,href="../dev-python/sphinx-1.2.2-r1.svg"];
+choice10010111845112121116104111110471151121041051101204549465046514511449 [label="dev-python/sphinx-1.2.3-r1", color=red, width=4,href="../dev-python/sphinx-1.2.3-r1.svg"];
+choice10010111845112121116104111110471151121041051101204549465146494511450 [label="dev-python/sphinx-1.3.1-r2", color=red, width=4,href="../dev-python/sphinx-1.3.1-r2.svg"];
+choice10010111845112121116104111110471151121041051101204549465146534511449 [label="dev-python/sphinx-1.3.5-r1", color=red, width=4,href="../dev-python/sphinx-1.3.5-r1.svg"];
+choice1001011184511212111610411111047115112104105110120454946534650 [label="dev-python/sphinx-1.5.2", color=red, width=4,href="../dev-python/sphinx-1.5.2.svg"];
+choice10010111845112121116104111110471151121041051101204549465446514511449 [label="dev-python/sphinx-1.6.3-r1", color=red, width=4,href="../dev-python/sphinx-1.6.3-r1.svg"];
+choice10010111845112121116104111110471151121041051101204549465446514511450 [label="dev-python/sphinx-1.6.3-r2", color=red, width=4,href="../dev-python/sphinx-1.6.3-r2.svg"];
+dependency287106:e -> choice10010111845112121116104111110471151121041051101204549465046504511449:w [style=dotted,weight="100"];
+dependency287106:e -> choice10010111845112121116104111110471151121041051101204549465046514511449:w [style=dotted,weight="100"];
+dependency287106:e -> choice10010111845112121116104111110471151121041051101204549465146494511450:w [style=dotted,weight="100"];
+dependency287106:e -> choice10010111845112121116104111110471151121041051101204549465146534511449:w [style=dotted,weight="100"];
+dependency287106:e -> choice1001011184511212111610411111047115112104105110120454946534650:w [style=dotted,weight="100"];
+dependency287106:e -> choice10010111845112121116104111110471151121041051101204549465446514511449:w [style=dotted,weight="100"];
+dependency287106:e -> choice10010111845112121116104111110471151121041051101204549465446514511450:w [style=dotted,weight="100"];
+}
+subgraph choice204415 {
+color=black;
+nodesep=1;
+choice10010111845108105981154798111111115116454946545046484511449 [label="dev-libs/boost-1.62.0-r1", color=red, width=4,href="../dev-libs/boost-1.62.0-r1.svg"];
+choice1001011184510810598115479811111111511645494654514648 [label="dev-libs/boost-1.63.0", color=red, width=4,href="../dev-libs/boost-1.63.0.svg"];
+choice1001011184510810598115479811111111511645494654534648 [label="dev-libs/boost-1.65.0", color=red, width=4,href="../dev-libs/boost-1.65.0.svg"];
+dependency287107:e -> choice10010111845108105981154798111111115116454946545046484511449:w [style=dotted,weight="100"];
+dependency287107:e -> choice1001011184510810598115479811111111511645494654514648:w [style=dotted,weight="100"];
+dependency287107:e -> choice1001011184510810598115479811111111511645494654534648:w [style=dotted,weight="100"];
+}
+}
+
+}

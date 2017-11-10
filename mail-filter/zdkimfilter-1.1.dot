@@ -1,0 +1,116 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="mail-filter/zdkimfilter-1.1", color=red, width=4, href="../mail-filter/zdkimfilter-1.1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph cond85751 {
+dependency343508 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>opendbx</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack252605 {
+dependency343509 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-db</TD></TR><TR><TD>opendbx</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.4.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency343508:e -> dependency343509:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency343508:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack252606 {
+dependency343510 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>nettle</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency343510:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack252607 {
+dependency343511 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>mail-filter</TD></TR><TR><TD>opendkim</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2.2.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency343511:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack252608 {
+dependency343512 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>mail-mta</TD></TR><TR><TD>courier</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency343512:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice252605 {
+color=black;
+nodesep=1;
+choice100101118451009847111112101110100981204549465246534511449 [label="dev-db/opendbx-1.4.5-r1", color=red, width=4,href="../dev-db/opendbx-1.4.5-r1.svg"];
+choice100101118451009847111112101110100981204549465246544511449 [label="dev-db/opendbx-1.4.6-r1", color=red, width=4,href="../dev-db/opendbx-1.4.6-r1.svg"];
+choice100101118451009847111112101110100981204549465346484511449 [label="dev-db/opendbx-1.5.0-r1", color=red, width=4,href="../dev-db/opendbx-1.5.0-r1.svg"];
+dependency343509:e -> choice100101118451009847111112101110100981204549465246534511449:w [style=dotted,weight="100"];
+dependency343509:e -> choice100101118451009847111112101110100981204549465246544511449:w [style=dotted,weight="100"];
+dependency343509:e -> choice100101118451009847111112101110100981204549465346484511449:w [style=dotted,weight="100"];
+}
+subgraph choice252606 {
+color=black;
+nodesep=1;
+choice100101118451081059811547110101116116108101455146514511450 [label="dev-libs/nettle-3.3-r2", color=red, width=4,href="../dev-libs/nettle-3.3-r2.svg"];
+dependency343510:e -> choice100101118451081059811547110101116116108101455146514511450:w [style=dotted,weight="100"];
+}
+subgraph choice252607 {
+color=black;
+nodesep=1;
+choice10997105108451021051081161011144711111210111010010710510945504649484651 [label="mail-filter/opendkim-2.10.3", color=red, width=4,href="../mail-filter/opendkim-2.10.3.svg"];
+choice109971051084510210510811610111447111112101110100107105109455046494846514511450 [label="mail-filter/opendkim-2.10.3-r2", color=red, width=4,href="../mail-filter/opendkim-2.10.3-r2.svg"];
+choice109971051084510210510811610111447111112101110100107105109455046494846514511451 [label="mail-filter/opendkim-2.10.3-r3", color=red, width=4,href="../mail-filter/opendkim-2.10.3-r3.svg"];
+dependency343511:e -> choice10997105108451021051081161011144711111210111010010710510945504649484651:w [style=dotted,weight="100"];
+dependency343511:e -> choice109971051084510210510811610111447111112101110100107105109455046494846514511450:w [style=dotted,weight="100"];
+dependency343511:e -> choice109971051084510210510811610111447111112101110100107105109455046494846514511451:w [style=dotted,weight="100"];
+}
+subgraph choice252608 {
+color=black;
+nodesep=1;
+choice109971051084510911697479911111711410510111445484655534648 [label="mail-mta/courier-0.75.0", color=red, width=4,href="../mail-mta/courier-0.75.0.svg"];
+choice1099710510845109116974799111117114105101114454846555346484511449 [label="mail-mta/courier-0.75.0-r1", color=red, width=4,href="../mail-mta/courier-0.75.0-r1.svg"];
+choice109971051084510911697479911111711410510111445484655544652 [label="mail-mta/courier-0.76.4", color=red, width=4,href="../mail-mta/courier-0.76.4.svg"];
+dependency343512:e -> choice109971051084510911697479911111711410510111445484655534648:w [style=dotted,weight="100"];
+dependency343512:e -> choice1099710510845109116974799111117114105101114454846555346484511449:w [style=dotted,weight="100"];
+dependency343512:e -> choice109971051084510911697479911111711410510111445484655544652:w [style=dotted,weight="100"];
+}
+}
+
+}

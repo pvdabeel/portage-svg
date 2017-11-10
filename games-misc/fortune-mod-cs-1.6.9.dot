@@ -1,0 +1,88 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="games-misc/fortune-mod-cs-1.6.9", color=red, width=4, href="../games-misc/fortune-mod-cs-1.6.9.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond80739 {
+dependency300383 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>unicode</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack214967 {
+dependency300384 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>libiconv</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency300383:e -> dependency300384:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency300383:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack214968 {
+dependency300385 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>games-misc</TD></TR><TR><TD>fortune-mod</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency300385:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice214967 {
+color=black;
+nodesep=1;
+choice118105114116117971084710810598105991111101184548 [label="virtual/libiconv-0", color=red, width=4,href="../virtual/libiconv-0.svg"];
+choice1181051141161179710847108105981059911111011845484511449 [label="virtual/libiconv-0-r1", color=red, width=4,href="../virtual/libiconv-0-r1.svg"];
+choice1181051141161179710847108105981059911111011845484511450 [label="virtual/libiconv-0-r2", color=red, width=4,href="../virtual/libiconv-0-r2.svg"];
+dependency300384:e -> choice118105114116117971084710810598105991111101184548:w [style=dotted,weight="100"];
+dependency300384:e -> choice1181051141161179710847108105981059911111011845484511449:w [style=dotted,weight="100"];
+dependency300384:e -> choice1181051141161179710847108105981059911111011845484511450:w [style=dotted,weight="100"];
+}
+subgraph choice214968 {
+color=black;
+nodesep=1;
+choice1039710910111545109105115994710211111411611711010145109111100454946575746494511450 [label="games-misc/fortune-mod-1.99.1-r2", color=red, width=4,href="../games-misc/fortune-mod-1.99.1-r2.svg"];
+dependency300385:e -> choice1039710910111545109105115994710211111411611711010145109111100454946575746494511450:w [style=dotted,weight="100"];
+}
+}
+
+}

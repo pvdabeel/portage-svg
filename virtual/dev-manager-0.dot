@@ -1,0 +1,129 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="virtual/dev-manager-0", color=red, width=4, href="../virtual/dev-manager-0.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph any8531 {
+dependency497315 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD CELLPADDING="10">any_of_group</TD></TR></TABLE>>, shape=none, color=red];subgraph pack369614 {
+dependency497316 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>udev</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency497315:e -> dependency497316:w [weight=20,style="dotted",arrowhead="oinv"];
+subgraph pack369615 {
+dependency497317 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>busybox</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency497315:e -> dependency497317:w [weight=20,style="dotted",arrowhead="oinv"];
+subgraph pack369616 {
+dependency497318 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-fs</TD></TR><TR><TD>devfsd</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency497315:e -> dependency497318:w [weight=20,style="dotted",arrowhead="oinv"];
+subgraph pack369617 {
+dependency497319 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-fs</TD></TR><TR><TD>static-dev</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency497315:e -> dependency497319:w [weight=20,style="dotted",arrowhead="oinv"];
+subgraph pack369618 {
+dependency497320 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-freebsd</TD></TR><TR><TD>freebsd-sbin</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency497315:e -> dependency497320:w [weight=20,style="dotted",arrowhead="oinv"];
+}
+id:e -> dependency497315:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice369614 {
+color=black;
+nodesep=1;
+choice118105114116117971084711710010111845504953 [label="virtual/udev-215", color=red, width=4,href="../virtual/udev-215.svg"];
+choice118105114116117971084711710010111845504955 [label="virtual/udev-217", color=red, width=4,href="../virtual/udev-217.svg"];
+dependency497316:e -> choice118105114116117971084711710010111845504953:w [style=dotted,weight="100"];
+dependency497316:e -> choice118105114116117971084711710010111845504955:w [style=dotted,weight="100"];
+}
+subgraph choice369615 {
+color=black;
+nodesep=1;
+choice115121115459711211211547981171151219811112045494650534649 [label="sys-apps/busybox-1.25.1", color=red, width=4,href="../sys-apps/busybox-1.25.1.svg"];
+choice1151211154597112112115479811711512198111120454946505446504511449 [label="sys-apps/busybox-1.26.2-r1", color=red, width=4,href="../sys-apps/busybox-1.26.2-r1.svg"];
+choice115121115459711211211547981171151219811112045494650554650 [label="sys-apps/busybox-1.27.2", color=red, width=4,href="../sys-apps/busybox-1.27.2.svg"];
+choice11512111545971121121154798117115121981111204557575757 [label="sys-apps/busybox-9999", color=red, width=4,href="../sys-apps/busybox-9999.svg"];
+dependency497317:e -> choice115121115459711211211547981171151219811112045494650534649:w [style=dotted,weight="100"];
+dependency497317:e -> choice1151211154597112112115479811711512198111120454946505446504511449:w [style=dotted,weight="100"];
+dependency497317:e -> choice115121115459711211211547981171151219811112045494650554650:w [style=dotted,weight="100"];
+dependency497317:e -> choice11512111545971121121154798117115121981111204557575757:w [style=dotted,weight="100"];
+}
+subgraph choice369616 {
+color=black;
+nodesep=1;
+choice1151211154510211547100101118102115100454946514650534511457 [label="sys-fs/devfsd-1.3.25-r9", color=red, width=4,href="../sys-fs/devfsd-1.3.25-r9.svg"];
+dependency497318:e -> choice1151211154510211547100101118102115100454946514650534511457:w [style=dotted,weight="100"];
+}
+subgraph choice369617 {
+color=black;
+nodesep=1;
+choice115121115451021154711511697116105994510010111845484649 [label="sys-fs/static-dev-0.1", color=red, width=4,href="../sys-fs/static-dev-0.1.svg"];
+dependency497319:e -> choice115121115451021154711511697116105994510010111845484649:w [style=dotted,weight="100"];
+}
+subgraph choice369618 {
+color=black;
+nodesep=1;
+choice1151211154510211410110198115100471021141011019811510045115981051104549484651 [label="sys-freebsd/freebsd-sbin-10.3", color=red, width=4,href="../sys-freebsd/freebsd-sbin-10.3.svg"];
+choice1151211154510211410110198115100471021141011019811510045115981051104549494648 [label="sys-freebsd/freebsd-sbin-11.0", color=red, width=4,href="../sys-freebsd/freebsd-sbin-11.0.svg"];
+choice1151211154510211410110198115100471021141011019811510045115981051104549494649 [label="sys-freebsd/freebsd-sbin-11.1", color=red, width=4,href="../sys-freebsd/freebsd-sbin-11.1.svg"];
+choice115121115451021141011019811510047102114101101981151004511598105110455646504511449 [label="sys-freebsd/freebsd-sbin-8.2-r1", color=red, width=4,href="../sys-freebsd/freebsd-sbin-8.2-r1.svg"];
+choice11512111545102114101101981151004710211410110198115100451159810511045574649 [label="sys-freebsd/freebsd-sbin-9.1", color=red, width=4,href="../sys-freebsd/freebsd-sbin-9.1.svg"];
+dependency497320:e -> choice1151211154510211410110198115100471021141011019811510045115981051104549484651:w [style=dotted,weight="100"];
+dependency497320:e -> choice1151211154510211410110198115100471021141011019811510045115981051104549494648:w [style=dotted,weight="100"];
+dependency497320:e -> choice1151211154510211410110198115100471021141011019811510045115981051104549494649:w [style=dotted,weight="100"];
+dependency497320:e -> choice115121115451021141011019811510047102114101101981151004511598105110455646504511449:w [style=dotted,weight="100"];
+dependency497320:e -> choice11512111545102114101101981151004710211410110198115100451159810511045574649:w [style=dotted,weight="100"];
+}
+}
+
+}

@@ -1,0 +1,104 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="dev-scheme/racket-6.7", color=red, width=4, href="../dev-scheme/racket-6.7.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack197840 {
+dependency279041 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-db</TD></TR><TR><TD>sqlite</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency279041:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack197841 {
+dependency279042 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>libffi</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency279042:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack197842 {
+dependency279043 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>x11-libs</TD></TR><TR><TD>cairo</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency279043:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice197840 {
+color=black;
+nodesep=1;
+choice10010111845100984711511310810511610145514649574651 [label="dev-db/sqlite-3.19.3", color=red, width=4,href="../dev-db/sqlite-3.19.3.svg"];
+choice10010111845100984711511310810511610145514650484648 [label="dev-db/sqlite-3.20.0", color=red, width=4,href="../dev-db/sqlite-3.20.0.svg"];
+choice100101118451009847115113108105116101455146504846494511449 [label="dev-db/sqlite-3.20.1-r1", color=red, width=4,href="../dev-db/sqlite-3.20.1-r1.svg"];
+choice10010111845100984711511310810511610145514650494648 [label="dev-db/sqlite-3.21.0", color=red, width=4,href="../dev-db/sqlite-3.21.0.svg"];
+dependency279041:e -> choice10010111845100984711511310810511610145514649574651:w [style=dotted,weight="100"];
+dependency279041:e -> choice10010111845100984711511310810511610145514650484648:w [style=dotted,weight="100"];
+dependency279041:e -> choice100101118451009847115113108105116101455146504846494511449:w [style=dotted,weight="100"];
+dependency279041:e -> choice10010111845100984711511310810511610145514650494648:w [style=dotted,weight="100"];
+}
+subgraph choice197841 {
+color=black;
+nodesep=1;
+choice11810511411611797108471081059810210210545514648464948 [label="virtual/libffi-3.0.10", color=red, width=4,href="../virtual/libffi-3.0.10.svg"];
+choice11810511411611797108471081059810210210545514648464949 [label="virtual/libffi-3.0.11", color=red, width=4,href="../virtual/libffi-3.0.11.svg"];
+choice118105114116117971084710810598102102105455146484649514511449 [label="virtual/libffi-3.0.13-r1", color=red, width=4,href="../virtual/libffi-3.0.13-r1.svg"];
+dependency279042:e -> choice11810511411611797108471081059810210210545514648464948:w [style=dotted,weight="100"];
+dependency279042:e -> choice11810511411611797108471081059810210210545514648464949:w [style=dotted,weight="100"];
+dependency279042:e -> choice118105114116117971084710810598102102105455146484649514511449:w [style=dotted,weight="100"];
+}
+subgraph choice197842 {
+color=black;
+nodesep=1;
+choice120494945108105981154799971051141114549464952464948 [label="x11-libs/cairo-1.14.10", color=red, width=4,href="../x11-libs/cairo-1.14.10.svg"];
+choice1204949451081059811547999710511411145494649524656 [label="x11-libs/cairo-1.14.8", color=red, width=4,href="../x11-libs/cairo-1.14.8.svg"];
+choice120494945108105981154799971051141114557575757 [label="x11-libs/cairo-9999", color=red, width=4,href="../x11-libs/cairo-9999.svg"];
+dependency279043:e -> choice120494945108105981154799971051141114549464952464948:w [style=dotted,weight="100"];
+dependency279043:e -> choice1204949451081059811547999710511411145494649524656:w [style=dotted,weight="100"];
+dependency279043:e -> choice120494945108105981154799971051141114557575757:w [style=dotted,weight="100"];
+}
+}
+
+}

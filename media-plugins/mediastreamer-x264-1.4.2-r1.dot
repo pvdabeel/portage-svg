@@ -1,0 +1,162 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="media-plugins/mediastreamer-x264-1.4.2-r1", color=red, width=4, href="../media-plugins/mediastreamer-x264-1.4.2-r1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack277240 {
+dependency375670 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>pkgconfig</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency375670:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph cond92427 {
+dependency375671 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>negative</TD></TR><TR><TD>libav</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack277241 {
+dependency375672 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>media-video</TD></TR><TR><TD>ffmpeg</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency375671:e -> dependency375672:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency375671:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph cond92428 {
+dependency375673 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>libav</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack277242 {
+dependency375674 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>media-video</TD></TR><TR><TD>libav</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency375673:e -> dependency375674:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency375673:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack277243 {
+dependency375675 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>media-libs</TD></TR><TR><TD>mediastreamer</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2.7.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency375675:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack277244 {
+dependency375676 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>media-libs</TD></TR><TR><TD>x264</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>0.0.20100118</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency375676:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice277240 {
+color=black;
+nodesep=1;
+choice11810511411611797108471121071039911111010210510345484511449 [label="virtual/pkgconfig-0-r1", color=red, width=4,href="../virtual/pkgconfig-0-r1.svg"];
+dependency375670:e -> choice11810511411611797108471121071039911111010210510345484511449:w [style=dotted,weight="100"];
+}
+subgraph choice277241 {
+color=black;
+nodesep=1;
+choice109101100105974511810510010111147102102109112101103455146504654 [label="media-video/ffmpeg-3.2.6", color=red, width=4,href="../media-video/ffmpeg-3.2.6.svg"];
+choice109101100105974511810510010111147102102109112101103455146504655 [label="media-video/ffmpeg-3.2.7", color=red, width=4,href="../media-video/ffmpeg-3.2.7.svg"];
+choice109101100105974511810510010111147102102109112101103455146514651 [label="media-video/ffmpeg-3.3.3", color=red, width=4,href="../media-video/ffmpeg-3.3.3.svg"];
+choice109101100105974511810510010111147102102109112101103455146514652 [label="media-video/ffmpeg-3.3.4", color=red, width=4,href="../media-video/ffmpeg-3.3.4.svg"];
+choice109101100105974511810510010111147102102109112101103455146514653 [label="media-video/ffmpeg-3.3.5", color=red, width=4,href="../media-video/ffmpeg-3.3.5.svg"];
+choice10910110010597451181051001011114710210210911210110345514652 [label="media-video/ffmpeg-3.4", color=red, width=4,href="../media-video/ffmpeg-3.4.svg"];
+choice1091011001059745118105100101111471021021091121011034557575757 [label="media-video/ffmpeg-9999", color=red, width=4,href="../media-video/ffmpeg-9999.svg"];
+dependency375672:e -> choice109101100105974511810510010111147102102109112101103455146504654:w [style=dotted,weight="100"];
+dependency375672:e -> choice109101100105974511810510010111147102102109112101103455146504655:w [style=dotted,weight="100"];
+dependency375672:e -> choice109101100105974511810510010111147102102109112101103455146514651:w [style=dotted,weight="100"];
+dependency375672:e -> choice109101100105974511810510010111147102102109112101103455146514652:w [style=dotted,weight="100"];
+dependency375672:e -> choice109101100105974511810510010111147102102109112101103455146514653:w [style=dotted,weight="100"];
+dependency375672:e -> choice10910110010597451181051001011114710210210911210110345514652:w [style=dotted,weight="100"];
+dependency375672:e -> choice1091011001059745118105100101111471021021091121011034557575757:w [style=dotted,weight="100"];
+}
+subgraph choice277242 {
+color=black;
+nodesep=1;
+choice10910110010597451181051001011114710810598971184549494651 [label="media-video/libav-11.3", color=red, width=4,href="../media-video/libav-11.3.svg"];
+choice109101100105974511810510010111147108105989711845494946514511449 [label="media-video/libav-11.3-r1", color=red, width=4,href="../media-video/libav-11.3-r1.svg"];
+choice10910110010597451181051001011114710810598971184549494652 [label="media-video/libav-11.4", color=red, width=4,href="../media-video/libav-11.4.svg"];
+choice10910110010597451181051001011114710810598971184549494654 [label="media-video/libav-11.6", color=red, width=4,href="../media-video/libav-11.6.svg"];
+choice10910110010597451181051001011114710810598971184549494655 [label="media-video/libav-11.7", color=red, width=4,href="../media-video/libav-11.7.svg"];
+choice10910110010597451181051001011114710810598971184549494656 [label="media-video/libav-11.8", color=red, width=4,href="../media-video/libav-11.8.svg"];
+choice10910110010597451181051001011114710810598971184549494657575757 [label="media-video/libav-11.9999", color=red, width=4,href="../media-video/libav-11.9999.svg"];
+choice1091011001059745118105100101111471081059897118454950 [label="media-video/libav-12", color=red, width=4,href="../media-video/libav-12.svg"];
+choice10910110010597451181051001011114710810598971184549504649 [label="media-video/libav-12.1", color=red, width=4,href="../media-video/libav-12.1.svg"];
+choice10910110010597451181051001011114710810598971184549504650 [label="media-video/libav-12.2", color=red, width=4,href="../media-video/libav-12.2.svg"];
+choice10910110010597451181051001011114710810598971184557464955 [label="media-video/libav-9.17", color=red, width=4,href="../media-video/libav-9.17.svg"];
+choice10910110010597451181051001011114710810598971184557575757 [label="media-video/libav-9999", color=red, width=4,href="../media-video/libav-9999.svg"];
+dependency375674:e -> choice10910110010597451181051001011114710810598971184549494651:w [style=dotted,weight="100"];
+dependency375674:e -> choice109101100105974511810510010111147108105989711845494946514511449:w [style=dotted,weight="100"];
+dependency375674:e -> choice10910110010597451181051001011114710810598971184549494652:w [style=dotted,weight="100"];
+dependency375674:e -> choice10910110010597451181051001011114710810598971184549494654:w [style=dotted,weight="100"];
+dependency375674:e -> choice10910110010597451181051001011114710810598971184549494655:w [style=dotted,weight="100"];
+dependency375674:e -> choice10910110010597451181051001011114710810598971184549494656:w [style=dotted,weight="100"];
+dependency375674:e -> choice10910110010597451181051001011114710810598971184549494657575757:w [style=dotted,weight="100"];
+dependency375674:e -> choice1091011001059745118105100101111471081059897118454950:w [style=dotted,weight="100"];
+dependency375674:e -> choice10910110010597451181051001011114710810598971184549504649:w [style=dotted,weight="100"];
+dependency375674:e -> choice10910110010597451181051001011114710810598971184549504650:w [style=dotted,weight="100"];
+dependency375674:e -> choice10910110010597451181051001011114710810598971184557464955:w [style=dotted,weight="100"];
+dependency375674:e -> choice10910110010597451181051001011114710810598971184557575757:w [style=dotted,weight="100"];
+}
+subgraph choice277243 {
+color=black;
+nodesep=1;
+choice1091011001059745108105981154710910110010597115116114101971091011144550465546514511451 [label="media-libs/mediastreamer-2.7.3-r3", color=red, width=4,href="../media-libs/mediastreamer-2.7.3-r3.svg"];
+choice109101100105974510810598115471091011001059711511611410197109101114455046564650 [label="media-libs/mediastreamer-2.8.2", color=red, width=4,href="../media-libs/mediastreamer-2.8.2.svg"];
+choice109101100105974510810598115471091011001059711511611410197109101114455046574648 [label="media-libs/mediastreamer-2.9.0", color=red, width=4,href="../media-libs/mediastreamer-2.9.0.svg"];
+choice1091011001059745108105981154710910110010597115116114101971091011144550465746484511449 [label="media-libs/mediastreamer-2.9.0-r1", color=red, width=4,href="../media-libs/mediastreamer-2.9.0-r1.svg"];
+dependency375675:e -> choice1091011001059745108105981154710910110010597115116114101971091011144550465546514511451:w [style=dotted,weight="100"];
+dependency375675:e -> choice109101100105974510810598115471091011001059711511611410197109101114455046564650:w [style=dotted,weight="100"];
+dependency375675:e -> choice109101100105974510810598115471091011001059711511611410197109101114455046574648:w [style=dotted,weight="100"];
+dependency375675:e -> choice1091011001059745108105981154710910110010597115116114101971091011144550465746484511449:w [style=dotted,weight="100"];
+}
+subgraph choice277244 {
+color=black;
+nodesep=1;
+choice1091011001059745108105981154712050545245484648465048495448554950 [label="media-libs/x264-0.0.20160712", color=red, width=4,href="../media-libs/x264-0.0.20160712.svg"];
+choice1091011001059745108105981154712050545245484648465048495548554849 [label="media-libs/x264-0.0.20170701", color=red, width=4,href="../media-libs/x264-0.0.20170701.svg"];
+choice109101100105974510810598115471205054524557575757 [label="media-libs/x264-9999", color=red, width=4,href="../media-libs/x264-9999.svg"];
+dependency375676:e -> choice1091011001059745108105981154712050545245484648465048495448554950:w [style=dotted,weight="100"];
+dependency375676:e -> choice1091011001059745108105981154712050545245484648465048495548554849:w [style=dotted,weight="100"];
+dependency375676:e -> choice109101100105974510810598115471205054524557575757:w [style=dotted,weight="100"];
+}
+}
+
+}

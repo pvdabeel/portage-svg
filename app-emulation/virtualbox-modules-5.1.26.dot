@@ -1,0 +1,116 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="app-emulation/virtualbox-modules-5.1.26", color=red, width=4, href="../app-emulation/virtualbox-modules-5.1.26.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond6496 {
+dependency26436 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>kernel_linux</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack19424 {
+dependency26437 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>linux-sources</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency26436:e -> dependency26437:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency26436:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack19425 {
+dependency26438 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>sed</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency26438:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph cond6497 {
+dependency26439 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>kernel_linux</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack19426 {
+dependency26440 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>modutils</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency26439:e -> dependency26440:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency26439:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack19427 {
+dependency26441 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>app-emulation</TD></TR><TR><TD>virtualbox</TD></TR><TR><TD>equal</TD></TR><TR><TD>9999</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency26441:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice19424 {
+color=black;
+nodesep=1;
+choice118105114116117971084710810511011712045115111117114991011154551 [label="virtual/linux-sources-3", color=red, width=4,href="../virtual/linux-sources-3.svg"];
+dependency26437:e -> choice118105114116117971084710810511011712045115111117114991011154551:w [style=dotted,weight="100"];
+}
+subgraph choice19425 {
+color=black;
+nodesep=1;
+choice115121115459711211211547115101100455246504650 [label="sys-apps/sed-4.2.2", color=red, width=4,href="../sys-apps/sed-4.2.2.svg"];
+choice115121115459711211211547115101100455246514511449 [label="sys-apps/sed-4.3-r1", color=red, width=4,href="../sys-apps/sed-4.3-r1.svg"];
+choice11512111545971121121154711510110045524652 [label="sys-apps/sed-4.4", color=red, width=4,href="../sys-apps/sed-4.4.svg"];
+dependency26438:e -> choice115121115459711211211547115101100455246504650:w [style=dotted,weight="100"];
+dependency26438:e -> choice115121115459711211211547115101100455246514511449:w [style=dotted,weight="100"];
+dependency26438:e -> choice11512111545971121121154711510110045524652:w [style=dotted,weight="100"];
+}
+subgraph choice19426 {
+color=black;
+nodesep=1;
+choice11810511411611797108471091111001171161051081154548 [label="virtual/modutils-0", color=red, width=4,href="../virtual/modutils-0.svg"];
+dependency26440:e -> choice11810511411611797108471091111001171161051081154548:w [style=dotted,weight="100"];
+}
+subgraph choice19427 {
+color=black;
+nodesep=1;
+choice97112112451011091171089711610511111047118105114116117971089811112045534649465054 [label="app-emulation/virtualbox-5.1.26", color=red, width=4,href="../app-emulation/virtualbox-5.1.26.svg"];
+choice97112112451011091171089711610511111047118105114116117971089811112045534649465056 [label="app-emulation/virtualbox-5.1.28", color=red, width=4,href="../app-emulation/virtualbox-5.1.28.svg"];
+choice97112112451011091171089711610511111047118105114116117971089811112045534649465148 [label="app-emulation/virtualbox-5.1.30", color=red, width=4,href="../app-emulation/virtualbox-5.1.30.svg"];
+dependency26441:e -> choice97112112451011091171089711610511111047118105114116117971089811112045534649465054:w [style=dotted,weight="100"];
+dependency26441:e -> choice97112112451011091171089711610511111047118105114116117971089811112045534649465056:w [style=dotted,weight="100"];
+dependency26441:e -> choice97112112451011091171089711610511111047118105114116117971089811112045534649465148:w [style=dotted,weight="100"];
+}
+}
+
+}

@@ -1,0 +1,116 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="app-emacs/vm-8.1.2", color=red, width=4, href="../app-emacs/vm-8.1.2.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph cond4945 {
+dependency20177 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>bbdb</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack14818 {
+dependency20178 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-emacs</TD></TR><TR><TD>bbdb</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency20177:e -> dependency20178:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency20177:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack14819 {
+dependency20179 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>emacs</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>23</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency20179:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond4946 {
+dependency20180 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>ssl</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack14820 {
+dependency20181 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>net-misc</TD></TR><TR><TD>stunnel</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency20180:e -> dependency20181:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency20180:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack14821 {
+dependency20182 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>app-emacs</TD></TR><TR><TD>u-vm-color</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency20182:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice14818 {
+color=black;
+nodesep=1;
+choice971121124510110997991154798981009845504651534511449 [label="app-emacs/bbdb-2.35-r1", color=red, width=4,href="../app-emacs/bbdb-2.35-r1.svg"];
+choice9711211245101109979911547989810098455146494650 [label="app-emacs/bbdb-3.1.2", color=red, width=4,href="../app-emacs/bbdb-3.1.2.svg"];
+dependency20178:e -> choice971121124510110997991154798981009845504651534511449:w [style=dotted,weight="100"];
+dependency20178:e -> choice9711211245101109979911547989810098455146494650:w [style=dotted,weight="100"];
+}
+subgraph choice14819 {
+color=black;
+nodesep=1;
+choice11810511411611797108471011099799115455051 [label="virtual/emacs-23", color=red, width=4,href="../virtual/emacs-23.svg"];
+choice11810511411611797108471011099799115455052 [label="virtual/emacs-24", color=red, width=4,href="../virtual/emacs-24.svg"];
+choice11810511411611797108471011099799115455053 [label="virtual/emacs-25", color=red, width=4,href="../virtual/emacs-25.svg"];
+dependency20179:e -> choice11810511411611797108471011099799115455051:w [style=dotted,weight="100"];
+dependency20179:e -> choice11810511411611797108471011099799115455052:w [style=dotted,weight="100"];
+dependency20179:e -> choice11810511411611797108471011099799115455053:w [style=dotted,weight="100"];
+}
+subgraph choice14820 {
+color=black;
+nodesep=1;
+choice1101011164510910511599471151161171101101011084553465154 [label="net-misc/stunnel-5.36", color=red, width=4,href="../net-misc/stunnel-5.36.svg"];
+choice1101011164510910511599471151161171101101011084553465248 [label="net-misc/stunnel-5.40", color=red, width=4,href="../net-misc/stunnel-5.40.svg"];
+choice1101011164510910511599471151161171101101011084553465251 [label="net-misc/stunnel-5.43", color=red, width=4,href="../net-misc/stunnel-5.43.svg"];
+dependency20181:e -> choice1101011164510910511599471151161171101101011084553465154:w [style=dotted,weight="100"];
+dependency20181:e -> choice1101011164510910511599471151161171101101011084553465248:w [style=dotted,weight="100"];
+dependency20181:e -> choice1101011164510910511599471151161171101101011084553465251:w [style=dotted,weight="100"];
+}
+subgraph choice14821 {
+color=black;
+nodesep=1;
+}
+}
+
+}

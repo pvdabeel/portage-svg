@@ -1,0 +1,88 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="app-text/csvfix-1.6", color=red, width=4, href="../app-text/csvfix-1.6.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond14466 {
+dependency56124 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>doc</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack40633 {
+dependency56125 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>unzip</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency56124:e -> dependency56125:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency56124:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack40634 {
+dependency56126 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>expat</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency56126:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice40633 {
+color=black;
+nodesep=1;
+choice971121124597114991044711711012210511245544648951125048 [label="app-arch/unzip-6.0_p20", color=red, width=4,href="../app-arch/unzip-6.0_p20.svg"];
+dependency56125:e -> choice971121124597114991044711711012210511245544648951125048:w [style=dotted,weight="100"];
+}
+subgraph choice40634 {
+color=black;
+nodesep=1;
+choice10010111845108105981154710112011297116455046504649 [label="dev-libs/expat-2.2.1", color=red, width=4,href="../dev-libs/expat-2.2.1.svg"];
+choice10010111845108105981154710112011297116455046504652 [label="dev-libs/expat-2.2.4", color=red, width=4,href="../dev-libs/expat-2.2.4.svg"];
+choice10010111845108105981154710112011297116455046504653 [label="dev-libs/expat-2.2.5", color=red, width=4,href="../dev-libs/expat-2.2.5.svg"];
+dependency56126:e -> choice10010111845108105981154710112011297116455046504649:w [style=dotted,weight="100"];
+dependency56126:e -> choice10010111845108105981154710112011297116455046504652:w [style=dotted,weight="100"];
+dependency56126:e -> choice10010111845108105981154710112011297116455046504653:w [style=dotted,weight="100"];
+}
+}
+
+}

@@ -1,0 +1,110 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="media-video/dv2sub-0.3", color=red, width=4, href="../media-video/dv2sub-0.3.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack288339 {
+dependency390297 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>media-libs</TD></TR><TR><TD>libdv</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency390297:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond95608 {
+dependency390298 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>kino</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack288340 {
+dependency390299 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>media-video</TD></TR><TR><TD>kino</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency390298:e -> dependency390299:w [weight=20,style="dashed",arrowhead="vee"];
+subgraph pack288341 {
+dependency390300 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>media-video</TD></TR><TR><TD>dvdauthor</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency390298:e -> dependency390300:w [weight=20,style="dashed",arrowhead="vee"];
+subgraph pack288342 {
+dependency390301 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>ffmpeg</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency390298:e -> dependency390301:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency390298:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice288339 {
+color=black;
+nodesep=1;
+choice10910110010597451081059811547108105981001184549464846484511450 [label="media-libs/libdv-1.0.0-r2", color=red, width=4,href="../media-libs/libdv-1.0.0-r2.svg"];
+choice10910110010597451081059811547108105981001184549464846484511451 [label="media-libs/libdv-1.0.0-r3", color=red, width=4,href="../media-libs/libdv-1.0.0-r3.svg"];
+dependency390297:e -> choice10910110010597451081059811547108105981001184549464846484511450:w [style=dotted,weight="100"];
+dependency390297:e -> choice10910110010597451081059811547108105981001184549464846484511451:w [style=dotted,weight="100"];
+}
+subgraph choice288340 {
+color=black;
+nodesep=1;
+choice109101100105974511810510010111147107105110111454946514652 [label="media-video/kino-1.3.4", color=red, width=4,href="../media-video/kino-1.3.4.svg"];
+choice1091011001059745118105100101111471071051101114549465146524511449 [label="media-video/kino-1.3.4-r1", color=red, width=4,href="../media-video/kino-1.3.4-r1.svg"];
+dependency390299:e -> choice109101100105974511810510010111147107105110111454946514652:w [style=dotted,weight="100"];
+dependency390299:e -> choice1091011001059745118105100101111471071051101114549465146524511449:w [style=dotted,weight="100"];
+}
+subgraph choice288341 {
+color=black;
+nodesep=1;
+choice109101100105974511810510010111147100118100971171161041111144548465546494511449 [label="media-video/dvdauthor-0.7.1-r1", color=red, width=4,href="../media-video/dvdauthor-0.7.1-r1.svg"];
+choice109101100105974511810510010111147100118100971171161041111144548465546504511449 [label="media-video/dvdauthor-0.7.2-r1", color=red, width=4,href="../media-video/dvdauthor-0.7.2-r1.svg"];
+dependency390300:e -> choice109101100105974511810510010111147100118100971171161041111144548465546494511449:w [style=dotted,weight="100"];
+dependency390300:e -> choice109101100105974511810510010111147100118100971171161041111144548465546504511449:w [style=dotted,weight="100"];
+}
+subgraph choice288342 {
+color=black;
+nodesep=1;
+choice118105114116117971084710210210911210110345574511450 [label="virtual/ffmpeg-9-r2", color=red, width=4,href="../virtual/ffmpeg-9-r2.svg"];
+dependency390301:e -> choice118105114116117971084710210210911210110345574511450:w [style=dotted,weight="100"];
+}
+}
+
+}

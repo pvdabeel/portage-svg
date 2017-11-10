@@ -1,0 +1,94 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="media-libs/lib3ds-2.0.0_rc1", color=red, width=4, href="../media-libs/lib3ds-2.0.0_rc1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack267428 {
+dependency362464 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>unzip</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency362464:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack267429 {
+dependency362465 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>media-libs</TD></TR><TR><TD>freeglut</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency362465:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack267430 {
+dependency362466 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>opengl</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency362466:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice267428 {
+color=black;
+nodesep=1;
+choice971121124597114991044711711012210511245544648951125048 [label="app-arch/unzip-6.0_p20", color=red, width=4,href="../app-arch/unzip-6.0_p20.svg"];
+dependency362464:e -> choice971121124597114991044711711012210511245544648951125048:w [style=dotted,weight="100"];
+}
+subgraph choice267429 {
+color=black;
+nodesep=1;
+choice109101100105974510810598115471021141011011031081171164550465646494511449 [label="media-libs/freeglut-2.8.1-r1", color=red, width=4,href="../media-libs/freeglut-2.8.1-r1.svg"];
+choice10910110010597451081059811547102114101101103108117116455146484648 [label="media-libs/freeglut-3.0.0", color=red, width=4,href="../media-libs/freeglut-3.0.0.svg"];
+dependency362465:e -> choice109101100105974510810598115471021141011011031081171164550465646494511449:w [style=dotted,weight="100"];
+dependency362465:e -> choice10910110010597451081059811547102114101101103108117116455146484648:w [style=dotted,weight="100"];
+}
+subgraph choice267430 {
+color=black;
+nodesep=1;
+choice118105114116117971084711111210111010310845554648 [label="virtual/opengl-7.0", color=red, width=4,href="../virtual/opengl-7.0.svg"];
+choice1181051141161179710847111112101110103108455546484511449 [label="virtual/opengl-7.0-r1", color=red, width=4,href="../virtual/opengl-7.0-r1.svg"];
+dependency362466:e -> choice118105114116117971084711111210111010310845554648:w [style=dotted,weight="100"];
+dependency362466:e -> choice1181051141161179710847111112101110103108455546484511449:w [style=dotted,weight="100"];
+}
+}
+
+}

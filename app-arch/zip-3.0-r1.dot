@@ -1,0 +1,100 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="app-arch/zip-3.0-r1", color=red, width=4, href="../app-arch/zip-3.0-r1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack6400 {
+dependency9025 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>unzip</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency9025:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph cond2455 {
+dependency9026 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>bzip2</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack6401 {
+dependency9027 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>bzip2</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency9026:e -> dependency9027:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency9026:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph cond2456 {
+dependency9028 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>natspec</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack6402 {
+dependency9029 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libnatspec</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency9028:e -> dependency9029:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency9028:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice6400 {
+color=black;
+nodesep=1;
+choice971121124597114991044711711012210511245544648951125048 [label="app-arch/unzip-6.0_p20", color=red, width=4,href="../app-arch/unzip-6.0_p20.svg"];
+dependency9025:e -> choice971121124597114991044711711012210511245544648951125048:w [style=dotted,weight="100"];
+}
+subgraph choice6401 {
+color=black;
+nodesep=1;
+choice971121124597114991044798122105112504549464846544511456 [label="app-arch/bzip2-1.0.6-r8", color=red, width=4,href="../app-arch/bzip2-1.0.6-r8.svg"];
+dependency9027:e -> choice971121124597114991044798122105112504549464846544511456:w [style=dotted,weight="100"];
+}
+subgraph choice6402 {
+color=black;
+nodesep=1;
+choice1001011184510810598115471081059811097116115112101994548465046544511449 [label="dev-libs/libnatspec-0.2.6-r1", color=red, width=4,href="../dev-libs/libnatspec-0.2.6-r1.svg"];
+choice100101118451081059811547108105981109711611511210199454846514648 [label="dev-libs/libnatspec-0.3.0", color=red, width=4,href="../dev-libs/libnatspec-0.3.0.svg"];
+dependency9029:e -> choice1001011184510810598115471081059811097116115112101994548465046544511449:w [style=dotted,weight="100"];
+dependency9029:e -> choice100101118451081059811547108105981109711611511210199454846514648:w [style=dotted,weight="100"];
+}
+}
+
+}

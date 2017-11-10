@@ -1,0 +1,80 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="games-misc/exult-sound-0", color=red, width=4, href="../games-misc/exult-sound-0.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack214926 {
+dependency300336 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>games-engines</TD></TR><TR><TD>exult</TD></TR><TR><TD>smaller</TD></TR><TR><TD>9999</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency300336:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack214927 {
+dependency300337 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>games-misc</TD></TR><TR><TD>games-envd</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency300337:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice214926 {
+color=black;
+nodesep=1;
+choice1039710910111545101110103105110101115471011201171081164557575757 [label="games-engines/exult-9999", color=red, width=4,href="../games-engines/exult-9999.svg"];
+dependency300336:e -> choice1039710910111545101110103105110101115471011201171081164557575757:w [style=dotted,weight="100"];
+}
+subgraph choice214927 {
+color=black;
+nodesep=1;
+choice1039710910111545109105115994710397109101115451011101181004548 [label="games-misc/games-envd-0", color=red, width=4,href="../games-misc/games-envd-0.svg"];
+dependency300337:e -> choice1039710910111545109105115994710397109101115451011101181004548:w [style=dotted,weight="100"];
+}
+}
+
+}

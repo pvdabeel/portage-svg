@@ -1,0 +1,101 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="net-misc/dibbler-1.0.1", color=red, width=4, href="../net-misc/dibbler-1.0.1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond105277 {
+dependency424890 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>doc</TD></TR></TABLE>>, shape=none, color=red];
+subgraph any6992 {
+dependency424891 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD CELLPADDING="10">any_of_group</TD></TR></TABLE>>, shape=none, color=red];subgraph pack312428 {
+dependency424892 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-texlive</TD></TR><TR><TD>texlive-latexextra</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency424891:e -> dependency424892:w [weight=20,style="dotted",arrowhead="oinv"];
+subgraph pack312429 {
+dependency424893 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-tex</TD></TR><TR><TD>floatflt</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency424891:e -> dependency424893:w [weight=20,style="dotted",arrowhead="oinv"];
+}
+dependency424890:e -> dependency424891:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency424890:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack312430 {
+dependency424894 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>pkgconfig</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency424894:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice312428 {
+color=black;
+nodesep=1;
+choice100101118451161011201081051181014711610112010810511810145108971161011201011201161149745504849534511449 [label="dev-texlive/texlive-latexextra-2015-r1", color=red, width=4,href="../dev-texlive/texlive-latexextra-2015-r1.svg"];
+choice10010111845116101120108105118101471161011201081051181014510897116101120101120116114974550484954 [label="dev-texlive/texlive-latexextra-2016", color=red, width=4,href="../dev-texlive/texlive-latexextra-2016.svg"];
+choice10010111845116101120108105118101471161011201081051181014510897116101120101120116114974550484955 [label="dev-texlive/texlive-latexextra-2017", color=red, width=4,href="../dev-texlive/texlive-latexextra-2017.svg"];
+dependency424892:e -> choice100101118451161011201081051181014711610112010810511810145108971161011201011201161149745504849534511449:w [style=dotted,weight="100"];
+dependency424892:e -> choice10010111845116101120108105118101471161011201081051181014510897116101120101120116114974550484954:w [style=dotted,weight="100"];
+dependency424892:e -> choice10010111845116101120108105118101471161011201081051181014510897116101120101120116114974550484955:w [style=dotted,weight="100"];
+}
+subgraph choice312429 {
+color=black;
+nodesep=1;
+choice100101118451161011204710210811197116102108116454946514997 [label="dev-tex/floatflt-1.31a", color=red, width=4,href="../dev-tex/floatflt-1.31a.svg"];
+dependency424893:e -> choice100101118451161011204710210811197116102108116454946514997:w [style=dotted,weight="100"];
+}
+subgraph choice312430 {
+color=black;
+nodesep=1;
+choice11810511411611797108471121071039911111010210510345484511449 [label="virtual/pkgconfig-0-r1", color=red, width=4,href="../virtual/pkgconfig-0-r1.svg"];
+dependency424894:e -> choice11810511411611797108471121071039911111010210510345484511449:w [style=dotted,weight="100"];
+}
+}
+
+}

@@ -1,0 +1,98 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="dev-libs/libmowgli-glib-0.1", color=red, width=4, href="../dev-libs/libmowgli-glib-0.1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack87661 {
+dependency116175 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>pkgconfig</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency116175:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack87662 {
+dependency116176 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>glib</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency116176:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack87663 {
+dependency116177 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libmowgli</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency116177:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice87661 {
+color=black;
+nodesep=1;
+choice11810511411611797108471121071039911111010210510345484511449 [label="virtual/pkgconfig-0-r1", color=red, width=4,href="../virtual/pkgconfig-0-r1.svg"];
+dependency116175:e -> choice11810511411611797108471121071039911111010210510345484511449:w [style=dotted,weight="100"];
+}
+subgraph choice87662 {
+color=black;
+nodesep=1;
+choice10010111845108105981154710310810598455046534846514511449 [label="dev-libs/glib-2.50.3-r1", color=red, width=4,href="../dev-libs/glib-2.50.3-r1.svg"];
+choice1001011184510810598115471031081059845504653504651 [label="dev-libs/glib-2.52.3", color=red, width=4,href="../dev-libs/glib-2.52.3.svg"];
+dependency116176:e -> choice10010111845108105981154710310810598455046534846514511449:w [style=dotted,weight="100"];
+dependency116176:e -> choice1001011184510810598115471031081059845504653504651:w [style=dotted,weight="100"];
+}
+subgraph choice87663 {
+color=black;
+nodesep=1;
+choice10010111845108105981154710810598109111119103108105454946484648 [label="dev-libs/libmowgli-1.0.0", color=red, width=4,href="../dev-libs/libmowgli-1.0.0.svg"];
+choice100101118451081059811547108105981091111191031081054550464846484511449 [label="dev-libs/libmowgli-2.0.0-r1", color=red, width=4,href="../dev-libs/libmowgli-2.0.0-r1.svg"];
+choice10010111845108105981154710810598109111119103108105455046494651 [label="dev-libs/libmowgli-2.1.3", color=red, width=4,href="../dev-libs/libmowgli-2.1.3.svg"];
+choice100101118451081059811547108105981091111191031081054557575757 [label="dev-libs/libmowgli-9999", color=red, width=4,href="../dev-libs/libmowgli-9999.svg"];
+dependency116177:e -> choice10010111845108105981154710810598109111119103108105454946484648:w [style=dotted,weight="100"];
+dependency116177:e -> choice100101118451081059811547108105981091111191031081054550464846484511449:w [style=dotted,weight="100"];
+dependency116177:e -> choice10010111845108105981154710810598109111119103108105455046494651:w [style=dotted,weight="100"];
+dependency116177:e -> choice100101118451081059811547108105981091111191031081054557575757:w [style=dotted,weight="100"];
+}
+}
+
+}

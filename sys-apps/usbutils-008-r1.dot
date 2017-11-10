@@ -1,0 +1,168 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="sys-apps/usbutils-008-r1", color=red, width=4, href="../sys-apps/usbutils-008-r1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack351196 {
+dependency473552 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>xz-utils</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency473552:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack351197 {
+dependency473553 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>pkgconfig</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency473553:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack351198 {
+dependency473554 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>libudev</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency473554:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack351199 {
+dependency473555 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>libusb</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency473555:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond114158 {
+dependency473556 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>python</TD></TR></TABLE>>, shape=none, color=red];
+subgraph cond114159 {
+dependency473557 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>python_targets_python2_7</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack351200 {
+dependency473558 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>python</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2.7.5-r2</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency473557:e -> dependency473558:w [weight=20,style="dashed",arrowhead="vee"];
+}
+dependency473556:e -> dependency473557:w [weight=20,style="dashed",arrowhead="vee"];
+subgraph pack351201 {
+dependency473559 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>python-exec</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency473556:e -> dependency473559:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency473556:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack351202 {
+dependency473560 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>hwids</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency473560:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice351196 {
+color=black;
+nodesep=1;
+choice971121124597114991044712012245117116105108115455346504650 [label="app-arch/xz-utils-5.2.2", color=red, width=4,href="../app-arch/xz-utils-5.2.2.svg"];
+choice971121124597114991044712012245117116105108115455346504651 [label="app-arch/xz-utils-5.2.3", color=red, width=4,href="../app-arch/xz-utils-5.2.3.svg"];
+choice9711211245971149910447120122451171161051081154557575757 [label="app-arch/xz-utils-9999", color=red, width=4,href="../app-arch/xz-utils-9999.svg"];
+dependency473552:e -> choice971121124597114991044712012245117116105108115455346504650:w [style=dotted,weight="100"];
+dependency473552:e -> choice971121124597114991044712012245117116105108115455346504651:w [style=dotted,weight="100"];
+dependency473552:e -> choice9711211245971149910447120122451171161051081154557575757:w [style=dotted,weight="100"];
+}
+subgraph choice351197 {
+color=black;
+nodesep=1;
+choice11810511411611797108471121071039911111010210510345484511449 [label="virtual/pkgconfig-0-r1", color=red, width=4,href="../virtual/pkgconfig-0-r1.svg"];
+dependency473553:e -> choice11810511411611797108471121071039911111010210510345484511449:w [style=dotted,weight="100"];
+}
+subgraph choice351198 {
+color=black;
+nodesep=1;
+choice118105114116117971084710810598117100101118455049534511449 [label="virtual/libudev-215-r1", color=red, width=4,href="../virtual/libudev-215-r1.svg"];
+choice11810511411611797108471081059811710010111845505150 [label="virtual/libudev-232", color=red, width=4,href="../virtual/libudev-232.svg"];
+dependency473554:e -> choice118105114116117971084710810598117100101118455049534511449:w [style=dotted,weight="100"];
+dependency473554:e -> choice11810511411611797108471081059811710010111845505150:w [style=dotted,weight="100"];
+}
+subgraph choice351199 {
+color=black;
+nodesep=1;
+choice1181051141161179710847108105981171159845484511450 [label="virtual/libusb-0-r2", color=red, width=4,href="../virtual/libusb-0-r2.svg"];
+choice1181051141161179710847108105981171159845494511449 [label="virtual/libusb-1-r1", color=red, width=4,href="../virtual/libusb-1-r1.svg"];
+choice1181051141161179710847108105981171159845494511450 [label="virtual/libusb-1-r2", color=red, width=4,href="../virtual/libusb-1-r2.svg"];
+dependency473555:e -> choice1181051141161179710847108105981171159845484511450:w [style=dotted,weight="100"];
+dependency473555:e -> choice1181051141161179710847108105981171159845494511449:w [style=dotted,weight="100"];
+dependency473555:e -> choice1181051141161179710847108105981171159845494511450:w [style=dotted,weight="100"];
+}
+subgraph choice351200 {
+color=black;
+nodesep=1;
+choice10010111845108971101034711212111610411111045504655464950 [label="dev-lang/python-2.7.12", color=red, width=4,href="../dev-lang/python-2.7.12.svg"];
+choice10010111845108971101034711212111610411111045504655464952 [label="dev-lang/python-2.7.14", color=red, width=4,href="../dev-lang/python-2.7.14.svg"];
+choice100101118451089711010347112121116104111110455146524653 [label="dev-lang/python-3.4.5", color=red, width=4,href="../dev-lang/python-3.4.5.svg"];
+choice100101118451089711010347112121116104111110455146524654 [label="dev-lang/python-3.4.6", color=red, width=4,href="../dev-lang/python-3.4.6.svg"];
+choice100101118451089711010347112121116104111110455146534652 [label="dev-lang/python-3.5.4", color=red, width=4,href="../dev-lang/python-3.5.4.svg"];
+choice100101118451089711010347112121116104111110455146544651 [label="dev-lang/python-3.6.3", color=red, width=4,href="../dev-lang/python-3.6.3.svg"];
+dependency473558:e -> choice10010111845108971101034711212111610411111045504655464950:w [style=dotted,weight="100"];
+dependency473558:e -> choice10010111845108971101034711212111610411111045504655464952:w [style=dotted,weight="100"];
+dependency473558:e -> choice100101118451089711010347112121116104111110455146524653:w [style=dotted,weight="100"];
+dependency473558:e -> choice100101118451089711010347112121116104111110455146524654:w [style=dotted,weight="100"];
+dependency473558:e -> choice100101118451089711010347112121116104111110455146534652:w [style=dotted,weight="100"];
+dependency473558:e -> choice100101118451089711010347112121116104111110455146544651:w [style=dotted,weight="100"];
+}
+subgraph choice351201 {
+color=black;
+nodesep=1;
+choice1001011184510897110103471121211161041111104510112010199455046524652 [label="dev-lang/python-exec-2.4.4", color=red, width=4,href="../dev-lang/python-exec-2.4.4.svg"];
+choice1001011184510897110103471121211161041111104510112010199455046524653 [label="dev-lang/python-exec-2.4.5", color=red, width=4,href="../dev-lang/python-exec-2.4.5.svg"];
+choice10010111845108971101034711212111610411111045101120101994557575757 [label="dev-lang/python-exec-9999", color=red, width=4,href="../dev-lang/python-exec-9999.svg"];
+dependency473559:e -> choice1001011184510897110103471121211161041111104510112010199455046524652:w [style=dotted,weight="100"];
+dependency473559:e -> choice1001011184510897110103471121211161041111104510112010199455046524653:w [style=dotted,weight="100"];
+dependency473559:e -> choice10010111845108971101034711212111610411111045101120101994557575757:w [style=dotted,weight="100"];
+}
+subgraph choice351202 {
+color=black;
+nodesep=1;
+choice115121115459711211211547104119105100115455048495548515056 [label="sys-apps/hwids-20170328", color=red, width=4,href="../sys-apps/hwids-20170328.svg"];
+choice115121115459711211211547104119105100115455048495548554953 [label="sys-apps/hwids-20170715", color=red, width=4,href="../sys-apps/hwids-20170715.svg"];
+choice115121115459711211211547104119105100115455048495549484851 [label="sys-apps/hwids-20171003", color=red, width=4,href="../sys-apps/hwids-20171003.svg"];
+choice115121115459711211211547104119105100115455757575757575757 [label="sys-apps/hwids-99999999", color=red, width=4,href="../sys-apps/hwids-99999999.svg"];
+dependency473560:e -> choice115121115459711211211547104119105100115455048495548515056:w [style=dotted,weight="100"];
+dependency473560:e -> choice115121115459711211211547104119105100115455048495548554953:w [style=dotted,weight="100"];
+dependency473560:e -> choice115121115459711211211547104119105100115455048495549484851:w [style=dotted,weight="100"];
+dependency473560:e -> choice115121115459711211211547104119105100115455757575757575757:w [style=dotted,weight="100"];
+}
+}
+
+}

@@ -1,0 +1,102 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="x11-misc/xvfb-run-1.18.4_p2", color=red, width=4, href="../x11-misc/xvfb-run-1.18.4_p2.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack392590 {
+dependency525986 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-util</TD></TR><TR><TD>patchutils</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency525986:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack392591 {
+dependency525987 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>x11-apps</TD></TR><TR><TD>xauth</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency525987:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack392592 {
+dependency525988 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>x11-base</TD></TR><TR><TD>xorg-server</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency525988:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice392590 {
+color=black;
+nodesep=1;
+choice10010111845117116105108471129711699104117116105108115454846514651 [label="dev-util/patchutils-0.3.3", color=red, width=4,href="../dev-util/patchutils-0.3.3.svg"];
+choice10010111845117116105108471129711699104117116105108115454846514652 [label="dev-util/patchutils-0.3.4", color=red, width=4,href="../dev-util/patchutils-0.3.4.svg"];
+dependency525986:e -> choice10010111845117116105108471129711699104117116105108115454846514651:w [style=dotted,weight="100"];
+dependency525986:e -> choice10010111845117116105108471129711699104117116105108115454846514652:w [style=dotted,weight="100"];
+}
+subgraph choice392591 {
+color=black;
+nodesep=1;
+choice12049494597112112115471209711711610445494648464948 [label="x11-apps/xauth-1.0.10", color=red, width=4,href="../x11-apps/xauth-1.0.10.svg"];
+choice1204949459711211211547120971171161044557575757 [label="x11-apps/xauth-9999", color=red, width=4,href="../x11-apps/xauth-9999.svg"];
+dependency525987:e -> choice12049494597112112115471209711711610445494648464948:w [style=dotted,weight="100"];
+dependency525987:e -> choice1204949459711211211547120971171161044557575757:w [style=dotted,weight="100"];
+}
+subgraph choice392592 {
+color=black;
+nodesep=1;
+choice12049494598971151014712011111410345115101114118101114454946495046524511455 [label="x11-base/xorg-server-1.12.4-r7", color=red, width=4,href="../x11-base/xorg-server-1.12.4-r7.svg"];
+choice12049494598971151014712011111410345115101114118101114454946495346504511452 [label="x11-base/xorg-server-1.15.2-r4", color=red, width=4,href="../x11-base/xorg-server-1.15.2-r4.svg"];
+choice1204949459897115101471201111141034511510111411810111445494649574653 [label="x11-base/xorg-server-1.19.5", color=red, width=4,href="../x11-base/xorg-server-1.19.5.svg"];
+choice12049494598971151014712011111410345115101114118101114454946495746534511449 [label="x11-base/xorg-server-1.19.5-r1", color=red, width=4,href="../x11-base/xorg-server-1.19.5-r1.svg"];
+choice120494945989711510147120111114103451151011141181011144557575757 [label="x11-base/xorg-server-9999", color=red, width=4,href="../x11-base/xorg-server-9999.svg"];
+dependency525988:e -> choice12049494598971151014712011111410345115101114118101114454946495046524511455:w [style=dotted,weight="100"];
+dependency525988:e -> choice12049494598971151014712011111410345115101114118101114454946495346504511452:w [style=dotted,weight="100"];
+dependency525988:e -> choice1204949459897115101471201111141034511510111411810111445494649574653:w [style=dotted,weight="100"];
+dependency525988:e -> choice12049494598971151014712011111410345115101114118101114454946495746534511449:w [style=dotted,weight="100"];
+dependency525988:e -> choice120494945989711510147120111114103451151011141181011144557575757:w [style=dotted,weight="100"];
+}
+}
+
+}

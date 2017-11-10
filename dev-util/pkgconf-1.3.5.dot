@@ -1,0 +1,126 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="dev-util/pkgconf-1.3.5", color=red, width=4, href="../dev-util/pkgconf-1.3.5.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond78637 {
+dependency288009 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>test</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack205098 {
+dependency288010 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>atf</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency288009:e -> dependency288010:w [weight=20,style="dashed",arrowhead="vee"];
+subgraph pack205099 {
+dependency288011 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-util</TD></TR><TR><TD>kyua</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency288009:e -> dependency288011:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency288009:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond78638 {
+dependency288012 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>pkg-config</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack205100 {
+dependency288013 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>dev-util</TD></TR><TR><TD>pkgconfig</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency288012:e -> dependency288013:w [weight=20,style="dashed",arrowhead="vee"];
+subgraph pack205101 {
+dependency288014 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>dev-util</TD></TR><TR><TD>pkg-config-lite</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency288012:e -> dependency288014:w [weight=20,style="dashed",arrowhead="vee"];
+subgraph pack205102 {
+dependency288015 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>dev-util</TD></TR><TR><TD>pkgconfig-openbsd</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency288012:e -> dependency288015:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency288012:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice205098 {
+color=black;
+nodesep=1;
+choice100101118451081059811547971161024548465049 [label="dev-libs/atf-0.21", color=red, width=4,href="../dev-libs/atf-0.21.svg"];
+dependency288010:e -> choice100101118451081059811547971161024548465049:w [style=dotted,weight="100"];
+}
+subgraph choice205099 {
+color=black;
+nodesep=1;
+choice10010111845117116105108471071211179745484649514511449 [label="dev-util/kyua-0.13-r1", color=red, width=4,href="../dev-util/kyua-0.13-r1.svg"];
+dependency288011:e -> choice10010111845117116105108471071211179745484649514511449:w [style=dotted,weight="100"];
+}
+subgraph choice205100 {
+color=black;
+nodesep=1;
+choice10010111845117116105108471121071039911111010210510345484650564511450 [label="dev-util/pkgconfig-0.28-r2", color=red, width=4,href="../dev-util/pkgconfig-0.28-r2.svg"];
+choice10010111845117116105108471121071039911111010210510345484650564511451 [label="dev-util/pkgconfig-0.28-r3", color=red, width=4,href="../dev-util/pkgconfig-0.28-r3.svg"];
+choice10010111845117116105108471121071039911111010210510345484650574649 [label="dev-util/pkgconfig-0.29.1", color=red, width=4,href="../dev-util/pkgconfig-0.29.1.svg"];
+choice10010111845117116105108471121071039911111010210510345484650574650 [label="dev-util/pkgconfig-0.29.2", color=red, width=4,href="../dev-util/pkgconfig-0.29.2.svg"];
+choice1001011184511711610510847112107103991111101021051034557575757 [label="dev-util/pkgconfig-9999", color=red, width=4,href="../dev-util/pkgconfig-9999.svg"];
+dependency288013:e -> choice10010111845117116105108471121071039911111010210510345484650564511450:w [style=dotted,weight="100"];
+dependency288013:e -> choice10010111845117116105108471121071039911111010210510345484650564511451:w [style=dotted,weight="100"];
+dependency288013:e -> choice10010111845117116105108471121071039911111010210510345484650574649:w [style=dotted,weight="100"];
+dependency288013:e -> choice10010111845117116105108471121071039911111010210510345484650574650:w [style=dotted,weight="100"];
+dependency288013:e -> choice1001011184511711610510847112107103991111101021051034557575757:w [style=dotted,weight="100"];
+}
+subgraph choice205101 {
+color=black;
+nodesep=1;
+}
+subgraph choice205102 {
+color=black;
+nodesep=1;
+choice10010111845117116105108471121071039911111010210510345111112101110981151004550484951485348554511449 [label="dev-util/pkgconfig-openbsd-20130507-r1", color=red, width=4,href="../dev-util/pkgconfig-openbsd-20130507-r1.svg"];
+choice10010111845117116105108471121071039911111010210510345111112101110981151004550484951485348554511450 [label="dev-util/pkgconfig-openbsd-20130507-r2", color=red, width=4,href="../dev-util/pkgconfig-openbsd-20130507-r2.svg"];
+dependency288015:e -> choice10010111845117116105108471121071039911111010210510345111112101110981151004550484951485348554511449:w [style=dotted,weight="100"];
+dependency288015:e -> choice10010111845117116105108471121071039911111010210510345111112101110981151004550484951485348554511450:w [style=dotted,weight="100"];
+}
+}
+
+}

@@ -1,0 +1,133 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="net-fs/ncpfs-2.2.6-r3", color=red, width=4, href="../net-fs/ncpfs-2.2.6-r3.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph cond101313 {
+dependency409580 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>nls</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack301482 {
+dependency409581 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-devel</TD></TR><TR><TD>gettext</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency409580:e -> dependency409581:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency409580:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph cond101314 {
+dependency409582 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>pam</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack301483 {
+dependency409583 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>pam</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency409582:e -> dependency409583:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency409582:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph cond101315 {
+dependency409584 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>php</TD></TR></TABLE>>, shape=none, color=red];
+subgraph any6597 {
+dependency409585 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD CELLPADDING="10">any_of_group</TD></TR></TABLE>>, shape=none, color=red];subgraph pack301484 {
+dependency409586 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>php</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency409585:e -> dependency409586:w [weight=20,style="dotted",arrowhead="oinv"];
+subgraph pack301485 {
+dependency409587 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>httpd-php</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency409585:e -> dependency409587:w [weight=20,style="dotted",arrowhead="oinv"];
+}
+dependency409584:e -> dependency409585:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency409584:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice301482 {
+color=black;
+nodesep=1;
+choice1151211154510010111810110847103101116116101120116454846495746564649 [label="sys-devel/gettext-0.19.8.1", color=red, width=4,href="../sys-devel/gettext-0.19.8.1.svg"];
+dependency409581:e -> choice1151211154510010111810110847103101116116101120116454846495746564649:w [style=dotted,weight="100"];
+}
+subgraph choice301483 {
+color=black;
+nodesep=1;
+choice1181051141161179710847112971094548 [label="virtual/pam-0", color=red, width=4,href="../virtual/pam-0.svg"];
+choice11810511411611797108471129710945484511449 [label="virtual/pam-0-r1", color=red, width=4,href="../virtual/pam-0-r1.svg"];
+dependency409583:e -> choice1181051141161179710847112971094548:w [style=dotted,weight="100"];
+dependency409583:e -> choice11810511411611797108471129710945484511449:w [style=dotted,weight="100"];
+}
+subgraph choice301484 {
+color=black;
+nodesep=1;
+choice10010111845108971101034711210411245534654465149 [label="dev-lang/php-5.6.31", color=red, width=4,href="../dev-lang/php-5.6.31.svg"];
+choice10010111845108971101034711210411245534654465150 [label="dev-lang/php-5.6.32", color=red, width=4,href="../dev-lang/php-5.6.32.svg"];
+choice10010111845108971101034711210411245554648465051 [label="dev-lang/php-7.0.23", color=red, width=4,href="../dev-lang/php-7.0.23.svg"];
+choice10010111845108971101034711210411245554648465053 [label="dev-lang/php-7.0.25", color=red, width=4,href="../dev-lang/php-7.0.25.svg"];
+choice10010111845108971101034711210411245554649464949 [label="dev-lang/php-7.1.11", color=red, width=4,href="../dev-lang/php-7.1.11.svg"];
+choice100101118451089711010347112104112455546504648951149953 [label="dev-lang/php-7.2.0_rc5", color=red, width=4,href="../dev-lang/php-7.2.0_rc5.svg"];
+dependency409586:e -> choice10010111845108971101034711210411245534654465149:w [style=dotted,weight="100"];
+dependency409586:e -> choice10010111845108971101034711210411245534654465150:w [style=dotted,weight="100"];
+dependency409586:e -> choice10010111845108971101034711210411245554648465051:w [style=dotted,weight="100"];
+dependency409586:e -> choice10010111845108971101034711210411245554648465053:w [style=dotted,weight="100"];
+dependency409586:e -> choice10010111845108971101034711210411245554649464949:w [style=dotted,weight="100"];
+dependency409586:e -> choice100101118451089711010347112104112455546504648951149953:w [style=dotted,weight="100"];
+}
+subgraph choice301485 {
+color=black;
+nodesep=1;
+choice11810511411611797108471041161161121004511210411245534654 [label="virtual/httpd-php-5.6", color=red, width=4,href="../virtual/httpd-php-5.6.svg"];
+choice11810511411611797108471041161161121004511210411245554648 [label="virtual/httpd-php-7.0", color=red, width=4,href="../virtual/httpd-php-7.0.svg"];
+choice11810511411611797108471041161161121004511210411245554649 [label="virtual/httpd-php-7.1", color=red, width=4,href="../virtual/httpd-php-7.1.svg"];
+choice11810511411611797108471041161161121004511210411245554650 [label="virtual/httpd-php-7.2", color=red, width=4,href="../virtual/httpd-php-7.2.svg"];
+dependency409587:e -> choice11810511411611797108471041161161121004511210411245534654:w [style=dotted,weight="100"];
+dependency409587:e -> choice11810511411611797108471041161161121004511210411245554648:w [style=dotted,weight="100"];
+dependency409587:e -> choice11810511411611797108471041161161121004511210411245554649:w [style=dotted,weight="100"];
+dependency409587:e -> choice11810511411611797108471041161161121004511210411245554650:w [style=dotted,weight="100"];
+}
+}
+
+}

@@ -1,0 +1,88 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="net-dns/validns-0.8", color=red, width=4, href="../net-dns/validns-0.8.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond101104 {
+dependency408480 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>test</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack300637 {
+dependency408481 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-perl</TD></TR><TR><TD>Test-Command-Simple</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency408480:e -> dependency408481:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency408480:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack300638 {
+dependency408482 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>judy</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency408482:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice300637 {
+color=black;
+nodesep=1;
+choice100101118451121011141084784101115116456711110910997110100458310510911210810145484653484648 [label="dev-perl/Test-Command-Simple-0.50.0", color=red, width=4,href="../dev-perl/Test-Command-Simple-0.50.0.svg"];
+dependency408481:e -> choice100101118451121011141084784101115116456711110910997110100458310510911210810145484653484648:w [style=dotted,weight="100"];
+}
+subgraph choice300638 {
+color=black;
+nodesep=1;
+choice100101118451081059811547106117100121454946484652 [label="dev-libs/judy-1.0.4", color=red, width=4,href="../dev-libs/judy-1.0.4.svg"];
+choice100101118451081059811547106117100121454946484653 [label="dev-libs/judy-1.0.5", color=red, width=4,href="../dev-libs/judy-1.0.5.svg"];
+choice1001011184510810598115471061171001214549464846534511449 [label="dev-libs/judy-1.0.5-r1", color=red, width=4,href="../dev-libs/judy-1.0.5-r1.svg"];
+dependency408482:e -> choice100101118451081059811547106117100121454946484652:w [style=dotted,weight="100"];
+dependency408482:e -> choice100101118451081059811547106117100121454946484653:w [style=dotted,weight="100"];
+dependency408482:e -> choice1001011184510810598115471061171001214549464846534511449:w [style=dotted,weight="100"];
+}
+}
+
+}

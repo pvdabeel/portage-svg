@@ -1,0 +1,106 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="x11-wm/echinus-0.4.9", color=red, width=4, href="../x11-wm/echinus-0.4.9.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack397455 {
+dependency531562 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>pkgconfig</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency531562:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph cond123997 {
+dependency531563 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>xrandr</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack397456 {
+dependency531564 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>x11-libs</TD></TR><TR><TD>libXrandr</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency531563:e -> dependency531564:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency531563:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack397457 {
+dependency531565 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>x11-libs</TD></TR><TR><TD>libX11</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency531565:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack397458 {
+dependency531566 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>x11-libs</TD></TR><TR><TD>libXft</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency531566:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice397455 {
+color=black;
+nodesep=1;
+choice11810511411611797108471121071039911111010210510345484511449 [label="virtual/pkgconfig-0-r1", color=red, width=4,href="../virtual/pkgconfig-0-r1.svg"];
+dependency531562:e -> choice11810511411611797108471121071039911111010210510345484511449:w [style=dotted,weight="100"];
+}
+subgraph choice397456 {
+color=black;
+nodesep=1;
+choice1204949451081059811547108105988811497110100114454946534649 [label="x11-libs/libXrandr-1.5.1", color=red, width=4,href="../x11-libs/libXrandr-1.5.1.svg"];
+dependency531564:e -> choice1204949451081059811547108105988811497110100114454946534649:w [style=dotted,weight="100"];
+}
+subgraph choice397457 {
+color=black;
+nodesep=1;
+choice120494945108105981154710810598884949454946544653 [label="x11-libs/libX11-1.6.5", color=red, width=4,href="../x11-libs/libX11-1.6.5.svg"];
+dependency531565:e -> choice120494945108105981154710810598884949454946544653:w [style=dotted,weight="100"];
+}
+subgraph choice397458 {
+color=black;
+nodesep=1;
+choice120494945108105981154710810598881021164550465146494511449 [label="x11-libs/libXft-2.3.1-r1", color=red, width=4,href="../x11-libs/libXft-2.3.1-r1.svg"];
+choice12049494510810598115471081059888102116455046514650 [label="x11-libs/libXft-2.3.2", color=red, width=4,href="../x11-libs/libXft-2.3.2.svg"];
+dependency531566:e -> choice120494945108105981154710810598881021164550465146494511449:w [style=dotted,weight="100"];
+dependency531566:e -> choice12049494510810598115471081059888102116455046514650:w [style=dotted,weight="100"];
+}
+}
+
+}

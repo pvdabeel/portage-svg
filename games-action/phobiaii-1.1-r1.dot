@@ -1,0 +1,92 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="games-action/phobiaii-1.1-r1", color=red, width=4, href="../games-action/phobiaii-1.1-r1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack209201 {
+dependency293241 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>media-libs</TD></TR><TR><TD>libsdl</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency293241:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack209202 {
+dependency293242 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>media-libs</TD></TR><TR><TD>sdl-mixer</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency293242:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack209203 {
+dependency293243 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>lib-compat</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency293243:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice209201 {
+color=black;
+nodesep=1;
+choice1091011001059745108105981154710810598115100108454946504649534511457 [label="media-libs/libsdl-1.2.15-r9", color=red, width=4,href="../media-libs/libsdl-1.2.15-r9.svg"];
+dependency293241:e -> choice1091011001059745108105981154710810598115100108454946504649534511457:w [style=dotted,weight="100"];
+}
+subgraph choice209202 {
+color=black;
+nodesep=1;
+choice1091011001059745108105981154711510010845109105120101114454946504649504511452 [label="media-libs/sdl-mixer-1.2.12-r4", color=red, width=4,href="../media-libs/sdl-mixer-1.2.12-r4.svg"];
+dependency293242:e -> choice1091011001059745108105981154711510010845109105120101114454946504649504511452:w [style=dotted,weight="100"];
+}
+subgraph choice209203 {
+color=black;
+nodesep=1;
+choice115121115451081059811547108105984599111109112971164549465246504511449 [label="sys-libs/lib-compat-1.4.2-r1", color=red, width=4,href="../sys-libs/lib-compat-1.4.2-r1.svg"];
+choice1151211154510810598115471081059845991111091129711645494653 [label="sys-libs/lib-compat-1.5", color=red, width=4,href="../sys-libs/lib-compat-1.5.svg"];
+dependency293243:e -> choice115121115451081059811547108105984599111109112971164549465246504511449:w [style=dotted,weight="100"];
+dependency293243:e -> choice1151211154510810598115471081059845991111091129711645494653:w [style=dotted,weight="100"];
+}
+}
+
+}

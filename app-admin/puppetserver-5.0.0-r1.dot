@@ -1,0 +1,108 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="app-admin/puppetserver-5.0.0-r1", color=red, width=4, href="../app-admin/puppetserver-5.0.0-r1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack3528 {
+dependency4930 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>pkgconfig</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency4930:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond1305 {
+dependency4931 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>kernel_linux</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack3529 {
+dependency4932 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>tmpfiles</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency4931:e -> dependency4932:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency4931:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack3530 {
+dependency4933 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-admin</TD></TR><TR><TD>puppet-agent</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency4933:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack3531 {
+dependency4934 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>jdk</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.8.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency4934:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice3528 {
+color=black;
+nodesep=1;
+choice11810511411611797108471121071039911111010210510345484511449 [label="virtual/pkgconfig-0-r1", color=red, width=4,href="../virtual/pkgconfig-0-r1.svg"];
+dependency4930:e -> choice11810511411611797108471121071039911111010210510345484511449:w [style=dotted,weight="100"];
+}
+subgraph choice3529 {
+color=black;
+nodesep=1;
+choice11810511411611797108471161091121021051081011154548 [label="virtual/tmpfiles-0", color=red, width=4,href="../virtual/tmpfiles-0.svg"];
+dependency4932:e -> choice11810511411611797108471161091121021051081011154548:w [style=dotted,weight="100"];
+}
+subgraph choice3530 {
+color=black;
+nodesep=1;
+choice97112112459710010910511047112117112112101116459710310111011645494649484655 [label="app-admin/puppet-agent-1.10.7", color=red, width=4,href="../app-admin/puppet-agent-1.10.7.svg"];
+choice9711211245971001091051104711211711211210111645971031011101164553464946484511449 [label="app-admin/puppet-agent-5.1.0-r1", color=red, width=4,href="../app-admin/puppet-agent-5.1.0-r1.svg"];
+dependency4933:e -> choice97112112459710010910511047112117112112101116459710310111011645494649484655:w [style=dotted,weight="100"];
+dependency4933:e -> choice9711211245971001091051104711211711211210111645971031011101164553464946484511449:w [style=dotted,weight="100"];
+}
+subgraph choice3531 {
+color=black;
+nodesep=1;
+choice11810511411611797108471061001074549465546484511450 [label="virtual/jdk-1.7.0-r2", color=red, width=4,href="../virtual/jdk-1.7.0-r2.svg"];
+choice11810511411611797108471061001074549465646484511451 [label="virtual/jdk-1.8.0-r3", color=red, width=4,href="../virtual/jdk-1.8.0-r3.svg"];
+dependency4934:e -> choice11810511411611797108471061001074549465546484511450:w [style=dotted,weight="100"];
+dependency4934:e -> choice11810511411611797108471061001074549465646484511451:w [style=dotted,weight="100"];
+}
+}
+
+}

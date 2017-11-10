@@ -1,0 +1,82 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="sys-devel/heirloom-devtools-999999", color=red, width=4, href="../sys-devel/heirloom-devtools-999999.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack360013 {
+dependency484617 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-vcs</TD></TR><TR><TD>cvs</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency484617:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack360014 {
+dependency484618 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-shells</TD></TR><TR><TD>heirloom-sh</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency484618:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice360013 {
+color=black;
+nodesep=1;
+choice100101118451189911547991181154549464950464950451144949 [label="dev-vcs/cvs-1.12.12-r11", color=red, width=4,href="../dev-vcs/cvs-1.12.12-r11.svg"];
+choice100101118451189911547991181154549464950464950451144950 [label="dev-vcs/cvs-1.12.12-r12", color=red, width=4,href="../dev-vcs/cvs-1.12.12-r12.svg"];
+dependency484617:e -> choice100101118451189911547991181154549464950464950451144949:w [style=dotted,weight="100"];
+dependency484617:e -> choice100101118451189911547991181154549464950464950451144950:w [style=dotted,weight="100"];
+}
+subgraph choice360014 {
+color=black;
+nodesep=1;
+choice97112112451151041011081081154710410110511410811111110945115104454853485548544511449 [label="app-shells/heirloom-sh-050706-r1", color=red, width=4,href="../app-shells/heirloom-sh-050706-r1.svg"];
+dependency484618:e -> choice97112112451151041011081081154710410110511410811111110945115104454853485548544511449:w [style=dotted,weight="100"];
+}
+}
+
+}

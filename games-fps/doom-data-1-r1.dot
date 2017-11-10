@@ -1,0 +1,96 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="games-fps/doom-data-1-r1", color=red, width=4, href="../games-fps/doom-data-1-r1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph cond80298 {
+dependency298197 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>doomsday</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack213407 {
+dependency298198 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>games-fps</TD></TR><TR><TD>doomsday</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency298197:e -> dependency298198:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency298197:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack213408 {
+dependency298199 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>games-fps</TD></TR><TR><TD>freedoom</TD></TR><TR><TD>smallerequal</TD></TR><TR><TD>0.4.1</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency298199:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack213409 {
+dependency298200 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>games-misc</TD></TR><TR><TD>games-envd</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency298200:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice213407 {
+color=black;
+nodesep=1;
+choice1039710910111545102112115471001111111091151009712145494649534656 [label="games-fps/doomsday-1.15.8", color=red, width=4,href="../games-fps/doomsday-1.15.8.svg"];
+dependency298198:e -> choice1039710910111545102112115471001111111091151009712145494649534656:w [style=dotted,weight="100"];
+}
+subgraph choice213408 {
+color=black;
+nodesep=1;
+choice10397109101115451021121154710211410110110011111110945484649484649 [label="games-fps/freedoom-0.10.1", color=red, width=4,href="../games-fps/freedoom-0.10.1.svg"];
+choice10397109101115451021121154710211410110110011111110945484655 [label="games-fps/freedoom-0.7", color=red, width=4,href="../games-fps/freedoom-0.7.svg"];
+dependency298199:e -> choice10397109101115451021121154710211410110110011111110945484649484649:w [style=dotted,weight="100"];
+dependency298199:e -> choice10397109101115451021121154710211410110110011111110945484655:w [style=dotted,weight="100"];
+}
+subgraph choice213409 {
+color=black;
+nodesep=1;
+choice1039710910111545109105115994710397109101115451011101181004548 [label="games-misc/games-envd-0", color=red, width=4,href="../games-misc/games-envd-0.svg"];
+dependency298200:e -> choice1039710910111545109105115994710397109101115451011101181004548:w [style=dotted,weight="100"];
+}
+}
+
+}

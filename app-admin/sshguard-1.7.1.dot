@@ -1,0 +1,134 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="app-admin/sshguard-1.7.1", color=red, width=4, href="../app-admin/sshguard-1.7.1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack4796 {
+dependency6787 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-devel</TD></TR><TR><TD>flex</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency6787:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph cond1881 {
+dependency6788 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>kernel_FreeBSD</TD></TR></TABLE>>, shape=none, color=red];
+subgraph cond1882 {
+dependency6789 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>negative</TD></TR><TR><TD>ipfilter</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack4797 {
+dependency6790 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-freebsd</TD></TR><TR><TD>freebsd-pf</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency6789:e -> dependency6790:w [weight=20,style="dashed",arrowhead="vee"];
+}
+dependency6788:e -> dependency6789:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency6788:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph cond1883 {
+dependency6791 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>kernel_linux</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack4798 {
+dependency6792 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>net-firewall</TD></TR><TR><TD>iptables</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency6791:e -> dependency6792:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency6791:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack4799 {
+dependency6793 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>logger</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency6793:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice4796 {
+color=black;
+nodesep=1;
+choice1151211154510010111810110847102108101120455046544649 [label="sys-devel/flex-2.6.1", color=red, width=4,href="../sys-devel/flex-2.6.1.svg"];
+choice1151211154510010111810110847102108101120455046544651 [label="sys-devel/flex-2.6.3", color=red, width=4,href="../sys-devel/flex-2.6.3.svg"];
+choice11512111545100101118101108471021081011204550465446514511449 [label="sys-devel/flex-2.6.3-r1", color=red, width=4,href="../sys-devel/flex-2.6.3-r1.svg"];
+choice1151211154510010111810110847102108101120455046544652 [label="sys-devel/flex-2.6.4", color=red, width=4,href="../sys-devel/flex-2.6.4.svg"];
+choice11512111545100101118101108471021081011204550465446524511449 [label="sys-devel/flex-2.6.4-r1", color=red, width=4,href="../sys-devel/flex-2.6.4-r1.svg"];
+dependency6787:e -> choice1151211154510010111810110847102108101120455046544649:w [style=dotted,weight="100"];
+dependency6787:e -> choice1151211154510010111810110847102108101120455046544651:w [style=dotted,weight="100"];
+dependency6787:e -> choice11512111545100101118101108471021081011204550465446514511449:w [style=dotted,weight="100"];
+dependency6787:e -> choice1151211154510010111810110847102108101120455046544652:w [style=dotted,weight="100"];
+dependency6787:e -> choice11512111545100101118101108471021081011204550465446524511449:w [style=dotted,weight="100"];
+}
+subgraph choice4797 {
+color=black;
+nodesep=1;
+choice11512111545102114101101981151004710211410110198115100451121024549484651 [label="sys-freebsd/freebsd-pf-10.3", color=red, width=4,href="../sys-freebsd/freebsd-pf-10.3.svg"];
+choice11512111545102114101101981151004710211410110198115100451121024549494648 [label="sys-freebsd/freebsd-pf-11.0", color=red, width=4,href="../sys-freebsd/freebsd-pf-11.0.svg"];
+choice11512111545102114101101981151004710211410110198115100451121024549494649 [label="sys-freebsd/freebsd-pf-11.1", color=red, width=4,href="../sys-freebsd/freebsd-pf-11.1.svg"];
+choice115121115451021141011019811510047102114101101981151004511210245564650 [label="sys-freebsd/freebsd-pf-8.2", color=red, width=4,href="../sys-freebsd/freebsd-pf-8.2.svg"];
+choice115121115451021141011019811510047102114101101981151004511210245574649 [label="sys-freebsd/freebsd-pf-9.1", color=red, width=4,href="../sys-freebsd/freebsd-pf-9.1.svg"];
+dependency6790:e -> choice11512111545102114101101981151004710211410110198115100451121024549484651:w [style=dotted,weight="100"];
+dependency6790:e -> choice11512111545102114101101981151004710211410110198115100451121024549494648:w [style=dotted,weight="100"];
+dependency6790:e -> choice11512111545102114101101981151004710211410110198115100451121024549494649:w [style=dotted,weight="100"];
+dependency6790:e -> choice115121115451021141011019811510047102114101101981151004511210245564650:w [style=dotted,weight="100"];
+dependency6790:e -> choice115121115451021141011019811510047102114101101981151004511210245574649:w [style=dotted,weight="100"];
+}
+subgraph choice4798 {
+color=black;
+nodesep=1;
+choice1101011164510210511410111997108108471051121169798108101115454946524650494511449 [label="net-firewall/iptables-1.4.21-r1", color=red, width=4,href="../net-firewall/iptables-1.4.21-r1.svg"];
+choice1101011164510210511410111997108108471051121169798108101115454946524650494511452 [label="net-firewall/iptables-1.4.21-r4", color=red, width=4,href="../net-firewall/iptables-1.4.21-r4.svg"];
+choice11010111645102105114101119971081084710511211697981081011154549465446484511449 [label="net-firewall/iptables-1.6.0-r1", color=red, width=4,href="../net-firewall/iptables-1.6.0-r1.svg"];
+choice11010111645102105114101119971081084710511211697981081011154549465446494511450 [label="net-firewall/iptables-1.6.1-r2", color=red, width=4,href="../net-firewall/iptables-1.6.1-r2.svg"];
+dependency6792:e -> choice1101011164510210511410111997108108471051121169798108101115454946524650494511449:w [style=dotted,weight="100"];
+dependency6792:e -> choice1101011164510210511410111997108108471051121169798108101115454946524650494511452:w [style=dotted,weight="100"];
+dependency6792:e -> choice11010111645102105114101119971081084710511211697981081011154549465446484511449:w [style=dotted,weight="100"];
+dependency6792:e -> choice11010111645102105114101119971081084710511211697981081011154549465446494511450:w [style=dotted,weight="100"];
+}
+subgraph choice4799 {
+color=black;
+nodesep=1;
+choice11810511411611797108471081111031031011144548 [label="virtual/logger-0", color=red, width=4,href="../virtual/logger-0.svg"];
+dependency6793:e -> choice11810511411611797108471081111031031011144548:w [style=dotted,weight="100"];
+}
+}
+
+}

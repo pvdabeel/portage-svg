@@ -1,0 +1,133 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="app-emulation/qemu-guest-agent-2.5.0", color=red, width=4, href="../app-emulation/qemu-guest-agent-2.5.0.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph any452 {
+dependency24704 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD CELLPADDING="10">any_of_group</TD></TR></TABLE>>, shape=none, color=red];subgraph pack18101 {
+dependency24705 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>python</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2.7.5-r2</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency24704:e -> dependency24705:w [weight=20,style="dotted",arrowhead="oinv"];
+}
+id:e -> dependency24704:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack18102 {
+dependency24706 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>pkgconfig</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency24706:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack18103 {
+dependency24707 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>glib</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2.22</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency24707:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack18104 {
+dependency24708 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>app-emulation</TD></TR><TR><TD>qemu</TD></TR><TR><TD>smaller</TD></TR><TR><TD>1.1.1-r1</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency24708:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack18105 {
+dependency24709 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>sysvinit</TD></TR><TR><TD>smaller</TD></TR><TR><TD>2.88-r5</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency24709:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice18101 {
+color=black;
+nodesep=1;
+choice10010111845108971101034711212111610411111045504655464950 [label="dev-lang/python-2.7.12", color=red, width=4,href="../dev-lang/python-2.7.12.svg"];
+choice10010111845108971101034711212111610411111045504655464952 [label="dev-lang/python-2.7.14", color=red, width=4,href="../dev-lang/python-2.7.14.svg"];
+choice100101118451089711010347112121116104111110455146524653 [label="dev-lang/python-3.4.5", color=red, width=4,href="../dev-lang/python-3.4.5.svg"];
+choice100101118451089711010347112121116104111110455146524654 [label="dev-lang/python-3.4.6", color=red, width=4,href="../dev-lang/python-3.4.6.svg"];
+choice100101118451089711010347112121116104111110455146534652 [label="dev-lang/python-3.5.4", color=red, width=4,href="../dev-lang/python-3.5.4.svg"];
+choice100101118451089711010347112121116104111110455146544651 [label="dev-lang/python-3.6.3", color=red, width=4,href="../dev-lang/python-3.6.3.svg"];
+dependency24705:e -> choice10010111845108971101034711212111610411111045504655464950:w [style=dotted,weight="100"];
+dependency24705:e -> choice10010111845108971101034711212111610411111045504655464952:w [style=dotted,weight="100"];
+dependency24705:e -> choice100101118451089711010347112121116104111110455146524653:w [style=dotted,weight="100"];
+dependency24705:e -> choice100101118451089711010347112121116104111110455146524654:w [style=dotted,weight="100"];
+dependency24705:e -> choice100101118451089711010347112121116104111110455146534652:w [style=dotted,weight="100"];
+dependency24705:e -> choice100101118451089711010347112121116104111110455146544651:w [style=dotted,weight="100"];
+}
+subgraph choice18102 {
+color=black;
+nodesep=1;
+choice11810511411611797108471121071039911111010210510345484511449 [label="virtual/pkgconfig-0-r1", color=red, width=4,href="../virtual/pkgconfig-0-r1.svg"];
+dependency24706:e -> choice11810511411611797108471121071039911111010210510345484511449:w [style=dotted,weight="100"];
+}
+subgraph choice18103 {
+color=black;
+nodesep=1;
+choice10010111845108105981154710310810598455046534846514511449 [label="dev-libs/glib-2.50.3-r1", color=red, width=4,href="../dev-libs/glib-2.50.3-r1.svg"];
+choice1001011184510810598115471031081059845504653504651 [label="dev-libs/glib-2.52.3", color=red, width=4,href="../dev-libs/glib-2.52.3.svg"];
+dependency24707:e -> choice10010111845108105981154710310810598455046534846514511449:w [style=dotted,weight="100"];
+dependency24707:e -> choice1001011184510810598115471031081059845504653504651:w [style=dotted,weight="100"];
+}
+subgraph choice18104 {
+color=black;
+nodesep=1;
+choice9711211245101109117108971161051111104711310110911745504649484648 [label="app-emulation/qemu-2.10.0", color=red, width=4,href="../app-emulation/qemu-2.10.0.svg"];
+choice97112112451011091171089711610511111047113101109117455046494846484511449 [label="app-emulation/qemu-2.10.0-r1", color=red, width=4,href="../app-emulation/qemu-2.10.0-r1.svg"];
+choice97112112451011091171089711610511111047113101109117455046574648451145354 [label="app-emulation/qemu-2.9.0-r56", color=red, width=4,href="../app-emulation/qemu-2.9.0-r56.svg"];
+choice97112112451011091171089711610511111047113101109117455046574648451145355 [label="app-emulation/qemu-2.9.0-r57", color=red, width=4,href="../app-emulation/qemu-2.9.0-r57.svg"];
+choice971121124510110911710897116105111110471131011091174557575757 [label="app-emulation/qemu-9999", color=red, width=4,href="../app-emulation/qemu-9999.svg"];
+dependency24708:e -> choice9711211245101109117108971161051111104711310110911745504649484648:w [style=dotted,weight="100"];
+dependency24708:e -> choice97112112451011091171089711610511111047113101109117455046494846484511449:w [style=dotted,weight="100"];
+dependency24708:e -> choice97112112451011091171089711610511111047113101109117455046574648451145354:w [style=dotted,weight="100"];
+dependency24708:e -> choice97112112451011091171089711610511111047113101109117455046574648451145355:w [style=dotted,weight="100"];
+dependency24708:e -> choice971121124510110911710897116105111110471131011091174557575757:w [style=dotted,weight="100"];
+}
+subgraph choice18105 {
+color=black;
+nodesep=1;
+choice11512111545971121121154711512111511810511010511645504656564511457 [label="sys-apps/sysvinit-2.88-r9", color=red, width=4,href="../sys-apps/sysvinit-2.88-r9.svg"];
+dependency24709:e -> choice11512111545971121121154711512111511810511010511645504656564511457:w [style=dotted,weight="100"];
+}
+}
+
+}

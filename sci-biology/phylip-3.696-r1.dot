@@ -1,0 +1,82 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="sci-biology/phylip-3.696-r1", color=red, width=4, href="../sci-biology/phylip-3.696-r1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack327995 {
+dependency445088 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>x11-proto</TD></TR><TR><TD>xproto</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency445088:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack327996 {
+dependency445089 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>x11-libs</TD></TR><TR><TD>libXaw</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency445089:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice327995 {
+color=black;
+nodesep=1;
+choice1204949451121141111161114712011211411111611145554648465149 [label="x11-proto/xproto-7.0.31", color=red, width=4,href="../x11-proto/xproto-7.0.31.svg"];
+dependency445088:e -> choice1204949451121141111161114712011211411111611145554648465149:w [style=dotted,weight="100"];
+}
+subgraph choice327996 {
+color=black;
+nodesep=1;
+choice120494945108105981154710810598889711945494648464950 [label="x11-libs/libXaw-1.0.12", color=red, width=4,href="../x11-libs/libXaw-1.0.12.svg"];
+choice120494945108105981154710810598889711945494648464951 [label="x11-libs/libXaw-1.0.13", color=red, width=4,href="../x11-libs/libXaw-1.0.13.svg"];
+dependency445089:e -> choice120494945108105981154710810598889711945494648464950:w [style=dotted,weight="100"];
+dependency445089:e -> choice120494945108105981154710810598889711945494648464951:w [style=dotted,weight="100"];
+}
+}
+
+}

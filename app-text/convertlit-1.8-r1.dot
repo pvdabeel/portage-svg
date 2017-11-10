@@ -1,0 +1,92 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="app-text/convertlit-1.8-r1", color=red, width=4, href="../app-text/convertlit-1.8-r1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack40594 {
+dependency56072 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>unzip</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency56072:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack40595 {
+dependency56073 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libtommath</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>0.36-r1</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency56073:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack40596 {
+dependency56074 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>app-text</TD></TR><TR><TD>open_c-lit</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency56074:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice40594 {
+color=black;
+nodesep=1;
+choice971121124597114991044711711012210511245544648951125048 [label="app-arch/unzip-6.0_p20", color=red, width=4,href="../app-arch/unzip-6.0_p20.svg"];
+dependency56072:e -> choice971121124597114991044711711012210511245544648951125048:w [style=dotted,weight="100"];
+}
+subgraph choice40595 {
+color=black;
+nodesep=1;
+choice1001011184510810598115471081059811611110910997116104454846525046484511449 [label="dev-libs/libtommath-0.42.0-r1", color=red, width=4,href="../dev-libs/libtommath-0.42.0-r1.svg"];
+choice100101118451081059811547108105981161111091099711610445494648 [label="dev-libs/libtommath-1.0", color=red, width=4,href="../dev-libs/libtommath-1.0.svg"];
+choice1001011184510810598115471081059811611110910997116104454946484511449 [label="dev-libs/libtommath-1.0-r1", color=red, width=4,href="../dev-libs/libtommath-1.0-r1.svg"];
+dependency56073:e -> choice1001011184510810598115471081059811611110910997116104454846525046484511449:w [style=dotted,weight="100"];
+dependency56073:e -> choice100101118451081059811547108105981161111091099711610445494648:w [style=dotted,weight="100"];
+dependency56073:e -> choice1001011184510810598115471081059811611110910997116104454946484511449:w [style=dotted,weight="100"];
+}
+subgraph choice40596 {
+color=black;
+nodesep=1;
+}
+}
+
+}

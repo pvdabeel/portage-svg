@@ -1,0 +1,144 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="net-nds/rpcbind-0.2.3-r2", color=red, width=4, href="../net-nds/rpcbind-0.2.3-r2.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack318492 {
+dependency432990 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>pkgconfig</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency432990:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph cond107052 {
+dependency432991 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>systemd</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack318493 {
+dependency432992 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>systemd</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency432991:e -> dependency432992:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency432991:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph cond107053 {
+dependency432993 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>tcpd</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack318494 {
+dependency432994 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>tcp-wrappers</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency432993:e -> dependency432994:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency432993:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack318495 {
+dependency432995 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>net-libs</TD></TR><TR><TD>libtirpc</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>0.2.3</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency432995:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond107054 {
+dependency432996 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>selinux</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack318496 {
+dependency432997 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sec-policy</TD></TR><TR><TD>selinux-rpcbind</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency432996:e -> dependency432997:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency432996:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice318492 {
+color=black;
+nodesep=1;
+choice11810511411611797108471121071039911111010210510345484511449 [label="virtual/pkgconfig-0-r1", color=red, width=4,href="../virtual/pkgconfig-0-r1.svg"];
+dependency432990:e -> choice11810511411611797108471121071039911111010210510345484511449:w [style=dotted,weight="100"];
+}
+subgraph choice318493 {
+color=black;
+nodesep=1;
+choice115121115459711211211547115121115116101109100455051514511452 [label="sys-apps/systemd-233-r4", color=red, width=4,href="../sys-apps/systemd-233-r4.svg"];
+choice115121115459711211211547115121115116101109100455051514511453 [label="sys-apps/systemd-233-r5", color=red, width=4,href="../sys-apps/systemd-233-r5.svg"];
+choice115121115459711211211547115121115116101109100455051514511454 [label="sys-apps/systemd-233-r6", color=red, width=4,href="../sys-apps/systemd-233-r6.svg"];
+choice115121115459711211211547115121115116101109100455051534511449 [label="sys-apps/systemd-235-r1", color=red, width=4,href="../sys-apps/systemd-235-r1.svg"];
+choice1151211154597112112115471151211151161011091004557575757 [label="sys-apps/systemd-9999", color=red, width=4,href="../sys-apps/systemd-9999.svg"];
+dependency432992:e -> choice115121115459711211211547115121115116101109100455051514511452:w [style=dotted,weight="100"];
+dependency432992:e -> choice115121115459711211211547115121115116101109100455051514511453:w [style=dotted,weight="100"];
+dependency432992:e -> choice115121115459711211211547115121115116101109100455051514511454:w [style=dotted,weight="100"];
+dependency432992:e -> choice115121115459711211211547115121115116101109100455051534511449:w [style=dotted,weight="100"];
+dependency432992:e -> choice1151211154597112112115471151211151161011091004557575757:w [style=dotted,weight="100"];
+}
+subgraph choice318494 {
+color=black;
+nodesep=1;
+choice115121115459711211211547116991124511911497112112101114115455546544650504511449 [label="sys-apps/tcp-wrappers-7.6.22-r1", color=red, width=4,href="../sys-apps/tcp-wrappers-7.6.22-r1.svg"];
+dependency432994:e -> choice115121115459711211211547116991124511911497112112101114115455546544650504511449:w [style=dotted,weight="100"];
+}
+subgraph choice318495 {
+color=black;
+nodesep=1;
+choice11010111645108105981154710810598116105114112994549464846494511449 [label="net-libs/libtirpc-1.0.1-r1", color=red, width=4,href="../net-libs/libtirpc-1.0.1-r1.svg"];
+choice11010111645108105981154710810598116105114112994549464846504511449 [label="net-libs/libtirpc-1.0.2-r1", color=red, width=4,href="../net-libs/libtirpc-1.0.2-r1.svg"];
+dependency432995:e -> choice11010111645108105981154710810598116105114112994549464846494511449:w [style=dotted,weight="100"];
+dependency432995:e -> choice11010111645108105981154710810598116105114112994549464846504511449:w [style=dotted,weight="100"];
+}
+subgraph choice318496 {
+color=black;
+nodesep=1;
+choice1151019945112111108105991214711510110810511011712045114112999810511010045504650484955485048524511449 [label="sec-policy/selinux-rpcbind-2.20170204-r1", color=red, width=4,href="../sec-policy/selinux-rpcbind-2.20170204-r1.svg"];
+choice1151019945112111108105991214711510110810511011712045114112999810511010045504650484955485048524511450 [label="sec-policy/selinux-rpcbind-2.20170204-r2", color=red, width=4,href="../sec-policy/selinux-rpcbind-2.20170204-r2.svg"];
+choice1151019945112111108105991214711510110810511011712045114112999810511010045504650484955485048524511451 [label="sec-policy/selinux-rpcbind-2.20170204-r3", color=red, width=4,href="../sec-policy/selinux-rpcbind-2.20170204-r3.svg"];
+choice1151019945112111108105991214711510110810511011712045114112999810511010045504650484955485048524511452 [label="sec-policy/selinux-rpcbind-2.20170204-r4", color=red, width=4,href="../sec-policy/selinux-rpcbind-2.20170204-r4.svg"];
+choice1151019945112111108105991214711510110810511011712045114112999810511010045504650484955485648534511450 [label="sec-policy/selinux-rpcbind-2.20170805-r2", color=red, width=4,href="../sec-policy/selinux-rpcbind-2.20170805-r2.svg"];
+choice1151019945112111108105991214711510110810511011712045114112999810511010045504650484955485648534511451 [label="sec-policy/selinux-rpcbind-2.20170805-r3", color=red, width=4,href="../sec-policy/selinux-rpcbind-2.20170805-r3.svg"];
+choice115101994511211110810599121471151011081051101171204511411299981051101004557575757 [label="sec-policy/selinux-rpcbind-9999", color=red, width=4,href="../sec-policy/selinux-rpcbind-9999.svg"];
+dependency432997:e -> choice1151019945112111108105991214711510110810511011712045114112999810511010045504650484955485048524511449:w [style=dotted,weight="100"];
+dependency432997:e -> choice1151019945112111108105991214711510110810511011712045114112999810511010045504650484955485048524511450:w [style=dotted,weight="100"];
+dependency432997:e -> choice1151019945112111108105991214711510110810511011712045114112999810511010045504650484955485048524511451:w [style=dotted,weight="100"];
+dependency432997:e -> choice1151019945112111108105991214711510110810511011712045114112999810511010045504650484955485048524511452:w [style=dotted,weight="100"];
+dependency432997:e -> choice1151019945112111108105991214711510110810511011712045114112999810511010045504650484955485648534511450:w [style=dotted,weight="100"];
+dependency432997:e -> choice1151019945112111108105991214711510110810511011712045114112999810511010045504650484955485648534511451:w [style=dotted,weight="100"];
+dependency432997:e -> choice115101994511211110810599121471151011081051101171204511411299981051101004557575757:w [style=dotted,weight="100"];
+}
+}
+
+}

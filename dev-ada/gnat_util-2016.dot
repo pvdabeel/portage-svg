@@ -1,0 +1,104 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="dev-ada/gnat_util-2016", color=red, width=4, href="../dev-ada/gnat_util-2016.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack47906 {
+dependency65086 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-ada</TD></TR><TR><TD>gprbuild</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency65086:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph cond15740 {
+dependency65087 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>gnat_2016</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack47907 {
+dependency65088 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>gnat-gpl</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency65087:e -> dependency65088:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency65087:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph cond15741 {
+dependency65089 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>gnat_2017</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack47908 {
+dependency65090 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>gnat-gpl</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency65089:e -> dependency65090:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency65089:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice47906 {
+color=black;
+nodesep=1;
+choice10010111845971009747103112114981171051081004550484954 [label="dev-ada/gprbuild-2016", color=red, width=4,href="../dev-ada/gprbuild-2016.svg"];
+choice10010111845971009747103112114981171051081004550484955 [label="dev-ada/gprbuild-2017", color=red, width=4,href="../dev-ada/gprbuild-2017.svg"];
+dependency65086:e -> choice10010111845971009747103112114981171051081004550484954:w [style=dotted,weight="100"];
+dependency65086:e -> choice10010111845971009747103112114981171051081004550484955:w [style=dotted,weight="100"];
+}
+subgraph choice47907 {
+color=black;
+nodesep=1;
+choice10010111845108971101034710311097116451031121084550484954 [label="dev-lang/gnat-gpl-2016", color=red, width=4,href="../dev-lang/gnat-gpl-2016.svg"];
+choice10010111845108971101034710311097116451031121084550484955 [label="dev-lang/gnat-gpl-2017", color=red, width=4,href="../dev-lang/gnat-gpl-2017.svg"];
+dependency65088:e -> choice10010111845108971101034710311097116451031121084550484954:w [style=dotted,weight="100"];
+dependency65088:e -> choice10010111845108971101034710311097116451031121084550484955:w [style=dotted,weight="100"];
+}
+subgraph choice47908 {
+color=black;
+nodesep=1;
+choice10010111845108971101034710311097116451031121084550484954 [label="dev-lang/gnat-gpl-2016", color=red, width=4,href="../dev-lang/gnat-gpl-2016.svg"];
+choice10010111845108971101034710311097116451031121084550484955 [label="dev-lang/gnat-gpl-2017", color=red, width=4,href="../dev-lang/gnat-gpl-2017.svg"];
+dependency65090:e -> choice10010111845108971101034710311097116451031121084550484954:w [style=dotted,weight="100"];
+dependency65090:e -> choice10010111845108971101034710311097116451031121084550484955:w [style=dotted,weight="100"];
+}
+}
+
+}

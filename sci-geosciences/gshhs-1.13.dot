@@ -1,0 +1,120 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="sci-geosciences/gshhs-1.13", color=red, width=4, href="../sci-geosciences/gshhs-1.13.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack330968 {
+dependency448742 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>unzip</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency448742:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack330969 {
+dependency448743 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>pkgconfig</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency448743:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph cond109957 {
+dependency448744 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>data</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack330970 {
+dependency448745 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sci-geosciences</TD></TR><TR><TD>gshhs-data</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency448744:e -> dependency448745:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency448744:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack330971 {
+dependency448746 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sci-libs</TD></TR><TR><TD>gdal</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency448746:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack330972 {
+dependency448747 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sci-libs</TD></TR><TR><TD>netcdf</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency448747:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice330968 {
+color=black;
+nodesep=1;
+choice971121124597114991044711711012210511245544648951125048 [label="app-arch/unzip-6.0_p20", color=red, width=4,href="../app-arch/unzip-6.0_p20.svg"];
+dependency448742:e -> choice971121124597114991044711711012210511245544648951125048:w [style=dotted,weight="100"];
+}
+subgraph choice330969 {
+color=black;
+nodesep=1;
+choice11810511411611797108471121071039911111010210510345484511449 [label="virtual/pkgconfig-0-r1", color=red, width=4,href="../virtual/pkgconfig-0-r1.svg"];
+dependency448743:e -> choice11810511411611797108471121071039911111010210510345484511449:w [style=dotted,weight="100"];
+}
+subgraph choice330970 {
+color=black;
+nodesep=1;
+choice1159910545103101111115991051011109910111547103115104104115451009711697455046504648 [label="sci-geosciences/gshhs-data-2.2.0", color=red, width=4,href="../sci-geosciences/gshhs-data-2.2.0.svg"];
+dependency448745:e -> choice1159910545103101111115991051011109910111547103115104104115451009711697455046504648:w [style=dotted,weight="100"];
+}
+subgraph choice330971 {
+color=black;
+nodesep=1;
+choice11599105451081059811547103100971084550464846504511451 [label="sci-libs/gdal-2.0.2-r3", color=red, width=4,href="../sci-libs/gdal-2.0.2-r3.svg"];
+choice1159910545108105981154710310097108455046484651 [label="sci-libs/gdal-2.0.3", color=red, width=4,href="../sci-libs/gdal-2.0.3.svg"];
+dependency448746:e -> choice11599105451081059811547103100971084550464846504511451:w [style=dotted,weight="100"];
+dependency448746:e -> choice1159910545108105981154710310097108455046484651:w [style=dotted,weight="100"];
+}
+subgraph choice330972 {
+color=black;
+nodesep=1;
+choice11599105451081059811547110101116991001024552465146504511449 [label="sci-libs/netcdf-4.3.2-r1", color=red, width=4,href="../sci-libs/netcdf-4.3.2-r1.svg"];
+choice11599105451081059811547110101116991001024552465246484511449 [label="sci-libs/netcdf-4.4.0-r1", color=red, width=4,href="../sci-libs/netcdf-4.4.0-r1.svg"];
+choice11599105451081059811547110101116991001024552465246494649 [label="sci-libs/netcdf-4.4.1.1", color=red, width=4,href="../sci-libs/netcdf-4.4.1.1.svg"];
+dependency448747:e -> choice11599105451081059811547110101116991001024552465146504511449:w [style=dotted,weight="100"];
+dependency448747:e -> choice11599105451081059811547110101116991001024552465246484511449:w [style=dotted,weight="100"];
+dependency448747:e -> choice11599105451081059811547110101116991001024552465246494649:w [style=dotted,weight="100"];
+}
+}
+
+}

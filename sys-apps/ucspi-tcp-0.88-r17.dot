@@ -1,0 +1,108 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="sys-apps/ucspi-tcp-0.88-r17", color=red, width=4, href="../sys-apps/ucspi-tcp-0.88-r17.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack351116 {
+dependency473460 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>sed</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>4</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency473460:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond114150 {
+dependency473461 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>selinux</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack351117 {
+dependency473462 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sec-policy</TD></TR><TR><TD>selinux-ucspitcp</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency473461:e -> dependency473462:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency473461:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack351118 {
+dependency473463 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>app-doc</TD></TR><TR><TD>ucspi-tcp-man</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency473463:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice351116 {
+color=black;
+nodesep=1;
+choice115121115459711211211547115101100455246504650 [label="sys-apps/sed-4.2.2", color=red, width=4,href="../sys-apps/sed-4.2.2.svg"];
+choice115121115459711211211547115101100455246514511449 [label="sys-apps/sed-4.3-r1", color=red, width=4,href="../sys-apps/sed-4.3-r1.svg"];
+choice11512111545971121121154711510110045524652 [label="sys-apps/sed-4.4", color=red, width=4,href="../sys-apps/sed-4.4.svg"];
+dependency473460:e -> choice115121115459711211211547115101100455246504650:w [style=dotted,weight="100"];
+dependency473460:e -> choice115121115459711211211547115101100455246514511449:w [style=dotted,weight="100"];
+dependency473460:e -> choice11512111545971121121154711510110045524652:w [style=dotted,weight="100"];
+}
+subgraph choice351117 {
+color=black;
+nodesep=1;
+choice1151019945112111108105991214711510110810511011712045117991151121051169911245504650484955485048524511449 [label="sec-policy/selinux-ucspitcp-2.20170204-r1", color=red, width=4,href="../sec-policy/selinux-ucspitcp-2.20170204-r1.svg"];
+choice1151019945112111108105991214711510110810511011712045117991151121051169911245504650484955485048524511450 [label="sec-policy/selinux-ucspitcp-2.20170204-r2", color=red, width=4,href="../sec-policy/selinux-ucspitcp-2.20170204-r2.svg"];
+choice1151019945112111108105991214711510110810511011712045117991151121051169911245504650484955485048524511451 [label="sec-policy/selinux-ucspitcp-2.20170204-r3", color=red, width=4,href="../sec-policy/selinux-ucspitcp-2.20170204-r3.svg"];
+choice1151019945112111108105991214711510110810511011712045117991151121051169911245504650484955485048524511452 [label="sec-policy/selinux-ucspitcp-2.20170204-r4", color=red, width=4,href="../sec-policy/selinux-ucspitcp-2.20170204-r4.svg"];
+choice1151019945112111108105991214711510110810511011712045117991151121051169911245504650484955485648534511450 [label="sec-policy/selinux-ucspitcp-2.20170805-r2", color=red, width=4,href="../sec-policy/selinux-ucspitcp-2.20170805-r2.svg"];
+choice1151019945112111108105991214711510110810511011712045117991151121051169911245504650484955485648534511451 [label="sec-policy/selinux-ucspitcp-2.20170805-r3", color=red, width=4,href="../sec-policy/selinux-ucspitcp-2.20170805-r3.svg"];
+choice115101994511211110810599121471151011081051101171204511799115112105116991124557575757 [label="sec-policy/selinux-ucspitcp-9999", color=red, width=4,href="../sec-policy/selinux-ucspitcp-9999.svg"];
+dependency473462:e -> choice1151019945112111108105991214711510110810511011712045117991151121051169911245504650484955485048524511449:w [style=dotted,weight="100"];
+dependency473462:e -> choice1151019945112111108105991214711510110810511011712045117991151121051169911245504650484955485048524511450:w [style=dotted,weight="100"];
+dependency473462:e -> choice1151019945112111108105991214711510110810511011712045117991151121051169911245504650484955485048524511451:w [style=dotted,weight="100"];
+dependency473462:e -> choice1151019945112111108105991214711510110810511011712045117991151121051169911245504650484955485048524511452:w [style=dotted,weight="100"];
+dependency473462:e -> choice1151019945112111108105991214711510110810511011712045117991151121051169911245504650484955485648534511450:w [style=dotted,weight="100"];
+dependency473462:e -> choice1151019945112111108105991214711510110810511011712045117991151121051169911245504650484955485648534511451:w [style=dotted,weight="100"];
+dependency473462:e -> choice115101994511211110810599121471151011081051101171204511799115112105116991124557575757:w [style=dotted,weight="100"];
+}
+subgraph choice351118 {
+color=black;
+nodesep=1;
+}
+}
+
+}

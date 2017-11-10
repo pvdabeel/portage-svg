@@ -1,0 +1,92 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="media-gfx/iscan-plugin-gt-x770-2.1.2.1-r3", color=red, width=4, href="../media-gfx/iscan-plugin-gt-x770-2.1.2.1-r3.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack262134 {
+dependency355555 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>rpm2targz</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>9.0.0.3g</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency355555:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack262135 {
+dependency355556 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>media-gfx</TD></TR><TR><TD>iscan</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2.21.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency355556:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack262136 {
+dependency355557 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">strong</TD></TR><TR><TD>media-gfx</TD></TR><TR><TD>iscan-plugin-gt-x770</TD></TR><TR><TD>smaller</TD></TR><TR><TD>2.1.2.1-r2</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency355557:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice262134 {
+color=black;
+nodesep=1;
+choice971121124597114991044711411210950116971141031224557464846484653103 [label="app-arch/rpm2targz-9.0.0.5g", color=red, width=4,href="../app-arch/rpm2targz-9.0.0.5g.svg"];
+dependency355555:e -> choice971121124597114991044711411210950116971141031224557464846484653103:w [style=dotted,weight="100"];
+}
+subgraph choice262135 {
+color=black;
+nodesep=1;
+choice1091011001059745103102120471051159997110455046514846494649 [label="media-gfx/iscan-2.30.1.1", color=red, width=4,href="../media-gfx/iscan-2.30.1.1.svg"];
+choice1091011001059745103102120471051159997110455046514846504650 [label="media-gfx/iscan-2.30.2.2", color=red, width=4,href="../media-gfx/iscan-2.30.2.2.svg"];
+dependency355556:e -> choice1091011001059745103102120471051159997110455046514846494649:w [style=dotted,weight="100"];
+dependency355556:e -> choice1091011001059745103102120471051159997110455046514846504650:w [style=dotted,weight="100"];
+}
+subgraph choice262136 {
+color=black;
+nodesep=1;
+choice109101100105974510310212047105115999711045112108117103105110451031164512055554845504649465046494511451 [label="media-gfx/iscan-plugin-gt-x770-2.1.2.1-r3", color=red, width=4,href="../media-gfx/iscan-plugin-gt-x770-2.1.2.1-r3.svg"];
+dependency355557:e -> choice109101100105974510310212047105115999711045112108117103105110451031164512055554845504649465046494511451:w [style=dotted,weight="100"];
+}
+}
+
+}
