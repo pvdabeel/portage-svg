@@ -1,0 +1,72 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="x11-themes/xfwm4-themes-4.10.0-r1", color=red, width=4, href="../x11-themes/xfwm4-themes-4.10.0-r1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack6419 {
+dependency8235 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>xfce-base</TD></TR><TR><TD>xfwm4</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>4.10</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency8235:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice6419 {
+color=black;
+nodesep=1;
+choice12010299101459897115101471201021191095245524649504652 [label="xfce-base/xfwm4-4.12.4", color=red, width=4,href="../xfce-base/xfwm4-4.12.4.svg"];
+choice120102991014598971151014712010211910952455246495146484511449 [label="xfce-base/xfwm4-4.13.0-r1", color=red, width=4,href="../xfce-base/xfwm4-4.13.0-r1.svg"];
+dependency8235:e -> choice12010299101459897115101471201021191095245524649504652:w [style=dotted,weight="100"];
+dependency8235:e -> choice120102991014598971151014712010211910952455246495146484511449:w [style=dotted,weight="100"];
+}
+}
+
+}
