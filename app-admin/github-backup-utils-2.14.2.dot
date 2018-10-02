@@ -1,0 +1,143 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="app-admin/github-backup-utils-2.14.2", color=red, width=4, href="../app-admin/github-backup-utils-2.14.2.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond363 {
+dependency1771 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>test</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack1366 {
+dependency1772 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-util</TD></TR><TR><TD>checkbashisms</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency1771:e -> dependency1772:w [weight=20,style="dashed",arrowhead="vee"];
+subgraph pack1367 {
+dependency1773 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>moreutils</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency1771:e -> dependency1773:w [weight=20,style="dashed",arrowhead="vee"];
+subgraph any44 {
+dependency1774 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD CELLPADDING="10">any_of_group</TD></TR></TABLE>>, shape=none, color=red];subgraph pack1368 {
+dependency1775 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>python</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2.7.5-r2</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency1774:e -> dependency1775:w [weight=20,style="dotted",arrowhead="oinv"];
+}
+dependency1771:e -> dependency1774:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency1771:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack1369 {
+dependency1776 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>net-misc</TD></TR><TR><TD>rsync</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1776:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice1366 {
+color=black;
+nodesep=1;
+choice10010111845117116105108479910410199107989711510410511510911545504649564650 [label="dev-util/checkbashisms-2.18.2", color=red, width=4,href="../dev-util/checkbashisms-2.18.2.svg"];
+choice10010111845117116105108479910410199107989711510410511510911545504649564651 [label="dev-util/checkbashisms-2.18.3", color=red, width=4,href="../dev-util/checkbashisms-2.18.3.svg"];
+choice10010111845117116105108479910410199107989711510410511510911545504649564652 [label="dev-util/checkbashisms-2.18.4", color=red, width=4,href="../dev-util/checkbashisms-2.18.4.svg"];
+dependency1772:e -> choice10010111845117116105108479910410199107989711510410511510911545504649564650:w [style=dotted,weight="100"];
+dependency1772:e -> choice10010111845117116105108479910410199107989711510410511510911545504649564651:w [style=dotted,weight="100"];
+dependency1772:e -> choice10010111845117116105108479910410199107989711510410511510911545504649564652:w [style=dotted,weight="100"];
+}
+subgraph choice1367 {
+color=black;
+nodesep=1;
+choice1151211154597112112115471091111141011171161051081154548465449 [label="sys-apps/moreutils-0.61", color=red, width=4,href="../sys-apps/moreutils-0.61.svg"];
+choice1151211154597112112115471091111141011171161051081154548465450 [label="sys-apps/moreutils-0.62", color=red, width=4,href="../sys-apps/moreutils-0.62.svg"];
+dependency1773:e -> choice1151211154597112112115471091111141011171161051081154548465449:w [style=dotted,weight="100"];
+dependency1773:e -> choice1151211154597112112115471091111141011171161051081154548465450:w [style=dotted,weight="100"];
+}
+subgraph choice1368 {
+color=black;
+nodesep=1;
+choice100101118451089711010347112121116104111110455046554649524511449 [label="dev-lang/python-2.7.14-r1", color=red, width=4,href="../dev-lang/python-2.7.14-r1.svg"];
+choice100101118451089711010347112121116104111110455046554649524511450 [label="dev-lang/python-2.7.14-r2", color=red, width=4,href="../dev-lang/python-2.7.14-r2.svg"];
+choice10010111845108971101034711212111610411111045504655464953 [label="dev-lang/python-2.7.15", color=red, width=4,href="../dev-lang/python-2.7.15.svg"];
+choice1001011184510897110103471121211161041111104551465246534511449 [label="dev-lang/python-3.4.5-r1", color=red, width=4,href="../dev-lang/python-3.4.5-r1.svg"];
+choice1001011184510897110103471121211161041111104551465246544511449 [label="dev-lang/python-3.4.6-r1", color=red, width=4,href="../dev-lang/python-3.4.6-r1.svg"];
+choice100101118451089711010347112121116104111110455146524656 [label="dev-lang/python-3.4.8", color=red, width=4,href="../dev-lang/python-3.4.8.svg"];
+choice1001011184510897110103471121211161041111104551465246564511449 [label="dev-lang/python-3.4.8-r1", color=red, width=4,href="../dev-lang/python-3.4.8-r1.svg"];
+choice1001011184510897110103471121211161041111104551465346524511449 [label="dev-lang/python-3.5.4-r1", color=red, width=4,href="../dev-lang/python-3.5.4-r1.svg"];
+choice100101118451089711010347112121116104111110455146534653 [label="dev-lang/python-3.5.5", color=red, width=4,href="../dev-lang/python-3.5.5.svg"];
+choice1001011184510897110103471121211161041111104551465346534511449 [label="dev-lang/python-3.5.5-r1", color=red, width=4,href="../dev-lang/python-3.5.5-r1.svg"];
+choice1001011184510897110103471121211161041111104551465446514511449 [label="dev-lang/python-3.6.3-r1", color=red, width=4,href="../dev-lang/python-3.6.3-r1.svg"];
+choice100101118451089711010347112121116104111110455146544652 [label="dev-lang/python-3.6.4", color=red, width=4,href="../dev-lang/python-3.6.4.svg"];
+choice100101118451089711010347112121116104111110455146544653 [label="dev-lang/python-3.6.5", color=red, width=4,href="../dev-lang/python-3.6.5.svg"];
+choice1001011184510897110103471121211161041111104551465446534511449 [label="dev-lang/python-3.6.5-r1", color=red, width=4,href="../dev-lang/python-3.6.5-r1.svg"];
+choice100101118451089711010347112121116104111110455146544654 [label="dev-lang/python-3.6.6", color=red, width=4,href="../dev-lang/python-3.6.6.svg"];
+choice100101118451089711010347112121116104111110455146554648 [label="dev-lang/python-3.7.0", color=red, width=4,href="../dev-lang/python-3.7.0.svg"];
+dependency1775:e -> choice100101118451089711010347112121116104111110455046554649524511449:w [style=dotted,weight="100"];
+dependency1775:e -> choice100101118451089711010347112121116104111110455046554649524511450:w [style=dotted,weight="100"];
+dependency1775:e -> choice10010111845108971101034711212111610411111045504655464953:w [style=dotted,weight="100"];
+dependency1775:e -> choice1001011184510897110103471121211161041111104551465246534511449:w [style=dotted,weight="100"];
+dependency1775:e -> choice1001011184510897110103471121211161041111104551465246544511449:w [style=dotted,weight="100"];
+dependency1775:e -> choice100101118451089711010347112121116104111110455146524656:w [style=dotted,weight="100"];
+dependency1775:e -> choice1001011184510897110103471121211161041111104551465246564511449:w [style=dotted,weight="100"];
+dependency1775:e -> choice1001011184510897110103471121211161041111104551465346524511449:w [style=dotted,weight="100"];
+dependency1775:e -> choice100101118451089711010347112121116104111110455146534653:w [style=dotted,weight="100"];
+dependency1775:e -> choice1001011184510897110103471121211161041111104551465346534511449:w [style=dotted,weight="100"];
+dependency1775:e -> choice1001011184510897110103471121211161041111104551465446514511449:w [style=dotted,weight="100"];
+dependency1775:e -> choice100101118451089711010347112121116104111110455146544652:w [style=dotted,weight="100"];
+dependency1775:e -> choice100101118451089711010347112121116104111110455146544653:w [style=dotted,weight="100"];
+dependency1775:e -> choice1001011184510897110103471121211161041111104551465446534511449:w [style=dotted,weight="100"];
+dependency1775:e -> choice100101118451089711010347112121116104111110455146544654:w [style=dotted,weight="100"];
+dependency1775:e -> choice100101118451089711010347112121116104111110455146554648:w [style=dotted,weight="100"];
+}
+subgraph choice1369 {
+color=black;
+nodesep=1;
+choice11010111645109105115994711411512111099455146494651 [label="net-misc/rsync-3.1.3", color=red, width=4,href="../net-misc/rsync-3.1.3.svg"];
+dependency1776:e -> choice11010111645109105115994711411512111099455146494651:w [style=dotted,weight="100"];
+}
+}
+
+}
