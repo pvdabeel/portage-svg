@@ -1,0 +1,118 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="net-libs/libsrtp-1.6.0-r1", color=red, width=4, href="../net-libs/libsrtp-1.6.0-r1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph cond800 {
+dependency4546 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>openssl</TD></TR></TABLE>>, shape=none, color=red];
+subgraph cond801 {
+dependency4547 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>negative</TD></TR><TR><TD>libressl</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack3617 {
+dependency4548 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>openssl</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency4547:e -> dependency4548:w [weight=20,style="dashed",arrowhead="vee"];
+}
+dependency4546:e -> dependency4547:w [weight=20,style="dashed",arrowhead="vee"];
+subgraph cond802 {
+dependency4549 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>libressl</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack3618 {
+dependency4550 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libressl</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency4549:e -> dependency4550:w [weight=20,style="dashed",arrowhead="vee"];
+}
+dependency4546:e -> dependency4549:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency4546:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice3617 {
+color=black;
+nodesep=1;
+choice10010111845108105981154711111210111011511510845484657465612295112564511449 [label="dev-libs/openssl-0.9.8z_p8-r1", color=red, width=4,href="../dev-libs/openssl-0.9.8z_p8-r1.svg"];
+choice1001011184510810598115471111121011101151151084549464846501124511449 [label="dev-libs/openssl-1.0.2p-r1", color=red, width=4,href="../dev-libs/openssl-1.0.2p-r1.svg"];
+choice100101118451081059811547111112101110115115108454946484650113 [label="dev-libs/openssl-1.0.2q", color=red, width=4,href="../dev-libs/openssl-1.0.2q.svg"];
+choice100101118451081059811547111112101110115115108454946494648106 [label="dev-libs/openssl-1.1.0j", color=red, width=4,href="../dev-libs/openssl-1.1.0j.svg"];
+choice10010111845108105981154711111210111011511510845494649464997 [label="dev-libs/openssl-1.1.1a", color=red, width=4,href="../dev-libs/openssl-1.1.1a.svg"];
+dependency4548:e -> choice10010111845108105981154711111210111011511510845484657465612295112564511449:w [style=dotted,weight="100"];
+dependency4548:e -> choice1001011184510810598115471111121011101151151084549464846501124511449:w [style=dotted,weight="100"];
+dependency4548:e -> choice100101118451081059811547111112101110115115108454946484650113:w [style=dotted,weight="100"];
+dependency4548:e -> choice100101118451081059811547111112101110115115108454946494648106:w [style=dotted,weight="100"];
+dependency4548:e -> choice10010111845108105981154711111210111011511510845494649464997:w [style=dotted,weight="100"];
+}
+subgraph choice3618 {
+color=black;
+nodesep=1;
+choice10010111845108105981154710810598114101115115108455046544652 [label="dev-libs/libressl-2.6.4", color=red, width=4,href="../dev-libs/libressl-2.6.4.svg"];
+choice10010111845108105981154710810598114101115115108455046554651 [label="dev-libs/libressl-2.7.3", color=red, width=4,href="../dev-libs/libressl-2.7.3.svg"];
+choice10010111845108105981154710810598114101115115108455046544653 [label="dev-libs/libressl-2.6.5", color=red, width=4,href="../dev-libs/libressl-2.6.5.svg"];
+choice10010111845108105981154710810598114101115115108455046554652 [label="dev-libs/libressl-2.7.4", color=red, width=4,href="../dev-libs/libressl-2.7.4.svg"];
+choice10010111845108105981154710810598114101115115108455046554653 [label="dev-libs/libressl-2.7.5", color=red, width=4,href="../dev-libs/libressl-2.7.5.svg"];
+choice10010111845108105981154710810598114101115115108455046564648 [label="dev-libs/libressl-2.8.0", color=red, width=4,href="../dev-libs/libressl-2.8.0.svg"];
+choice10010111845108105981154710810598114101115115108455046564649 [label="dev-libs/libressl-2.8.1", color=red, width=4,href="../dev-libs/libressl-2.8.1.svg"];
+choice10010111845108105981154710810598114101115115108455046564650 [label="dev-libs/libressl-2.8.2", color=red, width=4,href="../dev-libs/libressl-2.8.2.svg"];
+choice10010111845108105981154710810598114101115115108455046564651 [label="dev-libs/libressl-2.8.3", color=red, width=4,href="../dev-libs/libressl-2.8.3.svg"];
+choice10010111845108105981154710810598114101115115108455046574648 [label="dev-libs/libressl-2.9.0", color=red, width=4,href="../dev-libs/libressl-2.9.0.svg"];
+dependency4550:e -> choice10010111845108105981154710810598114101115115108455046544652:w [style=dotted,weight="100"];
+dependency4550:e -> choice10010111845108105981154710810598114101115115108455046554651:w [style=dotted,weight="100"];
+dependency4550:e -> choice10010111845108105981154710810598114101115115108455046544653:w [style=dotted,weight="100"];
+dependency4550:e -> choice10010111845108105981154710810598114101115115108455046554652:w [style=dotted,weight="100"];
+dependency4550:e -> choice10010111845108105981154710810598114101115115108455046554653:w [style=dotted,weight="100"];
+dependency4550:e -> choice10010111845108105981154710810598114101115115108455046564648:w [style=dotted,weight="100"];
+dependency4550:e -> choice10010111845108105981154710810598114101115115108455046564649:w [style=dotted,weight="100"];
+dependency4550:e -> choice10010111845108105981154710810598114101115115108455046564650:w [style=dotted,weight="100"];
+dependency4550:e -> choice10010111845108105981154710810598114101115115108455046564651:w [style=dotted,weight="100"];
+dependency4550:e -> choice10010111845108105981154710810598114101115115108455046574648:w [style=dotted,weight="100"];
+}
+}
+
+}
