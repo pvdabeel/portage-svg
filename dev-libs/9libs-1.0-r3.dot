@@ -1,0 +1,80 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="dev-libs/9libs-1.0-r3", color=red, width=4, href="../dev-libs/9libs-1.0-r3.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack975970 {
+dependency1363727 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>x11-libs</TD></TR><TR><TD>libX11</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.0.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1363727:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack975971 {
+dependency1363728 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>x11-libs</TD></TR><TR><TD>libXt</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.0.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1363728:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice975970 {
+color=black;
+nodesep=1;
+choice120494945108105981154710810598884949454946544655 [label="x11-libs/libX11-1.6.7", color=red, width=4,href="../x11-libs/libX11-1.6.7.svg"];
+dependency1363727:e -> choice120494945108105981154710810598884949454946544655:w [style=dotted,weight="100"];
+}
+subgraph choice975971 {
+color=black;
+nodesep=1;
+choice120494945108105981154710810598881164549464946534511449 [label="x11-libs/libXt-1.1.5-r1", color=red, width=4,href="../x11-libs/libXt-1.1.5-r1.svg"];
+dependency1363728:e -> choice120494945108105981154710810598881164549464946534511449:w [style=dotted,weight="100"];
+}
+}
+
+}

@@ -1,0 +1,106 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="games-emulation/gens-2.15.5-r1", color=red, width=4, href="../games-emulation/gens-2.15.5-r1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack1105690 {
+dependency1555787 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>nasm</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>0.98</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1555787:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack1105691 {
+dependency1555788 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>media-libs</TD></TR><TR><TD>libsdl</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.2</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1555788:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack1105692 {
+dependency1555789 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>opengl</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1555789:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack1105693 {
+dependency1555790 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>x11-libs</TD></TR><TR><TD>gtk+</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1555790:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice1105690 {
+color=black;
+nodesep=1;
+choice100101118451089711010347110971151094550464952464850 [label="dev-lang/nasm-2.14.02", color=red, width=4,href="../dev-lang/nasm-2.14.02.svg"];
+dependency1555787:e -> choice100101118451089711010347110971151094550464952464850:w [style=dotted,weight="100"];
+}
+subgraph choice1105691 {
+color=black;
+nodesep=1;
+choice1091011001059745108105981154710810598115100108454946504649534511457 [label="media-libs/libsdl-1.2.15-r9", color=red, width=4,href="../media-libs/libsdl-1.2.15-r9.svg"];
+dependency1555788:e -> choice1091011001059745108105981154710810598115100108454946504649534511457:w [style=dotted,weight="100"];
+}
+subgraph choice1105692 {
+color=black;
+nodesep=1;
+choice1181051141161179710847111112101110103108455546484511450 [label="virtual/opengl-7.0-r2", color=red, width=4,href="../virtual/opengl-7.0-r2.svg"];
+dependency1555789:e -> choice1181051141161179710847111112101110103108455546484511450:w [style=dotted,weight="100"];
+}
+subgraph choice1105693 {
+color=black;
+nodesep=1;
+choice12049494510810598115471031161074345504650524651504511449 [label="x11-libs/gtk+-2.24.32-r1", color=red, width=4,href="../x11-libs/gtk+-2.24.32-r1.svg"];
+choice12049494510810598115471031161074345514650524649 [label="x11-libs/gtk+-3.24.1", color=red, width=4,href="../x11-libs/gtk+-3.24.1.svg"];
+choice120494945108105981154710311610743455146505246524511449 [label="x11-libs/gtk+-3.24.4-r1", color=red, width=4,href="../x11-libs/gtk+-3.24.4-r1.svg"];
+choice12049494510810598115471031161074345514650524653 [label="x11-libs/gtk+-3.24.5", color=red, width=4,href="../x11-libs/gtk+-3.24.5.svg"];
+dependency1555790:e -> choice12049494510810598115471031161074345504650524651504511449:w [style=dotted,weight="100"];
+dependency1555790:e -> choice12049494510810598115471031161074345514650524649:w [style=dotted,weight="100"];
+dependency1555790:e -> choice120494945108105981154710311610743455146505246524511449:w [style=dotted,weight="100"];
+dependency1555790:e -> choice12049494510810598115471031161074345514650524653:w [style=dotted,weight="100"];
+}
+}
+
+}

@@ -1,0 +1,102 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="dev-haskell/stack-bin-1.6.1", color=red, width=4, href="../dev-haskell/stack-bin-1.6.1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond361474 {
+dependency1344374 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>symlink</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack960800 {
+dependency1344375 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>dev-haskell</TD></TR><TR><TD>stack</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency1344374:e -> dependency1344375:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency1344374:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack960801 {
+dependency1344376 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>gmp</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1344376:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack960802 {
+dependency1344377 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>zlib</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1344377:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice960800 {
+color=black;
+nodesep=1;
+choice1001011184510497115107101108108471151169799107454946514650 [label="dev-haskell/stack-1.3.2", color=red, width=4,href="../dev-haskell/stack-1.3.2.svg"];
+dependency1344375:e -> choice1001011184510497115107101108108471151169799107454946514650:w [style=dotted,weight="100"];
+}
+subgraph choice960801 {
+color=black;
+nodesep=1;
+choice1001011184510810598115471031091124552465146504511449 [label="dev-libs/gmp-4.3.2-r1", color=red, width=4,href="../dev-libs/gmp-4.3.2-r1.svg"];
+choice100101118451081059811547103109112455446494650 [label="dev-libs/gmp-6.1.2", color=red, width=4,href="../dev-libs/gmp-6.1.2.svg"];
+choice1001011184510810598115471031091124554464946504511449 [label="dev-libs/gmp-6.1.2-r1", color=red, width=4,href="../dev-libs/gmp-6.1.2-r1.svg"];
+dependency1344376:e -> choice1001011184510810598115471031091124552465146504511449:w [style=dotted,weight="100"];
+dependency1344376:e -> choice100101118451081059811547103109112455446494650:w [style=dotted,weight="100"];
+dependency1344376:e -> choice1001011184510810598115471031091124554464946504511449:w [style=dotted,weight="100"];
+}
+subgraph choice960802 {
+color=black;
+nodesep=1;
+choice1151211154510810598115471221081059845494650464949 [label="sys-libs/zlib-1.2.11", color=red, width=4,href="../sys-libs/zlib-1.2.11.svg"];
+choice11512111545108105981154712210810598454946504649494511449 [label="sys-libs/zlib-1.2.11-r1", color=red, width=4,href="../sys-libs/zlib-1.2.11-r1.svg"];
+choice11512111545108105981154712210810598454946504649494511450 [label="sys-libs/zlib-1.2.11-r2", color=red, width=4,href="../sys-libs/zlib-1.2.11-r2.svg"];
+dependency1344377:e -> choice1151211154510810598115471221081059845494650464949:w [style=dotted,weight="100"];
+dependency1344377:e -> choice11512111545108105981154712210810598454946504649494511449:w [style=dotted,weight="100"];
+dependency1344377:e -> choice11512111545108105981154712210810598454946504649494511450:w [style=dotted,weight="100"];
+}
+}
+
+}

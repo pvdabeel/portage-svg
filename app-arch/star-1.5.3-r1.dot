@@ -1,0 +1,108 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="app-arch/star-1.5.3-r1", color=red, width=4, href="../app-arch/star-1.5.3-r1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph cond346663 {
+dependency1271702 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>acl</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack905303 {
+dependency1271703 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>acl</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency1271702:e -> dependency1271703:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency1271702:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph cond346664 {
+dependency1271704 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>xattr</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack905304 {
+dependency1271705 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>attr</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency1271704:e -> dependency1271705:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency1271704:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack905305 {
+dependency1271706 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>libcap</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1271706:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice905303 {
+color=black;
+nodesep=1;
+choice1151211154597112112115479799108455046504653504511449 [label="sys-apps/acl-2.2.52-r1", color=red, width=4,href="../sys-apps/acl-2.2.52-r1.svg"];
+choice115121115459711211211547979910845504650465351 [label="sys-apps/acl-2.2.53", color=red, width=4,href="../sys-apps/acl-2.2.53.svg"];
+dependency1271703:e -> choice1151211154597112112115479799108455046504653504511449:w [style=dotted,weight="100"];
+dependency1271703:e -> choice115121115459711211211547979910845504650465351:w [style=dotted,weight="100"];
+}
+subgraph choice905304 {
+color=black;
+nodesep=1;
+choice11512111545971121121154797116116114455046524652554511450 [label="sys-apps/attr-2.4.47-r2", color=red, width=4,href="../sys-apps/attr-2.4.47-r2.svg"];
+choice11512111545971121121154797116116114455046524652564511450 [label="sys-apps/attr-2.4.48-r2", color=red, width=4,href="../sys-apps/attr-2.4.48-r2.svg"];
+choice11512111545971121121154797116116114455046524652564511451 [label="sys-apps/attr-2.4.48-r3", color=red, width=4,href="../sys-apps/attr-2.4.48-r3.svg"];
+dependency1271705:e -> choice11512111545971121121154797116116114455046524652554511450:w [style=dotted,weight="100"];
+dependency1271705:e -> choice11512111545971121121154797116116114455046524652564511450:w [style=dotted,weight="100"];
+dependency1271705:e -> choice11512111545971121121154797116116114455046524652564511451:w [style=dotted,weight="100"];
+}
+subgraph choice905305 {
+color=black;
+nodesep=1;
+choice1151211154510810598115471081059899971124550465053 [label="sys-libs/libcap-2.25", color=red, width=4,href="../sys-libs/libcap-2.25.svg"];
+choice11512111545108105981154710810598999711245504650534511449 [label="sys-libs/libcap-2.25-r1", color=red, width=4,href="../sys-libs/libcap-2.25-r1.svg"];
+choice11512111545108105981154710810598999711245504650544511450 [label="sys-libs/libcap-2.26-r2", color=red, width=4,href="../sys-libs/libcap-2.26-r2.svg"];
+dependency1271706:e -> choice1151211154510810598115471081059899971124550465053:w [style=dotted,weight="100"];
+dependency1271706:e -> choice11512111545108105981154710810598999711245504650534511449:w [style=dotted,weight="100"];
+dependency1271706:e -> choice11512111545108105981154710810598999711245504650544511450:w [style=dotted,weight="100"];
+}
+}
+
+}

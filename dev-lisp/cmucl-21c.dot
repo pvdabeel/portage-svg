@@ -1,0 +1,114 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="dev-lisp/cmucl-21c", color=red, width=4, href="../dev-lisp/cmucl-21c.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond367318 {
+dependency1373417 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>doc</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack983089 {
+dependency1373418 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>latex-base</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency1373417:e -> dependency1373418:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency1373417:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack983090 {
+dependency1373419 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-devel</TD></TR><TR><TD>bc</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1373419:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack983091 {
+dependency1373420 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-lisp</TD></TR><TR><TD>asdf</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2.33-r3</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1373420:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack983092 {
+dependency1373421 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>x11-libs</TD></TR><TR><TD>motif</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1373421:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice983089 {
+color=black;
+nodesep=1;
+choice11810511411611797108471089711610112045989711510145494648 [label="virtual/latex-base-1.0", color=red, width=4,href="../virtual/latex-base-1.0.svg"];
+dependency1373418:e -> choice11810511411611797108471089711610112045989711510145494648:w [style=dotted,weight="100"];
+}
+subgraph choice983090 {
+color=black;
+nodesep=1;
+choice1151211154510010111810110847989945494648544657534511450 [label="sys-devel/bc-1.06.95-r2", color=red, width=4,href="../sys-devel/bc-1.06.95-r2.svg"];
+choice11512111545100101118101108479899454946485546494511449 [label="sys-devel/bc-1.07.1-r1", color=red, width=4,href="../sys-devel/bc-1.07.1-r1.svg"];
+choice11512111545100101118101108479899454946485546494511450 [label="sys-devel/bc-1.07.1-r2", color=red, width=4,href="../sys-devel/bc-1.07.1-r2.svg"];
+dependency1373419:e -> choice1151211154510010111810110847989945494648544657534511450:w [style=dotted,weight="100"];
+dependency1373419:e -> choice11512111545100101118101108479899454946485546494511449:w [style=dotted,weight="100"];
+dependency1373419:e -> choice11512111545100101118101108479899454946485546494511450:w [style=dotted,weight="100"];
+}
+subgraph choice983091 {
+color=black;
+nodesep=1;
+choice100101118451081051151124797115100102455146494653 [label="dev-lisp/asdf-3.1.5", color=red, width=4,href="../dev-lisp/asdf-3.1.5.svg"];
+choice100101118451081051151124797115100102455146514649 [label="dev-lisp/asdf-3.3.1", color=red, width=4,href="../dev-lisp/asdf-3.3.1.svg"];
+choice100101118451081051151124797115100102455146514650 [label="dev-lisp/asdf-3.3.2", color=red, width=4,href="../dev-lisp/asdf-3.3.2.svg"];
+choice1001011184510810511511247971151001024551465146504511449 [label="dev-lisp/asdf-3.3.2-r1", color=red, width=4,href="../dev-lisp/asdf-3.3.2-r1.svg"];
+dependency1373420:e -> choice100101118451081051151124797115100102455146494653:w [style=dotted,weight="100"];
+dependency1373420:e -> choice100101118451081051151124797115100102455146514649:w [style=dotted,weight="100"];
+dependency1373420:e -> choice100101118451081051151124797115100102455146514650:w [style=dotted,weight="100"];
+dependency1373420:e -> choice1001011184510810511511247971151001024551465146504511449:w [style=dotted,weight="100"];
+}
+subgraph choice983092 {
+color=black;
+nodesep=1;
+choice12049494510810598115471091111161051024550465146564511449 [label="x11-libs/motif-2.3.8-r1", color=red, width=4,href="../x11-libs/motif-2.3.8-r1.svg"];
+dependency1373421:e -> choice12049494510810598115471091111161051024550465146564511449:w [style=dotted,weight="100"];
+}
+}
+
+}

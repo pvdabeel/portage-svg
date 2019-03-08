@@ -1,0 +1,114 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="www-servers/sniproxy-0.6.0", color=red, width=4, href="../www-servers/sniproxy-0.6.0.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond464838 {
+dependency1752023 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>test</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack1257887 {
+dependency1752024 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>net-misc</TD></TR><TR><TD>curl</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency1752023:e -> dependency1752024:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency1752023:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond464839 {
+dependency1752025 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>dns</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack1257888 {
+dependency1752026 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>net-libs</TD></TR><TR><TD>udns</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency1752025:e -> dependency1752026:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency1752025:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack1257889 {
+dependency1752027 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libev</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1752027:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack1257890 {
+dependency1752028 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libpcre</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>3</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1752028:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice1257887 {
+color=black;
+nodesep=1;
+choice1101011164510910511599479911711410845554654524648 [label="net-misc/curl-7.64.0", color=red, width=4,href="../net-misc/curl-7.64.0.svg"];
+dependency1752024:e -> choice1101011164510910511599479911711410845554654524648:w [style=dotted,weight="100"];
+}
+subgraph choice1257888 {
+color=black;
+nodesep=1;
+choice11010111645108105981154711710011011545484652 [label="net-libs/udns-0.4", color=red, width=4,href="../net-libs/udns-0.4.svg"];
+dependency1752026:e -> choice11010111645108105981154711710011011545484652:w [style=dotted,weight="100"];
+}
+subgraph choice1257889 {
+color=black;
+nodesep=1;
+choice100101118451081059811547108105981011184552465051 [label="dev-libs/libev-4.23", color=red, width=4,href="../dev-libs/libev-4.23.svg"];
+choice100101118451081059811547108105981011184552465052 [label="dev-libs/libev-4.24", color=red, width=4,href="../dev-libs/libev-4.24.svg"];
+dependency1752027:e -> choice100101118451081059811547108105981011184552465051:w [style=dotted,weight="100"];
+dependency1752027:e -> choice100101118451081059811547108105981011184552465052:w [style=dotted,weight="100"];
+}
+subgraph choice1257890 {
+color=black;
+nodesep=1;
+choice100101118451081059811547108105981129911410145564652494511449 [label="dev-libs/libpcre-8.41-r1", color=red, width=4,href="../dev-libs/libpcre-8.41-r1.svg"];
+choice10010111845108105981154710810598112991141014556465250 [label="dev-libs/libpcre-8.42", color=red, width=4,href="../dev-libs/libpcre-8.42.svg"];
+choice10010111845108105981154710810598112991141014556465251 [label="dev-libs/libpcre-8.43", color=red, width=4,href="../dev-libs/libpcre-8.43.svg"];
+dependency1752028:e -> choice100101118451081059811547108105981129911410145564652494511449:w [style=dotted,weight="100"];
+dependency1752028:e -> choice10010111845108105981154710810598112991141014556465250:w [style=dotted,weight="100"];
+dependency1752028:e -> choice10010111845108105981154710810598112991141014556465251:w [style=dotted,weight="100"];
+}
+}
+
+}

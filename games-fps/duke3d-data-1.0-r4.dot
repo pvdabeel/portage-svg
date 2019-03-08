@@ -1,0 +1,86 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="games-fps/duke3d-data-1.0-r4", color=red, width=4, href="../games-fps/duke3d-data-1.0-r4.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond426560 {
+dependency1557168 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>gog</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack1106729 {
+dependency1557169 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>unzip</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency1557168:e -> dependency1557169:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency1557168:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack1106730 {
+dependency1557170 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>games-fps</TD></TR><TR><TD>eduke32</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1557170:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice1106729 {
+color=black;
+nodesep=1;
+choice971121124597114991044711711012210511245544648951125048 [label="app-arch/unzip-6.0_p20", color=red, width=4,href="../app-arch/unzip-6.0_p20.svg"];
+choice9711211245971149910447117110122105112455446489511250494511450 [label="app-arch/unzip-6.0_p21-r2", color=red, width=4,href="../app-arch/unzip-6.0_p21-r2.svg"];
+dependency1557169:e -> choice971121124597114991044711711012210511245544648951125048:w [style=dotted,weight="100"];
+dependency1557169:e -> choice9711211245971149910447117110122105112455446489511250494511450:w [style=dotted,weight="100"];
+}
+subgraph choice1106730 {
+color=black;
+nodesep=1;
+choice10397109101115451021121154710110011710710151504550484957484950514655514956 [label="games-fps/eduke32-20190123.7318", color=red, width=4,href="../games-fps/eduke32-20190123.7318.svg"];
+dependency1557170:e -> choice10397109101115451021121154710110011710710151504550484957484950514655514956:w [style=dotted,weight="100"];
+}
+}
+
+}

@@ -1,0 +1,116 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="net-misc/oidentd-2.3.2", color=red, width=4, href="../net-misc/oidentd-2.3.2.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph cond448867 {
+dependency1670349 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>masquerade</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack1194288 {
+dependency1670350 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>net-libs</TD></TR><TR><TD>libnetfilter_conntrack</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency1670349:e -> dependency1670350:w [weight=20,style="dashed",arrowhead="vee"];
+subgraph pack1194289 {
+dependency1670351 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>libcap-ng</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency1670349:e -> dependency1670351:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency1670349:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond448868 {
+dependency1670352 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>selinux</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack1194290 {
+dependency1670353 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sec-policy</TD></TR><TR><TD>selinux-oident</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency1670352:e -> dependency1670353:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency1670352:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice1194288 {
+color=black;
+nodesep=1;
+choice1101011164510810598115471081059811010111610210510811610111495991111101101161149799107454946484652 [label="net-libs/libnetfilter_conntrack-1.0.4", color=red, width=4,href="../net-libs/libnetfilter_conntrack-1.0.4.svg"];
+choice1101011164510810598115471081059811010111610210510811610111495991111101101161149799107454946484653 [label="net-libs/libnetfilter_conntrack-1.0.5", color=red, width=4,href="../net-libs/libnetfilter_conntrack-1.0.5.svg"];
+choice1101011164510810598115471081059811010111610210510811610111495991111101101161149799107454946484654 [label="net-libs/libnetfilter_conntrack-1.0.6", color=red, width=4,href="../net-libs/libnetfilter_conntrack-1.0.6.svg"];
+choice1101011164510810598115471081059811010111610210510811610111495991111101101161149799107454946484655 [label="net-libs/libnetfilter_conntrack-1.0.7", color=red, width=4,href="../net-libs/libnetfilter_conntrack-1.0.7.svg"];
+dependency1670350:e -> choice1101011164510810598115471081059811010111610210510811610111495991111101101161149799107454946484652:w [style=dotted,weight="100"];
+dependency1670350:e -> choice1101011164510810598115471081059811010111610210510811610111495991111101101161149799107454946484653:w [style=dotted,weight="100"];
+dependency1670350:e -> choice1101011164510810598115471081059811010111610210510811610111495991111101101161149799107454946484654:w [style=dotted,weight="100"];
+dependency1670350:e -> choice1101011164510810598115471081059811010111610210510811610111495991111101101161149799107454946484655:w [style=dotted,weight="100"];
+}
+subgraph choice1194289 {
+color=black;
+nodesep=1;
+choice11512111545108105981154710810598999711245110103454846554656 [label="sys-libs/libcap-ng-0.7.8", color=red, width=4,href="../sys-libs/libcap-ng-0.7.8.svg"];
+choice11512111545108105981154710810598999711245110103454846554657 [label="sys-libs/libcap-ng-0.7.9", color=red, width=4,href="../sys-libs/libcap-ng-0.7.9.svg"];
+dependency1670351:e -> choice11512111545108105981154710810598999711245110103454846554656:w [style=dotted,weight="100"];
+dependency1670351:e -> choice11512111545108105981154710810598999711245110103454846554657:w [style=dotted,weight="100"];
+}
+subgraph choice1194290 {
+color=black;
+nodesep=1;
+choice115101994511211110810599121471151011081051101171204511110510010111011645504650484956484949524511449 [label="sec-policy/selinux-oident-2.20180114-r1", color=red, width=4,href="../sec-policy/selinux-oident-2.20180114-r1.svg"];
+choice115101994511211110810599121471151011081051101171204511110510010111011645504650484956484949524511450 [label="sec-policy/selinux-oident-2.20180114-r2", color=red, width=4,href="../sec-policy/selinux-oident-2.20180114-r2.svg"];
+choice115101994511211110810599121471151011081051101171204511110510010111011645504650484956484949524511451 [label="sec-policy/selinux-oident-2.20180114-r3", color=red, width=4,href="../sec-policy/selinux-oident-2.20180114-r3.svg"];
+choice115101994511211110810599121471151011081051101171204511110510010111011645504650484956485548494511449 [label="sec-policy/selinux-oident-2.20180701-r1", color=red, width=4,href="../sec-policy/selinux-oident-2.20180701-r1.svg"];
+choice115101994511211110810599121471151011081051101171204511110510010111011645504650484956485548494511450 [label="sec-policy/selinux-oident-2.20180701-r2", color=red, width=4,href="../sec-policy/selinux-oident-2.20180701-r2.svg"];
+choice11510199451121111081059912147115101108105110117120451111051001011101164557575757 [label="sec-policy/selinux-oident-9999", color=red, width=4,href="../sec-policy/selinux-oident-9999.svg"];
+dependency1670353:e -> choice115101994511211110810599121471151011081051101171204511110510010111011645504650484956484949524511449:w [style=dotted,weight="100"];
+dependency1670353:e -> choice115101994511211110810599121471151011081051101171204511110510010111011645504650484956484949524511450:w [style=dotted,weight="100"];
+dependency1670353:e -> choice115101994511211110810599121471151011081051101171204511110510010111011645504650484956484949524511451:w [style=dotted,weight="100"];
+dependency1670353:e -> choice115101994511211110810599121471151011081051101171204511110510010111011645504650484956485548494511449:w [style=dotted,weight="100"];
+dependency1670353:e -> choice115101994511211110810599121471151011081051101171204511110510010111011645504650484956485548494511450:w [style=dotted,weight="100"];
+dependency1670353:e -> choice11510199451121111081059912147115101108105110117120451111051001011101164557575757:w [style=dotted,weight="100"];
+}
+}
+
+}

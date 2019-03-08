@@ -1,0 +1,86 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="games-puzzle/gnudoku-0.93-r1", color=red, width=4, href="../games-puzzle/gnudoku-0.93-r1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack1108228 {
+dependency1559198 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>pkgconfig</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1559198:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack1108229 {
+dependency1559199 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-cpp</TD></TR><TR><TD>gtkmm</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2.6</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1559199:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice1108228 {
+color=black;
+nodesep=1;
+choice11810511411611797108471121071039911111010210510345484511449 [label="virtual/pkgconfig-0-r1", color=red, width=4,href="../virtual/pkgconfig-0-r1.svg"];
+choice1181051141161179710847112107103991111101021051034549 [label="virtual/pkgconfig-1", color=red, width=4,href="../virtual/pkgconfig-1.svg"];
+dependency1559198:e -> choice11810511411611797108471121071039911111010210510345484511449:w [style=dotted,weight="100"];
+dependency1559198:e -> choice1181051141161179710847112107103991111101021051034549:w [style=dotted,weight="100"];
+}
+subgraph choice1108229 {
+color=black;
+nodesep=1;
+choice10010111845991121124710311610710910945504650524653 [label="dev-cpp/gtkmm-2.24.5", color=red, width=4,href="../dev-cpp/gtkmm-2.24.5.svg"];
+choice10010111845991121124710311610710910945514650504650 [label="dev-cpp/gtkmm-3.22.2", color=red, width=4,href="../dev-cpp/gtkmm-3.22.2.svg"];
+choice10010111845991121124710311610710910945514650524648 [label="dev-cpp/gtkmm-3.24.0", color=red, width=4,href="../dev-cpp/gtkmm-3.24.0.svg"];
+dependency1559199:e -> choice10010111845991121124710311610710910945504650524653:w [style=dotted,weight="100"];
+dependency1559199:e -> choice10010111845991121124710311610710910945514650504650:w [style=dotted,weight="100"];
+dependency1559199:e -> choice10010111845991121124710311610710910945514650524648:w [style=dotted,weight="100"];
+}
+}
+
+}

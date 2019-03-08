@@ -1,0 +1,126 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="dev-tcltk/tcllib-1.19", color=red, width=4, href="../dev-tcltk/tcllib-1.19.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond422954 {
+dependency1538970 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>test</TD></TR></TABLE>>, shape=none, color=red];
+subgraph cond422955 {
+dependency1538971 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>negative</TD></TR><TR><TD>prefix</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack1092456 {
+dependency1538972 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>x11-base</TD></TR><TR><TD>xorg-server</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency1538971:e -> dependency1538972:w [weight=20,style="dashed",arrowhead="vee"];
+}
+dependency1538970:e -> dependency1538971:w [weight=20,style="dashed",arrowhead="vee"];
+subgraph pack1092457 {
+dependency1538973 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>x11-apps</TD></TR><TR><TD>xhost</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency1538970:e -> dependency1538973:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency1538970:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack1092458 {
+dependency1538974 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>tcl</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1538974:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack1092459 {
+dependency1538975 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-tcltk</TD></TR><TR><TD>tdom</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1538975:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice1092456 {
+color=black;
+nodesep=1;
+choice1204949459897115101471201111141034511510111411810111445494650484651 [label="x11-base/xorg-server-1.20.3", color=red, width=4,href="../x11-base/xorg-server-1.20.3.svg"];
+choice1204949459897115101471201111141034511510111411810111445494650484652 [label="x11-base/xorg-server-1.20.4", color=red, width=4,href="../x11-base/xorg-server-1.20.4.svg"];
+choice120494945989711510147120111114103451151011141181011144557575757 [label="x11-base/xorg-server-9999", color=red, width=4,href="../x11-base/xorg-server-9999.svg"];
+dependency1538972:e -> choice1204949459897115101471201111141034511510111411810111445494650484651:w [style=dotted,weight="100"];
+dependency1538972:e -> choice1204949459897115101471201111141034511510111411810111445494650484652:w [style=dotted,weight="100"];
+dependency1538972:e -> choice120494945989711510147120111114103451151011141181011144557575757:w [style=dotted,weight="100"];
+}
+subgraph choice1092457 {
+color=black;
+nodesep=1;
+choice1204949459711211211547120104111115116454946484654 [label="x11-apps/xhost-1.0.6", color=red, width=4,href="../x11-apps/xhost-1.0.6.svg"];
+choice1204949459711211211547120104111115116454946484655 [label="x11-apps/xhost-1.0.7", color=red, width=4,href="../x11-apps/xhost-1.0.7.svg"];
+choice1204949459711211211547120104111115116454946484656 [label="x11-apps/xhost-1.0.8", color=red, width=4,href="../x11-apps/xhost-1.0.8.svg"];
+dependency1538973:e -> choice1204949459711211211547120104111115116454946484654:w [style=dotted,weight="100"];
+dependency1538973:e -> choice1204949459711211211547120104111115116454946484655:w [style=dotted,weight="100"];
+dependency1538973:e -> choice1204949459711211211547120104111115116454946484656:w [style=dotted,weight="100"];
+}
+subgraph choice1092458 {
+color=black;
+nodesep=1;
+choice10010111845108971101034711699108455646534649554511449 [label="dev-lang/tcl-8.5.17-r1", color=red, width=4,href="../dev-lang/tcl-8.5.17-r1.svg"];
+choice100101118451089711010347116991084556465346495545114494848 [label="dev-lang/tcl-8.5.17-r100", color=red, width=4,href="../dev-lang/tcl-8.5.17-r100.svg"];
+choice100101118451089711010347116991084556465346495545114494849 [label="dev-lang/tcl-8.5.17-r101", color=red, width=4,href="../dev-lang/tcl-8.5.17-r101.svg"];
+choice10010111845108971101034711699108455646544656 [label="dev-lang/tcl-8.6.8", color=red, width=4,href="../dev-lang/tcl-8.6.8.svg"];
+choice10010111845108971101034711699108455646544657 [label="dev-lang/tcl-8.6.9", color=red, width=4,href="../dev-lang/tcl-8.6.9.svg"];
+dependency1538974:e -> choice10010111845108971101034711699108455646534649554511449:w [style=dotted,weight="100"];
+dependency1538974:e -> choice100101118451089711010347116991084556465346495545114494848:w [style=dotted,weight="100"];
+dependency1538974:e -> choice100101118451089711010347116991084556465346495545114494849:w [style=dotted,weight="100"];
+dependency1538974:e -> choice10010111845108971101034711699108455646544656:w [style=dotted,weight="100"];
+dependency1538974:e -> choice10010111845108971101034711699108455646544657:w [style=dotted,weight="100"];
+}
+subgraph choice1092459 {
+color=black;
+nodesep=1;
+choice1001011184511699108116107471161001111094548465646514511452 [label="dev-tcltk/tdom-0.8.3-r4", color=red, width=4,href="../dev-tcltk/tdom-0.8.3-r4.svg"];
+choice100101118451169910811610747116100111109454846574649 [label="dev-tcltk/tdom-0.9.1", color=red, width=4,href="../dev-tcltk/tdom-0.9.1.svg"];
+dependency1538975:e -> choice1001011184511699108116107471161001111094548465646514511452:w [style=dotted,weight="100"];
+dependency1538975:e -> choice100101118451169910811610747116100111109454846574649:w [style=dotted,weight="100"];
+}
+}
+
+}

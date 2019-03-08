@@ -1,0 +1,106 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="sys-apps/firejail-0.9.56", color=red, width=4, href="../sys-apps/firejail-0.9.56.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph cond455894 {
+dependency1710524 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>apparmor</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack1226664 {
+dependency1710525 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>libapparmor</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency1710524:e -> dependency1710525:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency1710524:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack1226665 {
+dependency1710526 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>firejail-lts</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1710526:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond455895 {
+dependency1710527 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>x11</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack1226666 {
+dependency1710528 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>x11-wm</TD></TR><TR><TD>xpra</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency1710527:e -> dependency1710528:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency1710527:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice1226664 {
+color=black;
+nodesep=1;
+choice11512111545108105981154710810598971121129711410911111445504649514649 [label="sys-libs/libapparmor-2.13.1", color=red, width=4,href="../sys-libs/libapparmor-2.13.1.svg"];
+choice11512111545108105981154710810598971121129711410911111445504649514650 [label="sys-libs/libapparmor-2.13.2", color=red, width=4,href="../sys-libs/libapparmor-2.13.2.svg"];
+dependency1710525:e -> choice11512111545108105981154710810598971121129711410911111445504649514649:w [style=dotted,weight="100"];
+dependency1710525:e -> choice11512111545108105981154710810598971121129711410911111445504649514650:w [style=dotted,weight="100"];
+}
+subgraph choice1226665 {
+color=black;
+nodesep=1;
+choice115121115459711211211547102105114101106971051084510811611545484657465156464948 [label="sys-apps/firejail-lts-0.9.38.10", color=red, width=4,href="../sys-apps/firejail-lts-0.9.38.10.svg"];
+choice115121115459711211211547102105114101106971051084510811611545484657465156464950 [label="sys-apps/firejail-lts-0.9.38.12", color=red, width=4,href="../sys-apps/firejail-lts-0.9.38.12.svg"];
+dependency1710526:e -> choice115121115459711211211547102105114101106971051084510811611545484657465156464948:w [style=dotted,weight="100"];
+dependency1710526:e -> choice115121115459711211211547102105114101106971051084510811611545484657465156464950:w [style=dotted,weight="100"];
+}
+subgraph choice1226666 {
+color=black;
+nodesep=1;
+choice12049494511910947120112114974550465046504511449 [label="x11-wm/xpra-2.2.2-r1", color=red, width=4,href="../x11-wm/xpra-2.2.2-r1.svg"];
+choice12049494511910947120112114974550465046544511450 [label="x11-wm/xpra-2.2.6-r2", color=red, width=4,href="../x11-wm/xpra-2.2.6-r2.svg"];
+choice1204949451191094712011211497455046524651 [label="x11-wm/xpra-2.4.3", color=red, width=4,href="../x11-wm/xpra-2.4.3.svg"];
+dependency1710528:e -> choice12049494511910947120112114974550465046504511449:w [style=dotted,weight="100"];
+dependency1710528:e -> choice12049494511910947120112114974550465046544511450:w [style=dotted,weight="100"];
+dependency1710528:e -> choice1204949451191094712011211497455046524651:w [style=dotted,weight="100"];
+}
+}
+
+}

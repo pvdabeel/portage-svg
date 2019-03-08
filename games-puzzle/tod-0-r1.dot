@@ -1,0 +1,86 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="games-puzzle/tod-0-r1", color=red, width=4, href="../games-puzzle/tod-0-r1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack1108644 {
+dependency1559662 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>unzip</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1559662:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack1108645 {
+dependency1559663 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>media-libs</TD></TR><TR><TD>allegro</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1559663:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice1108644 {
+color=black;
+nodesep=1;
+choice971121124597114991044711711012210511245544648951125048 [label="app-arch/unzip-6.0_p20", color=red, width=4,href="../app-arch/unzip-6.0_p20.svg"];
+choice9711211245971149910447117110122105112455446489511250494511450 [label="app-arch/unzip-6.0_p21-r2", color=red, width=4,href="../app-arch/unzip-6.0_p21-r2.svg"];
+dependency1559662:e -> choice971121124597114991044711711012210511245544648951125048:w [style=dotted,weight="100"];
+dependency1559662:e -> choice9711211245971149910447117110122105112455446489511250494511450:w [style=dotted,weight="100"];
+}
+subgraph choice1108645 {
+color=black;
+nodesep=1;
+choice10910110010597451081059811547971081081011031141114552465246504511450 [label="media-libs/allegro-4.4.2-r2", color=red, width=4,href="../media-libs/allegro-4.4.2-r2.svg"];
+choice109101100105974510810598115479710810810110311411145534648464949 [label="media-libs/allegro-5.0.11", color=red, width=4,href="../media-libs/allegro-5.0.11.svg"];
+choice10910110010597451081059811547971081081011031141114553465046524648 [label="media-libs/allegro-5.2.4.0", color=red, width=4,href="../media-libs/allegro-5.2.4.0.svg"];
+dependency1559663:e -> choice10910110010597451081059811547971081081011031141114552465246504511450:w [style=dotted,weight="100"];
+dependency1559663:e -> choice109101100105974510810598115479710810810110311411145534648464949:w [style=dotted,weight="100"];
+dependency1559663:e -> choice10910110010597451081059811547971081081011031141114553465046524648:w [style=dotted,weight="100"];
+}
+}
+
+}

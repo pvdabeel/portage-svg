@@ -1,0 +1,96 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="app-shells/peco-0.5.2", color=red, width=4, href="../app-shells/peco-0.5.2.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack931783 {
+dependency1307495 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-go</TD></TR><TR><TD>glide</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1307495:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack931784 {
+dependency1307496 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-go</TD></TR><TR><TD>go-spew</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1307496:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack931785 {
+dependency1307497 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>go</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.10</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1307497:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice931783 {
+color=black;
+nodesep=1;
+choice100101118451031114710310810510010145484649514650 [label="dev-go/glide-0.13.2", color=red, width=4,href="../dev-go/glide-0.13.2.svg"];
+dependency1307495:e -> choice100101118451031114710310810510010145484649514650:w [style=dotted,weight="100"];
+}
+subgraph choice931784 {
+color=black;
+nodesep=1;
+choice1001011184510311147103111451151121011194548951121141015048495348544957 [label="dev-go/go-spew-0_pre20150619", color=red, width=4,href="../dev-go/go-spew-0_pre20150619.svg"];
+choice1001011184510311147103111451151121011194557575757 [label="dev-go/go-spew-9999", color=red, width=4,href="../dev-go/go-spew-9999.svg"];
+dependency1307496:e -> choice1001011184510311147103111451151121011194548951121141015048495348544957:w [style=dotted,weight="100"];
+dependency1307496:e -> choice1001011184510311147103111451151121011194557575757:w [style=dotted,weight="100"];
+}
+subgraph choice931785 {
+color=black;
+nodesep=1;
+choice10010111845108971101034710311145494649494653 [label="dev-lang/go-1.11.5", color=red, width=4,href="../dev-lang/go-1.11.5.svg"];
+choice1001011184510897110103471031114549464950 [label="dev-lang/go-1.12", color=red, width=4,href="../dev-lang/go-1.12.svg"];
+choice1001011184510897110103471031114557575757 [label="dev-lang/go-9999", color=red, width=4,href="../dev-lang/go-9999.svg"];
+dependency1307497:e -> choice10010111845108971101034710311145494649494653:w [style=dotted,weight="100"];
+dependency1307497:e -> choice1001011184510897110103471031114549464950:w [style=dotted,weight="100"];
+dependency1307497:e -> choice1001011184510897110103471031114557575757:w [style=dotted,weight="100"];
+}
+}
+
+}

@@ -1,0 +1,96 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="dev-util/sasm-2.2-r1", color=red, width=4, href="../dev-util/sasm-2.2-r1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack1100168 {
+dependency1548901 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-qt</TD></TR><TR><TD>qtcore</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1548901:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack1100169 {
+dependency1548902 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-qt</TD></TR><TR><TD>qtgui</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1548902:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack1100170 {
+dependency1548903 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-qt</TD></TR><TR><TD>qtwidgets</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1548903:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice1100168 {
+color=black;
+nodesep=1;
+choice100101118451131164711311699111114101455346494946514511450 [label="dev-qt/qtcore-5.11.3-r2", color=red, width=4,href="../dev-qt/qtcore-5.11.3-r2.svg"];
+choice10010111845113116471131169911111410145534649504649 [label="dev-qt/qtcore-5.12.1", color=red, width=4,href="../dev-qt/qtcore-5.12.1.svg"];
+dependency1548901:e -> choice100101118451131164711311699111114101455346494946514511450:w [style=dotted,weight="100"];
+dependency1548901:e -> choice10010111845113116471131169911111410145534649504649:w [style=dotted,weight="100"];
+}
+subgraph choice1100169 {
+color=black;
+nodesep=1;
+choice100101118451131164711311610311710545534649494651 [label="dev-qt/qtgui-5.11.3", color=red, width=4,href="../dev-qt/qtgui-5.11.3.svg"];
+choice1001011184511311647113116103117105455346495046494511449 [label="dev-qt/qtgui-5.12.1-r1", color=red, width=4,href="../dev-qt/qtgui-5.12.1-r1.svg"];
+dependency1548902:e -> choice100101118451131164711311610311710545534649494651:w [style=dotted,weight="100"];
+dependency1548902:e -> choice1001011184511311647113116103117105455346495046494511449:w [style=dotted,weight="100"];
+}
+subgraph choice1100170 {
+color=black;
+nodesep=1;
+choice100101118451131164711311611910510010310111611545534649494651 [label="dev-qt/qtwidgets-5.11.3", color=red, width=4,href="../dev-qt/qtwidgets-5.11.3.svg"];
+choice100101118451131164711311611910510010310111611545534649504649 [label="dev-qt/qtwidgets-5.12.1", color=red, width=4,href="../dev-qt/qtwidgets-5.12.1.svg"];
+dependency1548903:e -> choice100101118451131164711311611910510010310111611545534649494651:w [style=dotted,weight="100"];
+dependency1548903:e -> choice100101118451131164711311611910510010310111611545534649504649:w [style=dotted,weight="100"];
+}
+}
+
+}

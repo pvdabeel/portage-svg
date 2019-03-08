@@ -1,0 +1,124 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="media-sound/sidplayfp-1.4.4", color=red, width=4, href="../media-sound/sidplayfp-1.4.4.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond438193 {
+dependency1630429 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>oss</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack1165911 {
+dependency1630430 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>os-headers</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency1630429:e -> dependency1630430:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency1630429:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph cond438194 {
+dependency1630431 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>alsa</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack1165912 {
+dependency1630432 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>media-libs</TD></TR><TR><TD>alsa-lib</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency1630431:e -> dependency1630432:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency1630431:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph cond438195 {
+dependency1630433 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>pulseaudio</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack1165913 {
+dependency1630434 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>media-sound</TD></TR><TR><TD>pulseaudio</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency1630433:e -> dependency1630434:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency1630433:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack1165914 {
+dependency1630435 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>media-libs</TD></TR><TR><TD>libsidplayfp</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.8.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1630435:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice1165911 {
+color=black;
+nodesep=1;
+choice118105114116117971084711111545104101971001011141154548 [label="virtual/os-headers-0", color=red, width=4,href="../virtual/os-headers-0.svg"];
+choice1181051141161179710847111115451041019710010111411545484511449 [label="virtual/os-headers-0-r1", color=red, width=4,href="../virtual/os-headers-0-r1.svg"];
+dependency1630430:e -> choice118105114116117971084711111545104101971001011141154548:w [style=dotted,weight="100"];
+dependency1630430:e -> choice1181051141161179710847111115451041019710010111411545484511449:w [style=dotted,weight="100"];
+}
+subgraph choice1165912 {
+color=black;
+nodesep=1;
+choice1091011001059745108105981154797108115974510810598454946494650 [label="media-libs/alsa-lib-1.1.2", color=red, width=4,href="../media-libs/alsa-lib-1.1.2.svg"];
+choice10910110010597451081059811547971081159745108105984549464946544511449 [label="media-libs/alsa-lib-1.1.6-r1", color=red, width=4,href="../media-libs/alsa-lib-1.1.6-r1.svg"];
+choice1091011001059745108105981154797108115974510810598454946494655 [label="media-libs/alsa-lib-1.1.7", color=red, width=4,href="../media-libs/alsa-lib-1.1.7.svg"];
+choice1091011001059745108105981154797108115974510810598454946494656 [label="media-libs/alsa-lib-1.1.8", color=red, width=4,href="../media-libs/alsa-lib-1.1.8.svg"];
+dependency1630432:e -> choice1091011001059745108105981154797108115974510810598454946494650:w [style=dotted,weight="100"];
+dependency1630432:e -> choice10910110010597451081059811547971081159745108105984549464946544511449:w [style=dotted,weight="100"];
+dependency1630432:e -> choice1091011001059745108105981154797108115974510810598454946494655:w [style=dotted,weight="100"];
+dependency1630432:e -> choice1091011001059745108105981154797108115974510810598454946494656:w [style=dotted,weight="100"];
+}
+subgraph choice1165913 {
+color=black;
+nodesep=1;
+choice109101100105974511511111711010047112117108115101971171001051114549504650 [label="media-sound/pulseaudio-12.2", color=red, width=4,href="../media-sound/pulseaudio-12.2.svg"];
+dependency1630434:e -> choice109101100105974511511111711010047112117108115101971171001051114549504650:w [style=dotted,weight="100"];
+}
+subgraph choice1165914 {
+color=black;
+nodesep=1;
+choice109101100105974510810598115471081059811510510011210897121102112454946494648 [label="media-libs/libsidplayfp-1.1.0", color=red, width=4,href="../media-libs/libsidplayfp-1.1.0.svg"];
+choice109101100105974510810598115471081059811510510011210897121102112454946564649 [label="media-libs/libsidplayfp-1.8.1", color=red, width=4,href="../media-libs/libsidplayfp-1.8.1.svg"];
+choice109101100105974510810598115471081059811510510011210897121102112454946564656 [label="media-libs/libsidplayfp-1.8.8", color=red, width=4,href="../media-libs/libsidplayfp-1.8.8.svg"];
+dependency1630435:e -> choice109101100105974510810598115471081059811510510011210897121102112454946494648:w [style=dotted,weight="100"];
+dependency1630435:e -> choice109101100105974510810598115471081059811510510011210897121102112454946564649:w [style=dotted,weight="100"];
+dependency1630435:e -> choice109101100105974510810598115471081059811510510011210897121102112454946564656:w [style=dotted,weight="100"];
+}
+}
+
+}
