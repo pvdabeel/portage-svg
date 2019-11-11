@@ -1,0 +1,118 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="dev-libs/libusb-1.0.21-r1", color=red, width=4, href="../dev-libs/libusb-1.0.21-r1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond132117 {
+dependency567330 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>negative</TD></TR><TR><TD>udev</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack423677 {
+dependency567331 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>os-headers</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency567330:e -> dependency567331:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency567330:w [weight=20,style="solid",arrowhead="vee"];
+subgraph cond132118 {
+dependency567332 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>doc</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack423678 {
+dependency567333 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-doc</TD></TR><TR><TD>doxygen</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency567332:e -> dependency567333:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency567332:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph cond132119 {
+dependency567334 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>udev</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack423679 {
+dependency567335 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>libudev</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>208</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency567334:e -> dependency567335:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency567334:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice423677 {
+color=black;
+nodesep=1;
+choice118105114116117971084711111545104101971001011141154548 [label="virtual/os-headers-0", color=red, width=4,href="../virtual/os-headers-0.svg"];
+choice1181051141161179710847111115451041019710010111411545484511449 [label="virtual/os-headers-0-r1", color=red, width=4,href="../virtual/os-headers-0-r1.svg"];
+dependency567331:e -> choice118105114116117971084711111545104101971001011141154548:w [style=dotted,weight="100"];
+dependency567331:e -> choice1181051141161179710847111115451041019710010111411545484511449:w [style=dotted,weight="100"];
+}
+subgraph choice423678 {
+color=black;
+nodesep=1;
+choice97112112451001119947100111120121103101110454946564649524511449 [label="app-doc/doxygen-1.8.14-r1", color=red, width=4,href="../app-doc/doxygen-1.8.14-r1.svg"];
+choice97112112451001119947100111120121103101110454946564649524511450 [label="app-doc/doxygen-1.8.14-r2", color=red, width=4,href="../app-doc/doxygen-1.8.14-r2.svg"];
+choice9711211245100111994710011112012110310111045494656464953 [label="app-doc/doxygen-1.8.15", color=red, width=4,href="../app-doc/doxygen-1.8.15.svg"];
+choice9711211245100111994710011112012110310111045494656464954 [label="app-doc/doxygen-1.8.16", color=red, width=4,href="../app-doc/doxygen-1.8.16.svg"];
+choice971121124510011199471001111201211031011104557575757 [label="app-doc/doxygen-9999", color=red, width=4,href="../app-doc/doxygen-9999.svg"];
+dependency567333:e -> choice97112112451001119947100111120121103101110454946564649524511449:w [style=dotted,weight="100"];
+dependency567333:e -> choice97112112451001119947100111120121103101110454946564649524511450:w [style=dotted,weight="100"];
+dependency567333:e -> choice9711211245100111994710011112012110310111045494656464953:w [style=dotted,weight="100"];
+dependency567333:e -> choice9711211245100111994710011112012110310111045494656464954:w [style=dotted,weight="100"];
+dependency567333:e -> choice971121124510011199471001111201211031011104557575757:w [style=dotted,weight="100"];
+}
+subgraph choice423679 {
+color=black;
+nodesep=1;
+choice118105114116117971084710810598117100101118455049534511449 [label="virtual/libudev-215-r1", color=red, width=4,href="../virtual/libudev-215-r1.svg"];
+choice118105114116117971084710810598117100101118455051504511449 [label="virtual/libudev-232-r1", color=red, width=4,href="../virtual/libudev-232-r1.svg"];
+choice118105114116117971084710810598117100101118455051504511450 [label="virtual/libudev-232-r2", color=red, width=4,href="../virtual/libudev-232-r2.svg"];
+choice118105114116117971084710810598117100101118455051504511451 [label="virtual/libudev-232-r3", color=red, width=4,href="../virtual/libudev-232-r3.svg"];
+dependency567335:e -> choice118105114116117971084710810598117100101118455049534511449:w [style=dotted,weight="100"];
+dependency567335:e -> choice118105114116117971084710810598117100101118455051504511449:w [style=dotted,weight="100"];
+dependency567335:e -> choice118105114116117971084710810598117100101118455051504511450:w [style=dotted,weight="100"];
+dependency567335:e -> choice118105114116117971084710810598117100101118455051504511451:w [style=dotted,weight="100"];
+}
+}
+
+}

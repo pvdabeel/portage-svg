@@ -1,0 +1,88 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="dev-libs/ptexenc-1.3.7_p20190410", color=red, width=4, href="../dev-libs/ptexenc-1.3.7_p20190410.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph cond132455 {
+dependency568463 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>iconv</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack424438 {
+dependency568464 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>libiconv</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency568463:e -> dependency568464:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency568463:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack424439 {
+dependency568465 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>kpathsea</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency568465:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice424438 {
+color=black;
+nodesep=1;
+choice118105114116117971084710810598105991111101184548 [label="virtual/libiconv-0", color=red, width=4,href="../virtual/libiconv-0.svg"];
+choice1181051141161179710847108105981059911111011845484511449 [label="virtual/libiconv-0-r1", color=red, width=4,href="../virtual/libiconv-0-r1.svg"];
+choice1181051141161179710847108105981059911111011845484511450 [label="virtual/libiconv-0-r2", color=red, width=4,href="../virtual/libiconv-0-r2.svg"];
+dependency568464:e -> choice118105114116117971084710810598105991111101184548:w [style=dotted,weight="100"];
+dependency568464:e -> choice1181051141161179710847108105981059911111011845484511449:w [style=dotted,weight="100"];
+dependency568464:e -> choice1181051141161179710847108105981059911111011845484511450:w [style=dotted,weight="100"];
+}
+subgraph choice424439 {
+color=black;
+nodesep=1;
+choice1001011184510810598115471071129711610411510197455446514649951125048495748524948 [label="dev-libs/kpathsea-6.3.1_p20190410", color=red, width=4,href="../dev-libs/kpathsea-6.3.1_p20190410.svg"];
+dependency568465:e -> choice1001011184510810598115471071129711610411510197455446514649951125048495748524948:w [style=dotted,weight="100"];
+}
+}
+
+}

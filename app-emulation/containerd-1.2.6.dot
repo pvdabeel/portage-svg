@@ -1,0 +1,138 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="app-emulation/containerd-1.2.6", color=red, width=4, href="../app-emulation/containerd-1.2.6.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond115070 {
+dependency483383 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>btrfs</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack359519 {
+dependency483384 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-fs</TD></TR><TR><TD>btrfs-progs</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency483383:e -> dependency483384:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency483383:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack359520 {
+dependency483385 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>go</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.10</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency483385:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph cond115071 {
+dependency483386 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>seccomp</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack359521 {
+dependency483387 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>libseccomp</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency483386:e -> dependency483387:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency483386:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack359522 {
+dependency483388 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-emulation</TD></TR><TR><TD>runc</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.0.0_rc6</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency483388:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice359519 {
+color=black;
+nodesep=1;
+choice115121115451021154798116114102115451121141111031154552464957 [label="sys-fs/btrfs-progs-4.19", color=red, width=4,href="../sys-fs/btrfs-progs-4.19.svg"];
+choice11512111545102115479811611410211545112114111103115455246524649 [label="sys-fs/btrfs-progs-4.4.1", color=red, width=4,href="../sys-fs/btrfs-progs-4.4.1.svg"];
+choice11512111545102115479811611410211545112114111103115455346514649 [label="sys-fs/btrfs-progs-5.3.1", color=red, width=4,href="../sys-fs/btrfs-progs-5.3.1.svg"];
+choice115121115451021154798116114102115451121141111031154557575757 [label="sys-fs/btrfs-progs-9999", color=red, width=4,href="../sys-fs/btrfs-progs-9999.svg"];
+dependency483384:e -> choice115121115451021154798116114102115451121141111031154552464957:w [style=dotted,weight="100"];
+dependency483384:e -> choice11512111545102115479811611410211545112114111103115455246524649:w [style=dotted,weight="100"];
+dependency483384:e -> choice11512111545102115479811611410211545112114111103115455346514649:w [style=dotted,weight="100"];
+dependency483384:e -> choice115121115451021154798116114102115451121141111031154557575757:w [style=dotted,weight="100"];
+}
+subgraph choice359520 {
+color=black;
+nodesep=1;
+choice1001011184510897110103471031114549464950464948 [label="dev-lang/go-1.12.10", color=red, width=4,href="../dev-lang/go-1.12.10.svg"];
+choice1001011184510897110103471031114549464950464949 [label="dev-lang/go-1.12.11", color=red, width=4,href="../dev-lang/go-1.12.11.svg"];
+choice1001011184510897110103471031114549464950464950 [label="dev-lang/go-1.12.12", color=red, width=4,href="../dev-lang/go-1.12.12.svg"];
+choice1001011184510897110103471031114549464950464951 [label="dev-lang/go-1.12.13", color=red, width=4,href="../dev-lang/go-1.12.13.svg"];
+choice10010111845108971101034710311145494649504657 [label="dev-lang/go-1.12.9", color=red, width=4,href="../dev-lang/go-1.12.9.svg"];
+choice1001011184510897110103471031114549464951 [label="dev-lang/go-1.13", color=red, width=4,href="../dev-lang/go-1.13.svg"];
+choice10010111845108971101034710311145494649514649 [label="dev-lang/go-1.13.1", color=red, width=4,href="../dev-lang/go-1.13.1.svg"];
+choice10010111845108971101034710311145494649514650 [label="dev-lang/go-1.13.2", color=red, width=4,href="../dev-lang/go-1.13.2.svg"];
+choice10010111845108971101034710311145494649514651 [label="dev-lang/go-1.13.3", color=red, width=4,href="../dev-lang/go-1.13.3.svg"];
+choice10010111845108971101034710311145494649514652 [label="dev-lang/go-1.13.4", color=red, width=4,href="../dev-lang/go-1.13.4.svg"];
+choice1001011184510897110103471031114557575757 [label="dev-lang/go-9999", color=red, width=4,href="../dev-lang/go-9999.svg"];
+dependency483385:e -> choice1001011184510897110103471031114549464950464948:w [style=dotted,weight="100"];
+dependency483385:e -> choice1001011184510897110103471031114549464950464949:w [style=dotted,weight="100"];
+dependency483385:e -> choice1001011184510897110103471031114549464950464950:w [style=dotted,weight="100"];
+dependency483385:e -> choice1001011184510897110103471031114549464950464951:w [style=dotted,weight="100"];
+dependency483385:e -> choice10010111845108971101034710311145494649504657:w [style=dotted,weight="100"];
+dependency483385:e -> choice1001011184510897110103471031114549464951:w [style=dotted,weight="100"];
+dependency483385:e -> choice10010111845108971101034710311145494649514649:w [style=dotted,weight="100"];
+dependency483385:e -> choice10010111845108971101034710311145494649514650:w [style=dotted,weight="100"];
+dependency483385:e -> choice10010111845108971101034710311145494649514651:w [style=dotted,weight="100"];
+dependency483385:e -> choice10010111845108971101034710311145494649514652:w [style=dotted,weight="100"];
+dependency483385:e -> choice1001011184510897110103471031114557575757:w [style=dotted,weight="100"];
+}
+subgraph choice359521 {
+color=black;
+nodesep=1;
+choice115121115451081059811547108105981151019999111109112455046524648 [label="sys-libs/libseccomp-2.4.0", color=red, width=4,href="../sys-libs/libseccomp-2.4.0.svg"];
+choice115121115451081059811547108105981151019999111109112455046524649 [label="sys-libs/libseccomp-2.4.1", color=red, width=4,href="../sys-libs/libseccomp-2.4.1.svg"];
+dependency483387:e -> choice115121115451081059811547108105981151019999111109112455046524648:w [style=dotted,weight="100"];
+dependency483387:e -> choice115121115451081059811547108105981151019999111109112455046524649:w [style=dotted,weight="100"];
+}
+subgraph choice359522 {
+color=black;
+nodesep=1;
+choice9711211245101109117108971161051111104711411711099454946484648951149956 [label="app-emulation/runc-1.0.0_rc8", color=red, width=4,href="../app-emulation/runc-1.0.0_rc8.svg"];
+choice9711211245101109117108971161051111104711411711099454946484648951149957 [label="app-emulation/runc-1.0.0_rc9", color=red, width=4,href="../app-emulation/runc-1.0.0_rc9.svg"];
+dependency483388:e -> choice9711211245101109117108971161051111104711411711099454946484648951149956:w [style=dotted,weight="100"];
+dependency483388:e -> choice9711211245101109117108971161051111104711411711099454946484648951149957:w [style=dotted,weight="100"];
+}
+}
+
+}

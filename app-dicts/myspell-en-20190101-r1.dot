@@ -1,0 +1,84 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="app-dicts/myspell-en-20190101-r1", color=red, width=4, href="../app-dicts/myspell-en-20190101-r1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack355795 {
+dependency478592 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>unzip</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency478592:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack355796 {
+dependency478593 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>hyphen</TD></TR><TR><TD>smaller</TD></TR><TR><TD>2.8.8-r1</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency478593:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice355795 {
+color=black;
+nodesep=1;
+choice9711211245971149910447117110122105112455446489511250494511450 [label="app-arch/unzip-6.0_p21-r2", color=red, width=4,href="../app-arch/unzip-6.0_p21-r2.svg"];
+choice971121124597114991044711711012210511245544648951125053 [label="app-arch/unzip-6.0_p25", color=red, width=4,href="../app-arch/unzip-6.0_p25.svg"];
+dependency478592:e -> choice9711211245971149910447117110122105112455446489511250494511450:w [style=dotted,weight="100"];
+dependency478592:e -> choice971121124597114991044711711012210511245544648951125053:w [style=dotted,weight="100"];
+}
+subgraph choice355796 {
+color=black;
+nodesep=1;
+choice100101118451081059811547104121112104101110455046564656 [label="dev-libs/hyphen-2.8.8", color=red, width=4,href="../dev-libs/hyphen-2.8.8.svg"];
+choice1001011184510810598115471041211121041011104550465646564511449 [label="dev-libs/hyphen-2.8.8-r1", color=red, width=4,href="../dev-libs/hyphen-2.8.8-r1.svg"];
+dependency478593:e -> choice100101118451081059811547104121112104101110455046564656:w [style=dotted,weight="100"];
+dependency478593:e -> choice1001011184510810598115471041211121041011104550465646564511449:w [style=dotted,weight="100"];
+}
+}
+
+}

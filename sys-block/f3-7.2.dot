@@ -1,0 +1,94 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="sys-block/f3-7.2", color=red, width=4, href="../sys-block/f3-7.2.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond212171 {
+dependency880898 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>extra</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack653286 {
+dependency880899 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-block</TD></TR><TR><TD>parted</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency880898:e -> dependency880899:w [weight=20,style="dashed",arrowhead="vee"];
+subgraph pack653287 {
+dependency880900 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>udev</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency880898:e -> dependency880900:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency880898:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice653286 {
+color=black;
+nodesep=1;
+choice1151211154598108111991074711297114116101100455146504511449 [label="sys-block/parted-3.2-r1", color=red, width=4,href="../sys-block/parted-3.2-r1.svg"];
+choice115121115459810811199107471129711411610110045514650951125051 [label="sys-block/parted-3.2_p23", color=red, width=4,href="../sys-block/parted-3.2_p23.svg"];
+choice115121115459810811199107471129711411610110045514650951125053 [label="sys-block/parted-3.2_p25", color=red, width=4,href="../sys-block/parted-3.2_p25.svg"];
+choice115121115459810811199107471129711411610110045514651 [label="sys-block/parted-3.3", color=red, width=4,href="../sys-block/parted-3.3.svg"];
+choice1151211154598108111991074711297114116101100455757575757 [label="sys-block/parted-99999", color=red, width=4,href="../sys-block/parted-99999.svg"];
+dependency880899:e -> choice1151211154598108111991074711297114116101100455146504511449:w [style=dotted,weight="100"];
+dependency880899:e -> choice115121115459810811199107471129711411610110045514650951125051:w [style=dotted,weight="100"];
+dependency880899:e -> choice115121115459810811199107471129711411610110045514650951125053:w [style=dotted,weight="100"];
+dependency880899:e -> choice115121115459810811199107471129711411610110045514651:w [style=dotted,weight="100"];
+dependency880899:e -> choice1151211154598108111991074711297114116101100455757575757:w [style=dotted,weight="100"];
+}
+subgraph choice653287 {
+color=black;
+nodesep=1;
+choice118105114116117971084711710010111845504953 [label="virtual/udev-215", color=red, width=4,href="../virtual/udev-215.svg"];
+choice118105114116117971084711710010111845504955 [label="virtual/udev-217", color=red, width=4,href="../virtual/udev-217.svg"];
+dependency880900:e -> choice118105114116117971084711710010111845504953:w [style=dotted,weight="100"];
+dependency880900:e -> choice118105114116117971084711710010111845504955:w [style=dotted,weight="100"];
+}
+}
+
+}

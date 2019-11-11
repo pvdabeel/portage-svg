@@ -1,0 +1,104 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="sys-apps/hponcfg-5.4.0.0", color=red, width=4, href="../sys-apps/hponcfg-5.4.0.0.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack649295 {
+dependency875448 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>rpm2targz</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>9.0.0.3g</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency875448:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond210809 {
+dependency875449 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>elibc_glibc</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack649296 {
+dependency875450 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>glibc</TD></TR><TR><TD>greater</TD></TR><TR><TD>2.14</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency875449:e -> dependency875450:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency875449:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice649295 {
+color=black;
+nodesep=1;
+choice971121124597114991044711411210950116971141031224557464846484653103 [label="app-arch/rpm2targz-9.0.0.5g", color=red, width=4,href="../app-arch/rpm2targz-9.0.0.5g.svg"];
+dependency875448:e -> choice971121124597114991044711411210950116971141031224557464846484653103:w [style=dotted,weight="100"];
+}
+subgraph choice649296 {
+color=black;
+nodesep=1;
+choice115121115451081059811547103108105989945504649574511450 [label="sys-libs/glibc-2.19-r2", color=red, width=4,href="../sys-libs/glibc-2.19-r2.svg"];
+choice115121115451081059811547103108105989945504650524511452 [label="sys-libs/glibc-2.24-r4", color=red, width=4,href="../sys-libs/glibc-2.24-r4.svg"];
+choice11512111545108105981154710310810598994550465053451144949 [label="sys-libs/glibc-2.25-r11", color=red, width=4,href="../sys-libs/glibc-2.25-r11.svg"];
+choice115121115451081059811547103108105989945504650544511455 [label="sys-libs/glibc-2.26-r7", color=red, width=4,href="../sys-libs/glibc-2.26-r7.svg"];
+choice115121115451081059811547103108105989945504650554511454 [label="sys-libs/glibc-2.27-r6", color=red, width=4,href="../sys-libs/glibc-2.27-r6.svg"];
+choice115121115451081059811547103108105989945504650564511454 [label="sys-libs/glibc-2.28-r6", color=red, width=4,href="../sys-libs/glibc-2.28-r6.svg"];
+choice115121115451081059811547103108105989945504650574511450 [label="sys-libs/glibc-2.29-r2", color=red, width=4,href="../sys-libs/glibc-2.29-r2.svg"];
+choice115121115451081059811547103108105989945504650574511453 [label="sys-libs/glibc-2.29-r5", color=red, width=4,href="../sys-libs/glibc-2.29-r5.svg"];
+choice115121115451081059811547103108105989945504650574511454 [label="sys-libs/glibc-2.29-r6", color=red, width=4,href="../sys-libs/glibc-2.29-r6.svg"];
+choice115121115451081059811547103108105989945504651484511450 [label="sys-libs/glibc-2.30-r2", color=red, width=4,href="../sys-libs/glibc-2.30-r2.svg"];
+choice11512111545108105981154710310810598994557575757 [label="sys-libs/glibc-9999", color=red, width=4,href="../sys-libs/glibc-9999.svg"];
+dependency875450:e -> choice115121115451081059811547103108105989945504649574511450:w [style=dotted,weight="100"];
+dependency875450:e -> choice115121115451081059811547103108105989945504650524511452:w [style=dotted,weight="100"];
+dependency875450:e -> choice11512111545108105981154710310810598994550465053451144949:w [style=dotted,weight="100"];
+dependency875450:e -> choice115121115451081059811547103108105989945504650544511455:w [style=dotted,weight="100"];
+dependency875450:e -> choice115121115451081059811547103108105989945504650554511454:w [style=dotted,weight="100"];
+dependency875450:e -> choice115121115451081059811547103108105989945504650564511454:w [style=dotted,weight="100"];
+dependency875450:e -> choice115121115451081059811547103108105989945504650574511450:w [style=dotted,weight="100"];
+dependency875450:e -> choice115121115451081059811547103108105989945504650574511453:w [style=dotted,weight="100"];
+dependency875450:e -> choice115121115451081059811547103108105989945504650574511454:w [style=dotted,weight="100"];
+dependency875450:e -> choice115121115451081059811547103108105989945504651484511450:w [style=dotted,weight="100"];
+dependency875450:e -> choice11512111545108105981154710310810598994557575757:w [style=dotted,weight="100"];
+}
+}
+
+}

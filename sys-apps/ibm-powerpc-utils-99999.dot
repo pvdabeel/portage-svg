@@ -1,0 +1,98 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="sys-apps/ibm-powerpc-utils-99999", color=red, width=4, href="../sys-apps/ibm-powerpc-utils-99999.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack649395 {
+dependency875599 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-devel</TD></TR><TR><TD>bc</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency875599:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond210857 {
+dependency875600 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>rtas</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack649396 {
+dependency875601 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>librtas</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2.0.2</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency875600:e -> dependency875601:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency875600:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack649397 {
+dependency875602 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>powerpc-utils</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency875602:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice649395 {
+color=black;
+nodesep=1;
+choice1151211154510010111810110847989945494648544657534511450 [label="sys-devel/bc-1.06.95-r2", color=red, width=4,href="../sys-devel/bc-1.06.95-r2.svg"];
+choice11512111545100101118101108479899454946485546494511449 [label="sys-devel/bc-1.07.1-r1", color=red, width=4,href="../sys-devel/bc-1.07.1-r1.svg"];
+choice11512111545100101118101108479899454946485546494511450 [label="sys-devel/bc-1.07.1-r2", color=red, width=4,href="../sys-devel/bc-1.07.1-r2.svg"];
+dependency875599:e -> choice1151211154510010111810110847989945494648544657534511450:w [style=dotted,weight="100"];
+dependency875599:e -> choice11512111545100101118101108479899454946485546494511449:w [style=dotted,weight="100"];
+dependency875599:e -> choice11512111545100101118101108479899454946485546494511450:w [style=dotted,weight="100"];
+}
+subgraph choice649396 {
+color=black;
+nodesep=1;
+choice1151211154510810598115471081059811411697115455046484650 [label="sys-libs/librtas-2.0.2", color=red, width=4,href="../sys-libs/librtas-2.0.2.svg"];
+dependency875601:e -> choice1151211154510810598115471081059811411697115455046484650:w [style=dotted,weight="100"];
+}
+subgraph choice649397 {
+color=black;
+nodesep=1;
+choice11512111545971121121154711211111910111411299451171161051081154549464946514649564511451 [label="sys-apps/powerpc-utils-1.1.3.18-r3", color=red, width=4,href="../sys-apps/powerpc-utils-1.1.3.18-r3.svg"];
+dependency875602:e -> choice11512111545971121121154711211111910111411299451171161051081154549464946514649564511451:w [style=dotted,weight="100"];
+}
+}
+
+}

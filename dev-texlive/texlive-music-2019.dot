@@ -1,0 +1,98 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="dev-texlive/texlive-music-2019", color=red, width=4, href="../dev-texlive/texlive-music-2019.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack531087 {
+dependency724909 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-texlive</TD></TR><TR><TD>texlive-latex</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2019</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency724909:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack531088 {
+dependency724910 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>dev-texlive</TD></TR><TR><TD>texlive-genericextra</TD></TR><TR><TD>smaller</TD></TR><TR><TD>2015</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency724910:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack531089 {
+dependency724911 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>dev-texlive</TD></TR><TR><TD>texlive-pictures</TD></TR><TR><TD>smaller</TD></TR><TR><TD>2015</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency724911:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack531090 {
+dependency724912 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-text</TD></TR><TR><TD>texlive-core</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2019</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency724912:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice531087 {
+color=black;
+nodesep=1;
+choice100101118451161011201081051181014711610112010810511810145108971161011204550484957 [label="dev-texlive/texlive-latex-2019", color=red, width=4,href="../dev-texlive/texlive-latex-2019.svg"];
+dependency724909:e -> choice100101118451161011201081051181014711610112010810511810145108971161011204550484957:w [style=dotted,weight="100"];
+}
+subgraph choice531088 {
+color=black;
+nodesep=1;
+}
+subgraph choice531089 {
+color=black;
+nodesep=1;
+choice100101118451161011201081051181014711610112010810511810145112105991161171141011154550484957 [label="dev-texlive/texlive-pictures-2019", color=red, width=4,href="../dev-texlive/texlive-pictures-2019.svg"];
+dependency724911:e -> choice100101118451161011201081051181014711610112010810511810145112105991161171141011154550484957:w [style=dotted,weight="100"];
+}
+subgraph choice531090 {
+color=black;
+nodesep=1;
+choice971121124511610112011647116101120108105118101459911111410145504849574511452 [label="app-text/texlive-core-2019-r4", color=red, width=4,href="../app-text/texlive-core-2019-r4.svg"];
+dependency724912:e -> choice971121124511610112011647116101120108105118101459911111410145504849574511452:w [style=dotted,weight="100"];
+}
+}
+
+}

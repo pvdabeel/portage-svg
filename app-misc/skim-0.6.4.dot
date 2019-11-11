@@ -1,0 +1,111 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="app-misc/skim-0.6.4", color=red, width=4, href="../app-misc/skim-0.6.4.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond119476 {
+dependency500250 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>tmux</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack371744 {
+dependency500251 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-misc</TD></TR><TR><TD>tmux</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency500250:e -> dependency500251:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency500250:w [weight=20,style="solid",arrowhead="odot"];
+subgraph cond119477 {
+dependency500252 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>vim</TD></TR></TABLE>>, shape=none, color=red];
+subgraph any8714 {
+dependency500253 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD CELLPADDING="10">any_of_group</TD></TR></TABLE>>, shape=none, color=red];subgraph pack371745 {
+dependency500254 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-editors</TD></TR><TR><TD>vim</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency500253:e -> dependency500254:w [weight=20,style="dotted",arrowhead="oinv"];
+subgraph pack371746 {
+dependency500255 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-editors</TD></TR><TR><TD>gvim</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency500253:e -> dependency500255:w [weight=20,style="dotted",arrowhead="oinv"];
+}
+dependency500252:e -> dependency500253:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency500252:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice371744 {
+color=black;
+nodesep=1;
+choice971121124510910511599471161091171204550465797 [label="app-misc/tmux-2.9a", color=red, width=4,href="../app-misc/tmux-2.9a.svg"];
+choice971121124510910511599471161091171204557575757 [label="app-misc/tmux-9999", color=red, width=4,href="../app-misc/tmux-9999.svg"];
+dependency500251:e -> choice971121124510910511599471161091171204550465797:w [style=dotted,weight="100"];
+dependency500251:e -> choice971121124510910511599471161091171204557575757:w [style=dotted,weight="100"];
+}
+subgraph choice371745 {
+color=black;
+nodesep=1;
+choice971121124510110010511611111411547118105109455646494649525654 [label="app-editors/vim-8.1.1486", color=red, width=4,href="../app-editors/vim-8.1.1486.svg"];
+choice971121124510110010511611111411547118105109455646494649565254 [label="app-editors/vim-8.1.1846", color=red, width=4,href="../app-editors/vim-8.1.1846.svg"];
+choice9711211245101100105116111114115471181051094557575757 [label="app-editors/vim-9999", color=red, width=4,href="../app-editors/vim-9999.svg"];
+dependency500254:e -> choice971121124510110010511611111411547118105109455646494649525654:w [style=dotted,weight="100"];
+dependency500254:e -> choice971121124510110010511611111411547118105109455646494649565254:w [style=dotted,weight="100"];
+dependency500254:e -> choice9711211245101100105116111114115471181051094557575757:w [style=dotted,weight="100"];
+}
+subgraph choice371746 {
+color=black;
+nodesep=1;
+choice971121124510110010511611111411547103118105109455646494649525654 [label="app-editors/gvim-8.1.1486", color=red, width=4,href="../app-editors/gvim-8.1.1486.svg"];
+choice971121124510110010511611111411547103118105109455646494649565254 [label="app-editors/gvim-8.1.1846", color=red, width=4,href="../app-editors/gvim-8.1.1846.svg"];
+choice9711211245101100105116111114115471031181051094557575757 [label="app-editors/gvim-9999", color=red, width=4,href="../app-editors/gvim-9999.svg"];
+dependency500255:e -> choice971121124510110010511611111411547103118105109455646494649525654:w [style=dotted,weight="100"];
+dependency500255:e -> choice971121124510110010511611111411547103118105109455646494649565254:w [style=dotted,weight="100"];
+dependency500255:e -> choice9711211245101100105116111114115471031181051094557575757:w [style=dotted,weight="100"];
+}
+}
+
+}

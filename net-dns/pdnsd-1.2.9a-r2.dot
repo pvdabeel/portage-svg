@@ -1,0 +1,96 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="net-dns/pdnsd-1.2.9a-r2", color=red, width=4, href="../net-dns/pdnsd-1.2.9a-r2.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond199418 {
+dependency818732 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>test</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack604998 {
+dependency818733 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>net-dns</TD></TR><TR><TD>bind-tools</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency818732:e -> dependency818733:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency818732:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack604999 {
+dependency818734 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>acct-group</TD></TR><TR><TD>pdnsd</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency818734:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack605000 {
+dependency818735 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>acct-user</TD></TR><TR><TD>pdnsd</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency818735:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice604998 {
+color=black;
+nodesep=1;
+choice1101011164510011011547981051101004511611111110811545574649524655 [label="net-dns/bind-tools-9.14.7", color=red, width=4,href="../net-dns/bind-tools-9.14.7.svg"];
+choice1101011164510011011547981051101004511611111110811545574649534653 [label="net-dns/bind-tools-9.15.5", color=red, width=4,href="../net-dns/bind-tools-9.15.5.svg"];
+dependency818733:e -> choice1101011164510011011547981051101004511611111110811545574649524655:w [style=dotted,weight="100"];
+dependency818733:e -> choice1101011164510011011547981051101004511611111110811545574649534653:w [style=dotted,weight="100"];
+}
+subgraph choice604999 {
+color=black;
+nodesep=1;
+choice97999911645103114111117112471121001101151004548 [label="acct-group/pdnsd-0", color=red, width=4,href="../acct-group/pdnsd-0.svg"];
+dependency818734:e -> choice97999911645103114111117112471121001101151004548:w [style=dotted,weight="100"];
+}
+subgraph choice605000 {
+color=black;
+nodesep=1;
+choice97999911645117115101114471121001101151004548 [label="acct-user/pdnsd-0", color=red, width=4,href="../acct-user/pdnsd-0.svg"];
+dependency818735:e -> choice97999911645117115101114471121001101151004548:w [style=dotted,weight="100"];
+}
+}
+
+}

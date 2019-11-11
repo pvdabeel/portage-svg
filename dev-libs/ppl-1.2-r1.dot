@@ -1,0 +1,114 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="dev-libs/ppl-1.2-r1", color=red, width=4, href="../dev-libs/ppl-1.2-r1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack424393 {
+dependency568392 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>xz-utils</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency568392:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack424394 {
+dependency568393 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-devel</TD></TR><TR><TD>m4</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency568393:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph cond132430 {
+dependency568394 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>lpsol</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack424395 {
+dependency568395 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sci-mathematics</TD></TR><TR><TD>glpk</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency568394:e -> dependency568395:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency568394:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack424396 {
+dependency568396 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>gmp</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>6</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency568396:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice424393 {
+color=black;
+nodesep=1;
+choice9711211245971149910447120122451171161051081154553465046524511450 [label="app-arch/xz-utils-5.2.4-r2", color=red, width=4,href="../app-arch/xz-utils-5.2.4-r2.svg"];
+choice9711211245971149910447120122451171161051081154553465046524511451 [label="app-arch/xz-utils-5.2.4-r3", color=red, width=4,href="../app-arch/xz-utils-5.2.4-r3.svg"];
+choice9711211245971149910447120122451171161051081154557575757 [label="app-arch/xz-utils-9999", color=red, width=4,href="../app-arch/xz-utils-9999.svg"];
+dependency568392:e -> choice9711211245971149910447120122451171161051081154553465046524511450:w [style=dotted,weight="100"];
+dependency568392:e -> choice9711211245971149910447120122451171161051081154553465046524511451:w [style=dotted,weight="100"];
+dependency568392:e -> choice9711211245971149910447120122451171161051081154557575757:w [style=dotted,weight="100"];
+}
+subgraph choice424394 {
+color=black;
+nodesep=1;
+choice11512111545100101118101108471095245494652464955 [label="sys-devel/m4-1.4.17", color=red, width=4,href="../sys-devel/m4-1.4.17.svg"];
+choice115121115451001011181011084710952454946524649564511449 [label="sys-devel/m4-1.4.18-r1", color=red, width=4,href="../sys-devel/m4-1.4.18-r1.svg"];
+dependency568393:e -> choice11512111545100101118101108471095245494652464955:w [style=dotted,weight="100"];
+dependency568393:e -> choice115121115451001011181011084710952454946524649564511449:w [style=dotted,weight="100"];
+}
+subgraph choice424395 {
+color=black;
+nodesep=1;
+choice1159910545109971161041011099711610599115471031081121074552465451 [label="sci-mathematics/glpk-4.63", color=red, width=4,href="../sci-mathematics/glpk-4.63.svg"];
+dependency568395:e -> choice1159910545109971161041011099711610599115471031081121074552465451:w [style=dotted,weight="100"];
+}
+subgraph choice424396 {
+color=black;
+nodesep=1;
+choice1001011184510810598115471031091124552465146504511449 [label="dev-libs/gmp-4.3.2-r1", color=red, width=4,href="../dev-libs/gmp-4.3.2-r1.svg"];
+choice100101118451081059811547103109112455446494650 [label="dev-libs/gmp-6.1.2", color=red, width=4,href="../dev-libs/gmp-6.1.2.svg"];
+choice1001011184510810598115471031091124554464946504511449 [label="dev-libs/gmp-6.1.2-r1", color=red, width=4,href="../dev-libs/gmp-6.1.2-r1.svg"];
+dependency568396:e -> choice1001011184510810598115471031091124552465146504511449:w [style=dotted,weight="100"];
+dependency568396:e -> choice100101118451081059811547103109112455446494650:w [style=dotted,weight="100"];
+dependency568396:e -> choice1001011184510810598115471031091124554464946504511449:w [style=dotted,weight="100"];
+}
+}
+
+}

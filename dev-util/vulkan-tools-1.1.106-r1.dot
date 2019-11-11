@@ -1,0 +1,116 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="dev-util/vulkan-tools-1.1.106-r1", color=red, width=4, href="../dev-util/vulkan-tools-1.1.106-r1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph cond183453 {
+dependency732784 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>X</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack537116 {
+dependency732785 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>x11-libs</TD></TR><TR><TD>libX11</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency732784:e -> dependency732785:w [weight=20,style="dashed",arrowhead="vee"];
+subgraph pack537117 {
+dependency732786 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>x11-libs</TD></TR><TR><TD>libXrandr</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency732784:e -> dependency732786:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency732784:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph cond183454 {
+dependency732787 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>wayland</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack537118 {
+dependency732788 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>wayland</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency732787:e -> dependency732788:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency732787:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack537119 {
+dependency732789 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>media-libs</TD></TR><TR><TD>vulkan-loader</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency732789:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice537116 {
+color=black;
+nodesep=1;
+choice120494945108105981154710810598884949454946544656 [label="x11-libs/libX11-1.6.8", color=red, width=4,href="../x11-libs/libX11-1.6.8.svg"];
+choice120494945108105981154710810598884949454946544657 [label="x11-libs/libX11-1.6.9", color=red, width=4,href="../x11-libs/libX11-1.6.9.svg"];
+dependency732785:e -> choice120494945108105981154710810598884949454946544656:w [style=dotted,weight="100"];
+dependency732785:e -> choice120494945108105981154710810598884949454946544657:w [style=dotted,weight="100"];
+}
+subgraph choice537117 {
+color=black;
+nodesep=1;
+choice1204949451081059811547108105988811497110100114454946534650 [label="x11-libs/libXrandr-1.5.2", color=red, width=4,href="../x11-libs/libXrandr-1.5.2.svg"];
+dependency732786:e -> choice1204949451081059811547108105988811497110100114454946534650:w [style=dotted,weight="100"];
+}
+subgraph choice537118 {
+color=black;
+nodesep=1;
+choice100101118451081059811547119971211089711010045494649554648 [label="dev-libs/wayland-1.17.0", color=red, width=4,href="../dev-libs/wayland-1.17.0.svg"];
+choice10010111845108105981154711997121108971101004557575757 [label="dev-libs/wayland-9999", color=red, width=4,href="../dev-libs/wayland-9999.svg"];
+dependency732788:e -> choice100101118451081059811547119971211089711010045494649554648:w [style=dotted,weight="100"];
+dependency732788:e -> choice10010111845108105981154711997121108971101004557575757:w [style=dotted,weight="100"];
+}
+subgraph choice537119 {
+color=black;
+nodesep=1;
+choice109101100105974510810598115471181171081079711045108111971001011144549464946494952 [label="media-libs/vulkan-loader-1.1.114", color=red, width=4,href="../media-libs/vulkan-loader-1.1.114.svg"];
+choice109101100105974510810598115471181171081079711045108111971001011144549464946495053 [label="media-libs/vulkan-loader-1.1.125", color=red, width=4,href="../media-libs/vulkan-loader-1.1.125.svg"];
+choice109101100105974510810598115471181171081079711045108111971001011144557575757 [label="media-libs/vulkan-loader-9999", color=red, width=4,href="../media-libs/vulkan-loader-9999.svg"];
+dependency732789:e -> choice109101100105974510810598115471181171081079711045108111971001011144549464946494952:w [style=dotted,weight="100"];
+dependency732789:e -> choice109101100105974510810598115471181171081079711045108111971001011144549464946495053:w [style=dotted,weight="100"];
+dependency732789:e -> choice109101100105974510810598115471181171081079711045108111971001011144557575757:w [style=dotted,weight="100"];
+}
+}
+
+}

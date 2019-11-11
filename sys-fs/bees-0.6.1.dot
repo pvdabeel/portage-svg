@@ -1,0 +1,94 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="sys-fs/bees-0.6.1", color=red, width=4, href="../sys-fs/bees-0.6.1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack661472 {
+dependency891288 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>util-linux</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2.30.2</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency891288:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack661473 {
+dependency891289 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-fs</TD></TR><TR><TD>btrfs-progs</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>4.1</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency891289:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice661472 {
+color=black;
+nodesep=1;
+choice1151211154597112112115471171161051084510810511011712045504651514511449 [label="sys-apps/util-linux-2.33-r1", color=red, width=4,href="../sys-apps/util-linux-2.33-r1.svg"];
+choice1151211154597112112115471171161051084510810511011712045504651514649 [label="sys-apps/util-linux-2.33.1", color=red, width=4,href="../sys-apps/util-linux-2.33.1.svg"];
+choice1151211154597112112115471171161051084510810511011712045504651514650 [label="sys-apps/util-linux-2.33.2", color=red, width=4,href="../sys-apps/util-linux-2.33.2.svg"];
+choice1151211154597112112115471171161051084510810511011712045504651524511450 [label="sys-apps/util-linux-2.34-r2", color=red, width=4,href="../sys-apps/util-linux-2.34-r2.svg"];
+choice115121115459711211211547117116105108451081051101171204557575757 [label="sys-apps/util-linux-9999", color=red, width=4,href="../sys-apps/util-linux-9999.svg"];
+dependency891288:e -> choice1151211154597112112115471171161051084510810511011712045504651514511449:w [style=dotted,weight="100"];
+dependency891288:e -> choice1151211154597112112115471171161051084510810511011712045504651514649:w [style=dotted,weight="100"];
+dependency891288:e -> choice1151211154597112112115471171161051084510810511011712045504651514650:w [style=dotted,weight="100"];
+dependency891288:e -> choice1151211154597112112115471171161051084510810511011712045504651524511450:w [style=dotted,weight="100"];
+dependency891288:e -> choice115121115459711211211547117116105108451081051101171204557575757:w [style=dotted,weight="100"];
+}
+subgraph choice661473 {
+color=black;
+nodesep=1;
+choice115121115451021154798116114102115451121141111031154552464957 [label="sys-fs/btrfs-progs-4.19", color=red, width=4,href="../sys-fs/btrfs-progs-4.19.svg"];
+choice11512111545102115479811611410211545112114111103115455246524649 [label="sys-fs/btrfs-progs-4.4.1", color=red, width=4,href="../sys-fs/btrfs-progs-4.4.1.svg"];
+choice11512111545102115479811611410211545112114111103115455346514649 [label="sys-fs/btrfs-progs-5.3.1", color=red, width=4,href="../sys-fs/btrfs-progs-5.3.1.svg"];
+choice115121115451021154798116114102115451121141111031154557575757 [label="sys-fs/btrfs-progs-9999", color=red, width=4,href="../sys-fs/btrfs-progs-9999.svg"];
+dependency891289:e -> choice115121115451021154798116114102115451121141111031154552464957:w [style=dotted,weight="100"];
+dependency891289:e -> choice11512111545102115479811611410211545112114111103115455246524649:w [style=dotted,weight="100"];
+dependency891289:e -> choice11512111545102115479811611410211545112114111103115455346514649:w [style=dotted,weight="100"];
+dependency891289:e -> choice115121115451021154798116114102115451121141111031154557575757:w [style=dotted,weight="100"];
+}
+}
+
+}

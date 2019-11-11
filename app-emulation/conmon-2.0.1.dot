@@ -1,0 +1,96 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="app-emulation/conmon-2.0.1", color=red, width=4, href="../app-emulation/conmon-2.0.1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph cond115066 {
+dependency483371 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>systemd</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack359511 {
+dependency483372 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>systemd</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency483371:e -> dependency483372:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency483371:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack359512 {
+dependency483373 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>glib</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency483373:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice359511 {
+color=black;
+nodesep=1;
+choice115121115459711211211547115121115116101109100455052504511454 [label="sys-apps/systemd-242-r6", color=red, width=4,href="../sys-apps/systemd-242-r6.svg"];
+choice115121115459711211211547115121115116101109100455052504511455 [label="sys-apps/systemd-242-r7", color=red, width=4,href="../sys-apps/systemd-242-r7.svg"];
+choice11512111545971121121154711512111511610110910045505251 [label="sys-apps/systemd-243", color=red, width=4,href="../sys-apps/systemd-243.svg"];
+choice115121115459711211211547115121115116101109100455052514511450 [label="sys-apps/systemd-243-r2", color=red, width=4,href="../sys-apps/systemd-243-r2.svg"];
+choice1151211154597112112115471151211151161011091004557575757 [label="sys-apps/systemd-9999", color=red, width=4,href="../sys-apps/systemd-9999.svg"];
+dependency483372:e -> choice115121115459711211211547115121115116101109100455052504511454:w [style=dotted,weight="100"];
+dependency483372:e -> choice115121115459711211211547115121115116101109100455052504511455:w [style=dotted,weight="100"];
+dependency483372:e -> choice11512111545971121121154711512111511610110910045505251:w [style=dotted,weight="100"];
+dependency483372:e -> choice115121115459711211211547115121115116101109100455052514511450:w [style=dotted,weight="100"];
+dependency483372:e -> choice1151211154597112112115471151211151161011091004557575757:w [style=dotted,weight="100"];
+}
+subgraph choice359512 {
+color=black;
+nodesep=1;
+choice10010111845108105981154710310810598455046535646514511449 [label="dev-libs/glib-2.58.3-r1", color=red, width=4,href="../dev-libs/glib-2.58.3-r1.svg"];
+choice1001011184510810598115471031081059845504654484654 [label="dev-libs/glib-2.60.6", color=red, width=4,href="../dev-libs/glib-2.60.6.svg"];
+choice1001011184510810598115471031081059845504654484655 [label="dev-libs/glib-2.60.7", color=red, width=4,href="../dev-libs/glib-2.60.7.svg"];
+dependency483373:e -> choice10010111845108105981154710310810598455046535646514511449:w [style=dotted,weight="100"];
+dependency483373:e -> choice1001011184510810598115471031081059845504654484654:w [style=dotted,weight="100"];
+dependency483373:e -> choice1001011184510810598115471031081059845504654484655:w [style=dotted,weight="100"];
+}
+}
+
+}

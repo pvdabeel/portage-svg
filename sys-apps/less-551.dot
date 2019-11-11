@@ -1,0 +1,100 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="sys-apps/less-551", color=red, width=4, href="../sys-apps/less-551.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph cond210996 {
+dependency876065 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>pcre</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack649712 {
+dependency876066 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libpcre2</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency876065:e -> dependency876066:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency876065:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack649713 {
+dependency876067 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-misc</TD></TR><TR><TD>editor-wrapper</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>3</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency876067:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack649714 {
+dependency876068 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>ncurses</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>5.2</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency876068:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice649712 {
+color=black;
+nodesep=1;
+choice100101118451081059811547108105981129911410150454948465150 [label="dev-libs/libpcre2-10.32", color=red, width=4,href="../dev-libs/libpcre2-10.32.svg"];
+choice100101118451081059811547108105981129911410150454948465151 [label="dev-libs/libpcre2-10.33", color=red, width=4,href="../dev-libs/libpcre2-10.33.svg"];
+choice1001011184510810598115471081059811299114101504549484651514511449 [label="dev-libs/libpcre2-10.33-r1", color=red, width=4,href="../dev-libs/libpcre2-10.33-r1.svg"];
+dependency876066:e -> choice100101118451081059811547108105981129911410150454948465150:w [style=dotted,weight="100"];
+dependency876066:e -> choice100101118451081059811547108105981129911410150454948465151:w [style=dotted,weight="100"];
+dependency876066:e -> choice1001011184510810598115471081059811299114101504549484651514511449:w [style=dotted,weight="100"];
+}
+subgraph choice649713 {
+color=black;
+nodesep=1;
+choice97112112451091051159947101100105116111114451191149711211210111445524511449 [label="app-misc/editor-wrapper-4-r1", color=red, width=4,href="../app-misc/editor-wrapper-4-r1.svg"];
+dependency876067:e -> choice97112112451091051159947101100105116111114451191149711211210111445524511449:w [style=dotted,weight="100"];
+}
+subgraph choice649714 {
+color=black;
+nodesep=1;
+choice1151211154510810598115471109911711411510111545544649951125048495649485048 [label="sys-libs/ncurses-6.1_p20181020", color=red, width=4,href="../sys-libs/ncurses-6.1_p20181020.svg"];
+choice1151211154510810598115471109911711411510111545544649951125048495748544857 [label="sys-libs/ncurses-6.1_p20190609", color=red, width=4,href="../sys-libs/ncurses-6.1_p20190609.svg"];
+dependency876068:e -> choice1151211154510810598115471109911711411510111545544649951125048495649485048:w [style=dotted,weight="100"];
+dependency876068:e -> choice1151211154510810598115471109911711411510111545544649951125048495748544857:w [style=dotted,weight="100"];
+}
+}
+
+}

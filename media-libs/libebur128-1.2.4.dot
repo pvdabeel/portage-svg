@@ -1,0 +1,90 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="media-libs/libebur128-1.2.4", color=red, width=4, href="../media-libs/libebur128-1.2.4.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond191450 {
+dependency787174 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>test</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack582046 {
+dependency787175 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>unzip</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency787174:e -> dependency787175:w [weight=20,style="dashed",arrowhead="vee"];
+subgraph pack582047 {
+dependency787176 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>media-libs</TD></TR><TR><TD>libsndfile</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency787174:e -> dependency787176:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency787174:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice582046 {
+color=black;
+nodesep=1;
+choice9711211245971149910447117110122105112455446489511250494511450 [label="app-arch/unzip-6.0_p21-r2", color=red, width=4,href="../app-arch/unzip-6.0_p21-r2.svg"];
+choice971121124597114991044711711012210511245544648951125053 [label="app-arch/unzip-6.0_p25", color=red, width=4,href="../app-arch/unzip-6.0_p25.svg"];
+dependency787175:e -> choice9711211245971149910447117110122105112455446489511250494511450:w [style=dotted,weight="100"];
+dependency787175:e -> choice971121124597114991044711711012210511245544648951125053:w [style=dotted,weight="100"];
+}
+subgraph choice582047 {
+color=black;
+nodesep=1;
+choice1091011001059745108105981154710810598115110100102105108101454946484650564511452 [label="media-libs/libsndfile-1.0.28-r4", color=red, width=4,href="../media-libs/libsndfile-1.0.28-r4.svg"];
+choice1091011001059745108105981154710810598115110100102105108101454946484650579511211410150951125048495749485052 [label="media-libs/libsndfile-1.0.29_pre2_p20191024", color=red, width=4,href="../media-libs/libsndfile-1.0.29_pre2_p20191024.svg"];
+choice10910110010597451081059811547108105981151101001021051081014557575757 [label="media-libs/libsndfile-9999", color=red, width=4,href="../media-libs/libsndfile-9999.svg"];
+dependency787176:e -> choice1091011001059745108105981154710810598115110100102105108101454946484650564511452:w [style=dotted,weight="100"];
+dependency787176:e -> choice1091011001059745108105981154710810598115110100102105108101454946484650579511211410150951125048495749485052:w [style=dotted,weight="100"];
+dependency787176:e -> choice10910110010597451081059811547108105981151101001021051081014557575757:w [style=dotted,weight="100"];
+}
+}
+
+}

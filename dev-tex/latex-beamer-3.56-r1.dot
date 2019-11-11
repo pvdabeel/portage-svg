@@ -1,0 +1,110 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="dev-tex/latex-beamer-3.56-r1", color=red, width=4, href="../dev-tex/latex-beamer-3.56-r1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack530703 {
+dependency724509 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-texlive</TD></TR><TR><TD>texlive-latex</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency724509:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack530704 {
+dependency724510 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-tex</TD></TR><TR><TD>pgf</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.10</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency724510:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack530705 {
+dependency724511 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-texlive</TD></TR><TR><TD>texlive-latexrecommended</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency724511:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack530706 {
+dependency724512 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>latex-base</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency724512:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack530707 {
+dependency724513 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>dev-tex</TD></TR><TR><TD>translator</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency724513:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice530703 {
+color=black;
+nodesep=1;
+choice100101118451161011201081051181014711610112010810511810145108971161011204550484957 [label="dev-texlive/texlive-latex-2019", color=red, width=4,href="../dev-texlive/texlive-latex-2019.svg"];
+dependency724509:e -> choice100101118451161011201081051181014711610112010810511810145108971161011204550484957:w [style=dotted,weight="100"];
+}
+subgraph choice530704 {
+color=black;
+nodesep=1;
+choice1001011184511610112047112103102455146494652984511450 [label="dev-tex/pgf-3.1.4b-r2", color=red, width=4,href="../dev-tex/pgf-3.1.4b-r2.svg"];
+dependency724510:e -> choice1001011184511610112047112103102455146494652984511450:w [style=dotted,weight="100"];
+}
+subgraph choice530705 {
+color=black;
+nodesep=1;
+choice100101118451161011201081051181014711610112010810511810145108971161011201141019911110910910111010010110045504849574511450 [label="dev-texlive/texlive-latexrecommended-2019-r2", color=red, width=4,href="../dev-texlive/texlive-latexrecommended-2019-r2.svg"];
+dependency724511:e -> choice100101118451161011201081051181014711610112010810511810145108971161011201141019911110910910111010010110045504849574511450:w [style=dotted,weight="100"];
+}
+subgraph choice530706 {
+color=black;
+nodesep=1;
+choice11810511411611797108471089711610112045989711510145494648 [label="virtual/latex-base-1.0", color=red, width=4,href="../virtual/latex-base-1.0.svg"];
+dependency724512:e -> choice11810511411611797108471089711610112045989711510145494648:w [style=dotted,weight="100"];
+}
+subgraph choice530707 {
+color=black;
+nodesep=1;
+choice100101118451161011204711611497110115108971161111144549464848 [label="dev-tex/translator-1.00", color=red, width=4,href="../dev-tex/translator-1.00.svg"];
+dependency724513:e -> choice100101118451161011204711611497110115108971161111144549464848:w [style=dotted,weight="100"];
+}
+}
+
+}

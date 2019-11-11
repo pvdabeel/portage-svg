@@ -1,0 +1,112 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="x11-drivers/xf86-input-libinput-0.29.0", color=red, width=4, href="../x11-drivers/xf86-input-libinput-0.29.0.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack678714 {
+dependency914313 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>x11-base</TD></TR><TR><TD>xorg-proto</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency914313:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack678715 {
+dependency914314 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libinput</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.7.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency914314:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack678716 {
+dependency914315 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>x11-base</TD></TR><TR><TD>xorg-server</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.20</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency914315:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack678717 {
+dependency914316 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>x11-base</TD></TR><TR><TD>xorg-server</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency914316:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice678714 {
+color=black;
+nodesep=1;
+choice1204949459897115101471201111141034511211411111611145504849574649 [label="x11-base/xorg-proto-2019.1", color=red, width=4,href="../x11-base/xorg-proto-2019.1.svg"];
+choice1204949459897115101471201111141034511211411111611145504849574650 [label="x11-base/xorg-proto-2019.2", color=red, width=4,href="../x11-base/xorg-proto-2019.2.svg"];
+choice120494945989711510147120111114103451121141111161114557575757 [label="x11-base/xorg-proto-9999", color=red, width=4,href="../x11-base/xorg-proto-9999.svg"];
+dependency914313:e -> choice1204949459897115101471201111141034511211411111611145504849574649:w [style=dotted,weight="100"];
+dependency914313:e -> choice1204949459897115101471201111141034511211411111611145504849574650:w [style=dotted,weight="100"];
+dependency914313:e -> choice120494945989711510147120111114103451121141111161114557575757:w [style=dotted,weight="100"];
+}
+subgraph choice678715 {
+color=black;
+nodesep=1;
+choice1001011184510810598115471081059810511011211711645494649524649 [label="dev-libs/libinput-1.14.1", color=red, width=4,href="../dev-libs/libinput-1.14.1.svg"];
+choice1001011184510810598115471081059810511011211711645494649524650 [label="dev-libs/libinput-1.14.2", color=red, width=4,href="../dev-libs/libinput-1.14.2.svg"];
+choice1001011184510810598115471081059810511011211711645494649524651 [label="dev-libs/libinput-1.14.3", color=red, width=4,href="../dev-libs/libinput-1.14.3.svg"];
+dependency914314:e -> choice1001011184510810598115471081059810511011211711645494649524649:w [style=dotted,weight="100"];
+dependency914314:e -> choice1001011184510810598115471081059810511011211711645494649524650:w [style=dotted,weight="100"];
+dependency914314:e -> choice1001011184510810598115471081059810511011211711645494649524651:w [style=dotted,weight="100"];
+}
+subgraph choice678716 {
+color=black;
+nodesep=1;
+choice1204949459897115101471201111141034511510111411810111445494650484653 [label="x11-base/xorg-server-1.20.5", color=red, width=4,href="../x11-base/xorg-server-1.20.5.svg"];
+choice120494945989711510147120111114103451151011141181011144557575757 [label="x11-base/xorg-server-9999", color=red, width=4,href="../x11-base/xorg-server-9999.svg"];
+dependency914315:e -> choice1204949459897115101471201111141034511510111411810111445494650484653:w [style=dotted,weight="100"];
+dependency914315:e -> choice120494945989711510147120111114103451151011141181011144557575757:w [style=dotted,weight="100"];
+}
+subgraph choice678717 {
+color=black;
+nodesep=1;
+choice1204949459897115101471201111141034511510111411810111445494650484653 [label="x11-base/xorg-server-1.20.5", color=red, width=4,href="../x11-base/xorg-server-1.20.5.svg"];
+choice120494945989711510147120111114103451151011141181011144557575757 [label="x11-base/xorg-server-9999", color=red, width=4,href="../x11-base/xorg-server-9999.svg"];
+dependency914316:e -> choice1204949459897115101471201111141034511510111411810111445494650484653:w [style=dotted,weight="100"];
+dependency914316:e -> choice120494945989711510147120111114103451151011141181011144557575757:w [style=dotted,weight="100"];
+}
+}
+
+}

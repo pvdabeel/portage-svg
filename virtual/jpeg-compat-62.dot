@@ -1,0 +1,91 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="virtual/jpeg-compat-62", color=red, width=4, href="../virtual/jpeg-compat-62.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph any15334 {
+dependency900324 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD CELLPADDING="10">any_of_group</TD></TR></TABLE>>, shape=none, color=red];subgraph pack668101 {
+dependency900325 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>media-libs</TD></TR><TR><TD>libjpeg-turbo</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.3.0-r3</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency900324:e -> dependency900325:w [weight=20,style="dotted",arrowhead="oinv"];
+subgraph pack668102 {
+dependency900326 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>media-libs</TD></TR><TR><TD>jpeg</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>6b-r12</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency900324:e -> dependency900326:w [weight=20,style="dotted",arrowhead="oinv"];
+}
+id:e -> dependency900324:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice668101 {
+color=black;
+nodesep=1;
+choice109101100105974510810598115471081059810611210110345116117114981114549465346514511450 [label="media-libs/libjpeg-turbo-1.5.3-r2", color=red, width=4,href="../media-libs/libjpeg-turbo-1.5.3-r2.svg"];
+choice10910110010597451081059811547108105981061121011034511611711498111455046484650 [label="media-libs/libjpeg-turbo-2.0.2", color=red, width=4,href="../media-libs/libjpeg-turbo-2.0.2.svg"];
+choice10910110010597451081059811547108105981061121011034511611711498111455046484651 [label="media-libs/libjpeg-turbo-2.0.3", color=red, width=4,href="../media-libs/libjpeg-turbo-2.0.3.svg"];
+dependency900325:e -> choice109101100105974510810598115471081059810611210110345116117114981114549465346514511450:w [style=dotted,weight="100"];
+dependency900325:e -> choice10910110010597451081059811547108105981061121011034511611711498111455046484650:w [style=dotted,weight="100"];
+dependency900325:e -> choice10910110010597451081059811547108105981061121011034511611711498111455046484651:w [style=dotted,weight="100"];
+}
+subgraph choice668102 {
+color=black;
+nodesep=1;
+choice10910110010597451081059811547106112101103455498451144950 [label="media-libs/jpeg-6b-r12", color=red, width=4,href="../media-libs/jpeg-6b-r12.svg"];
+choice1091011001059745108105981154710611210110345561004511450 [label="media-libs/jpeg-8d-r2", color=red, width=4,href="../media-libs/jpeg-8d-r2.svg"];
+choice10910110010597451081059811547106112101103455799 [label="media-libs/jpeg-9c", color=red, width=4,href="../media-libs/jpeg-9c.svg"];
+dependency900326:e -> choice10910110010597451081059811547106112101103455498451144950:w [style=dotted,weight="100"];
+dependency900326:e -> choice1091011001059745108105981154710611210110345561004511450:w [style=dotted,weight="100"];
+dependency900326:e -> choice10910110010597451081059811547106112101103455799:w [style=dotted,weight="100"];
+}
+}
+
+}

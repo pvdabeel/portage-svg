@@ -1,0 +1,102 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="games-util/joystick-1.7.0", color=red, width=4, href="../games-util/joystick-1.7.0.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph cond185376 {
+dependency744364 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>sdl</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack546458 {
+dependency744365 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>media-libs</TD></TR><TR><TD>libsdl2</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency744364:e -> dependency744365:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency744364:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack546459 {
+dependency744366 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>x11-libs</TD></TR><TR><TD>tslib</TD></TR><TR><TD>smaller</TD></TR><TR><TD>1.0-r2</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency744366:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond185377 {
+dependency744367 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>udev</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack546460 {
+dependency744368 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>udev</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency744367:e -> dependency744368:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency744367:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice546458 {
+color=black;
+nodesep=1;
+choice10910110010597451081059811547108105981151001085045504648464948 [label="media-libs/libsdl2-2.0.10", color=red, width=4,href="../media-libs/libsdl2-2.0.10.svg"];
+choice109101100105974510810598115471081059811510010850455046484657 [label="media-libs/libsdl2-2.0.9", color=red, width=4,href="../media-libs/libsdl2-2.0.9.svg"];
+dependency744365:e -> choice10910110010597451081059811547108105981151001085045504648464948:w [style=dotted,weight="100"];
+dependency744365:e -> choice109101100105974510810598115471081059811510010850455046484657:w [style=dotted,weight="100"];
+}
+subgraph choice546459 {
+color=black;
+nodesep=1;
+choice120494945108105981154711611510810598454946484511451 [label="x11-libs/tslib-1.0-r3", color=red, width=4,href="../x11-libs/tslib-1.0-r3.svg"];
+dependency744366:e -> choice120494945108105981154711611510810598454946484511451:w [style=dotted,weight="100"];
+}
+subgraph choice546460 {
+color=black;
+nodesep=1;
+choice118105114116117971084711710010111845504953 [label="virtual/udev-215", color=red, width=4,href="../virtual/udev-215.svg"];
+choice118105114116117971084711710010111845504955 [label="virtual/udev-217", color=red, width=4,href="../virtual/udev-217.svg"];
+dependency744368:e -> choice118105114116117971084711710010111845504953:w [style=dotted,weight="100"];
+dependency744368:e -> choice118105114116117971084711710010111845504955:w [style=dotted,weight="100"];
+}
+}
+
+}

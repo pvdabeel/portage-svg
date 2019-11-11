@@ -1,0 +1,120 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="kde-frameworks/threadweaver-5.64.0", color=red, width=4, href="../kde-frameworks/threadweaver-5.64.0.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond187431 {
+dependency766149 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>test</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack565527 {
+dependency766150 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-qt</TD></TR><TR><TD>qttest</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency766149:e -> dependency766150:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency766149:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph cond187432 {
+dependency766151 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>doc</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack565528 {
+dependency766152 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-qt</TD></TR><TR><TD>qt-docs</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency766151:e -> dependency766152:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency766151:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack565529 {
+dependency766153 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-qt</TD></TR><TR><TD>qtcore</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency766153:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack565530 {
+dependency766154 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>kde-frameworks</TD></TR><TR><TD>kf-env</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>4</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency766154:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice565527 {
+color=black;
+nodesep=1;
+choice100101118451131164711311611610111511645534649504651 [label="dev-qt/qttest-5.12.3", color=red, width=4,href="../dev-qt/qttest-5.12.3.svg"];
+choice100101118451131164711311611610111511645534649504653 [label="dev-qt/qttest-5.12.5", color=red, width=4,href="../dev-qt/qttest-5.12.5.svg"];
+choice100101118451131164711311611610111511645534649514650 [label="dev-qt/qttest-5.13.2", color=red, width=4,href="../dev-qt/qttest-5.13.2.svg"];
+dependency766150:e -> choice100101118451131164711311611610111511645534649504651:w [style=dotted,weight="100"];
+dependency766150:e -> choice100101118451131164711311611610111511645534649504653:w [style=dotted,weight="100"];
+dependency766150:e -> choice100101118451131164711311611610111511645534649514650:w [style=dotted,weight="100"];
+}
+subgraph choice565528 {
+color=black;
+nodesep=1;
+choice100101118451131164711311645100111991154553464950465195112504849574852495449514850 [label="dev-qt/qt-docs-5.12.3_p201904161302", color=red, width=4,href="../dev-qt/qt-docs-5.12.3_p201904161302.svg"];
+choice100101118451131164711311645100111991154553464950465395112504849574856505148484951 [label="dev-qt/qt-docs-5.12.5_p201908230013", color=red, width=4,href="../dev-qt/qt-docs-5.12.5_p201908230013.svg"];
+choice100101118451131164711311645100111991154553464951465095112504849574948505048564955 [label="dev-qt/qt-docs-5.13.2_p201910220817", color=red, width=4,href="../dev-qt/qt-docs-5.13.2_p201910220817.svg"];
+dependency766152:e -> choice100101118451131164711311645100111991154553464950465195112504849574852495449514850:w [style=dotted,weight="100"];
+dependency766152:e -> choice100101118451131164711311645100111991154553464950465395112504849574856505148484951:w [style=dotted,weight="100"];
+dependency766152:e -> choice100101118451131164711311645100111991154553464951465095112504849574948505048564955:w [style=dotted,weight="100"];
+}
+subgraph choice565529 {
+color=black;
+nodesep=1;
+choice10010111845113116471131169911111410145534649504651 [label="dev-qt/qtcore-5.12.3", color=red, width=4,href="../dev-qt/qtcore-5.12.3.svg"];
+choice100101118451131164711311699111114101455346495046534511449 [label="dev-qt/qtcore-5.12.5-r1", color=red, width=4,href="../dev-qt/qtcore-5.12.5-r1.svg"];
+choice10010111845113116471131169911111410145534649514650 [label="dev-qt/qtcore-5.13.2", color=red, width=4,href="../dev-qt/qtcore-5.13.2.svg"];
+dependency766153:e -> choice10010111845113116471131169911111410145534649504651:w [style=dotted,weight="100"];
+dependency766153:e -> choice100101118451131164711311699111114101455346495046534511449:w [style=dotted,weight="100"];
+dependency766153:e -> choice10010111845113116471131169911111410145534649514650:w [style=dotted,weight="100"];
+}
+subgraph choice565530 {
+color=black;
+nodesep=1;
+choice107100101451021149710910111911111410711547107102451011101184553 [label="kde-frameworks/kf-env-5", color=red, width=4,href="../kde-frameworks/kf-env-5.svg"];
+dependency766154:e -> choice107100101451021149710910111911111410711547107102451011101184553:w [style=dotted,weight="100"];
+}
+}
+
+}

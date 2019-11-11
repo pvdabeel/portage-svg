@@ -1,0 +1,92 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="dev-libs/libdivecomputer-0.6.0", color=red, width=4, href="../dev-libs/libdivecomputer-0.6.0.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph cond131643 {
+dependency565204 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>bluetooth</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack422107 {
+dependency565205 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>net-wireless</TD></TR><TR><TD>bluez</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency565204:e -> dependency565205:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency565204:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack422108 {
+dependency565206 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>libusb</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency565206:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice422107 {
+color=black;
+nodesep=1;
+choice1101011164511910511410110810111511547981081171011224553465349 [label="net-wireless/bluez-5.51", color=red, width=4,href="../net-wireless/bluez-5.51.svg"];
+choice11010111645119105114101108101115115479810811710112245534653494511450 [label="net-wireless/bluez-5.51-r2", color=red, width=4,href="../net-wireless/bluez-5.51-r2.svg"];
+choice1101011164511910511410110810111511547981081171011224553465350 [label="net-wireless/bluez-5.52", color=red, width=4,href="../net-wireless/bluez-5.52.svg"];
+dependency565205:e -> choice1101011164511910511410110810111511547981081171011224553465349:w [style=dotted,weight="100"];
+dependency565205:e -> choice11010111645119105114101108101115115479810811710112245534653494511450:w [style=dotted,weight="100"];
+dependency565205:e -> choice1101011164511910511410110810111511547981081171011224553465350:w [style=dotted,weight="100"];
+}
+subgraph choice422108 {
+color=black;
+nodesep=1;
+choice1181051141161179710847108105981171159845484511450 [label="virtual/libusb-0-r2", color=red, width=4,href="../virtual/libusb-0-r2.svg"];
+choice1181051141161179710847108105981171159845494511449 [label="virtual/libusb-1-r1", color=red, width=4,href="../virtual/libusb-1-r1.svg"];
+choice1181051141161179710847108105981171159845494511450 [label="virtual/libusb-1-r2", color=red, width=4,href="../virtual/libusb-1-r2.svg"];
+dependency565206:e -> choice1181051141161179710847108105981171159845484511450:w [style=dotted,weight="100"];
+dependency565206:e -> choice1181051141161179710847108105981171159845494511449:w [style=dotted,weight="100"];
+dependency565206:e -> choice1181051141161179710847108105981171159845494511450:w [style=dotted,weight="100"];
+}
+}
+
+}

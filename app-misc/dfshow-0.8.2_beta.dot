@@ -1,0 +1,86 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="app-misc/dfshow-0.8.2_beta", color=red, width=4, href="../app-misc/dfshow-0.8.2_beta.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack370174 {
+dependency498135 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libconfig</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency498135:w [weight=20,style="solid",arrowhead="odotvee"];
+subgraph pack370175 {
+dependency498136 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>ncurses</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency498136:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice370174 {
+color=black;
+nodesep=1;
+choice100101118451081059811547108105989911111010210510345494653 [label="dev-libs/libconfig-1.5", color=red, width=4,href="../dev-libs/libconfig-1.5.svg"];
+choice1001011184510810598115471081059899111110102105103454946554649 [label="dev-libs/libconfig-1.7.1", color=red, width=4,href="../dev-libs/libconfig-1.7.1.svg"];
+choice1001011184510810598115471081059899111110102105103454946554650 [label="dev-libs/libconfig-1.7.2", color=red, width=4,href="../dev-libs/libconfig-1.7.2.svg"];
+dependency498135:e -> choice100101118451081059811547108105989911111010210510345494653:w [style=dotted,weight="100"];
+dependency498135:e -> choice1001011184510810598115471081059899111110102105103454946554649:w [style=dotted,weight="100"];
+dependency498135:e -> choice1001011184510810598115471081059899111110102105103454946554650:w [style=dotted,weight="100"];
+}
+subgraph choice370175 {
+color=black;
+nodesep=1;
+choice1151211154510810598115471109911711411510111545544649951125048495649485048 [label="sys-libs/ncurses-6.1_p20181020", color=red, width=4,href="../sys-libs/ncurses-6.1_p20181020.svg"];
+choice1151211154510810598115471109911711411510111545544649951125048495748544857 [label="sys-libs/ncurses-6.1_p20190609", color=red, width=4,href="../sys-libs/ncurses-6.1_p20190609.svg"];
+dependency498136:e -> choice1151211154510810598115471109911711411510111545544649951125048495649485048:w [style=dotted,weight="100"];
+dependency498136:e -> choice1151211154510810598115471109911711411510111545544649951125048495748544857:w [style=dotted,weight="100"];
+}
+}
+
+}
