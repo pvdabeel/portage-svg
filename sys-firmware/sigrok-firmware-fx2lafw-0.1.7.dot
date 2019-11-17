@@ -1,0 +1,88 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://sys-firmware/sigrok-firmware-fx2lafw-0.1.7", color=red, width=4, href="../sys-firmware/sigrok-firmware-fx2lafw-0.1.7.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond102753 {
+dependency424522 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>negative</TD></TR><TR><TD>binary</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack314662 {
+dependency424523 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-embedded</TD></TR><TR><TD>sdcc</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2.9.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency424522:e -> dependency424523:w [weight=20,style="dashed",arrowhead="vee"];
+subgraph pack314663 {
+dependency424524 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-embedded</TD></TR><TR><TD>sdcc</TD></TR><TR><TD>smaller</TD></TR><TR><TD>3.8.6</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency424522:e -> dependency424524:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency424522:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice314662 {
+color=black;
+nodesep=1;
+choiceportage10010111845101109981011001001011004711510099994551465646484511449 [label="portage://dev-embedded/sdcc-3.8.0-r1", color=red, width=4,href="../dev-embedded/sdcc-3.8.0-r1.svg"];
+choiceportage10010111845101109981011001001011004711510099994557575757 [label="portage://dev-embedded/sdcc-9999", color=red, width=4,href="../dev-embedded/sdcc-9999.svg"];
+dependency424523:e -> choiceportage10010111845101109981011001001011004711510099994551465646484511449:w [style=dotted,weight="100"];
+dependency424523:e -> choiceportage10010111845101109981011001001011004711510099994557575757:w [style=dotted,weight="100"];
+}
+subgraph choice314663 {
+color=black;
+nodesep=1;
+choiceportage10010111845101109981011001001011004711510099994551465646484511449 [label="portage://dev-embedded/sdcc-3.8.0-r1", color=red, width=4,href="../dev-embedded/sdcc-3.8.0-r1.svg"];
+choiceportage10010111845101109981011001001011004711510099994557575757 [label="portage://dev-embedded/sdcc-9999", color=red, width=4,href="../dev-embedded/sdcc-9999.svg"];
+dependency424524:e -> choiceportage10010111845101109981011001001011004711510099994551465646484511449:w [style=dotted,weight="100"];
+dependency424524:e -> choiceportage10010111845101109981011001001011004711510099994557575757:w [style=dotted,weight="100"];
+}
+}
+
+}

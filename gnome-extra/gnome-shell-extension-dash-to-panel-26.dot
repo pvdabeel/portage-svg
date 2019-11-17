@@ -1,0 +1,98 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://gnome-extra/gnome-shell-extension-dash-to-panel-26", color=red, width=4, href="../gnome-extra/gnome-shell-extension-dash-to-panel-26.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+subgraph pack203293 {
+dependency281899 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>glib</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency281899:w [weight=20,style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack203294 {
+dependency281900 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-eselect</TD></TR><TR><TD>eselect-gnome-shell-extensions</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency281900:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack203295 {
+dependency281901 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>gnome-base</TD></TR><TR><TD>gnome-shell</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>3.18.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency281901:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice203293 {
+color=black;
+nodesep=1;
+choiceportage10010111845108105981154710310810598455046535646514511449 [label="portage://dev-libs/glib-2.58.3-r1", color=red, width=4,href="../dev-libs/glib-2.58.3-r1.svg"];
+choiceportage1001011184510810598115471031081059845504654484654 [label="portage://dev-libs/glib-2.60.6", color=red, width=4,href="../dev-libs/glib-2.60.6.svg"];
+choiceportage1001011184510810598115471031081059845504654484655 [label="portage://dev-libs/glib-2.60.7", color=red, width=4,href="../dev-libs/glib-2.60.7.svg"];
+dependency281899:e -> choiceportage10010111845108105981154710310810598455046535646514511449:w [style=dotted,weight="100"];
+dependency281899:e -> choiceportage1001011184510810598115471031081059845504654484654:w [style=dotted,weight="100"];
+dependency281899:e -> choiceportage1001011184510810598115471031081059845504654484655:w [style=dotted,weight="100"];
+}
+subgraph choice203294 {
+color=black;
+nodesep=1;
+choiceportage9711211245101115101108101991164710111510110810199116451031101111091014511510410110810845101120116101110115105111110115455048495648514854 [label="portage://app-eselect/eselect-gnome-shell-extensions-20180306", color=red, width=4,href="../app-eselect/eselect-gnome-shell-extensions-20180306.svg"];
+dependency281900:e -> choiceportage9711211245101115101108101991164710111510110810199116451031101111091014511510410110810845101120116101110115105111110115455048495648514854:w [style=dotted,weight="100"];
+}
+subgraph choice203295 {
+color=black;
+nodesep=1;
+choiceportage1031101111091014598971151014710311011110910145115104101108108455146505446504511452 [label="portage://gnome-base/gnome-shell-3.26.2-r4", color=red, width=4,href="../gnome-base/gnome-shell-3.26.2-r4.svg"];
+choiceportage1031101111091014598971151014710311011110910145115104101108108455146514846504511450 [label="portage://gnome-base/gnome-shell-3.30.2-r2", color=red, width=4,href="../gnome-base/gnome-shell-3.30.2-r2.svg"];
+choiceportage103110111109101459897115101471031101111091014511510410110810845514651504650 [label="portage://gnome-base/gnome-shell-3.32.2", color=red, width=4,href="../gnome-base/gnome-shell-3.32.2.svg"];
+dependency281901:e -> choiceportage1031101111091014598971151014710311011110910145115104101108108455146505446504511452:w [style=dotted,weight="100"];
+dependency281901:e -> choiceportage1031101111091014598971151014710311011110910145115104101108108455146514846504511450:w [style=dotted,weight="100"];
+dependency281901:e -> choiceportage103110111109101459897115101471031101111091014511510410110810845514651504650:w [style=dotted,weight="100"];
+}
+}
+
+}
