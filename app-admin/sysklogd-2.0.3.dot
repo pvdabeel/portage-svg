@@ -1,0 +1,132 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://app-admin/sysklogd-2.0.3", color=red, width=4, href="../app-admin/sysklogd-2.0.3.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond153802 {
+dependency651065 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>logger</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack488579 {
+dependency651066 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>util-linux</TD></TR><TR><TD>smaller</TD></TR><TR><TD>2.34-r3</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency651065:e -> dependency651066:w [weight=20,style="dashed",arrowhead="vee"];
+subgraph pack488580 {
+dependency651067 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>util-linux</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2.34-r3</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency651065:e -> dependency651067:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency651065:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond153803 {
+dependency651068 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>logger</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack488581 {
+dependency651069 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>util-linux</TD></TR><TR><TD>smaller</TD></TR><TR><TD>2.34-r3</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency651068:e -> dependency651069:w [weight=20,style="dashed",arrowhead="vee"];
+subgraph pack488582 {
+dependency651070 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>util-linux</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2.34-r3</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency651068:e -> dependency651070:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency651068:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice488579 {
+color=black;
+nodesep=1;
+choice115121115459711211211547117116105108451081051101171204557575757 [label="portage://sys-apps/util-linux-9999", color=red, width=4,href="../sys-apps/util-linux-9999.svg"];
+choice115121115459711211211547117116105108451081051101171204550465153951149950 [label="portage://sys-apps/util-linux-2.35_rc2", color=red, width=4,href="../sys-apps/util-linux-2.35_rc2.svg"];
+choice1151211154597112112115471171161051084510810511011712045504651524511451 [label="portage://sys-apps/util-linux-2.34-r3", color=red, width=4,href="../sys-apps/util-linux-2.34-r3.svg"];
+choice1151211154597112112115471171161051084510810511011712045504651514650 [label="portage://sys-apps/util-linux-2.33.2", color=red, width=4,href="../sys-apps/util-linux-2.33.2.svg"];
+dependency651066:e -> choice115121115459711211211547117116105108451081051101171204557575757:w [style=dotted,weight="100"];
+dependency651066:e -> choice115121115459711211211547117116105108451081051101171204550465153951149950:w [style=dotted,weight="100"];
+dependency651066:e -> choice1151211154597112112115471171161051084510810511011712045504651524511451:w [style=dotted,weight="100"];
+dependency651066:e -> choice1151211154597112112115471171161051084510810511011712045504651514650:w [style=dotted,weight="100"];
+}
+subgraph choice488580 {
+color=black;
+nodesep=1;
+choice115121115459711211211547117116105108451081051101171204557575757 [label="portage://sys-apps/util-linux-9999", color=red, width=4,href="../sys-apps/util-linux-9999.svg"];
+choice115121115459711211211547117116105108451081051101171204550465153951149950 [label="portage://sys-apps/util-linux-2.35_rc2", color=red, width=4,href="../sys-apps/util-linux-2.35_rc2.svg"];
+choice1151211154597112112115471171161051084510810511011712045504651524511451 [label="portage://sys-apps/util-linux-2.34-r3", color=red, width=4,href="../sys-apps/util-linux-2.34-r3.svg"];
+choice1151211154597112112115471171161051084510810511011712045504651514650 [label="portage://sys-apps/util-linux-2.33.2", color=red, width=4,href="../sys-apps/util-linux-2.33.2.svg"];
+dependency651067:e -> choice115121115459711211211547117116105108451081051101171204557575757:w [style=dotted,weight="100"];
+dependency651067:e -> choice115121115459711211211547117116105108451081051101171204550465153951149950:w [style=dotted,weight="100"];
+dependency651067:e -> choice1151211154597112112115471171161051084510810511011712045504651524511451:w [style=dotted,weight="100"];
+dependency651067:e -> choice1151211154597112112115471171161051084510810511011712045504651514650:w [style=dotted,weight="100"];
+}
+subgraph choice488581 {
+color=black;
+nodesep=1;
+choice115121115459711211211547117116105108451081051101171204557575757 [label="portage://sys-apps/util-linux-9999", color=red, width=4,href="../sys-apps/util-linux-9999.svg"];
+choice115121115459711211211547117116105108451081051101171204550465153951149950 [label="portage://sys-apps/util-linux-2.35_rc2", color=red, width=4,href="../sys-apps/util-linux-2.35_rc2.svg"];
+choice1151211154597112112115471171161051084510810511011712045504651524511451 [label="portage://sys-apps/util-linux-2.34-r3", color=red, width=4,href="../sys-apps/util-linux-2.34-r3.svg"];
+choice1151211154597112112115471171161051084510810511011712045504651514650 [label="portage://sys-apps/util-linux-2.33.2", color=red, width=4,href="../sys-apps/util-linux-2.33.2.svg"];
+dependency651069:e -> choice115121115459711211211547117116105108451081051101171204557575757:w [style=dotted,weight="100"];
+dependency651069:e -> choice115121115459711211211547117116105108451081051101171204550465153951149950:w [style=dotted,weight="100"];
+dependency651069:e -> choice1151211154597112112115471171161051084510810511011712045504651524511451:w [style=dotted,weight="100"];
+dependency651069:e -> choice1151211154597112112115471171161051084510810511011712045504651514650:w [style=dotted,weight="100"];
+}
+subgraph choice488582 {
+color=black;
+nodesep=1;
+choice115121115459711211211547117116105108451081051101171204557575757 [label="portage://sys-apps/util-linux-9999", color=red, width=4,href="../sys-apps/util-linux-9999.svg"];
+choice115121115459711211211547117116105108451081051101171204550465153951149950 [label="portage://sys-apps/util-linux-2.35_rc2", color=red, width=4,href="../sys-apps/util-linux-2.35_rc2.svg"];
+choice1151211154597112112115471171161051084510810511011712045504651524511451 [label="portage://sys-apps/util-linux-2.34-r3", color=red, width=4,href="../sys-apps/util-linux-2.34-r3.svg"];
+choice1151211154597112112115471171161051084510810511011712045504651514650 [label="portage://sys-apps/util-linux-2.33.2", color=red, width=4,href="../sys-apps/util-linux-2.33.2.svg"];
+dependency651070:e -> choice115121115459711211211547117116105108451081051101171204557575757:w [style=dotted,weight="100"];
+dependency651070:e -> choice115121115459711211211547117116105108451081051101171204550465153951149950:w [style=dotted,weight="100"];
+dependency651070:e -> choice1151211154597112112115471171161051084510810511011712045504651524511451:w [style=dotted,weight="100"];
+dependency651070:e -> choice1151211154597112112115471171161051084510810511011712045504651514650:w [style=dotted,weight="100"];
+}
+}
+
+}

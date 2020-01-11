@@ -1,0 +1,72 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://dev-util/glslang-7.12.3353_pre20191027-r2", color=red, width=4, href="../dev-util/glslang-7.12.3353_pre20191027-r2.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack234237 {
+dependency301251 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>media-libs</TD></TR><TR><TD>shaderc</TD></TR><TR><TD>smaller</TD></TR><TR><TD>2019-r1</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency301251:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice234237 {
+color=black;
+nodesep=1;
+choice109101100105974510810598115471151049710010111499455048495746484511449 [label="portage://media-libs/shaderc-2019.0-r1", color=red, width=4,href="../media-libs/shaderc-2019.0-r1.svg"];
+choice10910110010597451081059811547115104971001011149945504849564648 [label="portage://media-libs/shaderc-2018.0", color=red, width=4,href="../media-libs/shaderc-2018.0.svg"];
+dependency301251:e -> choice109101100105974510810598115471151049710010111499455048495746484511449:w [style=dotted,weight="100"];
+dependency301251:e -> choice10910110010597451081059811547115104971001011149945504849564648:w [style=dotted,weight="100"];
+}
+}
+
+}

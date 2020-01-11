@@ -1,0 +1,116 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://dev-libs/rocr-runtime-3.0.0", color=red, width=4, href="../dev-libs/rocr-runtime-3.0.0.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack378841 {
+dependency508004 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>roct-thunk-interface</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>3.0.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency508004:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack378842 {
+dependency508005 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-process</TD></TR><TR><TD>numactl</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency508005:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond123980 {
+dependency508006 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>nonfree</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack378843 {
+dependency508007 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>hsa-ext-rocr</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency508006:e -> dependency508007:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency508006:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack378844 {
+dependency508008 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-process</TD></TR><TR><TD>numactl</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency508008:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice378841 {
+color=black;
+nodesep=1;
+choice10010111845108105981154711411199116451161041171101074510511011610111410297991014557575757 [label="portage://dev-libs/roct-thunk-interface-9999", color=red, width=4,href="../dev-libs/roct-thunk-interface-9999.svg"];
+choice1001011184510810598115471141119911645116104117110107451051101161011141029799101455146484648 [label="portage://dev-libs/roct-thunk-interface-3.0.0", color=red, width=4,href="../dev-libs/roct-thunk-interface-3.0.0.svg"];
+dependency508004:e -> choice10010111845108105981154711411199116451161041171101074510511011610111410297991014557575757:w [style=dotted,weight="100"];
+dependency508004:e -> choice1001011184510810598115471141119911645116104117110107451051101161011141029799101455146484648:w [style=dotted,weight="100"];
+}
+subgraph choice378842 {
+color=black;
+nodesep=1;
+choice11512111545112114111991011151154711011710997991161084557575757 [label="portage://sys-process/numactl-9999", color=red, width=4,href="../sys-process/numactl-9999.svg"];
+choice115121115451121141119910111511547110117109979911610845504648464951 [label="portage://sys-process/numactl-2.0.13", color=red, width=4,href="../sys-process/numactl-2.0.13.svg"];
+choice115121115451121141119910111511547110117109979911610845504648464950 [label="portage://sys-process/numactl-2.0.12", color=red, width=4,href="../sys-process/numactl-2.0.12.svg"];
+dependency508005:e -> choice11512111545112114111991011151154711011710997991161084557575757:w [style=dotted,weight="100"];
+dependency508005:e -> choice115121115451121141119910111511547110117109979911610845504648464951:w [style=dotted,weight="100"];
+dependency508005:e -> choice115121115451121141119910111511547110117109979911610845504648464950:w [style=dotted,weight="100"];
+}
+subgraph choice378843 {
+color=black;
+nodesep=1;
+choice1001011184510810598115471041159745101120116451141119911445494649465746495157 [label="portage://dev-libs/hsa-ext-rocr-1.1.9.139", color=red, width=4,href="../dev-libs/hsa-ext-rocr-1.1.9.139.svg"];
+choice1001011184510810598115471041159745101120116451141119911445494649465746495050 [label="portage://dev-libs/hsa-ext-rocr-1.1.9.122", color=red, width=4,href="../dev-libs/hsa-ext-rocr-1.1.9.122.svg"];
+dependency508007:e -> choice1001011184510810598115471041159745101120116451141119911445494649465746495157:w [style=dotted,weight="100"];
+dependency508007:e -> choice1001011184510810598115471041159745101120116451141119911445494649465746495050:w [style=dotted,weight="100"];
+}
+subgraph choice378844 {
+color=black;
+nodesep=1;
+choice11512111545112114111991011151154711011710997991161084557575757 [label="portage://sys-process/numactl-9999", color=red, width=4,href="../sys-process/numactl-9999.svg"];
+choice115121115451121141119910111511547110117109979911610845504648464951 [label="portage://sys-process/numactl-2.0.13", color=red, width=4,href="../sys-process/numactl-2.0.13.svg"];
+choice115121115451121141119910111511547110117109979911610845504648464950 [label="portage://sys-process/numactl-2.0.12", color=red, width=4,href="../sys-process/numactl-2.0.12.svg"];
+dependency508008:e -> choice11512111545112114111991011151154711011710997991161084557575757:w [style=dotted,weight="100"];
+dependency508008:e -> choice115121115451121141119910111511547110117109979911610845504648464951:w [style=dotted,weight="100"];
+dependency508008:e -> choice115121115451121141119910111511547110117109979911610845504648464950:w [style=dotted,weight="100"];
+}
+}
+
+}

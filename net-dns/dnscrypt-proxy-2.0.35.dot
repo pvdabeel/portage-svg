@@ -1,0 +1,102 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://net-dns/dnscrypt-proxy-2.0.35", color=red, width=4, href="../net-dns/dnscrypt-proxy-2.0.35.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond34494 {
+dependency161698 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>filecaps</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack124618 {
+dependency161699 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>libcap</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency161698:e -> dependency161699:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency161698:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack124619 {
+dependency161700 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>acct-group</TD></TR><TR><TD>dnscrypt-proxy</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency161700:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack124620 {
+dependency161701 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>acct-user</TD></TR><TR><TD>dnscrypt-proxy</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency161701:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice124618 {
+color=black;
+nodesep=1;
+choice1151211154510810598115471081059899971124550465148 [label="portage://sys-libs/libcap-2.30", color=red, width=4,href="../sys-libs/libcap-2.30.svg"];
+choice11512111545108105981154710810598999711245504650574511451 [label="portage://sys-libs/libcap-2.29-r3", color=red, width=4,href="../sys-libs/libcap-2.29-r3.svg"];
+choice11512111545108105981154710810598999711245504650564511449 [label="portage://sys-libs/libcap-2.28-r1", color=red, width=4,href="../sys-libs/libcap-2.28-r1.svg"];
+choice1151211154510810598115471081059899971124550465055 [label="portage://sys-libs/libcap-2.27", color=red, width=4,href="../sys-libs/libcap-2.27.svg"];
+choice11512111545108105981154710810598999711245504650544511450 [label="portage://sys-libs/libcap-2.26-r2", color=red, width=4,href="../sys-libs/libcap-2.26-r2.svg"];
+dependency161699:e -> choice1151211154510810598115471081059899971124550465148:w [style=dotted,weight="100"];
+dependency161699:e -> choice11512111545108105981154710810598999711245504650574511451:w [style=dotted,weight="100"];
+dependency161699:e -> choice11512111545108105981154710810598999711245504650564511449:w [style=dotted,weight="100"];
+dependency161699:e -> choice1151211154510810598115471081059899971124550465055:w [style=dotted,weight="100"];
+dependency161699:e -> choice11512111545108105981154710810598999711245504650544511450:w [style=dotted,weight="100"];
+}
+subgraph choice124619 {
+color=black;
+nodesep=1;
+choice979999116451031141111171124710011011599114121112116451121141111201214548 [label="portage://acct-group/dnscrypt-proxy-0", color=red, width=4,href="../acct-group/dnscrypt-proxy-0.svg"];
+dependency161700:e -> choice979999116451031141111171124710011011599114121112116451121141111201214548:w [style=dotted,weight="100"];
+}
+subgraph choice124620 {
+color=black;
+nodesep=1;
+choice979999116451171151011144710011011599114121112116451121141111201214548 [label="portage://acct-user/dnscrypt-proxy-0", color=red, width=4,href="../acct-user/dnscrypt-proxy-0.svg"];
+dependency161701:e -> choice979999116451171151011144710011011599114121112116451121141111201214548:w [style=dotted,weight="100"];
+}
+}
+
+}

@@ -1,0 +1,132 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://dev-libs/libfilezilla-0.19.3", color=red, width=4, href="../dev-libs/libfilezilla-0.19.3.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond125389 {
+dependency512739 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>test</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack382071 {
+dependency512740 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-util</TD></TR><TR><TD>cppunit</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency512739:e -> dependency512740:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency512739:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack382072 {
+dependency512741 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>nettle</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency512741:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack382073 {
+dependency512742 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>net-libs</TD></TR><TR><TD>gnutls</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>3.5.7</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency512742:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack382074 {
+dependency512743 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>nettle</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency512743:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack382075 {
+dependency512744 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>net-libs</TD></TR><TR><TD>gnutls</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>3.5.7</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency512744:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice382071 {
+color=black;
+nodesep=1;
+choice1001011184511711610510847991121121171101051164557575757 [label="portage://dev-util/cppunit-9999", color=red, width=4,href="../dev-util/cppunit-9999.svg"];
+choice10010111845117116105108479911211211711010511645494649524648 [label="portage://dev-util/cppunit-1.14.0", color=red, width=4,href="../dev-util/cppunit-1.14.0.svg"];
+dependency512740:e -> choice1001011184511711610510847991121121171101051164557575757:w [style=dotted,weight="100"];
+dependency512740:e -> choice10010111845117116105108479911211211711010511645494649524648:w [style=dotted,weight="100"];
+}
+subgraph choice382072 {
+color=black;
+nodesep=1;
+choice100101118451081059811547110101116116108101455146534649 [label="portage://dev-libs/nettle-3.5.1", color=red, width=4,href="../dev-libs/nettle-3.5.1.svg"];
+choice100101118451081059811547110101116116108101455146524649 [label="portage://dev-libs/nettle-3.4.1", color=red, width=4,href="../dev-libs/nettle-3.4.1.svg"];
+dependency512741:e -> choice100101118451081059811547110101116116108101455146534649:w [style=dotted,weight="100"];
+dependency512741:e -> choice100101118451081059811547110101116116108101455146524649:w [style=dotted,weight="100"];
+}
+subgraph choice382073 {
+color=black;
+nodesep=1;
+choice1101011164510810598115471031101171161081154551465446554511449 [label="portage://net-libs/gnutls-3.6.7-r1", color=red, width=4,href="../net-libs/gnutls-3.6.7-r1.svg"];
+choice1101011164510810598115471031101171161081154551465446494946494511449 [label="portage://net-libs/gnutls-3.6.11.1-r1", color=red, width=4,href="../net-libs/gnutls-3.6.11.1-r1.svg"];
+choice110101116451081059811547103110117116108115455146544649494511449 [label="portage://net-libs/gnutls-3.6.11-r1", color=red, width=4,href="../net-libs/gnutls-3.6.11-r1.svg"];
+choice110101116451081059811547103110117116108115455146544649484511449 [label="portage://net-libs/gnutls-3.6.10-r1", color=red, width=4,href="../net-libs/gnutls-3.6.10-r1.svg"];
+dependency512742:e -> choice1101011164510810598115471031101171161081154551465446554511449:w [style=dotted,weight="100"];
+dependency512742:e -> choice1101011164510810598115471031101171161081154551465446494946494511449:w [style=dotted,weight="100"];
+dependency512742:e -> choice110101116451081059811547103110117116108115455146544649494511449:w [style=dotted,weight="100"];
+dependency512742:e -> choice110101116451081059811547103110117116108115455146544649484511449:w [style=dotted,weight="100"];
+}
+subgraph choice382074 {
+color=black;
+nodesep=1;
+choice100101118451081059811547110101116116108101455146534649 [label="portage://dev-libs/nettle-3.5.1", color=red, width=4,href="../dev-libs/nettle-3.5.1.svg"];
+choice100101118451081059811547110101116116108101455146524649 [label="portage://dev-libs/nettle-3.4.1", color=red, width=4,href="../dev-libs/nettle-3.4.1.svg"];
+dependency512743:e -> choice100101118451081059811547110101116116108101455146534649:w [style=dotted,weight="100"];
+dependency512743:e -> choice100101118451081059811547110101116116108101455146524649:w [style=dotted,weight="100"];
+}
+subgraph choice382075 {
+color=black;
+nodesep=1;
+choice1101011164510810598115471031101171161081154551465446554511449 [label="portage://net-libs/gnutls-3.6.7-r1", color=red, width=4,href="../net-libs/gnutls-3.6.7-r1.svg"];
+choice1101011164510810598115471031101171161081154551465446494946494511449 [label="portage://net-libs/gnutls-3.6.11.1-r1", color=red, width=4,href="../net-libs/gnutls-3.6.11.1-r1.svg"];
+choice110101116451081059811547103110117116108115455146544649494511449 [label="portage://net-libs/gnutls-3.6.11-r1", color=red, width=4,href="../net-libs/gnutls-3.6.11-r1.svg"];
+choice110101116451081059811547103110117116108115455146544649484511449 [label="portage://net-libs/gnutls-3.6.10-r1", color=red, width=4,href="../net-libs/gnutls-3.6.10-r1.svg"];
+dependency512744:e -> choice1101011164510810598115471031101171161081154551465446554511449:w [style=dotted,weight="100"];
+dependency512744:e -> choice1101011164510810598115471031101171161081154551465446494946494511449:w [style=dotted,weight="100"];
+dependency512744:e -> choice110101116451081059811547103110117116108115455146544649494511449:w [style=dotted,weight="100"];
+dependency512744:e -> choice110101116451081059811547103110117116108115455146544649484511449:w [style=dotted,weight="100"];
+}
+}
+
+}

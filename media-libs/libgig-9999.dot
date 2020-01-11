@@ -1,0 +1,108 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://media-libs/libgig-9999", color=red, width=4, href="../media-libs/libgig-9999.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack160122 {
+dependency211788 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>media-libs</TD></TR><TR><TD>audiofile</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency211788:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack160123 {
+dependency211789 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>media-libs</TD></TR><TR><TD>libsndfile</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency211789:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack160124 {
+dependency211790 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>media-libs</TD></TR><TR><TD>audiofile</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency211790:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack160125 {
+dependency211791 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>media-libs</TD></TR><TR><TD>libsndfile</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency211791:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice160122 {
+color=black;
+nodesep=1;
+choice10910110010597451081059811547971171001051111021051081014548465146544511451 [label="portage://media-libs/audiofile-0.3.6-r3", color=red, width=4,href="../media-libs/audiofile-0.3.6-r3.svg"];
+dependency211788:e -> choice10910110010597451081059811547971171001051111021051081014548465146544511451:w [style=dotted,weight="100"];
+}
+subgraph choice160123 {
+color=black;
+nodesep=1;
+choice10910110010597451081059811547108105981151101001021051081014557575757 [label="portage://media-libs/libsndfile-9999", color=red, width=4,href="../media-libs/libsndfile-9999.svg"];
+choice1091011001059745108105981154710810598115110100102105108101454946484650579511211410150951125048495749485052 [label="portage://media-libs/libsndfile-1.0.29_pre2_p20191024", color=red, width=4,href="../media-libs/libsndfile-1.0.29_pre2_p20191024.svg"];
+choice1091011001059745108105981154710810598115110100102105108101454946484650564511452 [label="portage://media-libs/libsndfile-1.0.28-r4", color=red, width=4,href="../media-libs/libsndfile-1.0.28-r4.svg"];
+dependency211789:e -> choice10910110010597451081059811547108105981151101001021051081014557575757:w [style=dotted,weight="100"];
+dependency211789:e -> choice1091011001059745108105981154710810598115110100102105108101454946484650579511211410150951125048495749485052:w [style=dotted,weight="100"];
+dependency211789:e -> choice1091011001059745108105981154710810598115110100102105108101454946484650564511452:w [style=dotted,weight="100"];
+}
+subgraph choice160124 {
+color=black;
+nodesep=1;
+choice10910110010597451081059811547971171001051111021051081014548465146544511451 [label="portage://media-libs/audiofile-0.3.6-r3", color=red, width=4,href="../media-libs/audiofile-0.3.6-r3.svg"];
+dependency211790:e -> choice10910110010597451081059811547971171001051111021051081014548465146544511451:w [style=dotted,weight="100"];
+}
+subgraph choice160125 {
+color=black;
+nodesep=1;
+choice10910110010597451081059811547108105981151101001021051081014557575757 [label="portage://media-libs/libsndfile-9999", color=red, width=4,href="../media-libs/libsndfile-9999.svg"];
+choice1091011001059745108105981154710810598115110100102105108101454946484650579511211410150951125048495749485052 [label="portage://media-libs/libsndfile-1.0.29_pre2_p20191024", color=red, width=4,href="../media-libs/libsndfile-1.0.29_pre2_p20191024.svg"];
+choice1091011001059745108105981154710810598115110100102105108101454946484650564511452 [label="portage://media-libs/libsndfile-1.0.28-r4", color=red, width=4,href="../media-libs/libsndfile-1.0.28-r4.svg"];
+dependency211791:e -> choice10910110010597451081059811547108105981151101001021051081014557575757:w [style=dotted,weight="100"];
+dependency211791:e -> choice1091011001059745108105981154710810598115110100102105108101454946484650579511211410150951125048495749485052:w [style=dotted,weight="100"];
+dependency211791:e -> choice1091011001059745108105981154710810598115110100102105108101454946484650564511452:w [style=dotted,weight="100"];
+}
+}
+
+}

@@ -1,0 +1,124 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://dev-libs/rocm-comgr-3.0.0", color=red, width=4, href="../dev-libs/rocm-comgr-3.0.0.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack378871 {
+dependency508035 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>rocm-device-libs</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>3.0.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency508035:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack378872 {
+dependency508036 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-devel</TD></TR><TR><TD>llvm-roc</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>3.0.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency508036:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack378873 {
+dependency508037 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>rocm-device-libs</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>3.0.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency508037:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack378874 {
+dependency508038 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-devel</TD></TR><TR><TD>llvm-roc</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>3.0.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency508038:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice378871 {
+color=black;
+nodesep=1;
+choice10010111845108105981154711411199109451001011181059910145108105981154557575757 [label="portage://dev-libs/rocm-device-libs-9999", color=red, width=4,href="../dev-libs/rocm-device-libs-9999.svg"];
+choice1001011184510810598115471141119910945100101118105991014510810598115455146484648 [label="portage://dev-libs/rocm-device-libs-3.0.0", color=red, width=4,href="../dev-libs/rocm-device-libs-3.0.0.svg"];
+dependency508035:e -> choice10010111845108105981154711411199109451001011181059910145108105981154557575757:w [style=dotted,weight="100"];
+dependency508035:e -> choice1001011184510810598115471141119910945100101118105991014510810598115455146484648:w [style=dotted,weight="100"];
+}
+subgraph choice378872 {
+color=black;
+nodesep=1;
+choice11512111545100101118101108471081081181094511411199455146484648 [label="portage://sys-devel/llvm-roc-3.0.0", color=red, width=4,href="../sys-devel/llvm-roc-3.0.0.svg"];
+choice11512111545100101118101108471081081181094511411199455046574648 [label="portage://sys-devel/llvm-roc-2.9.0", color=red, width=4,href="../sys-devel/llvm-roc-2.9.0.svg"];
+choice11512111545100101118101108471081081181094511411199455046564648 [label="portage://sys-devel/llvm-roc-2.8.0", color=red, width=4,href="../sys-devel/llvm-roc-2.8.0.svg"];
+choice11512111545100101118101108471081081181094511411199455046554648 [label="portage://sys-devel/llvm-roc-2.7.0", color=red, width=4,href="../sys-devel/llvm-roc-2.7.0.svg"];
+choice115121115451001011181011084710810811810945114111994550465446484511449 [label="portage://sys-devel/llvm-roc-2.6.0-r1", color=red, width=4,href="../sys-devel/llvm-roc-2.6.0-r1.svg"];
+choice1151211154510010111810110847108108118109451141119945504649484648 [label="portage://sys-devel/llvm-roc-2.10.0", color=red, width=4,href="../sys-devel/llvm-roc-2.10.0.svg"];
+dependency508036:e -> choice11512111545100101118101108471081081181094511411199455146484648:w [style=dotted,weight="100"];
+dependency508036:e -> choice11512111545100101118101108471081081181094511411199455046574648:w [style=dotted,weight="100"];
+dependency508036:e -> choice11512111545100101118101108471081081181094511411199455046564648:w [style=dotted,weight="100"];
+dependency508036:e -> choice11512111545100101118101108471081081181094511411199455046554648:w [style=dotted,weight="100"];
+dependency508036:e -> choice115121115451001011181011084710810811810945114111994550465446484511449:w [style=dotted,weight="100"];
+dependency508036:e -> choice1151211154510010111810110847108108118109451141119945504649484648:w [style=dotted,weight="100"];
+}
+subgraph choice378873 {
+color=black;
+nodesep=1;
+choice10010111845108105981154711411199109451001011181059910145108105981154557575757 [label="portage://dev-libs/rocm-device-libs-9999", color=red, width=4,href="../dev-libs/rocm-device-libs-9999.svg"];
+choice1001011184510810598115471141119910945100101118105991014510810598115455146484648 [label="portage://dev-libs/rocm-device-libs-3.0.0", color=red, width=4,href="../dev-libs/rocm-device-libs-3.0.0.svg"];
+dependency508037:e -> choice10010111845108105981154711411199109451001011181059910145108105981154557575757:w [style=dotted,weight="100"];
+dependency508037:e -> choice1001011184510810598115471141119910945100101118105991014510810598115455146484648:w [style=dotted,weight="100"];
+}
+subgraph choice378874 {
+color=black;
+nodesep=1;
+choice11512111545100101118101108471081081181094511411199455146484648 [label="portage://sys-devel/llvm-roc-3.0.0", color=red, width=4,href="../sys-devel/llvm-roc-3.0.0.svg"];
+choice11512111545100101118101108471081081181094511411199455046574648 [label="portage://sys-devel/llvm-roc-2.9.0", color=red, width=4,href="../sys-devel/llvm-roc-2.9.0.svg"];
+choice11512111545100101118101108471081081181094511411199455046564648 [label="portage://sys-devel/llvm-roc-2.8.0", color=red, width=4,href="../sys-devel/llvm-roc-2.8.0.svg"];
+choice11512111545100101118101108471081081181094511411199455046554648 [label="portage://sys-devel/llvm-roc-2.7.0", color=red, width=4,href="../sys-devel/llvm-roc-2.7.0.svg"];
+choice115121115451001011181011084710810811810945114111994550465446484511449 [label="portage://sys-devel/llvm-roc-2.6.0-r1", color=red, width=4,href="../sys-devel/llvm-roc-2.6.0-r1.svg"];
+choice1151211154510010111810110847108108118109451141119945504649484648 [label="portage://sys-devel/llvm-roc-2.10.0", color=red, width=4,href="../sys-devel/llvm-roc-2.10.0.svg"];
+dependency508038:e -> choice11512111545100101118101108471081081181094511411199455146484648:w [style=dotted,weight="100"];
+dependency508038:e -> choice11512111545100101118101108471081081181094511411199455046574648:w [style=dotted,weight="100"];
+dependency508038:e -> choice11512111545100101118101108471081081181094511411199455046564648:w [style=dotted,weight="100"];
+dependency508038:e -> choice11512111545100101118101108471081081181094511411199455046554648:w [style=dotted,weight="100"];
+dependency508038:e -> choice115121115451001011181011084710810811810945114111994550465446484511449:w [style=dotted,weight="100"];
+dependency508038:e -> choice1151211154510010111810110847108108118109451141119945504649484648:w [style=dotted,weight="100"];
+}
+}
+
+}

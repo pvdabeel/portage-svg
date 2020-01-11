@@ -1,0 +1,97 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://app-i18n/skk-jisyo-201905", color=red, width=4, href="../app-i18n/skk-jisyo-201905.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond144614 {
+dependency617036 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>cdb</TD></TR></TABLE>>, shape=none, color=red];
+subgraph any7985 {
+dependency617037 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD CELLPADDING="10">any_of_group</TD></TR></TABLE>>, shape=none, color=red];subgraph pack464154 {
+dependency617038 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-db</TD></TR><TR><TD>tinycdb</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency617037:e -> dependency617038:w [weight=20,style="dotted",arrowhead="oinv"];
+subgraph pack464155 {
+dependency617039 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-db</TD></TR><TR><TD>cdb</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency617037:e -> dependency617039:w [weight=20,style="dotted",arrowhead="oinv"];
+}
+dependency617036:e -> dependency617037:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency617036:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack464156 {
+dependency617040 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>awk</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency617040:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice464154 {
+color=black;
+nodesep=1;
+choice100101118451009847116105110121991009845484655554511450 [label="portage://dev-db/tinycdb-0.77-r2", color=red, width=4,href="../dev-db/tinycdb-0.77-r2.svg"];
+dependency617038:e -> choice100101118451009847116105110121991009845484655554511450:w [style=dotted,weight="100"];
+}
+subgraph choice464155 {
+color=black;
+nodesep=1;
+choice100101118451009847991009845484655534511452 [label="portage://dev-db/cdb-0.75-r4", color=red, width=4,href="../dev-db/cdb-0.75-r4.svg"];
+dependency617039:e -> choice100101118451009847991009845484655534511452:w [style=dotted,weight="100"];
+}
+subgraph choice464156 {
+color=black;
+nodesep=1;
+choice1181051141161179710847971191074549 [label="portage://virtual/awk-1", color=red, width=4,href="../virtual/awk-1.svg"];
+dependency617040:e -> choice1181051141161179710847971191074549:w [style=dotted,weight="100"];
+}
+}
+
+}

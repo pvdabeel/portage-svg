@@ -1,0 +1,192 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://app-forensics/magicrescue-1.1.10", color=red, width=4, href="../app-forensics/magicrescue-1.1.10.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph any8036 {
+dependency620263 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD CELLPADDING="10">any_of_group</TD></TR></TABLE>>, shape=none, color=red];subgraph pack466681 {
+dependency620264 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>gdbm</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency620263:e -> dependency620264:w [weight=20,style="dotted",arrowhead="oinv"];
+subgraph pack466682 {
+dependency620265 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>db</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency620263:e -> dependency620265:w [weight=20,style="dotted",arrowhead="oinv"];
+}
+id:e -> dependency620263:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph any8037 {
+dependency620266 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD CELLPADDING="10">any_of_group</TD></TR></TABLE>>, shape=none, color=red];subgraph pack466683 {
+dependency620267 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>gdbm</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency620266:e -> dependency620267:w [weight=20,style="dotted",arrowhead="oinv"];
+subgraph pack466684 {
+dependency620268 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>db</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency620266:e -> dependency620268:w [weight=20,style="dotted",arrowhead="oinv"];
+}
+id:e -> dependency620266:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack466685 {
+dependency620269 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>net-mail</TD></TR><TR><TD>safecat</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency620269:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice466681 {
+color=black;
+nodesep=1;
+choice1151211154510810598115471031009810945494649564649 [label="portage://sys-libs/gdbm-1.18.1", color=red, width=4,href="../sys-libs/gdbm-1.18.1.svg"];
+choice115121115451081059811547103100981094549464956 [label="portage://sys-libs/gdbm-1.18", color=red, width=4,href="../sys-libs/gdbm-1.18.svg"];
+choice115121115451081059811547103100981094549464955 [label="portage://sys-libs/gdbm-1.17", color=red, width=4,href="../sys-libs/gdbm-1.17.svg"];
+choice1151211154510810598115471031009810945494649524649 [label="portage://sys-libs/gdbm-1.14.1", color=red, width=4,href="../sys-libs/gdbm-1.14.1.svg"];
+choice1151211154510810598115471031009810945494649514511450 [label="portage://sys-libs/gdbm-1.13-r2", color=red, width=4,href="../sys-libs/gdbm-1.13-r2.svg"];
+dependency620264:e -> choice1151211154510810598115471031009810945494649564649:w [style=dotted,weight="100"];
+dependency620264:e -> choice115121115451081059811547103100981094549464956:w [style=dotted,weight="100"];
+dependency620264:e -> choice115121115451081059811547103100981094549464955:w [style=dotted,weight="100"];
+dependency620264:e -> choice1151211154510810598115471031009810945494649524649:w [style=dotted,weight="100"];
+dependency620264:e -> choice1151211154510810598115471031009810945494649514511450:w [style=dotted,weight="100"];
+}
+subgraph choice466682 {
+color=black;
+nodesep=1;
+choice1151211154510810598115471009845544650465156 [label="portage://sys-libs/db-6.2.38", color=red, width=4,href="../sys-libs/db-6.2.38.svg"];
+choice1151211154510810598115471009845544649465156 [label="portage://sys-libs/db-6.1.38", color=red, width=4,href="../sys-libs/db-6.1.38.svg"];
+choice11512111545108105981154710098455446484651534511450 [label="portage://sys-libs/db-6.0.35-r2", color=red, width=4,href="../sys-libs/db-6.0.35-r2.svg"];
+choice11512111545108105981154710098455346514650564511452 [label="portage://sys-libs/db-5.3.28-r4", color=red, width=4,href="../sys-libs/db-5.3.28-r4.svg"];
+choice11512111545108105981154710098455346514650564511450 [label="portage://sys-libs/db-5.3.28-r2", color=red, width=4,href="../sys-libs/db-5.3.28-r2.svg"];
+choice11512111545108105981154710098455346494650574511450 [label="portage://sys-libs/db-5.1.29-r2", color=red, width=4,href="../sys-libs/db-5.1.29-r2.svg"];
+choice11512111545108105981154710098455246564651484511451 [label="portage://sys-libs/db-4.8.30-r3", color=red, width=4,href="../sys-libs/db-4.8.30-r3.svg"];
+choice115121115451081059811547100984552465546505395112524511449 [label="portage://sys-libs/db-4.7.25_p4-r1", color=red, width=4,href="../sys-libs/db-4.7.25_p4-r1.svg"];
+choice115121115451081059811547100984552465446504995112524511449 [label="portage://sys-libs/db-4.6.21_p4-r1", color=red, width=4,href="../sys-libs/db-4.6.21_p4-r1.svg"];
+choice115121115451081059811547100984552465346504895112504511450 [label="portage://sys-libs/db-4.5.20_p2-r2", color=red, width=4,href="../sys-libs/db-4.5.20_p2-r2.svg"];
+choice115121115451081059811547100984552465246504895112524511450 [label="portage://sys-libs/db-4.4.20_p4-r2", color=red, width=4,href="../sys-libs/db-4.4.20_p4-r2.svg"];
+choice115121115451081059811547100984552465146505795112494511450 [label="portage://sys-libs/db-4.3.29_p1-r2", color=red, width=4,href="../sys-libs/db-4.3.29_p1-r2.svg"];
+choice115121115451081059811547100984552465046535095112534511450 [label="portage://sys-libs/db-4.2.52_p5-r2", color=red, width=4,href="../sys-libs/db-4.2.52_p5-r2.svg"];
+choice1151211154510810598115471009845514650465795112504511449 [label="portage://sys-libs/db-3.2.9_p2-r1", color=red, width=4,href="../sys-libs/db-3.2.9_p2-r1.svg"];
+choice115121115451081059811547100984549564649465150 [label="portage://sys-libs/db-18.1.32", color=red, width=4,href="../sys-libs/db-18.1.32.svg"];
+choice1151211154510810598115471009845494656534511452 [label="portage://sys-libs/db-1.85-r4", color=red, width=4,href="../sys-libs/db-1.85-r4.svg"];
+dependency620265:e -> choice1151211154510810598115471009845544650465156:w [style=dotted,weight="100"];
+dependency620265:e -> choice1151211154510810598115471009845544649465156:w [style=dotted,weight="100"];
+dependency620265:e -> choice11512111545108105981154710098455446484651534511450:w [style=dotted,weight="100"];
+dependency620265:e -> choice11512111545108105981154710098455346514650564511452:w [style=dotted,weight="100"];
+dependency620265:e -> choice11512111545108105981154710098455346514650564511450:w [style=dotted,weight="100"];
+dependency620265:e -> choice11512111545108105981154710098455346494650574511450:w [style=dotted,weight="100"];
+dependency620265:e -> choice11512111545108105981154710098455246564651484511451:w [style=dotted,weight="100"];
+dependency620265:e -> choice115121115451081059811547100984552465546505395112524511449:w [style=dotted,weight="100"];
+dependency620265:e -> choice115121115451081059811547100984552465446504995112524511449:w [style=dotted,weight="100"];
+dependency620265:e -> choice115121115451081059811547100984552465346504895112504511450:w [style=dotted,weight="100"];
+dependency620265:e -> choice115121115451081059811547100984552465246504895112524511450:w [style=dotted,weight="100"];
+dependency620265:e -> choice115121115451081059811547100984552465146505795112494511450:w [style=dotted,weight="100"];
+dependency620265:e -> choice115121115451081059811547100984552465046535095112534511450:w [style=dotted,weight="100"];
+dependency620265:e -> choice1151211154510810598115471009845514650465795112504511449:w [style=dotted,weight="100"];
+dependency620265:e -> choice115121115451081059811547100984549564649465150:w [style=dotted,weight="100"];
+dependency620265:e -> choice1151211154510810598115471009845494656534511452:w [style=dotted,weight="100"];
+}
+subgraph choice466683 {
+color=black;
+nodesep=1;
+choice1151211154510810598115471031009810945494649564649 [label="portage://sys-libs/gdbm-1.18.1", color=red, width=4,href="../sys-libs/gdbm-1.18.1.svg"];
+choice115121115451081059811547103100981094549464956 [label="portage://sys-libs/gdbm-1.18", color=red, width=4,href="../sys-libs/gdbm-1.18.svg"];
+choice115121115451081059811547103100981094549464955 [label="portage://sys-libs/gdbm-1.17", color=red, width=4,href="../sys-libs/gdbm-1.17.svg"];
+choice1151211154510810598115471031009810945494649524649 [label="portage://sys-libs/gdbm-1.14.1", color=red, width=4,href="../sys-libs/gdbm-1.14.1.svg"];
+choice1151211154510810598115471031009810945494649514511450 [label="portage://sys-libs/gdbm-1.13-r2", color=red, width=4,href="../sys-libs/gdbm-1.13-r2.svg"];
+dependency620267:e -> choice1151211154510810598115471031009810945494649564649:w [style=dotted,weight="100"];
+dependency620267:e -> choice115121115451081059811547103100981094549464956:w [style=dotted,weight="100"];
+dependency620267:e -> choice115121115451081059811547103100981094549464955:w [style=dotted,weight="100"];
+dependency620267:e -> choice1151211154510810598115471031009810945494649524649:w [style=dotted,weight="100"];
+dependency620267:e -> choice1151211154510810598115471031009810945494649514511450:w [style=dotted,weight="100"];
+}
+subgraph choice466684 {
+color=black;
+nodesep=1;
+choice1151211154510810598115471009845544650465156 [label="portage://sys-libs/db-6.2.38", color=red, width=4,href="../sys-libs/db-6.2.38.svg"];
+choice1151211154510810598115471009845544649465156 [label="portage://sys-libs/db-6.1.38", color=red, width=4,href="../sys-libs/db-6.1.38.svg"];
+choice11512111545108105981154710098455446484651534511450 [label="portage://sys-libs/db-6.0.35-r2", color=red, width=4,href="../sys-libs/db-6.0.35-r2.svg"];
+choice11512111545108105981154710098455346514650564511452 [label="portage://sys-libs/db-5.3.28-r4", color=red, width=4,href="../sys-libs/db-5.3.28-r4.svg"];
+choice11512111545108105981154710098455346514650564511450 [label="portage://sys-libs/db-5.3.28-r2", color=red, width=4,href="../sys-libs/db-5.3.28-r2.svg"];
+choice11512111545108105981154710098455346494650574511450 [label="portage://sys-libs/db-5.1.29-r2", color=red, width=4,href="../sys-libs/db-5.1.29-r2.svg"];
+choice11512111545108105981154710098455246564651484511451 [label="portage://sys-libs/db-4.8.30-r3", color=red, width=4,href="../sys-libs/db-4.8.30-r3.svg"];
+choice115121115451081059811547100984552465546505395112524511449 [label="portage://sys-libs/db-4.7.25_p4-r1", color=red, width=4,href="../sys-libs/db-4.7.25_p4-r1.svg"];
+choice115121115451081059811547100984552465446504995112524511449 [label="portage://sys-libs/db-4.6.21_p4-r1", color=red, width=4,href="../sys-libs/db-4.6.21_p4-r1.svg"];
+choice115121115451081059811547100984552465346504895112504511450 [label="portage://sys-libs/db-4.5.20_p2-r2", color=red, width=4,href="../sys-libs/db-4.5.20_p2-r2.svg"];
+choice115121115451081059811547100984552465246504895112524511450 [label="portage://sys-libs/db-4.4.20_p4-r2", color=red, width=4,href="../sys-libs/db-4.4.20_p4-r2.svg"];
+choice115121115451081059811547100984552465146505795112494511450 [label="portage://sys-libs/db-4.3.29_p1-r2", color=red, width=4,href="../sys-libs/db-4.3.29_p1-r2.svg"];
+choice115121115451081059811547100984552465046535095112534511450 [label="portage://sys-libs/db-4.2.52_p5-r2", color=red, width=4,href="../sys-libs/db-4.2.52_p5-r2.svg"];
+choice1151211154510810598115471009845514650465795112504511449 [label="portage://sys-libs/db-3.2.9_p2-r1", color=red, width=4,href="../sys-libs/db-3.2.9_p2-r1.svg"];
+choice115121115451081059811547100984549564649465150 [label="portage://sys-libs/db-18.1.32", color=red, width=4,href="../sys-libs/db-18.1.32.svg"];
+choice1151211154510810598115471009845494656534511452 [label="portage://sys-libs/db-1.85-r4", color=red, width=4,href="../sys-libs/db-1.85-r4.svg"];
+dependency620268:e -> choice1151211154510810598115471009845544650465156:w [style=dotted,weight="100"];
+dependency620268:e -> choice1151211154510810598115471009845544649465156:w [style=dotted,weight="100"];
+dependency620268:e -> choice11512111545108105981154710098455446484651534511450:w [style=dotted,weight="100"];
+dependency620268:e -> choice11512111545108105981154710098455346514650564511452:w [style=dotted,weight="100"];
+dependency620268:e -> choice11512111545108105981154710098455346514650564511450:w [style=dotted,weight="100"];
+dependency620268:e -> choice11512111545108105981154710098455346494650574511450:w [style=dotted,weight="100"];
+dependency620268:e -> choice11512111545108105981154710098455246564651484511451:w [style=dotted,weight="100"];
+dependency620268:e -> choice115121115451081059811547100984552465546505395112524511449:w [style=dotted,weight="100"];
+dependency620268:e -> choice115121115451081059811547100984552465446504995112524511449:w [style=dotted,weight="100"];
+dependency620268:e -> choice115121115451081059811547100984552465346504895112504511450:w [style=dotted,weight="100"];
+dependency620268:e -> choice115121115451081059811547100984552465246504895112524511450:w [style=dotted,weight="100"];
+dependency620268:e -> choice115121115451081059811547100984552465146505795112494511450:w [style=dotted,weight="100"];
+dependency620268:e -> choice115121115451081059811547100984552465046535095112534511450:w [style=dotted,weight="100"];
+dependency620268:e -> choice1151211154510810598115471009845514650465795112504511449:w [style=dotted,weight="100"];
+dependency620268:e -> choice115121115451081059811547100984549564649465150:w [style=dotted,weight="100"];
+dependency620268:e -> choice1151211154510810598115471009845494656534511452:w [style=dotted,weight="100"];
+}
+subgraph choice466685 {
+color=black;
+nodesep=1;
+choice1101011164510997105108471159710210199971164549464951 [label="portage://net-mail/safecat-1.13", color=red, width=4,href="../net-mail/safecat-1.13.svg"];
+dependency620269:e -> choice1101011164510997105108471159710210199971164549464951:w [style=dotted,weight="100"];
+}
+}
+
+}

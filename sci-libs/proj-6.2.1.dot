@@ -1,0 +1,84 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://sci-libs/proj-6.2.1", color=red, width=4, href="../sci-libs/proj-6.2.1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack76966 {
+dependency96892 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-db</TD></TR><TR><TD>sqlite</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency96892:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack76967 {
+dependency96893 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-db</TD></TR><TR><TD>sqlite</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency96893:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice76966 {
+color=black;
+nodesep=1;
+choice10010111845100984711511310810511610145514651484649 [label="portage://dev-db/sqlite-3.30.1", color=red, width=4,href="../dev-db/sqlite-3.30.1.svg"];
+choice10010111845100984711511310810511610145514650574648 [label="portage://dev-db/sqlite-3.29.0", color=red, width=4,href="../dev-db/sqlite-3.29.0.svg"];
+dependency96892:e -> choice10010111845100984711511310810511610145514651484649:w [style=dotted,weight="100"];
+dependency96892:e -> choice10010111845100984711511310810511610145514650574648:w [style=dotted,weight="100"];
+}
+subgraph choice76967 {
+color=black;
+nodesep=1;
+choice10010111845100984711511310810511610145514651484649 [label="portage://dev-db/sqlite-3.30.1", color=red, width=4,href="../dev-db/sqlite-3.30.1.svg"];
+choice10010111845100984711511310810511610145514650574648 [label="portage://dev-db/sqlite-3.29.0", color=red, width=4,href="../dev-db/sqlite-3.29.0.svg"];
+dependency96893:e -> choice10010111845100984711511310810511610145514651484649:w [style=dotted,weight="100"];
+dependency96893:e -> choice10010111845100984711511310810511610145514650574648:w [style=dotted,weight="100"];
+}
+}
+
+}
