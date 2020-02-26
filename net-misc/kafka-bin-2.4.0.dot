@@ -1,0 +1,128 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://net-misc/kafka-bin-2.4.0", color=red, width=4, href="../net-misc/kafka-bin-2.4.0.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack57544 {
+dependency73872 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>acct-group</TD></TR><TR><TD>kafka</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency73872:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack57545 {
+dependency73873 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>acct-user</TD></TR><TR><TD>kafka</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency73873:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack57546 {
+dependency73874 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>jre</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency73874:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack57547 {
+dependency73875 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>acct-group</TD></TR><TR><TD>kafka</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency73875:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack57548 {
+dependency73876 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>acct-user</TD></TR><TR><TD>kafka</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency73876:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack57549 {
+dependency73877 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>jre</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency73877:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice57544 {
+color=black;
+nodesep=1;
+choice979999116451031141111171124710797102107974548 [label="portage://acct-group/kafka-0", color=red, width=4,href="../acct-group/kafka-0.svg"];
+dependency73872:e -> choice979999116451031141111171124710797102107974548:w [style=dotted,weight="100"];
+}
+subgraph choice57545 {
+color=black;
+nodesep=1;
+choice979999116451171151011144710797102107974548 [label="portage://acct-user/kafka-0", color=red, width=4,href="../acct-user/kafka-0.svg"];
+dependency73873:e -> choice979999116451171151011144710797102107974548:w [style=dotted,weight="100"];
+}
+subgraph choice57546 {
+color=black;
+nodesep=1;
+choice11810511411611797108471061141014549494511449 [label="portage://virtual/jre-11-r1", color=red, width=4,href="../virtual/jre-11-r1.svg"];
+choice11810511411611797108471061141014549465646484511450 [label="portage://virtual/jre-1.8.0-r2", color=red, width=4,href="../virtual/jre-1.8.0-r2.svg"];
+choice11810511411611797108471061141014549465646484511449 [label="portage://virtual/jre-1.8.0-r1", color=red, width=4,href="../virtual/jre-1.8.0-r1.svg"];
+dependency73874:e -> choice11810511411611797108471061141014549494511449:w [style=dotted,weight="100"];
+dependency73874:e -> choice11810511411611797108471061141014549465646484511450:w [style=dotted,weight="100"];
+dependency73874:e -> choice11810511411611797108471061141014549465646484511449:w [style=dotted,weight="100"];
+}
+subgraph choice57547 {
+color=black;
+nodesep=1;
+choice979999116451031141111171124710797102107974548 [label="portage://acct-group/kafka-0", color=red, width=4,href="../acct-group/kafka-0.svg"];
+dependency73875:e -> choice979999116451031141111171124710797102107974548:w [style=dotted,weight="100"];
+}
+subgraph choice57548 {
+color=black;
+nodesep=1;
+choice979999116451171151011144710797102107974548 [label="portage://acct-user/kafka-0", color=red, width=4,href="../acct-user/kafka-0.svg"];
+dependency73876:e -> choice979999116451171151011144710797102107974548:w [style=dotted,weight="100"];
+}
+subgraph choice57549 {
+color=black;
+nodesep=1;
+choice11810511411611797108471061141014549494511449 [label="portage://virtual/jre-11-r1", color=red, width=4,href="../virtual/jre-11-r1.svg"];
+choice11810511411611797108471061141014549465646484511450 [label="portage://virtual/jre-1.8.0-r2", color=red, width=4,href="../virtual/jre-1.8.0-r2.svg"];
+choice11810511411611797108471061141014549465646484511449 [label="portage://virtual/jre-1.8.0-r1", color=red, width=4,href="../virtual/jre-1.8.0-r1.svg"];
+dependency73877:e -> choice11810511411611797108471061141014549494511449:w [style=dotted,weight="100"];
+dependency73877:e -> choice11810511411611797108471061141014549465646484511450:w [style=dotted,weight="100"];
+dependency73877:e -> choice11810511411611797108471061141014549465646484511449:w [style=dotted,weight="100"];
+}
+}
+
+}
