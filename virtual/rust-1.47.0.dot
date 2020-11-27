@@ -1,0 +1,97 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://virtual/rust-1.47.0", color=red, width=4, href="../virtual/rust-1.47.0.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph any19 {
+dependency1264 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD CELLPADDING="10">any_of_group</TD></TR></TABLE>>, shape=none, color=red];subgraph pack1158 {
+dependency1265 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>rust</TD></TR><TR><TD>tilde</TD></TR><TR><TD>1.47.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency1264:e -> dependency1265:w [weight=20,style="dotted",arrowhead="oinv"];
+subgraph pack1159 {
+dependency1266 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>rust-bin</TD></TR><TR><TD>tilde</TD></TR><TR><TD>1.47.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency1264:e -> dependency1266:w [weight=20,style="dotted",arrowhead="oinv"];
+}
+id:e -> dependency1264:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice1158 {
+color=black;
+nodesep=1;
+choice10010111845108971101034711411711511645494652564648 [label="portage://dev-lang/rust-1.48.0", color=red, width=4,href="../dev-lang/rust-1.48.0.svg"];
+choice100101118451089711010347114117115116454946525546484511450 [label="portage://dev-lang/rust-1.47.0-r2", color=red, width=4,href="../dev-lang/rust-1.47.0-r2.svg"];
+choice100101118451089711010347114117115116454946525546484511449 [label="portage://dev-lang/rust-1.47.0-r1", color=red, width=4,href="../dev-lang/rust-1.47.0-r1.svg"];
+choice10010111845108971101034711411711511645494652544648 [label="portage://dev-lang/rust-1.46.0", color=red, width=4,href="../dev-lang/rust-1.46.0.svg"];
+choice10010111845108971101034711411711511645494652534650 [label="portage://dev-lang/rust-1.45.2", color=red, width=4,href="../dev-lang/rust-1.45.2.svg"];
+dependency1265:e -> choice10010111845108971101034711411711511645494652564648:w [style=dotted,weight="100"];
+dependency1265:e -> choice100101118451089711010347114117115116454946525546484511450:w [style=dotted,weight="100"];
+dependency1265:e -> choice100101118451089711010347114117115116454946525546484511449:w [style=dotted,weight="100"];
+dependency1265:e -> choice10010111845108971101034711411711511645494652544648:w [style=dotted,weight="100"];
+dependency1265:e -> choice10010111845108971101034711411711511645494652534650:w [style=dotted,weight="100"];
+}
+subgraph choice1159 {
+color=black;
+nodesep=1;
+choice100101118451089711010347114117115116459810511045494652564648 [label="portage://dev-lang/rust-bin-1.48.0", color=red, width=4,href="../dev-lang/rust-bin-1.48.0.svg"];
+choice1001011184510897110103471141171151164598105110454946525546484511449 [label="portage://dev-lang/rust-bin-1.47.0-r1", color=red, width=4,href="../dev-lang/rust-bin-1.47.0-r1.svg"];
+choice100101118451089711010347114117115116459810511045494652544648 [label="portage://dev-lang/rust-bin-1.46.0", color=red, width=4,href="../dev-lang/rust-bin-1.46.0.svg"];
+choice100101118451089711010347114117115116459810511045494652534650 [label="portage://dev-lang/rust-bin-1.45.2", color=red, width=4,href="../dev-lang/rust-bin-1.45.2.svg"];
+dependency1266:e -> choice100101118451089711010347114117115116459810511045494652564648:w [style=dotted,weight="100"];
+dependency1266:e -> choice1001011184510897110103471141171151164598105110454946525546484511449:w [style=dotted,weight="100"];
+dependency1266:e -> choice100101118451089711010347114117115116459810511045494652544648:w [style=dotted,weight="100"];
+dependency1266:e -> choice100101118451089711010347114117115116459810511045494652534650:w [style=dotted,weight="100"];
+}
+}
+
+}
