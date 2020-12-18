@@ -1,0 +1,104 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://x11-misc/compose-tables-1.7.0", color=red, width=4, href="../x11-misc/compose-tables-1.7.0.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack879 {
+dependency931 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>x11-base</TD></TR><TR><TD>xorg-proto</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency931:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack880 {
+dependency932 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>x11-libs</TD></TR><TR><TD>libxcb</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.11.1</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency932:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack881 {
+dependency933 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>x11-libs</TD></TR><TR><TD>xtrans</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency933:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack882 {
+dependency934 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>x11-libs</TD></TR><TR><TD>libX11</TD></TR><TR><TD>smaller</TD></TR><TR><TD>1.7.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency934:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice879 {
+color=black;
+nodesep=1;
+choice120494945989711510147120111114103451121141111161114557575757 [label="portage://x11-base/xorg-proto-9999", color=red, width=4,href="../x11-base/xorg-proto-9999.svg"];
+choice1204949459897115101471201111141034511211411111611145504850484649 [label="portage://x11-base/xorg-proto-2020.1", color=red, width=4,href="../x11-base/xorg-proto-2020.1.svg"];
+dependency931:e -> choice120494945989711510147120111114103451121141111161114557575757:w [style=dotted,weight="100"];
+dependency931:e -> choice1204949459897115101471201111141034511211411111611145504850484649:w [style=dotted,weight="100"];
+}
+subgraph choice880 {
+color=black;
+nodesep=1;
+choice12049494510810598115471081059812099984549464952 [label="portage://x11-libs/libxcb-1.14", color=red, width=4,href="../x11-libs/libxcb-1.14.svg"];
+dependency932:e -> choice12049494510810598115471081059812099984549464952:w [style=dotted,weight="100"];
+}
+subgraph choice881 {
+color=black;
+nodesep=1;
+choice120494945108105981154712011611497110115454946524648 [label="portage://x11-libs/xtrans-1.4.0", color=red, width=4,href="../x11-libs/xtrans-1.4.0.svg"];
+dependency933:e -> choice120494945108105981154712011611497110115454946524648:w [style=dotted,weight="100"];
+}
+subgraph choice882 {
+color=black;
+nodesep=1;
+choice120494945108105981154710810598884949454946554648 [label="portage://x11-libs/libX11-1.7.0", color=red, width=4,href="../x11-libs/libX11-1.7.0.svg"];
+choice12049494510810598115471081059888494945494654464950 [label="portage://x11-libs/libX11-1.6.12", color=red, width=4,href="../x11-libs/libX11-1.6.12.svg"];
+dependency934:e -> choice120494945108105981154710810598884949454946554648:w [style=dotted,weight="100"];
+dependency934:e -> choice12049494510810598115471081059888494945494654464950:w [style=dotted,weight="100"];
+}
+}
+
+}

@@ -1,0 +1,111 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://sys-kernel/vanilla-kernel-5.10.1", color=red, width=4, href="../sys-kernel/vanilla-kernel-5.10.1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph any63 {
+dependency4632 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD CELLPADDING="10">any_of_group</TD></TR></TABLE>>, shape=none, color=red];subgraph pack3561 {
+dependency4633 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-kernel</TD></TR><TR><TD>installkernel-gentoo</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency4632:e -> dependency4633:w [weight=20,style="dotted",arrowhead="oinv"];
+subgraph pack3562 {
+dependency4634 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-kernel</TD></TR><TR><TD>installkernel-systemd-boot</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency4632:e -> dependency4634:w [weight=20,style="dotted",arrowhead="oinv"];
+}
+id:e -> dependency4632:w [weight=20,style="solid",arrowhead="odot"];
+subgraph cond1008 {
+dependency4635 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>initramfs</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack3563 {
+dependency4636 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-kernel</TD></TR><TR><TD>dracut</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>049-r3</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency4635:e -> dependency4636:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency4635:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack3564 {
+dependency4637 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>sys-kernel</TD></TR><TR><TD>vanilla-kernel-bin</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency4637:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice3561 {
+color=black;
+nodesep=1;
+choice115121115451071011141101011084710511011511697108108107101114110101108451031011101161111114550 [label="portage://sys-kernel/installkernel-gentoo-2", color=red, width=4,href="../sys-kernel/installkernel-gentoo-2.svg"];
+choice115121115451071011141101011084710511011511697108108107101114110101108451031011101161111114549 [label="portage://sys-kernel/installkernel-gentoo-1", color=red, width=4,href="../sys-kernel/installkernel-gentoo-1.svg"];
+dependency4633:e -> choice115121115451071011141101011084710511011511697108108107101114110101108451031011101161111114550:w [style=dotted,weight="100"];
+dependency4633:e -> choice115121115451071011141101011084710511011511697108108107101114110101108451031011101161111114549:w [style=dotted,weight="100"];
+}
+subgraph choice3562 {
+color=black;
+nodesep=1;
+choice1151211154510710111411010110847105110115116971081081071011141101011084511512111511610110910045981111111164548 [label="portage://sys-kernel/installkernel-systemd-boot-0", color=red, width=4,href="../sys-kernel/installkernel-systemd-boot-0.svg"];
+dependency4634:e -> choice1151211154510710111411010110847105110115116971081081071011141101011084511512111511610110910045981111111164548:w [style=dotted,weight="100"];
+}
+subgraph choice3563 {
+color=black;
+nodesep=1;
+choice115121115451071011141101011084710011497991171164557575757 [label="portage://sys-kernel/dracut-9999", color=red, width=4,href="../sys-kernel/dracut-9999.svg"];
+choice1151211154510710111411010110847100114979911711645485349 [label="portage://sys-kernel/dracut-051", color=red, width=4,href="../sys-kernel/dracut-051.svg"];
+choice11512111545107101114110101108471001149799117116454853484511450 [label="portage://sys-kernel/dracut-050-r2", color=red, width=4,href="../sys-kernel/dracut-050-r2.svg"];
+dependency4636:e -> choice115121115451071011141101011084710011497991171164557575757:w [style=dotted,weight="100"];
+dependency4636:e -> choice1151211154510710111411010110847100114979911711645485349:w [style=dotted,weight="100"];
+dependency4636:e -> choice11512111545107101114110101108471001149799117116454853484511450:w [style=dotted,weight="100"];
+}
+subgraph choice3564 {
+color=black;
+nodesep=1;
+}
+}
+
+}

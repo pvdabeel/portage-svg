@@ -1,0 +1,88 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://net-vpn/tailscale-1.2.10-r1", color=red, width=4, href="../net-vpn/tailscale-1.2.10-r1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack6156 {
+dependency8267 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>net-firewall</TD></TR><TR><TD>iptables</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency8267:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack6157 {
+dependency8268 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>tmpfiles</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency8268:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice6156 {
+color=black;
+nodesep=1;
+choice1101011164510210511410111997108108471051121169798108101115454946564654 [label="portage://net-firewall/iptables-1.8.6", color=red, width=4,href="../net-firewall/iptables-1.8.6.svg"];
+choice1101011164510210511410111997108108471051121169798108101115454946564653 [label="portage://net-firewall/iptables-1.8.5", color=red, width=4,href="../net-firewall/iptables-1.8.5.svg"];
+choice11010111645102105114101119971081084710511211697981081011154549465646524511450 [label="portage://net-firewall/iptables-1.8.4-r2", color=red, width=4,href="../net-firewall/iptables-1.8.4-r2.svg"];
+choice11010111645102105114101119971081084710511211697981081011154549465446504511450 [label="portage://net-firewall/iptables-1.6.2-r2", color=red, width=4,href="../net-firewall/iptables-1.6.2-r2.svg"];
+choice11010111645102105114101119971081084710511211697981081011154549465446494511451 [label="portage://net-firewall/iptables-1.6.1-r3", color=red, width=4,href="../net-firewall/iptables-1.6.1-r3.svg"];
+dependency8267:e -> choice1101011164510210511410111997108108471051121169798108101115454946564654:w [style=dotted,weight="100"];
+dependency8267:e -> choice1101011164510210511410111997108108471051121169798108101115454946564653:w [style=dotted,weight="100"];
+dependency8267:e -> choice11010111645102105114101119971081084710511211697981081011154549465646524511450:w [style=dotted,weight="100"];
+dependency8267:e -> choice11010111645102105114101119971081084710511211697981081011154549465446504511450:w [style=dotted,weight="100"];
+dependency8267:e -> choice11010111645102105114101119971081084710511211697981081011154549465446494511451:w [style=dotted,weight="100"];
+}
+subgraph choice6157 {
+color=black;
+nodesep=1;
+choice118105114116117971084711610911210210510810111545484511449 [label="portage://virtual/tmpfiles-0-r1", color=red, width=4,href="../virtual/tmpfiles-0-r1.svg"];
+dependency8268:e -> choice118105114116117971084711610911210210510810111545484511449:w [style=dotted,weight="100"];
+}
+}
+
+}
