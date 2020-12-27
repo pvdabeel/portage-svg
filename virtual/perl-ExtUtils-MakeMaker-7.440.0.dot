@@ -1,0 +1,129 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://virtual/perl-ExtUtils-MakeMaker-7.440.0", color=red, width=4, href="../virtual/perl-ExtUtils-MakeMaker-7.440.0.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph any100 {
+dependency2020 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD CELLPADDING="10">any_of_group</TD></TR></TABLE>>, shape=none, color=red];subgraph pack1769 {
+dependency2021 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>perl</TD></TR><TR><TD>equal</TD></TR><TR><TD>5.32*</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency2020:e -> dependency2021:w [weight=20,style="dotted",arrowhead="oinv"];
+subgraph pack1770 {
+dependency2022 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>perl-core</TD></TR><TR><TD>ExtUtils-MakeMaker</TD></TR><TR><TD>tilde</TD></TR><TR><TD>7.440.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency2020:e -> dependency2022:w [weight=20,style="dotted",arrowhead="oinv"];
+}
+id:e -> dependency2020:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack1771 {
+dependency2023 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>perl</TD></TR><TR><TD>none</TD></TR><TR><TD></TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency2023:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack1772 {
+dependency2024 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>perl-core</TD></TR><TR><TD>ExtUtils-MakeMaker</TD></TR><TR><TD>greater</TD></TR><TR><TD>7.440.0-r999</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency2024:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack1773 {
+dependency2025 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>perl-core</TD></TR><TR><TD>ExtUtils-MakeMaker</TD></TR><TR><TD>smaller</TD></TR><TR><TD>7.440.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency2025:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice1769 {
+color=black;
+nodesep=1;
+choice100101118451089711010347112101114108455346515046484511449 [label="portage://dev-lang/perl-5.32.0-r1", color=red, width=4,href="../dev-lang/perl-5.32.0-r1.svg"];
+choice10010111845108971101034711210111410845534651504648 [label="portage://dev-lang/perl-5.32.0", color=red, width=4,href="../dev-lang/perl-5.32.0.svg"];
+choice100101118451089711010347112101114108455346514846514511450 [label="portage://dev-lang/perl-5.30.3-r2", color=red, width=4,href="../dev-lang/perl-5.30.3-r2.svg"];
+choice100101118451089711010347112101114108455346514846514511449 [label="portage://dev-lang/perl-5.30.3-r1", color=red, width=4,href="../dev-lang/perl-5.30.3-r1.svg"];
+choice10010111845108971101034711210111410845534651484651 [label="portage://dev-lang/perl-5.30.3", color=red, width=4,href="../dev-lang/perl-5.30.3.svg"];
+dependency2021:e -> choice100101118451089711010347112101114108455346515046484511449:w [style=dotted,weight="100"];
+dependency2021:e -> choice10010111845108971101034711210111410845534651504648:w [style=dotted,weight="100"];
+dependency2021:e -> choice100101118451089711010347112101114108455346514846514511450:w [style=dotted,weight="100"];
+dependency2021:e -> choice100101118451089711010347112101114108455346514846514511449:w [style=dotted,weight="100"];
+dependency2021:e -> choice10010111845108971101034711210111410845534651484651:w [style=dotted,weight="100"];
+}
+subgraph choice1770 {
+color=black;
+nodesep=1;
+choice112101114108459911111410147691201168511610510811545779710710177971071011144555465052484648 [label="portage://perl-core/ExtUtils-MakeMaker-7.240.0", color=red, width=4,href="../perl-core/ExtUtils-MakeMaker-7.240.0.svg"];
+dependency2022:e -> choice112101114108459911111410147691201168511610510811545779710710177971071011144555465052484648:w [style=dotted,weight="100"];
+}
+subgraph choice1771 {
+color=black;
+nodesep=1;
+choice100101118451089711010347112101114108455346515046484511449 [label="portage://dev-lang/perl-5.32.0-r1", color=red, width=4,href="../dev-lang/perl-5.32.0-r1.svg"];
+choice10010111845108971101034711210111410845534651504648 [label="portage://dev-lang/perl-5.32.0", color=red, width=4,href="../dev-lang/perl-5.32.0.svg"];
+choice100101118451089711010347112101114108455346514846514511450 [label="portage://dev-lang/perl-5.30.3-r2", color=red, width=4,href="../dev-lang/perl-5.30.3-r2.svg"];
+choice100101118451089711010347112101114108455346514846514511449 [label="portage://dev-lang/perl-5.30.3-r1", color=red, width=4,href="../dev-lang/perl-5.30.3-r1.svg"];
+choice10010111845108971101034711210111410845534651484651 [label="portage://dev-lang/perl-5.30.3", color=red, width=4,href="../dev-lang/perl-5.30.3.svg"];
+dependency2023:e -> choice100101118451089711010347112101114108455346515046484511449:w [style=dotted,weight="100"];
+dependency2023:e -> choice10010111845108971101034711210111410845534651504648:w [style=dotted,weight="100"];
+dependency2023:e -> choice100101118451089711010347112101114108455346514846514511450:w [style=dotted,weight="100"];
+dependency2023:e -> choice100101118451089711010347112101114108455346514846514511449:w [style=dotted,weight="100"];
+dependency2023:e -> choice10010111845108971101034711210111410845534651484651:w [style=dotted,weight="100"];
+}
+subgraph choice1772 {
+color=black;
+nodesep=1;
+choice112101114108459911111410147691201168511610510811545779710710177971071011144555465052484648 [label="portage://perl-core/ExtUtils-MakeMaker-7.240.0", color=red, width=4,href="../perl-core/ExtUtils-MakeMaker-7.240.0.svg"];
+dependency2024:e -> choice112101114108459911111410147691201168511610510811545779710710177971071011144555465052484648:w [style=dotted,weight="100"];
+}
+subgraph choice1773 {
+color=black;
+nodesep=1;
+choice112101114108459911111410147691201168511610510811545779710710177971071011144555465052484648 [label="portage://perl-core/ExtUtils-MakeMaker-7.240.0", color=red, width=4,href="../perl-core/ExtUtils-MakeMaker-7.240.0.svg"];
+dependency2025:e -> choice112101114108459911111410147691201168511610510811545779710710177971071011144555465052484648:w [style=dotted,weight="100"];
+}
+}
+
+}
