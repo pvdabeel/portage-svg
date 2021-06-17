@@ -1,0 +1,106 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://www-apps/owncloud-10.7.0", color=red, width=4, href="../www-apps/owncloud-10.7.0.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack276 {
+dependency598 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-admin</TD></TR><TR><TD>webapp-config</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.50.15</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency598:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack277 {
+dependency599 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-admin</TD></TR><TR><TD>webapp-config</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.50.15</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency599:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack278 {
+dependency600 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>php</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>7.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency600:w [weight=20,style="solid",arrowhead="odot"];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://www-apps/owncloud-10.7.0,run,no,virtual,httpd-php,none,[,,],[],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice276 {
+color=black;
+nodesep=1;
+choice971121124597100109105110471191019897112112459911111010210510345494653534511450 [label="portage://app-admin/webapp-config-1.55-r2", color=red, width=4,href="../app-admin/webapp-config-1.55-r2.svg"];
+choice97112112459710010910511047119101989711211245991111101021051034557575757 [label="portage://app-admin/webapp-config-9999", color=red, width=4,href="../app-admin/webapp-config-9999.svg"];
+dependency598:e -> choice971121124597100109105110471191019897112112459911111010210510345494653534511450:w [style=dotted,weight="100"];
+dependency598:e -> choice97112112459710010910511047119101989711211245991111101021051034557575757:w [style=dotted,weight="100"];
+}
+subgraph choice277 {
+color=black;
+nodesep=1;
+choice971121124597100109105110471191019897112112459911111010210510345494653534511450 [label="portage://app-admin/webapp-config-1.55-r2", color=red, width=4,href="../app-admin/webapp-config-1.55-r2.svg"];
+choice97112112459710010910511047119101989711211245991111101021051034557575757 [label="portage://app-admin/webapp-config-9999", color=red, width=4,href="../app-admin/webapp-config-9999.svg"];
+dependency599:e -> choice971121124597100109105110471191019897112112459911111010210510345494653534511450:w [style=dotted,weight="100"];
+dependency599:e -> choice97112112459710010910511047119101989711211245991111101021051034557575757:w [style=dotted,weight="100"];
+}
+subgraph choice278 {
+color=black;
+nodesep=1;
+choice10010111845108971101034711210411245554651465056 [label="portage://dev-lang/php-7.3.28", color=red, width=4,href="../dev-lang/php-7.3.28.svg"];
+choice10010111845108971101034711210411245554652464957 [label="portage://dev-lang/php-7.4.19", color=red, width=4,href="../dev-lang/php-7.4.19.svg"];
+choice10010111845108971101034711210411245554652465048 [label="portage://dev-lang/php-7.4.20", color=red, width=4,href="../dev-lang/php-7.4.20.svg"];
+choice100101118451089711010347112104112455646484654 [label="portage://dev-lang/php-8.0.6", color=red, width=4,href="../dev-lang/php-8.0.6.svg"];
+choice100101118451089711010347112104112455646484655 [label="portage://dev-lang/php-8.0.7", color=red, width=4,href="../dev-lang/php-8.0.7.svg"];
+dependency600:e -> choice10010111845108971101034711210411245554651465056:w [style=dotted,weight="100"];
+dependency600:e -> choice10010111845108971101034711210411245554652464957:w [style=dotted,weight="100"];
+dependency600:e -> choice10010111845108971101034711210411245554652465048:w [style=dotted,weight="100"];
+dependency600:e -> choice100101118451089711010347112104112455646484654:w [style=dotted,weight="100"];
+dependency600:e -> choice100101118451089711010347112104112455646484655:w [style=dotted,weight="100"];
+}
+}
+
+}
