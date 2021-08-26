@@ -1,0 +1,97 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://sys-kernel/vanilla-kernel-5.4.143", color=red, width=4, href="../sys-kernel/vanilla-kernel-5.4.143.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph any21 {
+dependency529 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD CELLPADDING="10">any_of_group</TD></TR></TABLE>>, shape=none, color=red];# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# dependency529 -> package_dependency(portage://sys-kernel/vanilla-kernel-5.4.143,run,no,sys-kernel,installkernel-gentoo,none,[,,],[],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# dependency529 -> package_dependency(portage://sys-kernel/vanilla-kernel-5.4.143,run,no,sys-kernel,installkernel-systemd-boot,none,[,,],[],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+id:e -> dependency529:w [weight=20,style="solid",arrowhead="odot"];
+subgraph cond265 {
+dependency530 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>initramfs</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack245 {
+dependency531 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-kernel</TD></TR><TR><TD>dracut</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>049-r3</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency530:e -> dependency531:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency530:w [weight=20,style="solid",arrowhead="odot"];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://sys-kernel/vanilla-kernel-5.4.143,run,no,virtual,libelf,none,[,,],[],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://sys-kernel/vanilla-kernel-5.4.143,run,weak,sys-kernel,vanilla-kernel-bin,none,[,,],[slot(5.4.143)],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice245 {
+color=black;
+nodesep=1;
+choice11512111545107101114110101108471001149799117116454853514511449 [label="portage://sys-kernel/dracut-053-r1", color=red, width=4,href="../sys-kernel/dracut-053-r1.svg"];
+choice11512111545107101114110101108471001149799117116454853534511450 [label="portage://sys-kernel/dracut-055-r2", color=red, width=4,href="../sys-kernel/dracut-055-r2.svg"];
+choice115121115451071011141101011084710011497991171164557575757 [label="portage://sys-kernel/dracut-9999", color=red, width=4,href="../sys-kernel/dracut-9999.svg"];
+dependency531:e -> choice11512111545107101114110101108471001149799117116454853514511449:w [style=dotted,weight="100"];
+dependency531:e -> choice11512111545107101114110101108471001149799117116454853534511450:w [style=dotted,weight="100"];
+dependency531:e -> choice115121115451071011141101011084710011497991171164557575757:w [style=dotted,weight="100"];
+}
+}
+
+}
