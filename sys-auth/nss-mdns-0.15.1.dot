@@ -1,0 +1,94 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://sys-auth/nss-mdns-0.15.1", color=red, width=4, href="../sys-auth/nss-mdns-0.15.1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond248 {
+dependency436 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>test</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack184 {
+dependency437 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>check</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>0.11</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency436:e -> dependency437:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency436:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack185 {
+dependency438 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>net-dns</TD></TR><TR><TD>avahi</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>0.6.31-r2</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency438:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack186 {
+dependency439 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>net-dns</TD></TR><TR><TD>avahi</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>0.6.31-r2</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency439:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice184 {
+color=black;
+nodesep=1;
+choice1001011184510810598115479910410199107454846495346504511449 [label="portage://dev-libs/check-0.15.2-r1", color=red, width=4,href="../dev-libs/check-0.15.2-r1.svg"];
+dependency437:e -> choice1001011184510810598115479910410199107454846495346504511449:w [style=dotted,weight="100"];
+}
+subgraph choice185 {
+color=black;
+nodesep=1;
+choice11010111645100110115479711897104105454846564511452 [label="portage://net-dns/avahi-0.8-r4", color=red, width=4,href="../net-dns/avahi-0.8-r4.svg"];
+dependency438:e -> choice11010111645100110115479711897104105454846564511452:w [style=dotted,weight="100"];
+}
+subgraph choice186 {
+color=black;
+nodesep=1;
+choice11010111645100110115479711897104105454846564511452 [label="portage://net-dns/avahi-0.8-r4", color=red, width=4,href="../net-dns/avahi-0.8-r4.svg"];
+dependency439:e -> choice11010111645100110115479711897104105454846564511452:w [style=dotted,weight="100"];
+}
+}
+
+}
