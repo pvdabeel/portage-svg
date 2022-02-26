@@ -1,0 +1,116 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://sys-apps/bat-0.18.3-r1", color=red, width=4, href="../sys-apps/bat-0.18.3-r1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack2720 {
+dependency2802 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libgit2</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.1.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency2802:w [weight=20,style="solid",arrowhead="vee"];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://sys-apps/bat-0.18.3-r1,install,no,dev-libs,oniguruma,none,[,,],any_same_slot,[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack2721 {
+dependency2803 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libgit2</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.1.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency2803:w [weight=20,style="solid",arrowhead="odot"];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://sys-apps/bat-0.18.3-r1,run,no,dev-libs,oniguruma,none,[,,],any_same_slot,[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+subgraph pack2722 {
+dependency2804 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>app-backup</TD></TR><TR><TD>bacula</TD></TR><TR><TD>greater</TD></TR><TR><TD>9.2</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency2804:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice2720 {
+color=black;
+nodesep=1;
+choice1001011184510810598115471081059810310511650454946514648 [label="portage://dev-libs/libgit2-1.3.0", color=red, width=4,href="../dev-libs/libgit2-1.3.0.svg"];
+choice1001011184510810598115471081059810310511650454946524648 [label="portage://dev-libs/libgit2-1.4.0", color=red, width=4,href="../dev-libs/libgit2-1.4.0.svg"];
+choice1001011184510810598115471081059810310511650454946524649 [label="portage://dev-libs/libgit2-1.4.1", color=red, width=4,href="../dev-libs/libgit2-1.4.1.svg"];
+dependency2802:e -> choice1001011184510810598115471081059810310511650454946514648:w [style=dotted,weight="100"];
+dependency2802:e -> choice1001011184510810598115471081059810310511650454946524648:w [style=dotted,weight="100"];
+dependency2802:e -> choice1001011184510810598115471081059810310511650454946524649:w [style=dotted,weight="100"];
+}
+subgraph choice2721 {
+color=black;
+nodesep=1;
+choice1001011184510810598115471081059810310511650454946514648 [label="portage://dev-libs/libgit2-1.3.0", color=red, width=4,href="../dev-libs/libgit2-1.3.0.svg"];
+choice1001011184510810598115471081059810310511650454946524648 [label="portage://dev-libs/libgit2-1.4.0", color=red, width=4,href="../dev-libs/libgit2-1.4.0.svg"];
+choice1001011184510810598115471081059810310511650454946524649 [label="portage://dev-libs/libgit2-1.4.1", color=red, width=4,href="../dev-libs/libgit2-1.4.1.svg"];
+dependency2803:e -> choice1001011184510810598115471081059810310511650454946514648:w [style=dotted,weight="100"];
+dependency2803:e -> choice1001011184510810598115471081059810310511650454946524648:w [style=dotted,weight="100"];
+dependency2803:e -> choice1001011184510810598115471081059810310511650454946524649:w [style=dotted,weight="100"];
+}
+subgraph choice2722 {
+color=black;
+nodesep=1;
+choice9711211245989799107117112479897991171089745494946484650 [label="portage://app-backup/bacula-11.0.2", color=red, width=4,href="../app-backup/bacula-11.0.2.svg"];
+choice9711211245989799107117112479897991171089745494946484651 [label="portage://app-backup/bacula-11.0.3", color=red, width=4,href="../app-backup/bacula-11.0.3.svg"];
+choice9711211245989799107117112479897991171089745494946484653 [label="portage://app-backup/bacula-11.0.5", color=red, width=4,href="../app-backup/bacula-11.0.5.svg"];
+choice97112112459897991071171124798979911710897455746544653 [label="portage://app-backup/bacula-9.6.5", color=red, width=4,href="../app-backup/bacula-9.6.5.svg"];
+choice97112112459897991071171124798979911710897455746544654 [label="portage://app-backup/bacula-9.6.6", color=red, width=4,href="../app-backup/bacula-9.6.6.svg"];
+choice97112112459897991071171124798979911710897455746544655 [label="portage://app-backup/bacula-9.6.7", color=red, width=4,href="../app-backup/bacula-9.6.7.svg"];
+dependency2804:e -> choice9711211245989799107117112479897991171089745494946484650:w [style=dotted,weight="100"];
+dependency2804:e -> choice9711211245989799107117112479897991171089745494946484651:w [style=dotted,weight="100"];
+dependency2804:e -> choice9711211245989799107117112479897991171089745494946484653:w [style=dotted,weight="100"];
+dependency2804:e -> choice97112112459897991071171124798979911710897455746544653:w [style=dotted,weight="100"];
+dependency2804:e -> choice97112112459897991071171124798979911710897455746544654:w [style=dotted,weight="100"];
+dependency2804:e -> choice97112112459897991071171124798979911710897455746544655:w [style=dotted,weight="100"];
+}
+}
+
+}
