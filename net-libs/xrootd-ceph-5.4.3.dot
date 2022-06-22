@@ -1,0 +1,92 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://net-libs/xrootd-ceph-5.4.3", color=red, width=4, href="../net-libs/xrootd-ceph-5.4.3.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack455 {
+dependency1680 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>net-libs</TD></TR><TR><TD>xrootd</TD></TR><TR><TD>tilde</TD></TR><TR><TD>5.4.3</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1680:w [weight=20,style="solid",arrowhead="vee"];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://net-libs/xrootd-ceph-5.4.3,install,no,sys-cluster,ceph,none,[,,],[],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack456 {
+dependency1681 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>net-libs</TD></TR><TR><TD>xrootd</TD></TR><TR><TD>tilde</TD></TR><TR><TD>5.4.3</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1681:w [weight=20,style="solid",arrowhead="odot"];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://net-libs/xrootd-ceph-5.4.3,run,no,sys-cluster,ceph,none,[,,],[],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice455 {
+color=black;
+nodesep=1;
+choice1101011164510810598115471201141111111161004553464846514511449 [label="portage://net-libs/xrootd-5.0.3-r1", color=red, width=4,href="../net-libs/xrootd-5.0.3-r1.svg"];
+choice110101116451081059811547120114111111116100455346524651 [label="portage://net-libs/xrootd-5.4.3", color=red, width=4,href="../net-libs/xrootd-5.4.3.svg"];
+dependency1680:e -> choice1101011164510810598115471201141111111161004553464846514511449:w [style=dotted,weight="100"];
+dependency1680:e -> choice110101116451081059811547120114111111116100455346524651:w [style=dotted,weight="100"];
+}
+subgraph choice456 {
+color=black;
+nodesep=1;
+choice1101011164510810598115471201141111111161004553464846514511449 [label="portage://net-libs/xrootd-5.0.3-r1", color=red, width=4,href="../net-libs/xrootd-5.0.3-r1.svg"];
+choice110101116451081059811547120114111111116100455346524651 [label="portage://net-libs/xrootd-5.4.3", color=red, width=4,href="../net-libs/xrootd-5.4.3.svg"];
+dependency1681:e -> choice1101011164510810598115471201141111111161004553464846514511449:w [style=dotted,weight="100"];
+dependency1681:e -> choice110101116451081059811547120114111111116100455346524651:w [style=dotted,weight="100"];
+}
+}
+
+}
