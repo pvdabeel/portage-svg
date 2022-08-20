@@ -1,0 +1,140 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://sys-devel/mold-1.4.1", color=red, width=4, href="../sys-devel/mold-1.4.1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond156 {
+dependency234 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>negative</TD></TR><TR><TD>kernel_Darwin</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack78 {
+dependency235 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>mimalloc</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency234:e -> dependency235:w [weight=20,style="dashed",arrowhead="vee"];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# dependency234 -> package_dependency(portage://sys-devel/mold-1.4.1,install,no,dev-libs,openssl,none,[,,],any_same_slot,[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+id:e -> dependency234:w [weight=20,style="solid",arrowhead="vee"];
+subgraph cond157 {
+dependency236 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>system-tbb</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack79 {
+dependency237 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-cpp</TD></TR><TR><TD>tbb</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2021.4.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency236:e -> dependency237:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency236:w [weight=20,style="solid",arrowhead="vee"];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://sys-devel/mold-1.4.1,install,no,sys-libs,zlib,none,[,,],[],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond158 {
+dependency238 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>negative</TD></TR><TR><TD>kernel_Darwin</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack80 {
+dependency239 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>mimalloc</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency238:e -> dependency239:w [weight=20,style="dashed",arrowhead="vee"];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# dependency238 -> package_dependency(portage://sys-devel/mold-1.4.1,run,no,dev-libs,openssl,none,[,,],any_same_slot,[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+id:e -> dependency238:w [weight=20,style="solid",arrowhead="odot"];
+subgraph cond159 {
+dependency240 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>system-tbb</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack81 {
+dependency241 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-cpp</TD></TR><TR><TD>tbb</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2021.4.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency240:e -> dependency241:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency240:w [weight=20,style="solid",arrowhead="odot"];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://sys-devel/mold-1.4.1,run,no,sys-libs,zlib,none,[,,],[],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice78 {
+color=black;
+nodesep=1;
+choice1001011184510810598115471091051099710810811199455046484654 [label="portage://dev-libs/mimalloc-2.0.6", color=red, width=4,href="../dev-libs/mimalloc-2.0.6.svg"];
+dependency235:e -> choice1001011184510810598115471091051099710810811199455046484654:w [style=dotted,weight="100"];
+}
+subgraph choice79 {
+color=black;
+nodesep=1;
+choice100101118459911211247116989845504850484651 [label="portage://dev-cpp/tbb-2020.3", color=red, width=4,href="../dev-cpp/tbb-2020.3.svg"];
+choice1001011184599112112471169898455048504946524648 [label="portage://dev-cpp/tbb-2021.4.0", color=red, width=4,href="../dev-cpp/tbb-2021.4.0.svg"];
+choice10010111845991121124711698984550485049465346484511449 [label="portage://dev-cpp/tbb-2021.5.0-r1", color=red, width=4,href="../dev-cpp/tbb-2021.5.0-r1.svg"];
+dependency237:e -> choice100101118459911211247116989845504850484651:w [style=dotted,weight="100"];
+dependency237:e -> choice1001011184599112112471169898455048504946524648:w [style=dotted,weight="100"];
+dependency237:e -> choice10010111845991121124711698984550485049465346484511449:w [style=dotted,weight="100"];
+}
+subgraph choice80 {
+color=black;
+nodesep=1;
+choice1001011184510810598115471091051099710810811199455046484654 [label="portage://dev-libs/mimalloc-2.0.6", color=red, width=4,href="../dev-libs/mimalloc-2.0.6.svg"];
+dependency239:e -> choice1001011184510810598115471091051099710810811199455046484654:w [style=dotted,weight="100"];
+}
+subgraph choice81 {
+color=black;
+nodesep=1;
+choice100101118459911211247116989845504850484651 [label="portage://dev-cpp/tbb-2020.3", color=red, width=4,href="../dev-cpp/tbb-2020.3.svg"];
+choice1001011184599112112471169898455048504946524648 [label="portage://dev-cpp/tbb-2021.4.0", color=red, width=4,href="../dev-cpp/tbb-2021.4.0.svg"];
+choice10010111845991121124711698984550485049465346484511449 [label="portage://dev-cpp/tbb-2021.5.0-r1", color=red, width=4,href="../dev-cpp/tbb-2021.5.0-r1.svg"];
+dependency241:e -> choice100101118459911211247116989845504850484651:w [style=dotted,weight="100"];
+dependency241:e -> choice1001011184599112112471169898455048504946524648:w [style=dotted,weight="100"];
+dependency241:e -> choice10010111845991121124711698984550485049465346484511449:w [style=dotted,weight="100"];
+}
+}
+
+}
