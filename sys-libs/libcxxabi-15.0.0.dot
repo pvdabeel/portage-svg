@@ -1,0 +1,118 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://sys-libs/libcxxabi-15.0.0", color=red, width=4, href="../sys-libs/libcxxabi-15.0.0.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack447 {
+dependency1037 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-devel</TD></TR><TR><TD>llvm</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>6</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1037:w [weight=20,style="solid",arrowhead="vee"];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://sys-libs/libcxxabi-15.0.0,install,strong,sys-devel,llvm,none,[,,],[slot(0)],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+subgraph pack448 {
+dependency1038 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>libcxx</TD></TR><TR><TD>smaller</TD></TR><TR><TD>15</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1038:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack449 {
+dependency1039 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>libcxx</TD></TR><TR><TD>smaller</TD></TR><TR><TD>15</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1039:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice447 {
+color=black;
+nodesep=1;
+choice115121115451001011181011084710810811810945495146484649 [label="portage://sys-devel/llvm-13.0.1", color=red, width=4,href="../sys-devel/llvm-13.0.1.svg"];
+choice1151211154510010111810110847108108118109454952464846544511450 [label="portage://sys-devel/llvm-14.0.6-r2", color=red, width=4,href="../sys-devel/llvm-14.0.6-r2.svg"];
+choice115121115451001011181011084710810811810945495346484648 [label="portage://sys-devel/llvm-15.0.0", color=red, width=4,href="../sys-devel/llvm-15.0.0.svg"];
+choice1151211154510010111810110847108108118109454953464846484657575757 [label="portage://sys-devel/llvm-15.0.0.9999", color=red, width=4,href="../sys-devel/llvm-15.0.0.9999.svg"];
+choice1151211154510010111810110847108108118109454954464846484657575757 [label="portage://sys-devel/llvm-16.0.0.9999", color=red, width=4,href="../sys-devel/llvm-16.0.0.9999.svg"];
+dependency1037:e -> choice115121115451001011181011084710810811810945495146484649:w [style=dotted,weight="100"];
+dependency1037:e -> choice1151211154510010111810110847108108118109454952464846544511450:w [style=dotted,weight="100"];
+dependency1037:e -> choice115121115451001011181011084710810811810945495346484648:w [style=dotted,weight="100"];
+dependency1037:e -> choice1151211154510010111810110847108108118109454953464846484657575757:w [style=dotted,weight="100"];
+dependency1037:e -> choice1151211154510010111810110847108108118109454954464846484657575757:w [style=dotted,weight="100"];
+}
+subgraph choice448 {
+color=black;
+nodesep=1;
+choice115121115451081059811547108105989912012045495146484649 [label="portage://sys-libs/libcxx-13.0.1", color=red, width=4,href="../sys-libs/libcxx-13.0.1.svg"];
+choice115121115451081059811547108105989912012045495246484654 [label="portage://sys-libs/libcxx-14.0.6", color=red, width=4,href="../sys-libs/libcxx-14.0.6.svg"];
+choice115121115451081059811547108105989912012045495346484648 [label="portage://sys-libs/libcxx-15.0.0", color=red, width=4,href="../sys-libs/libcxx-15.0.0.svg"];
+choice1151211154510810598115471081059899120120454953464846484657575757 [label="portage://sys-libs/libcxx-15.0.0.9999", color=red, width=4,href="../sys-libs/libcxx-15.0.0.9999.svg"];
+choice1151211154510810598115471081059899120120454954464846484657575757 [label="portage://sys-libs/libcxx-16.0.0.9999", color=red, width=4,href="../sys-libs/libcxx-16.0.0.9999.svg"];
+dependency1038:e -> choice115121115451081059811547108105989912012045495146484649:w [style=dotted,weight="100"];
+dependency1038:e -> choice115121115451081059811547108105989912012045495246484654:w [style=dotted,weight="100"];
+dependency1038:e -> choice115121115451081059811547108105989912012045495346484648:w [style=dotted,weight="100"];
+dependency1038:e -> choice1151211154510810598115471081059899120120454953464846484657575757:w [style=dotted,weight="100"];
+dependency1038:e -> choice1151211154510810598115471081059899120120454954464846484657575757:w [style=dotted,weight="100"];
+}
+subgraph choice449 {
+color=black;
+nodesep=1;
+choice115121115451081059811547108105989912012045495146484649 [label="portage://sys-libs/libcxx-13.0.1", color=red, width=4,href="../sys-libs/libcxx-13.0.1.svg"];
+choice115121115451081059811547108105989912012045495246484654 [label="portage://sys-libs/libcxx-14.0.6", color=red, width=4,href="../sys-libs/libcxx-14.0.6.svg"];
+choice115121115451081059811547108105989912012045495346484648 [label="portage://sys-libs/libcxx-15.0.0", color=red, width=4,href="../sys-libs/libcxx-15.0.0.svg"];
+choice1151211154510810598115471081059899120120454953464846484657575757 [label="portage://sys-libs/libcxx-15.0.0.9999", color=red, width=4,href="../sys-libs/libcxx-15.0.0.9999.svg"];
+choice1151211154510810598115471081059899120120454954464846484657575757 [label="portage://sys-libs/libcxx-16.0.0.9999", color=red, width=4,href="../sys-libs/libcxx-16.0.0.9999.svg"];
+dependency1039:e -> choice115121115451081059811547108105989912012045495146484649:w [style=dotted,weight="100"];
+dependency1039:e -> choice115121115451081059811547108105989912012045495246484654:w [style=dotted,weight="100"];
+dependency1039:e -> choice115121115451081059811547108105989912012045495346484648:w [style=dotted,weight="100"];
+dependency1039:e -> choice1151211154510810598115471081059899120120454953464846484657575757:w [style=dotted,weight="100"];
+dependency1039:e -> choice1151211154510810598115471081059899120120454954464846484657575757:w [style=dotted,weight="100"];
+}
+}
+
+}
