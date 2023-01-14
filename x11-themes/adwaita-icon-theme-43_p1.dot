@@ -1,0 +1,92 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://x11-themes/adwaita-icon-theme-43_p1", color=red, width=4, href="../x11-themes/adwaita-icon-theme-43_p1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack5223 {
+dependency13810 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>x11-themes</TD></TR><TR><TD>hicolor-icon-theme</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>0.10</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency13810:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack5224 {
+dependency13811 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>gnome-base</TD></TR><TR><TD>librsvg</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2.48</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency13811:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack5225 {
+dependency13812 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>x11-themes</TD></TR><TR><TD>hicolor-icon-theme</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>0.10</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency13812:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice5223 {
+color=black;
+nodesep=1;
+choice12049494511610410110910111547104105991111081111144510599111110451161041011091014548464955 [label="portage://x11-themes/hicolor-icon-theme-0.17", color=red, width=4,href="../x11-themes/hicolor-icon-theme-0.17.svg"];
+dependency13810:e -> choice12049494511610410110910111547104105991111081111144510599111110451161041011091014548464955:w [style=dotted,weight="100"];
+}
+subgraph choice5224 {
+color=black;
+nodesep=1;
+choice10311011110910145989711510147108105981141151181034550465248465049 [label="portage://gnome-base/librsvg-2.40.21", color=red, width=4,href="../gnome-base/librsvg-2.40.21.svg"];
+choice103110111109101459897115101471081059811411511810345504653534649 [label="portage://gnome-base/librsvg-2.55.1", color=red, width=4,href="../gnome-base/librsvg-2.55.1.svg"];
+dependency13811:e -> choice10311011110910145989711510147108105981141151181034550465248465049:w [style=dotted,weight="100"];
+dependency13811:e -> choice103110111109101459897115101471081059811411511810345504653534649:w [style=dotted,weight="100"];
+}
+subgraph choice5225 {
+color=black;
+nodesep=1;
+choice12049494511610410110910111547104105991111081111144510599111110451161041011091014548464955 [label="portage://x11-themes/hicolor-icon-theme-0.17", color=red, width=4,href="../x11-themes/hicolor-icon-theme-0.17.svg"];
+dependency13812:e -> choice12049494511610410110910111547104105991111081111144510599111110451161041011091014548464955:w [style=dotted,weight="100"];
+}
+}
+
+}

@@ -1,0 +1,108 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://sys-power/switcheroo-control-2.6-r1", color=red, width=4, href="../sys-power/switcheroo-control-2.6-r1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack4043 {
+dependency11232 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>glib</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2.56.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency11232:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack4044 {
+dependency11233 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libgudev</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>232</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency11233:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack4045 {
+dependency11234 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>glib</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2.56.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency11234:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack4046 {
+dependency11235 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libgudev</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>232</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency11235:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice4043 {
+color=black;
+nodesep=1;
+choice10010111845108105981154710310810598455046555246514511451 [label="portage://dev-libs/glib-2.74.3-r3", color=red, width=4,href="../dev-libs/glib-2.74.3-r3.svg"];
+choice1001011184510810598115471031081059845504655524652 [label="portage://dev-libs/glib-2.74.4", color=red, width=4,href="../dev-libs/glib-2.74.4.svg"];
+dependency11232:e -> choice10010111845108105981154710310810598455046555246514511451:w [style=dotted,weight="100"];
+dependency11232:e -> choice1001011184510810598115471031081059845504655524652:w [style=dotted,weight="100"];
+}
+subgraph choice4044 {
+color=black;
+nodesep=1;
+choice1001011184510810598115471081059810311710010111845505154 [label="portage://dev-libs/libgudev-236", color=red, width=4,href="../dev-libs/libgudev-236.svg"];
+choice10010111845108105981154710810598103117100101118455051554511449 [label="portage://dev-libs/libgudev-237-r1", color=red, width=4,href="../dev-libs/libgudev-237-r1.svg"];
+dependency11233:e -> choice1001011184510810598115471081059810311710010111845505154:w [style=dotted,weight="100"];
+dependency11233:e -> choice10010111845108105981154710810598103117100101118455051554511449:w [style=dotted,weight="100"];
+}
+subgraph choice4045 {
+color=black;
+nodesep=1;
+choice10010111845108105981154710310810598455046555246514511451 [label="portage://dev-libs/glib-2.74.3-r3", color=red, width=4,href="../dev-libs/glib-2.74.3-r3.svg"];
+choice1001011184510810598115471031081059845504655524652 [label="portage://dev-libs/glib-2.74.4", color=red, width=4,href="../dev-libs/glib-2.74.4.svg"];
+dependency11234:e -> choice10010111845108105981154710310810598455046555246514511451:w [style=dotted,weight="100"];
+dependency11234:e -> choice1001011184510810598115471031081059845504655524652:w [style=dotted,weight="100"];
+}
+subgraph choice4046 {
+color=black;
+nodesep=1;
+choice1001011184510810598115471081059810311710010111845505154 [label="portage://dev-libs/libgudev-236", color=red, width=4,href="../dev-libs/libgudev-236.svg"];
+choice10010111845108105981154710810598103117100101118455051554511449 [label="portage://dev-libs/libgudev-237-r1", color=red, width=4,href="../dev-libs/libgudev-237-r1.svg"];
+dependency11235:e -> choice1001011184510810598115471081059810311710010111845505154:w [style=dotted,weight="100"];
+dependency11235:e -> choice10010111845108105981154710810598103117100101118455051554511449:w [style=dotted,weight="100"];
+}
+}
+
+}
