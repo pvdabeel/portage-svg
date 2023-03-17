@@ -1,0 +1,210 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://net-analyzer/graphite-web-1.1.10", color=red, width=4, href="../net-analyzer/graphite-web-1.1.10.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond1 {
+dependency1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>carbon</TD></TR></TABLE>>, shape=none, color=red];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# dependency1 -> package_dependency(portage://net-analyzer/graphite-web-1.1.10,run,no,dev-python,carbon,none,[,,],[],[use(optenable(python_targets_python3_9),negative),use(optenable(python_targets_python3_10),negative)])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+id:e -> dependency1:w [weight=20,style="solid",arrowhead="odot"];
+subgraph cond2 {
+dependency2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>ldap</TD></TR></TABLE>>, shape=none, color=red];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# dependency2 -> package_dependency(portage://net-analyzer/graphite-web-1.1.10,run,no,dev-python,python-ldap,none,[,,],[],[use(optenable(python_targets_python3_9),negative),use(optenable(python_targets_python3_10),negative)])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+id:e -> dependency2:w [weight=20,style="solid",arrowhead="odot"];
+subgraph cond3 {
+dependency3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>memcached</TD></TR></TABLE>>, shape=none, color=red];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# dependency3 -> package_dependency(portage://net-analyzer/graphite-web-1.1.10,run,no,dev-python,python-memcached,none,[,,],[],[use(optenable(python_targets_python3_9),negative),use(optenable(python_targets_python3_10),negative)])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+id:e -> dependency3:w [weight=20,style="solid",arrowhead="odot"];
+subgraph cond4 {
+dependency4 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>mysql</TD></TR></TABLE>>, shape=none, color=red];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# dependency4 -> package_dependency(portage://net-analyzer/graphite-web-1.1.10,run,no,dev-python,mysqlclient,none,[,,],[],[use(optenable(python_targets_python3_9),negative),use(optenable(python_targets_python3_10),negative)])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+id:e -> dependency4:w [weight=20,style="solid",arrowhead="odot"];
+subgraph cond5 {
+dependency5 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>postgres</TD></TR></TABLE>>, shape=none, color=red];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# dependency5 -> package_dependency(portage://net-analyzer/graphite-web-1.1.10,run,no,dev-python,psycopg,none,[,,],[slot(2)],[use(optenable(python_targets_python3_9),negative),use(optenable(python_targets_python3_10),negative)])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+id:e -> dependency5:w [weight=20,style="solid",arrowhead="odot"];
+subgraph cond6 {
+dependency6 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>python_targets_python3_10</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack1 {
+dependency7 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>python</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>3.10.9-r1</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency6:e -> dependency7:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency6:w [weight=20,style="solid",arrowhead="odot"];
+subgraph cond7 {
+dependency8 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>python_targets_python3_9</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack2 {
+dependency9 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>python</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>3.9.16-r1</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency8:e -> dependency9:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency8:w [weight=20,style="solid",arrowhead="odot"];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://net-analyzer/graphite-web-1.1.10,run,no,dev-python,cairocffi,none,[,,],[],[use(optenable(python_targets_python3_9),negative),use(optenable(python_targets_python3_10),negative)])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+subgraph pack3 {
+dependency10 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-python</TD></TR><TR><TD>django</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.11.19</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency10:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack4 {
+dependency11 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-python</TD></TR><TR><TD>django</TD></TR><TR><TD>smaller</TD></TR><TR><TD>4</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency11:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack5 {
+dependency12 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-python</TD></TR><TR><TD>django-tagging</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>0.4.6</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency12:w [weight=20,style="solid",arrowhead="odot"];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://net-analyzer/graphite-web-1.1.10,run,no,dev-python,pyparsing,none,[,,],[],[use(optenable(python_targets_python3_9),negative),use(optenable(python_targets_python3_10),negative)])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://net-analyzer/graphite-web-1.1.10,run,no,dev-python,pytz,none,[,,],[],[use(optenable(python_targets_python3_9),negative),use(optenable(python_targets_python3_10),negative)])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://net-analyzer/graphite-web-1.1.10,run,no,dev-python,six,none,[,,],[],[use(optenable(python_targets_python3_9),negative),use(optenable(python_targets_python3_10),negative)])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://net-analyzer/graphite-web-1.1.10,run,no,dev-python,urllib3,none,[,,],[],[use(optenable(python_targets_python3_9),negative),use(optenable(python_targets_python3_10),negative)])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://net-analyzer/graphite-web-1.1.10,run,no,media-libs,fontconfig,none,[,,],[],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice1 {
+color=black;
+nodesep=1;
+choice100101118451089711010347112121116104111110455046554649569511249544511449 [label="portage://dev-lang/python-2.7.18_p16-r1", color=red, width=4,href="../dev-lang/python-2.7.18_p16-r1.svg"];
+choice10010111845108971101034711212111610411111045514649484649489511251 [label="portage://dev-lang/python-3.10.10_p3", color=red, width=4,href="../dev-lang/python-3.10.10_p3.svg"];
+choice100101118451089711010347112121116104111110455146494946509511250 [label="portage://dev-lang/python-3.11.2_p2", color=red, width=4,href="../dev-lang/python-3.11.2_p2.svg"];
+choice1001011184510897110103471121211161041111104551464950464895971081121049754 [label="portage://dev-lang/python-3.12.0_alpha6", color=red, width=4,href="../dev-lang/python-3.12.0_alpha6.svg"];
+choice100101118451089711010347112121116104111110455146564649549511252 [label="portage://dev-lang/python-3.8.16_p4", color=red, width=4,href="../dev-lang/python-3.8.16_p4.svg"];
+choice100101118451089711010347112121116104111110455146574649549511251 [label="portage://dev-lang/python-3.9.16_p3", color=red, width=4,href="../dev-lang/python-3.9.16_p3.svg"];
+dependency7:e -> choice100101118451089711010347112121116104111110455046554649569511249544511449:w [style=dotted,weight="100"];
+dependency7:e -> choice10010111845108971101034711212111610411111045514649484649489511251:w [style=dotted,weight="100"];
+dependency7:e -> choice100101118451089711010347112121116104111110455146494946509511250:w [style=dotted,weight="100"];
+dependency7:e -> choice1001011184510897110103471121211161041111104551464950464895971081121049754:w [style=dotted,weight="100"];
+dependency7:e -> choice100101118451089711010347112121116104111110455146564649549511252:w [style=dotted,weight="100"];
+dependency7:e -> choice100101118451089711010347112121116104111110455146574649549511251:w [style=dotted,weight="100"];
+}
+subgraph choice2 {
+color=black;
+nodesep=1;
+choice100101118451089711010347112121116104111110455046554649569511249544511449 [label="portage://dev-lang/python-2.7.18_p16-r1", color=red, width=4,href="../dev-lang/python-2.7.18_p16-r1.svg"];
+choice10010111845108971101034711212111610411111045514649484649489511251 [label="portage://dev-lang/python-3.10.10_p3", color=red, width=4,href="../dev-lang/python-3.10.10_p3.svg"];
+choice100101118451089711010347112121116104111110455146494946509511250 [label="portage://dev-lang/python-3.11.2_p2", color=red, width=4,href="../dev-lang/python-3.11.2_p2.svg"];
+choice1001011184510897110103471121211161041111104551464950464895971081121049754 [label="portage://dev-lang/python-3.12.0_alpha6", color=red, width=4,href="../dev-lang/python-3.12.0_alpha6.svg"];
+choice100101118451089711010347112121116104111110455146564649549511252 [label="portage://dev-lang/python-3.8.16_p4", color=red, width=4,href="../dev-lang/python-3.8.16_p4.svg"];
+choice100101118451089711010347112121116104111110455146574649549511251 [label="portage://dev-lang/python-3.9.16_p3", color=red, width=4,href="../dev-lang/python-3.9.16_p3.svg"];
+dependency9:e -> choice100101118451089711010347112121116104111110455046554649569511249544511449:w [style=dotted,weight="100"];
+dependency9:e -> choice10010111845108971101034711212111610411111045514649484649489511251:w [style=dotted,weight="100"];
+dependency9:e -> choice100101118451089711010347112121116104111110455146494946509511250:w [style=dotted,weight="100"];
+dependency9:e -> choice1001011184510897110103471121211161041111104551464950464895971081121049754:w [style=dotted,weight="100"];
+dependency9:e -> choice100101118451089711010347112121116104111110455146564649549511252:w [style=dotted,weight="100"];
+dependency9:e -> choice100101118451089711010347112121116104111110455146574649549511251:w [style=dotted,weight="100"];
+}
+subgraph choice3 {
+color=black;
+nodesep=1;
+choice10010111845112121116104111110471001069711010311145514650464956 [label="portage://dev-python/django-3.2.18", color=red, width=4,href="../dev-python/django-3.2.18.svg"];
+choice10010111845112121116104111110471001069711010311145524648464948 [label="portage://dev-python/django-4.0.10", color=red, width=4,href="../dev-python/django-4.0.10.svg"];
+choice100101118451121211161041111104710010697110103111455246494655 [label="portage://dev-python/django-4.1.7", color=red, width=4,href="../dev-python/django-4.1.7.svg"];
+dependency10:e -> choice10010111845112121116104111110471001069711010311145514650464956:w [style=dotted,weight="100"];
+dependency10:e -> choice10010111845112121116104111110471001069711010311145524648464948:w [style=dotted,weight="100"];
+dependency10:e -> choice100101118451121211161041111104710010697110103111455246494655:w [style=dotted,weight="100"];
+}
+subgraph choice4 {
+color=black;
+nodesep=1;
+choice10010111845112121116104111110471001069711010311145514650464956 [label="portage://dev-python/django-3.2.18", color=red, width=4,href="../dev-python/django-3.2.18.svg"];
+choice10010111845112121116104111110471001069711010311145524648464948 [label="portage://dev-python/django-4.0.10", color=red, width=4,href="../dev-python/django-4.0.10.svg"];
+choice100101118451121211161041111104710010697110103111455246494655 [label="portage://dev-python/django-4.1.7", color=red, width=4,href="../dev-python/django-4.1.7.svg"];
+dependency11:e -> choice10010111845112121116104111110471001069711010311145514650464956:w [style=dotted,weight="100"];
+dependency11:e -> choice10010111845112121116104111110471001069711010311145524648464948:w [style=dotted,weight="100"];
+dependency11:e -> choice100101118451121211161041111104710010697110103111455246494655:w [style=dotted,weight="100"];
+}
+subgraph choice5 {
+color=black;
+nodesep=1;
+choice10010111845112121116104111110471001069711010311145116971031031051101034548465346484511449 [label="portage://dev-python/django-tagging-0.5.0-r1", color=red, width=4,href="../dev-python/django-tagging-0.5.0-r1.svg"];
+dependency12:e -> choice10010111845112121116104111110471001069711010311145116971031031051101034548465346484511449:w [style=dotted,weight="100"];
+}
+}
+
+}
