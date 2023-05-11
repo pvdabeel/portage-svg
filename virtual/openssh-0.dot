@@ -1,0 +1,83 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://virtual/openssh-0", color=red, width=4, href="../virtual/openssh-0.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph any11 {
+dependency181 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD CELLPADDING="10">any_of_group</TD></TR></TABLE>>, shape=none, color=red];subgraph pack94 {
+dependency182 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>net-misc</TD></TR><TR><TD>openssh</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>9.3_p1-r1</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency181:e -> dependency182:w [weight=20,style="dotted",arrowhead="oinv"];
+subgraph pack95 {
+dependency183 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>net-misc</TD></TR><TR><TD>openssh-contrib</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>9.3_p1</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency181:e -> dependency183:w [weight=20,style="dotted",arrowhead="oinv"];
+}
+id:e -> dependency181:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice94 {
+color=black;
+nodesep=1;
+choice1101011164510910511599471111121011101151151044557465195112494511449 [label="portage://net-misc/openssh-9.3_p1-r1", color=red, width=4,href="../net-misc/openssh-9.3_p1-r1.svg"];
+dependency182:e -> choice1101011164510910511599471111121011101151151044557465195112494511449:w [style=dotted,weight="100"];
+}
+subgraph choice95 {
+color=black;
+nodesep=1;
+choice110101116451091051159947111112101110115115104459911111011611410598455746519511249 [label="portage://net-misc/openssh-contrib-9.3_p1", color=red, width=4,href="../net-misc/openssh-contrib-9.3_p1.svg"];
+dependency183:e -> choice110101116451091051159947111112101110115115104459911111011611410598455746519511249:w [style=dotted,weight="100"];
+}
+}
+
+}
