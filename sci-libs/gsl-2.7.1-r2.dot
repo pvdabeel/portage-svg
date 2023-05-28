@@ -1,0 +1,76 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://sci-libs/gsl-2.7.1-r2", color=red, width=4, href="../sci-libs/gsl-2.7.1-r2.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond2031 {
+dependency2862 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>cblas-external</TD></TR></TABLE>>, shape=none, color=red];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# dependency2862 -> package_dependency(portage://sci-libs/gsl-2.7.1-r2,install,no,virtual,cblas,none,[,,],any_same_slot,[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+id:e -> dependency2862:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond2032 {
+dependency2863 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>cblas-external</TD></TR></TABLE>>, shape=none, color=red];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# dependency2863 -> package_dependency(portage://sci-libs/gsl-2.7.1-r2,run,no,virtual,cblas,none,[,,],any_same_slot,[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+id:e -> dependency2863:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+}
+
+}

@@ -1,0 +1,97 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://net-misc/unison-2.51.5", color=red, width=4, href="../net-misc/unison-2.51.5.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond1508 {
+dependency2036 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>gtk</TD></TR></TABLE>>, shape=none, color=red];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# dependency2036 -> package_dependency(portage://net-misc/unison-2.51.5,install,no,dev-ml,lablgtk,none,[,,],[slot(2),equal],[use(optenable(ocamlopt),none)])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+id:e -> dependency2036:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond1509 {
+dependency2037 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>gtk</TD></TR></TABLE>>, shape=none, color=red];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# dependency2037 -> package_dependency(portage://net-misc/unison-2.51.5,run,no,dev-ml,lablgtk,none,[,,],[slot(2),equal],[use(optenable(ocamlopt),none)])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+subgraph any9 {
+dependency2038 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD CELLPADDING="10">any_of_group</TD></TR></TABLE>>, shape=none, color=red];# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# dependency2038 -> package_dependency(portage://net-misc/unison-2.51.5,run,no,net-misc,x11-ssh-askpass,none,[,,],[],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# dependency2038 -> package_dependency(portage://net-misc/unison-2.51.5,run,no,net-misc,ssh-askpass-fullscreen,none,[,,],[],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+dependency2037:e -> dependency2038:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency2037:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack521 {
+dependency2039 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-eselect</TD></TR><TR><TD>eselect-unison</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>0.4</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency2039:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice521 {
+color=black;
+nodesep=1;
+choice97112112451011151011081019911647101115101108101991164511711010511511111045484652 [label="portage://app-eselect/eselect-unison-0.4", color=red, width=4,href="../app-eselect/eselect-unison-0.4.svg"];
+dependency2039:e -> choice97112112451011151011081019911647101115101108101991164511711010511511111045484652:w [style=dotted,weight="100"];
+}
+}
+
+}
