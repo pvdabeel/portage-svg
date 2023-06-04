@@ -1,0 +1,120 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://x11-libs/libX11-1.8.5", color=red, width=4, href="../x11-libs/libX11-1.8.5.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://x11-libs/libX11-1.8.5,install,no,x11-base,xorg-proto,none,[,,],[],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+subgraph pack967 {
+dependency1699 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>x11-libs</TD></TR><TR><TD>libxcb</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.11.1</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1699:w [weight=20,style="solid",arrowhead="vee"];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://x11-libs/libX11-1.8.5,install,no,x11-libs,xtrans,none,[,,],[],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://x11-libs/libX11-1.8.5,install,no,x11-misc,compose-tables,none,[,,],[],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+subgraph pack968 {
+dependency1700 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>xfce-base</TD></TR><TR><TD>xfce4-settings</TD></TR><TR><TD>smaller</TD></TR><TR><TD>4.16.3</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1700:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack969 {
+dependency1701 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>x11-libs</TD></TR><TR><TD>libxcb</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.11.1</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1701:w [weight=20,style="solid",arrowhead="odot"];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://x11-libs/libX11-1.8.5,run,no,x11-misc,compose-tables,none,[,,],[],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+subgraph pack970 {
+dependency1702 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>xfce-base</TD></TR><TR><TD>xfce4-settings</TD></TR><TR><TD>smaller</TD></TR><TR><TD>4.16.3</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1702:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice967 {
+color=black;
+nodesep=1;
+choice120494945108105981154710810598120999845494649534511449 [label="portage://x11-libs/libxcb-1.15-r1", color=red, width=4,href="../x11-libs/libxcb-1.15-r1.svg"];
+dependency1699:e -> choice120494945108105981154710810598120999845494649534511449:w [style=dotted,weight="100"];
+}
+subgraph choice968 {
+color=black;
+nodesep=1;
+choice120102991014598971151014712010299101524511510111611610511010311545524649564650 [label="portage://xfce-base/xfce4-settings-4.18.2", color=red, width=4,href="../xfce-base/xfce4-settings-4.18.2.svg"];
+choice120102991014598971151014712010299101524511510111611610511010311545524649574648 [label="portage://xfce-base/xfce4-settings-4.19.0", color=red, width=4,href="../xfce-base/xfce4-settings-4.19.0.svg"];
+dependency1700:e -> choice120102991014598971151014712010299101524511510111611610511010311545524649564650:w [style=dotted,weight="100"];
+dependency1700:e -> choice120102991014598971151014712010299101524511510111611610511010311545524649574648:w [style=dotted,weight="100"];
+}
+subgraph choice969 {
+color=black;
+nodesep=1;
+choice120494945108105981154710810598120999845494649534511449 [label="portage://x11-libs/libxcb-1.15-r1", color=red, width=4,href="../x11-libs/libxcb-1.15-r1.svg"];
+dependency1701:e -> choice120494945108105981154710810598120999845494649534511449:w [style=dotted,weight="100"];
+}
+subgraph choice970 {
+color=black;
+nodesep=1;
+choice120102991014598971151014712010299101524511510111611610511010311545524649564650 [label="portage://xfce-base/xfce4-settings-4.18.2", color=red, width=4,href="../xfce-base/xfce4-settings-4.18.2.svg"];
+choice120102991014598971151014712010299101524511510111611610511010311545524649574648 [label="portage://xfce-base/xfce4-settings-4.19.0", color=red, width=4,href="../xfce-base/xfce4-settings-4.19.0.svg"];
+dependency1702:e -> choice120102991014598971151014712010299101524511510111611610511010311545524649564650:w [style=dotted,weight="100"];
+dependency1702:e -> choice120102991014598971151014712010299101524511510111611610511010311545524649574648:w [style=dotted,weight="100"];
+}
+}
+
+}

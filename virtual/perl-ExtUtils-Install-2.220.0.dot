@@ -1,0 +1,111 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://virtual/perl-ExtUtils-Install-2.220.0", color=red, width=4, href="../virtual/perl-ExtUtils-Install-2.220.0.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph any51 {
+dependency997 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD CELLPADDING="10">any_of_group</TD></TR></TABLE>>, shape=none, color=red];subgraph pack513 {
+dependency998 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>perl</TD></TR><TR><TD>equal</TD></TR><TR><TD>5.38*</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency997:e -> dependency998:w [weight=20,style="dotted",arrowhead="oinv"];
+subgraph pack514 {
+dependency999 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>perl-core</TD></TR><TR><TD>ExtUtils-Install</TD></TR><TR><TD>tilde</TD></TR><TR><TD>2.220.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency997:e -> dependency999:w [weight=20,style="dotted",arrowhead="oinv"];
+}
+id:e -> dependency997:w [weight=20,style="solid",arrowhead="odot"];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://virtual/perl-ExtUtils-Install-2.220.0,run,no,dev-lang,perl,none,[,,],any_same_slot,[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+subgraph pack515 {
+dependency1000 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>perl-core</TD></TR><TR><TD>ExtUtils-Install</TD></TR><TR><TD>greater</TD></TR><TR><TD>2.220.0-r999</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1000:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack516 {
+dependency1001 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>perl-core</TD></TR><TR><TD>ExtUtils-Install</TD></TR><TR><TD>smaller</TD></TR><TR><TD>2.220.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1001:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice513 {
+color=black;
+nodesep=1;
+choice100101118451089711010347112101114108455346515246494511452 [label="portage://dev-lang/perl-5.34.1-r4", color=red, width=4,href="../dev-lang/perl-5.34.1-r4.svg"];
+choice100101118451089711010347112101114108455346515446484511449 [label="portage://dev-lang/perl-5.36.0-r1", color=red, width=4,href="../dev-lang/perl-5.36.0-r1.svg"];
+choice100101118451089711010347112101114108455346515446484511450 [label="portage://dev-lang/perl-5.36.0-r2", color=red, width=4,href="../dev-lang/perl-5.36.0-r2.svg"];
+choice10010111845108971101034711210111410845534651544649 [label="portage://dev-lang/perl-5.36.1", color=red, width=4,href="../dev-lang/perl-5.36.1.svg"];
+choice100101118451089711010347112101114108455346515446494511450 [label="portage://dev-lang/perl-5.36.1-r2", color=red, width=4,href="../dev-lang/perl-5.36.1-r2.svg"];
+choice10010111845108971101034711210111410845534651564648951149948 [label="portage://dev-lang/perl-5.38.0_rc0", color=red, width=4,href="../dev-lang/perl-5.38.0_rc0.svg"];
+dependency998:e -> choice100101118451089711010347112101114108455346515246494511452:w [style=dotted,weight="100"];
+dependency998:e -> choice100101118451089711010347112101114108455346515446484511449:w [style=dotted,weight="100"];
+dependency998:e -> choice100101118451089711010347112101114108455346515446484511450:w [style=dotted,weight="100"];
+dependency998:e -> choice10010111845108971101034711210111410845534651544649:w [style=dotted,weight="100"];
+dependency998:e -> choice100101118451089711010347112101114108455346515446494511450:w [style=dotted,weight="100"];
+dependency998:e -> choice10010111845108971101034711210111410845534651564648951149948:w [style=dotted,weight="100"];
+}
+subgraph choice514 {
+color=black;
+nodesep=1;
+}
+subgraph choice515 {
+color=black;
+nodesep=1;
+}
+subgraph choice516 {
+color=black;
+nodesep=1;
+}
+}
+
+}
