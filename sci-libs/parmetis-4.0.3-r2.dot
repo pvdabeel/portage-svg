@@ -1,0 +1,120 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://sci-libs/parmetis-4.0.3-r2", color=red, width=4, href="../sci-libs/parmetis-4.0.3-r2.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond753 {
+dependency1256 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>pcre</TD></TR></TABLE>>, shape=none, color=red];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# dependency1256 -> package_dependency(portage://sci-libs/parmetis-4.0.3-r2,install,no,dev-libs,libpcre,none,[,,],any_same_slot,[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+id:e -> dependency1256:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack484 {
+dependency1257 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sci-libs</TD></TR><TR><TD>metis</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>5.1.0-r5</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1257:w [weight=20,style="solid",arrowhead="vee"];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://sci-libs/parmetis-4.0.3-r2,install,no,virtual,mpi,none,[,,],[],[use(enable(fortran),none)])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond754 {
+dependency1258 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>pcre</TD></TR></TABLE>>, shape=none, color=red];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# dependency1258 -> package_dependency(portage://sci-libs/parmetis-4.0.3-r2,run,no,dev-libs,libpcre,none,[,,],any_same_slot,[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+id:e -> dependency1258:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack485 {
+dependency1259 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sci-libs</TD></TR><TR><TD>metis</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>5.1.0-r5</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1259:w [weight=20,style="solid",arrowhead="odot"];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://sci-libs/parmetis-4.0.3-r2,run,no,virtual,mpi,none,[,,],[],[use(enable(fortran),none)])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+subgraph pack486 {
+dependency1260 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>sci-libs</TD></TR><TR><TD>metis</TD></TR><TR><TD>smaller</TD></TR><TR><TD>5.1.0-r5</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1260:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice484 {
+color=black;
+nodesep=1;
+choice115991054510810598115471091011161051154553464946484511453 [label="portage://sci-libs/metis-5.1.0-r5", color=red, width=4,href="../sci-libs/metis-5.1.0-r5.svg"];
+choice115991054510810598115471091011161051154553465046494511450 [label="portage://sci-libs/metis-5.2.1-r2", color=red, width=4,href="../sci-libs/metis-5.2.1-r2.svg"];
+dependency1257:e -> choice115991054510810598115471091011161051154553464946484511453:w [style=dotted,weight="100"];
+dependency1257:e -> choice115991054510810598115471091011161051154553465046494511450:w [style=dotted,weight="100"];
+}
+subgraph choice485 {
+color=black;
+nodesep=1;
+choice115991054510810598115471091011161051154553464946484511453 [label="portage://sci-libs/metis-5.1.0-r5", color=red, width=4,href="../sci-libs/metis-5.1.0-r5.svg"];
+choice115991054510810598115471091011161051154553465046494511450 [label="portage://sci-libs/metis-5.2.1-r2", color=red, width=4,href="../sci-libs/metis-5.2.1-r2.svg"];
+dependency1259:e -> choice115991054510810598115471091011161051154553464946484511453:w [style=dotted,weight="100"];
+dependency1259:e -> choice115991054510810598115471091011161051154553465046494511450:w [style=dotted,weight="100"];
+}
+subgraph choice486 {
+color=black;
+nodesep=1;
+choice115991054510810598115471091011161051154553464946484511453 [label="portage://sci-libs/metis-5.1.0-r5", color=red, width=4,href="../sci-libs/metis-5.1.0-r5.svg"];
+choice115991054510810598115471091011161051154553465046494511450 [label="portage://sci-libs/metis-5.2.1-r2", color=red, width=4,href="../sci-libs/metis-5.2.1-r2.svg"];
+dependency1260:e -> choice115991054510810598115471091011161051154553464946484511453:w [style=dotted,weight="100"];
+dependency1260:e -> choice115991054510810598115471091011161051154553465046494511450:w [style=dotted,weight="100"];
+}
+}
+
+}
