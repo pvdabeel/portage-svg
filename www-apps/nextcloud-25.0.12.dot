@@ -1,0 +1,98 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://www-apps/nextcloud-25.0.12", color=red, width=4, href="../www-apps/nextcloud-25.0.12.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://www-apps/nextcloud-25.0.12,install,no,app-admin,webapp-config,none,[,,],[],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond252 {
+dependency719 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>imagemagick</TD></TR></TABLE>>, shape=none, color=red];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# dependency719 -> package_dependency(portage://www-apps/nextcloud-25.0.12,run,no,dev-php,pecl-imagick,none,[,,],[],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+id:e -> dependency719:w [weight=20,style="solid",arrowhead="odot"];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://www-apps/nextcloud-25.0.12,run,no,app-admin,webapp-config,none,[,,],[],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+subgraph pack414 {
+dependency720 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>php</TD></TR><TR><TD>smaller</TD></TR><TR><TD>8.2</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency720:w [weight=20,style="solid",arrowhead="odot"];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://www-apps/nextcloud-25.0.12,run,no,virtual,httpd-php,none,[,,],[],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice414 {
+color=black;
+nodesep=1;
+choice10010111845108971101034711210411245564648465057 [label="portage://dev-lang/php-8.0.29", color=red, width=4,href="../dev-lang/php-8.0.29.svg"];
+choice10010111845108971101034711210411245564648465148 [label="portage://dev-lang/php-8.0.30", color=red, width=4,href="../dev-lang/php-8.0.30.svg"];
+choice100101118451089711010347112104112455646494650484511449 [label="portage://dev-lang/php-8.1.20-r1", color=red, width=4,href="../dev-lang/php-8.1.20-r1.svg"];
+choice10010111845108971101034711210411245564649465051 [label="portage://dev-lang/php-8.1.23", color=red, width=4,href="../dev-lang/php-8.1.23.svg"];
+choice10010111845108971101034711210411245564650464948 [label="portage://dev-lang/php-8.2.10", color=red, width=4,href="../dev-lang/php-8.2.10.svg"];
+dependency720:e -> choice10010111845108971101034711210411245564648465057:w [style=dotted,weight="100"];
+dependency720:e -> choice10010111845108971101034711210411245564648465148:w [style=dotted,weight="100"];
+dependency720:e -> choice100101118451089711010347112104112455646494650484511449:w [style=dotted,weight="100"];
+dependency720:e -> choice10010111845108971101034711210411245564649465051:w [style=dotted,weight="100"];
+dependency720:e -> choice10010111845108971101034711210411245564650464948:w [style=dotted,weight="100"];
+}
+}
+
+}
