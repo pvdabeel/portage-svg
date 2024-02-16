@@ -1,0 +1,104 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://sci-libs/tensorflow-estimator-2.15.0", color=red, width=4, href="../sci-libs/tensorflow-estimator-2.15.0.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://sci-libs/tensorflow-estimator-2.15.0,install,no,sci-libs,keras,none,[,,],[],[use(optenable(python_targets_python3_10),negative),use(optenable(python_targets_python3_11),negative)])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+subgraph pack4755 {
+dependency15883 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sci-libs</TD></TR><TR><TD>tensorflow</TD></TR><TR><TD>equal</TD></TR><TR><TD>2.15*</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency15883:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond10978 {
+dependency15884 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>python_targets_python3_10</TD></TR></TABLE>>, shape=none, color=red];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# dependency15884 -> package_dependency(portage://sci-libs/tensorflow-estimator-2.15.0,run,no,dev-lang,python,none,[,,],[slot(3.10)],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+id:e -> dependency15884:w [weight=20,style="solid",arrowhead="odot"];
+subgraph cond10979 {
+dependency15885 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>python_targets_python3_11</TD></TR></TABLE>>, shape=none, color=red];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# dependency15885 -> package_dependency(portage://sci-libs/tensorflow-estimator-2.15.0,run,no,dev-lang,python,none,[,,],[slot(3.11)],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+id:e -> dependency15885:w [weight=20,style="solid",arrowhead="odot"];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://sci-libs/tensorflow-estimator-2.15.0,run,no,sci-libs,keras,none,[,,],[],[use(optenable(python_targets_python3_10),negative),use(optenable(python_targets_python3_11),negative)])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+subgraph pack4756 {
+dependency15886 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sci-libs</TD></TR><TR><TD>tensorflow</TD></TR><TR><TD>equal</TD></TR><TR><TD>2.15*</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency15886:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice4755 {
+color=black;
+nodesep=1;
+choice1159910545108105981154711610111011511111410210811111945504649534648 [label="portage://sci-libs/tensorflow-2.15.0", color=red, width=4,href="../sci-libs/tensorflow-2.15.0.svg"];
+dependency15883:e -> choice1159910545108105981154711610111011511111410210811111945504649534648:w [style=dotted,weight="100"];
+}
+subgraph choice4756 {
+color=black;
+nodesep=1;
+choice1159910545108105981154711610111011511111410210811111945504649534648 [label="portage://sci-libs/tensorflow-2.15.0", color=red, width=4,href="../sci-libs/tensorflow-2.15.0.svg"];
+dependency15886:e -> choice1159910545108105981154711610111011511111410210811111945504649534648:w [style=dotted,weight="100"];
+}
+}
+
+}

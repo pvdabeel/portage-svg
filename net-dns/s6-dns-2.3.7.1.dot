@@ -1,0 +1,84 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://net-dns/s6-dns-2.3.7.1", color=red, width=4, href="../net-dns/s6-dns-2.3.7.1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack324 {
+dependency2002 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>skalibs</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2.14.0.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency2002:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack325 {
+dependency2003 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>skalibs</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2.14.0.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency2003:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice324 {
+color=black;
+nodesep=1;
+choice1001011184510810598115471151079710810598115455046495246494648 [label="portage://dev-libs/skalibs-2.14.1.0", color=red, width=4,href="../dev-libs/skalibs-2.14.1.0.svg"];
+choice1001011184510810598115471151079710810598115455046495246494649 [label="portage://dev-libs/skalibs-2.14.1.1", color=red, width=4,href="../dev-libs/skalibs-2.14.1.1.svg"];
+dependency2002:e -> choice1001011184510810598115471151079710810598115455046495246494648:w [style=dotted,weight="100"];
+dependency2002:e -> choice1001011184510810598115471151079710810598115455046495246494649:w [style=dotted,weight="100"];
+}
+subgraph choice325 {
+color=black;
+nodesep=1;
+choice1001011184510810598115471151079710810598115455046495246494648 [label="portage://dev-libs/skalibs-2.14.1.0", color=red, width=4,href="../dev-libs/skalibs-2.14.1.0.svg"];
+choice1001011184510810598115471151079710810598115455046495246494649 [label="portage://dev-libs/skalibs-2.14.1.1", color=red, width=4,href="../dev-libs/skalibs-2.14.1.1.svg"];
+dependency2003:e -> choice1001011184510810598115471151079710810598115455046495246494648:w [style=dotted,weight="100"];
+dependency2003:e -> choice1001011184510810598115471151079710810598115455046495246494649:w [style=dotted,weight="100"];
+}
+}
+
+}
