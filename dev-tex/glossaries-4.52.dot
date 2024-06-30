@@ -1,0 +1,88 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://dev-tex/glossaries-4.52", color=red, width=4, href="../dev-tex/glossaries-4.52.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://dev-tex/glossaries-4.52,run,no,dev-lang,perl,none,[,,],[],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+subgraph pack48238 {
+dependency107284 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-texlive</TD></TR><TR><TD>texlive-latexextra</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2012</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency107284:w [weight=20,style="solid",arrowhead="odot"];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://dev-tex/glossaries-4.52,run,no,dev-texlive,texlive-latexrecommended,none,[,,],[],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://dev-tex/glossaries-4.52,run,no,dev-texlive,texlive-plaingeneric,none,[,,],[],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://dev-tex/glossaries-4.52,run,no,virtual,latex-base,none,[,,],[],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice48238 {
+color=black;
+nodesep=1;
+choice10010111845116101120108105118101471161011201081051181014510897116101120101120116114974550485049 [label="portage://dev-texlive/texlive-latexextra-2021", color=red, width=4,href="../dev-texlive/texlive-latexextra-2021.svg"];
+choice100101118451161011201081051181014711610112010810511810145108971161011201011201161149745504850519511254575553504511452 [label="portage://dev-texlive/texlive-latexextra-2023_p69752-r4", color=red, width=4,href="../dev-texlive/texlive-latexextra-2023_p69752-r4.svg"];
+dependency107284:e -> choice10010111845116101120108105118101471161011201081051181014510897116101120101120116114974550485049:w [style=dotted,weight="100"];
+dependency107284:e -> choice100101118451161011201081051181014711610112010810511810145108971161011201011201161149745504850519511254575553504511452:w [style=dotted,weight="100"];
+}
+}
+
+}

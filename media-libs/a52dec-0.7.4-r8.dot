@@ -1,0 +1,88 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://media-libs/a52dec-0.7.4-r8", color=red, width=4, href="../media-libs/a52dec-0.7.4-r8.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond72586 {
+dependency153490 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>djbfft</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack78598 {
+dependency153491 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sci-libs</TD></TR><TR><TD>djbfft</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>0.76-r2</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency153490:e -> dependency153491:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency153490:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond72587 {
+dependency153492 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>djbfft</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack78599 {
+dependency153493 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sci-libs</TD></TR><TR><TD>djbfft</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>0.76-r2</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency153492:e -> dependency153493:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency153492:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice78598 {
+color=black;
+nodesep=1;
+choice115991054510810598115471001069810210211645484655544511451 [label="portage://sci-libs/djbfft-0.76-r3", color=red, width=4,href="../sci-libs/djbfft-0.76-r3.svg"];
+dependency153491:e -> choice115991054510810598115471001069810210211645484655544511451:w [style=dotted,weight="100"];
+}
+subgraph choice78599 {
+color=black;
+nodesep=1;
+choice115991054510810598115471001069810210211645484655544511451 [label="portage://sci-libs/djbfft-0.76-r3", color=red, width=4,href="../sci-libs/djbfft-0.76-r3.svg"];
+dependency153493:e -> choice115991054510810598115471001069810210211645484655544511451:w [style=dotted,weight="100"];
+}
+}
+
+}

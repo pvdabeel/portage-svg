@@ -1,0 +1,92 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://dev-util/buildbot-www-3.9.0", color=red, width=4, href="../dev-util/buildbot-www-3.9.0.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond57987 {
+dependency108280 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>python_targets_python3_10</TD></TR></TABLE>>, shape=none, color=red];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# dependency108280 -> package_dependency(portage://dev-util/buildbot-www-3.9.0,run,no,dev-lang,python,none,[,,],[slot(3.10)],[use(enable(sqlite),none)])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+id:e -> dependency108280:w [weight=20,style="solid",arrowhead="odot"];
+subgraph cond57988 {
+dependency108281 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>python_targets_python3_11</TD></TR></TABLE>>, shape=none, color=red];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# dependency108281 -> package_dependency(portage://dev-util/buildbot-www-3.9.0,run,no,dev-lang,python,none,[,,],[slot(3.11)],[use(enable(sqlite),none)])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+id:e -> dependency108281:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack48910 {
+dependency108282 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-util</TD></TR><TR><TD>buildbot-pkg</TD></TR><TR><TD>tilde</TD></TR><TR><TD>3.9.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency108282:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice48910 {
+color=black;
+nodesep=1;
+choice100101118451171161051084798117105108100981111164511210710345514649494648 [label="portage://dev-util/buildbot-pkg-3.11.0", color=red, width=4,href="../dev-util/buildbot-pkg-3.11.0.svg"];
+choice100101118451171161051084798117105108100981111164511210710345514649494649 [label="portage://dev-util/buildbot-pkg-3.11.1", color=red, width=4,href="../dev-util/buildbot-pkg-3.11.1.svg"];
+choice1001011184511711610510847981171051081009811111645112107103455146544649 [label="portage://dev-util/buildbot-pkg-3.6.1", color=red, width=4,href="../dev-util/buildbot-pkg-3.6.1.svg"];
+choice1001011184511711610510847981171051081009811111645112107103455146574648 [label="portage://dev-util/buildbot-pkg-3.9.0", color=red, width=4,href="../dev-util/buildbot-pkg-3.9.0.svg"];
+dependency108282:e -> choice100101118451171161051084798117105108100981111164511210710345514649494648:w [style=dotted,weight="100"];
+dependency108282:e -> choice100101118451171161051084798117105108100981111164511210710345514649494649:w [style=dotted,weight="100"];
+dependency108282:e -> choice1001011184511711610510847981171051081009811111645112107103455146544649:w [style=dotted,weight="100"];
+dependency108282:e -> choice1001011184511711610510847981171051081009811111645112107103455146574648:w [style=dotted,weight="100"];
+}
+}
+
+}

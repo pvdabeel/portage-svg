@@ -1,0 +1,96 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://media-sound/fapg-0.44", color=red, width=4, href="../media-sound/fapg-0.44.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond77885 {
+dependency163045 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>xspf</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack82770 {
+dependency163046 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>uriparser</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>0.6.3</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency163045:e -> dependency163046:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency163045:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond77886 {
+dependency163047 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>xspf</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack82771 {
+dependency163048 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>uriparser</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>0.6.3</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency163047:e -> dependency163048:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency163047:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice82770 {
+color=black;
+nodesep=1;
+choice10010111845108105981154711711410511297114115101114454846574655 [label="portage://dev-libs/uriparser-0.9.7", color=red, width=4,href="../dev-libs/uriparser-0.9.7.svg"];
+choice10010111845108105981154711711410511297114115101114454846574656 [label="portage://dev-libs/uriparser-0.9.8", color=red, width=4,href="../dev-libs/uriparser-0.9.8.svg"];
+choice100101118451081059811547117114105112971141151011144548465746564511449 [label="portage://dev-libs/uriparser-0.9.8-r1", color=red, width=4,href="../dev-libs/uriparser-0.9.8-r1.svg"];
+dependency163046:e -> choice10010111845108105981154711711410511297114115101114454846574655:w [style=dotted,weight="100"];
+dependency163046:e -> choice10010111845108105981154711711410511297114115101114454846574656:w [style=dotted,weight="100"];
+dependency163046:e -> choice100101118451081059811547117114105112971141151011144548465746564511449:w [style=dotted,weight="100"];
+}
+subgraph choice82771 {
+color=black;
+nodesep=1;
+choice10010111845108105981154711711410511297114115101114454846574655 [label="portage://dev-libs/uriparser-0.9.7", color=red, width=4,href="../dev-libs/uriparser-0.9.7.svg"];
+choice10010111845108105981154711711410511297114115101114454846574656 [label="portage://dev-libs/uriparser-0.9.8", color=red, width=4,href="../dev-libs/uriparser-0.9.8.svg"];
+choice100101118451081059811547117114105112971141151011144548465746564511449 [label="portage://dev-libs/uriparser-0.9.8-r1", color=red, width=4,href="../dev-libs/uriparser-0.9.8-r1.svg"];
+dependency163048:e -> choice10010111845108105981154711711410511297114115101114454846574655:w [style=dotted,weight="100"];
+dependency163048:e -> choice10010111845108105981154711711410511297114115101114454846574656:w [style=dotted,weight="100"];
+dependency163048:e -> choice100101118451081059811547117114105112971141151011144548465746564511449:w [style=dotted,weight="100"];
+}
+}
+
+}

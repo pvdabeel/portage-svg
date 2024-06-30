@@ -1,0 +1,98 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://app-text/pdfminer-20220506", color=red, width=4, href="../app-text/pdfminer-20220506.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond15000 {
+dependency25706 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>python_targets_python3_10</TD></TR></TABLE>>, shape=none, color=red];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# dependency25706 -> package_dependency(portage://app-text/pdfminer-20220506,run,no,dev-lang,python,none,[,,],[slot(3.10)],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+id:e -> dependency25706:w [weight=20,style="solid",arrowhead="odot"];
+subgraph cond15001 {
+dependency25707 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>python_targets_python3_11</TD></TR></TABLE>>, shape=none, color=red];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# dependency25707 -> package_dependency(portage://app-text/pdfminer-20220506,run,no,dev-lang,python,none,[,,],[slot(3.11)],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+id:e -> dependency25707:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack10224 {
+dependency25708 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-python</TD></TR><TR><TD>charset-normalizer</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2.0.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency25708:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack10225 {
+dependency25709 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-python</TD></TR><TR><TD>cryptography</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>36.0.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency25709:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice10224 {
+color=black;
+nodesep=1;
+choice100101118451121211161041111104799104971141151011164511011111410997108105122101114455146514650 [label="portage://dev-python/charset-normalizer-3.3.2", color=red, width=4,href="../dev-python/charset-normalizer-3.3.2.svg"];
+dependency25708:e -> choice100101118451121211161041111104799104971141151011164511011111410997108105122101114455146514650:w [style=dotted,weight="100"];
+}
+subgraph choice10225 {
+color=black;
+nodesep=1;
+choice1001011184511212111610411111047991141211121161111031149711210412145525046484655 [label="portage://dev-python/cryptography-42.0.7", color=red, width=4,href="../dev-python/cryptography-42.0.7.svg"];
+choice1001011184511212111610411111047991141211121161111031149711210412145525046484656 [label="portage://dev-python/cryptography-42.0.8", color=red, width=4,href="../dev-python/cryptography-42.0.8.svg"];
+dependency25709:e -> choice1001011184511212111610411111047991141211121161111031149711210412145525046484655:w [style=dotted,weight="100"];
+dependency25709:e -> choice1001011184511212111610411111047991141211121161111031149711210412145525046484656:w [style=dotted,weight="100"];
+}
+}
+
+}

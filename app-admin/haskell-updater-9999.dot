@@ -1,0 +1,97 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://app-admin/haskell-updater-9999", color=red, width=4, href="../app-admin/haskell-updater-9999.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack431 {
+dependency1017 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>ghc</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>6.12.1</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency1017:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph any12 {
+dependency1018 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD CELLPADDING="10">any_of_group</TD></TR></TABLE>>, shape=none, color=red];subgraph pack432 {
+dependency1019 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>portage</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2.1.6</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency1018:e -> dependency1019:w [weight=20,style="dotted",arrowhead="oinv"];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# dependency1018 -> package_dependency(portage://app-admin/haskell-updater-9999,run,no,sys-apps,pkgcore,none,[,,],[],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+id:e -> dependency1018:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice431 {
+color=black;
+nodesep=1;
+choice100101118451089711010347103104994557464846504511452 [label="portage://dev-lang/ghc-9.0.2-r4", color=red, width=4,href="../dev-lang/ghc-9.0.2-r4.svg"];
+choice10010111845108971101034710310499455746504656 [label="portage://dev-lang/ghc-9.2.8", color=red, width=4,href="../dev-lang/ghc-9.2.8.svg"];
+dependency1017:e -> choice100101118451089711010347103104994557464846504511452:w [style=dotted,weight="100"];
+dependency1017:e -> choice10010111845108971101034710310499455746504656:w [style=dotted,weight="100"];
+}
+subgraph choice432 {
+color=black;
+nodesep=1;
+choice11512111545971121121154711211111411697103101455146484654494511449 [label="portage://sys-apps/portage-3.0.61-r1", color=red, width=4,href="../sys-apps/portage-3.0.61-r1.svg"];
+choice11512111545971121121154711211111411697103101455146484654514511449 [label="portage://sys-apps/portage-3.0.63-r1", color=red, width=4,href="../sys-apps/portage-3.0.63-r1.svg"];
+choice11512111545971121121154711211111411697103101455146484654524511451 [label="portage://sys-apps/portage-3.0.64-r3", color=red, width=4,href="../sys-apps/portage-3.0.64-r3.svg"];
+choice1151211154597112112115471121111141169710310145514648465453 [label="portage://sys-apps/portage-3.0.65", color=red, width=4,href="../sys-apps/portage-3.0.65.svg"];
+choice115121115459711211211547112111114116971031014557575757 [label="portage://sys-apps/portage-9999", color=red, width=4,href="../sys-apps/portage-9999.svg"];
+dependency1019:e -> choice11512111545971121121154711211111411697103101455146484654494511449:w [style=dotted,weight="100"];
+dependency1019:e -> choice11512111545971121121154711211111411697103101455146484654514511449:w [style=dotted,weight="100"];
+dependency1019:e -> choice11512111545971121121154711211111411697103101455146484654524511451:w [style=dotted,weight="100"];
+dependency1019:e -> choice1151211154597112112115471121111141169710310145514648465453:w [style=dotted,weight="100"];
+dependency1019:e -> choice115121115459711211211547112111114116971031014557575757:w [style=dotted,weight="100"];
+}
+}
+
+}

@@ -1,0 +1,112 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://gnustep-apps/fisicalab-0.3.5-r1", color=red, width=4, href="../gnustep-apps/fisicalab-0.3.5-r1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack54358 {
+dependency120365 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sci-libs</TD></TR><TR><TD>gsl</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.10</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency120365:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack54359 {
+dependency120366 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>gnustep-back</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>0.16.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency120366:w [weight=20,style="solid",arrowhead="vee"];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://gnustep-apps/fisicalab-0.3.5-r1,install,no,virtual,gnustep-back,none,[,,],[],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack54360 {
+dependency120367 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sci-libs</TD></TR><TR><TD>gsl</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.10</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency120367:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack54361 {
+dependency120368 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>gnustep-back</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>0.16.0</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency120368:w [weight=20,style="solid",arrowhead="odot"];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://gnustep-apps/fisicalab-0.3.5-r1,run,no,virtual,gnustep-back,none,[,,],[],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice54358 {
+color=black;
+nodesep=1;
+choice115991054510810598115471031151084550465546494511450 [label="portage://sci-libs/gsl-2.7.1-r2", color=red, width=4,href="../sci-libs/gsl-2.7.1-r2.svg"];
+dependency120365:e -> choice115991054510810598115471031151084550465546494511450:w [style=dotted,weight="100"];
+}
+subgraph choice54359 {
+color=black;
+nodesep=1;
+choice11810511411611797108471031101171151161011124598979910745484650574648 [label="portage://virtual/gnustep-back-0.29.0", color=red, width=4,href="../virtual/gnustep-back-0.29.0.svg"];
+choice11810511411611797108471031101171151161011124598979910745484651484648 [label="portage://virtual/gnustep-back-0.30.0", color=red, width=4,href="../virtual/gnustep-back-0.30.0.svg"];
+dependency120366:e -> choice11810511411611797108471031101171151161011124598979910745484650574648:w [style=dotted,weight="100"];
+dependency120366:e -> choice11810511411611797108471031101171151161011124598979910745484651484648:w [style=dotted,weight="100"];
+}
+subgraph choice54360 {
+color=black;
+nodesep=1;
+choice115991054510810598115471031151084550465546494511450 [label="portage://sci-libs/gsl-2.7.1-r2", color=red, width=4,href="../sci-libs/gsl-2.7.1-r2.svg"];
+dependency120367:e -> choice115991054510810598115471031151084550465546494511450:w [style=dotted,weight="100"];
+}
+subgraph choice54361 {
+color=black;
+nodesep=1;
+choice11810511411611797108471031101171151161011124598979910745484650574648 [label="portage://virtual/gnustep-back-0.29.0", color=red, width=4,href="../virtual/gnustep-back-0.29.0.svg"];
+choice11810511411611797108471031101171151161011124598979910745484651484648 [label="portage://virtual/gnustep-back-0.30.0", color=red, width=4,href="../virtual/gnustep-back-0.30.0.svg"];
+dependency120368:e -> choice11810511411611797108471031101171151161011124598979910745484650574648:w [style=dotted,weight="100"];
+dependency120368:e -> choice11810511411611797108471031101171151161011124598979910745484651484648:w [style=dotted,weight="100"];
+}
+}
+
+}

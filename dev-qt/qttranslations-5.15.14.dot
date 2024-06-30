@@ -1,0 +1,84 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://dev-qt/qttranslations-5.15.14", color=red, width=4, href="../dev-qt/qttranslations-5.15.14.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond41224 {
+dependency86580 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>test</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack44116 {
+dependency86581 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-qt</TD></TR><TR><TD>qttest</TD></TR><TR><TD>equal</TD></TR><TR><TD>5.15.14*</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency86580:e -> dependency86581:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency86580:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack44117 {
+dependency86582 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-qt</TD></TR><TR><TD>qtcore</TD></TR><TR><TD>equal</TD></TR><TR><TD>5.15.14*</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency86582:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice44116 {
+color=black;
+nodesep=1;
+choice10010111845113116471131161161011151164553464953464952 [label="portage://dev-qt/qttest-5.15.14", color=red, width=4,href="../dev-qt/qttest-5.15.14.svg"];
+dependency86581:e -> choice10010111845113116471131161161011151164553464953464952:w [style=dotted,weight="100"];
+}
+subgraph choice44117 {
+color=black;
+nodesep=1;
+choice1001011184511311647113116991111141014553464953464952 [label="portage://dev-qt/qtcore-5.15.14", color=red, width=4,href="../dev-qt/qtcore-5.15.14.svg"];
+dependency86582:e -> choice1001011184511311647113116991111141014553464953464952:w [style=dotted,weight="100"];
+}
+}
+
+}

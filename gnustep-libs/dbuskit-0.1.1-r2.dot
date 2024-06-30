@@ -1,0 +1,92 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://gnustep-libs/dbuskit-0.1.1-r2", color=red, width=4, href="../gnustep-libs/dbuskit-0.1.1-r2.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack54498 {
+dependency120624 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>dbus</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.2.1</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency120624:w [weight=20,style="solid",arrowhead="vee"];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://gnustep-libs/dbuskit-0.1.1-r2,install,no,virtual,gnustep-back,none,[,,],[],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack54499 {
+dependency120625 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>dbus</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.2.1</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency120625:w [weight=20,style="solid",arrowhead="odot"];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://gnustep-libs/dbuskit-0.1.1-r2,run,no,virtual,gnustep-back,none,[,,],[],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice54498 {
+color=black;
+nodesep=1;
+choice1151211154597112112115471009811711545494649534654 [label="portage://sys-apps/dbus-1.15.6", color=red, width=4,href="../sys-apps/dbus-1.15.6.svg"];
+choice1151211154597112112115471009811711545494649534656 [label="portage://sys-apps/dbus-1.15.8", color=red, width=4,href="../sys-apps/dbus-1.15.8.svg"];
+dependency120624:e -> choice1151211154597112112115471009811711545494649534654:w [style=dotted,weight="100"];
+dependency120624:e -> choice1151211154597112112115471009811711545494649534656:w [style=dotted,weight="100"];
+}
+subgraph choice54499 {
+color=black;
+nodesep=1;
+choice1151211154597112112115471009811711545494649534654 [label="portage://sys-apps/dbus-1.15.6", color=red, width=4,href="../sys-apps/dbus-1.15.6.svg"];
+choice1151211154597112112115471009811711545494649534656 [label="portage://sys-apps/dbus-1.15.8", color=red, width=4,href="../sys-apps/dbus-1.15.8.svg"];
+dependency120625:e -> choice1151211154597112112115471009811711545494649534654:w [style=dotted,weight="100"];
+dependency120625:e -> choice1151211154597112112115471009811711545494649534656:w [style=dotted,weight="100"];
+}
+}
+
+}

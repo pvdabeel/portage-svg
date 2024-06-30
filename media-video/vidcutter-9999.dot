@@ -1,0 +1,122 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://media-video/vidcutter-9999", color=red, width=4, href="../media-video/vidcutter-9999.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack85908 {
+dependency172140 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>media-video</TD></TR><TR><TD>mpv</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>0.25</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency172140:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond83745 {
+dependency172141 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>python_targets_python3_10</TD></TR></TABLE>>, shape=none, color=red];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# dependency172141 -> package_dependency(portage://media-video/vidcutter-9999,run,no,dev-lang,python,none,[,,],[slot(3.10)],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+id:e -> dependency172141:w [weight=20,style="solid",arrowhead="odot"];
+subgraph cond83746 {
+dependency172142 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>python_targets_python3_11</TD></TR></TABLE>>, shape=none, color=red];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# dependency172142 -> package_dependency(portage://media-video/vidcutter-9999,run,no,dev-lang,python,none,[,,],[slot(3.11)],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+id:e -> dependency172142:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack85909 {
+dependency172143 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-python</TD></TR><TR><TD>PyQt5</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>5.7</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency172143:w [weight=20,style="solid",arrowhead="odot"];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://media-video/vidcutter-9999,run,no,dev-python,pyopengl,none,[,,],[],[use(optenable(python_targets_python3_10),negative),use(optenable(python_targets_python3_11),negative)])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://media-video/vidcutter-9999,run,no,media-video,ffmpeg,none,[,,],[],[use(enable(X),none),use(enable(encode),none)])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://media-video/vidcutter-9999,run,no,media-video,mediainfo,none,[,,],[],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+subgraph pack85910 {
+dependency172144 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>media-video</TD></TR><TR><TD>mpv</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>0.25</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency172144:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice85908 {
+color=black;
+nodesep=1;
+choice10910110010597451181051001011114710911211845484651564648 [label="portage://media-video/mpv-0.38.0", color=red, width=4,href="../media-video/mpv-0.38.0.svg"];
+choice1091011001059745118105100101111471091121184557575757 [label="portage://media-video/mpv-9999", color=red, width=4,href="../media-video/mpv-9999.svg"];
+dependency172140:e -> choice10910110010597451181051001011114710911211845484651564648:w [style=dotted,weight="100"];
+dependency172140:e -> choice1091011001059745118105100101111471091121184557575757:w [style=dotted,weight="100"];
+}
+subgraph choice85909 {
+color=black;
+nodesep=1;
+choice100101118451121211161041111104780121811165345534649534649484511449 [label="portage://dev-python/PyQt5-5.15.10-r1", color=red, width=4,href="../dev-python/PyQt5-5.15.10-r1.svg"];
+dependency172143:e -> choice100101118451121211161041111104780121811165345534649534649484511449:w [style=dotted,weight="100"];
+}
+subgraph choice85910 {
+color=black;
+nodesep=1;
+choice10910110010597451181051001011114710911211845484651564648 [label="portage://media-video/mpv-0.38.0", color=red, width=4,href="../media-video/mpv-0.38.0.svg"];
+choice1091011001059745118105100101111471091121184557575757 [label="portage://media-video/mpv-9999", color=red, width=4,href="../media-video/mpv-9999.svg"];
+dependency172144:e -> choice10910110010597451181051001011114710911211845484651564648:w [style=dotted,weight="100"];
+dependency172144:e -> choice1091011001059745118105100101111471091121184557575757:w [style=dotted,weight="100"];
+}
+}
+
+}

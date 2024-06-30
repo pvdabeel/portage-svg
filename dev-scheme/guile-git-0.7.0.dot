@@ -1,0 +1,124 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://dev-scheme/guile-git-0.7.0", color=red, width=4, href="../dev-scheme/guile-git-0.7.0.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack48042 {
+dependency107002 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libgit2</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency107002:w [weight=20,style="solid",arrowhead="vee"];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://dev-scheme/guile-git-0.7.0,install,no,dev-scheme,bytestructures,none,[,,],[],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+subgraph pack48043 {
+dependency107003 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-scheme</TD></TR><TR><TD>guile</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2.0.11</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency107003:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack48044 {
+dependency107004 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libgit2</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency107004:w [weight=20,style="solid",arrowhead="odot"];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://dev-scheme/guile-git-0.7.0,run,no,dev-scheme,bytestructures,none,[,,],[],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+subgraph pack48045 {
+dependency107005 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-scheme</TD></TR><TR><TD>guile</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2.0.11</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency107005:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice48042 {
+color=black;
+nodesep=1;
+choice1001011184510810598115471081059810310511650454946554650 [label="portage://dev-libs/libgit2-1.7.2", color=red, width=4,href="../dev-libs/libgit2-1.7.2.svg"];
+choice1001011184510810598115471081059810310511650454946564649 [label="portage://dev-libs/libgit2-1.8.1", color=red, width=4,href="../dev-libs/libgit2-1.8.1.svg"];
+dependency107002:e -> choice1001011184510810598115471081059810310511650454946554650:w [style=dotted,weight="100"];
+dependency107002:e -> choice1001011184510810598115471081059810310511650454946564649:w [style=dotted,weight="100"];
+}
+subgraph choice48043 {
+color=black;
+nodesep=1;
+choice1001011184511599104101109101471031171051081014549465646564511452 [label="portage://dev-scheme/guile-1.8.8-r4", color=red, width=4,href="../dev-scheme/guile-1.8.8-r4.svg"];
+choice1001011184511599104101109101471031171051081014550465046554511449 [label="portage://dev-scheme/guile-2.2.7-r1", color=red, width=4,href="../dev-scheme/guile-2.2.7-r1.svg"];
+choice1001011184511599104101109101471031171051081014550465046554511450 [label="portage://dev-scheme/guile-2.2.7-r2", color=red, width=4,href="../dev-scheme/guile-2.2.7-r2.svg"];
+choice100101118451159910410110910147103117105108101455146484657 [label="portage://dev-scheme/guile-3.0.9", color=red, width=4,href="../dev-scheme/guile-3.0.9.svg"];
+dependency107003:e -> choice1001011184511599104101109101471031171051081014549465646564511452:w [style=dotted,weight="100"];
+dependency107003:e -> choice1001011184511599104101109101471031171051081014550465046554511449:w [style=dotted,weight="100"];
+dependency107003:e -> choice1001011184511599104101109101471031171051081014550465046554511450:w [style=dotted,weight="100"];
+dependency107003:e -> choice100101118451159910410110910147103117105108101455146484657:w [style=dotted,weight="100"];
+}
+subgraph choice48044 {
+color=black;
+nodesep=1;
+choice1001011184510810598115471081059810310511650454946554650 [label="portage://dev-libs/libgit2-1.7.2", color=red, width=4,href="../dev-libs/libgit2-1.7.2.svg"];
+choice1001011184510810598115471081059810310511650454946564649 [label="portage://dev-libs/libgit2-1.8.1", color=red, width=4,href="../dev-libs/libgit2-1.8.1.svg"];
+dependency107004:e -> choice1001011184510810598115471081059810310511650454946554650:w [style=dotted,weight="100"];
+dependency107004:e -> choice1001011184510810598115471081059810310511650454946564649:w [style=dotted,weight="100"];
+}
+subgraph choice48045 {
+color=black;
+nodesep=1;
+choice1001011184511599104101109101471031171051081014549465646564511452 [label="portage://dev-scheme/guile-1.8.8-r4", color=red, width=4,href="../dev-scheme/guile-1.8.8-r4.svg"];
+choice1001011184511599104101109101471031171051081014550465046554511449 [label="portage://dev-scheme/guile-2.2.7-r1", color=red, width=4,href="../dev-scheme/guile-2.2.7-r1.svg"];
+choice1001011184511599104101109101471031171051081014550465046554511450 [label="portage://dev-scheme/guile-2.2.7-r2", color=red, width=4,href="../dev-scheme/guile-2.2.7-r2.svg"];
+choice100101118451159910410110910147103117105108101455146484657 [label="portage://dev-scheme/guile-3.0.9", color=red, width=4,href="../dev-scheme/guile-3.0.9.svg"];
+dependency107005:e -> choice1001011184511599104101109101471031171051081014549465646564511452:w [style=dotted,weight="100"];
+dependency107005:e -> choice1001011184511599104101109101471031171051081014550465046554511449:w [style=dotted,weight="100"];
+dependency107005:e -> choice1001011184511599104101109101471031171051081014550465046554511450:w [style=dotted,weight="100"];
+dependency107005:e -> choice100101118451159910410110910147103117105108101455146484657:w [style=dotted,weight="100"];
+}
+}
+
+}

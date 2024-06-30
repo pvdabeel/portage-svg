@@ -1,0 +1,112 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://dev-libs/c-blosc2-2.14.4", color=red, width=4, href="../dev-libs/c-blosc2-2.14.4.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond25306 {
+dependency54289 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>zlib</TD></TR></TABLE>>, shape=none, color=red];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# dependency54289 -> package_dependency(portage://dev-libs/c-blosc2-2.14.4,install,no,sys-libs,zlib,none,[,,],any_same_slot,[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+id:e -> dependency54289:w [weight=20,style="solid",arrowhead="vee"];
+subgraph cond25307 {
+dependency54290 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>zstd</TD></TR></TABLE>>, shape=none, color=red];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# dependency54290 -> package_dependency(portage://dev-libs/c-blosc2-2.14.4,install,no,app-arch,zstd,none,[,,],any_same_slot,[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+id:e -> dependency54290:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack27859 {
+dependency54291 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>lz4</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.7.5</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency54291:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond25308 {
+dependency54292 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>zlib</TD></TR></TABLE>>, shape=none, color=red];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# dependency54292 -> package_dependency(portage://dev-libs/c-blosc2-2.14.4,run,no,sys-libs,zlib,none,[,,],any_same_slot,[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+id:e -> dependency54292:w [weight=20,style="solid",arrowhead="odot"];
+subgraph cond25309 {
+dependency54293 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>zstd</TD></TR></TABLE>>, shape=none, color=red];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# dependency54293 -> package_dependency(portage://dev-libs/c-blosc2-2.14.4,run,no,app-arch,zstd,none,[,,],any_same_slot,[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+id:e -> dependency54293:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack27860 {
+dependency54294 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>lz4</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.7.5</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency54294:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice27859 {
+color=black;
+nodesep=1;
+choice971121124597114991044710812252454946574652 [label="portage://app-arch/lz4-1.9.4", color=red, width=4,href="../app-arch/lz4-1.9.4.svg"];
+dependency54291:e -> choice971121124597114991044710812252454946574652:w [style=dotted,weight="100"];
+}
+subgraph choice27860 {
+color=black;
+nodesep=1;
+choice971121124597114991044710812252454946574652 [label="portage://app-arch/lz4-1.9.4", color=red, width=4,href="../app-arch/lz4-1.9.4.svg"];
+dependency54294:e -> choice971121124597114991044710812252454946574652:w [style=dotted,weight="100"];
+}
+}
+
+}

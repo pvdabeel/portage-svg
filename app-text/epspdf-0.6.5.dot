@@ -1,0 +1,98 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://app-text/epspdf-0.6.5", color=red, width=4, href="../app-text/epspdf-0.6.5.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond14587 {
+dependency24544 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>tk</TD></TR></TABLE>>, shape=none, color=red];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# dependency24544 -> package_dependency(portage://app-text/epspdf-0.6.5,run,no,dev-lang,tk,none,[,,],[],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+id:e -> dependency24544:w [weight=20,style="solid",arrowhead="odot"];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://app-text/epspdf-0.6.5,run,no,app-text,ghostscript-gpl,none,[,,],[],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+subgraph pack9486 {
+dependency24545 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-texlive</TD></TR><TR><TD>texlive-basic</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2011</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency24545:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack9487 {
+dependency24546 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>dev-texlive</TD></TR><TR><TD>texlive-pictures</TD></TR><TR><TD>smaller</TD></TR><TR><TD>2011-r1</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency24546:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice9486 {
+color=black;
+nodesep=1;
+choice10010111845116101120108105118101471161011201081051181014598971151059945504850494511449 [label="portage://dev-texlive/texlive-basic-2021-r1", color=red, width=4,href="../dev-texlive/texlive-basic-2021-r1.svg"];
+choice10010111845116101120108105118101471161011201081051181014598971151059945504850519511253574953574511452 [label="portage://dev-texlive/texlive-basic-2023_p59159-r4", color=red, width=4,href="../dev-texlive/texlive-basic-2023_p59159-r4.svg"];
+dependency24545:e -> choice10010111845116101120108105118101471161011201081051181014598971151059945504850494511449:w [style=dotted,weight="100"];
+dependency24545:e -> choice10010111845116101120108105118101471161011201081051181014598971151059945504850519511253574953574511452:w [style=dotted,weight="100"];
+}
+subgraph choice9487 {
+color=black;
+nodesep=1;
+choice100101118451161011201081051181014711610112010810511810145112105991161171141011154550485049 [label="portage://dev-texlive/texlive-pictures-2021", color=red, width=4,href="../dev-texlive/texlive-pictures-2021.svg"];
+choice1001011184511610112010810511810147116101120108105118101451121059911611711410111545504850519511254575248574511449 [label="portage://dev-texlive/texlive-pictures-2023_p69409-r1", color=red, width=4,href="../dev-texlive/texlive-pictures-2023_p69409-r1.svg"];
+choice1001011184511610112010810511810147116101120108105118101451121059911611711410111545504850519511254575248574511450 [label="portage://dev-texlive/texlive-pictures-2023_p69409-r2", color=red, width=4,href="../dev-texlive/texlive-pictures-2023_p69409-r2.svg"];
+dependency24546:e -> choice100101118451161011201081051181014711610112010810511810145112105991161171141011154550485049:w [style=dotted,weight="100"];
+dependency24546:e -> choice1001011184511610112010810511810147116101120108105118101451121059911611711410111545504850519511254575248574511449:w [style=dotted,weight="100"];
+dependency24546:e -> choice1001011184511610112010810511810147116101120108105118101451121059911611711410111545504850519511254575248574511450:w [style=dotted,weight="100"];
+}
+}
+
+}

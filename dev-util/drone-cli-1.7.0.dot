@@ -1,0 +1,72 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://dev-util/drone-cli-1.7.0", color=red, width=4, href="../dev-util/drone-cli-1.7.0.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack49320 {
+dependency109689 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">weak</TD></TR><TR><TD>net-analyzer</TD></TR><TR><TD>ostinato</TD></TR><TR><TD>smaller</TD></TR><TR><TD>2</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency109689:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice49320 {
+color=black;
+nodesep=1;
+choice1101011164597110971081211221011144711111511610511097116111454946494511450 [label="portage://net-analyzer/ostinato-1.1-r2", color=red, width=4,href="../net-analyzer/ostinato-1.1-r2.svg"];
+choice1101011164597110971081211221011144711111511610511097116111454946504648 [label="portage://net-analyzer/ostinato-1.2.0", color=red, width=4,href="../net-analyzer/ostinato-1.2.0.svg"];
+dependency109689:e -> choice1101011164597110971081211221011144711111511610511097116111454946494511450:w [style=dotted,weight="100"];
+dependency109689:e -> choice1101011164597110971081211221011144711111511610511097116111454946504648:w [style=dotted,weight="100"];
+}
+}
+
+}

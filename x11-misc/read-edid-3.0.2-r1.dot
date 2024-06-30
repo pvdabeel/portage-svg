@@ -1,0 +1,92 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://x11-misc/read-edid-3.0.2-r1", color=red, width=4, href="../x11-misc/read-edid-3.0.2-r1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond119544 {
+dependency229993 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>vbe-mode</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack107134 {
+dependency229994 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libx86</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.1</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency229993:e -> dependency229994:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency229993:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond119545 {
+dependency229995 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>vbe-mode</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack107135 {
+dependency229996 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libx86</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.1</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency229995:e -> dependency229996:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency229995:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice107134 {
+color=black;
+nodesep=1;
+choice100101118451081059811547108105981205654454946494511453 [label="portage://dev-libs/libx86-1.1-r5", color=red, width=4,href="../dev-libs/libx86-1.1-r5.svg"];
+choice100101118451081059811547108105981205654454946494511454 [label="portage://dev-libs/libx86-1.1-r6", color=red, width=4,href="../dev-libs/libx86-1.1-r6.svg"];
+dependency229994:e -> choice100101118451081059811547108105981205654454946494511453:w [style=dotted,weight="100"];
+dependency229994:e -> choice100101118451081059811547108105981205654454946494511454:w [style=dotted,weight="100"];
+}
+subgraph choice107135 {
+color=black;
+nodesep=1;
+choice100101118451081059811547108105981205654454946494511453 [label="portage://dev-libs/libx86-1.1-r5", color=red, width=4,href="../dev-libs/libx86-1.1-r5.svg"];
+choice100101118451081059811547108105981205654454946494511454 [label="portage://dev-libs/libx86-1.1-r6", color=red, width=4,href="../dev-libs/libx86-1.1-r6.svg"];
+dependency229996:e -> choice100101118451081059811547108105981205654454946494511453:w [style=dotted,weight="100"];
+dependency229996:e -> choice100101118451081059811547108105981205654454946494511454:w [style=dotted,weight="100"];
+}
+}
+
+}

@@ -1,0 +1,84 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://x11-themes/zuki-themes-4.0", color=red, width=4, href="../x11-themes/zuki-themes-4.0.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond120337 {
+dependency231563 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>gtk2</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack107872 {
+dependency231564 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>x11-themes</TD></TR><TR><TD>gtk-engines-murrine</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>0.98.1.1</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency231563:e -> dependency231564:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency231563:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack107873 {
+dependency231565 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>x11-themes</TD></TR><TR><TD>gnome-themes-standard</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>3.6</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency231565:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice107872 {
+color=black;
+nodesep=1;
+choice120494945116104101109101115471031161074510111010310511010111545109117114114105110101454846575646504511451 [label="portage://x11-themes/gtk-engines-murrine-0.98.2-r3", color=red, width=4,href="../x11-themes/gtk-engines-murrine-0.98.2-r3.svg"];
+dependency231564:e -> choice120494945116104101109101115471031161074510111010310511010111545109117114114105110101454846575646504511451:w [style=dotted,weight="100"];
+}
+subgraph choice107873 {
+color=black;
+nodesep=1;
+choice120494945116104101109101115471031101111091014511610410110910111545115116971101009711410045514650564511449 [label="portage://x11-themes/gnome-themes-standard-3.28-r1", color=red, width=4,href="../x11-themes/gnome-themes-standard-3.28-r1.svg"];
+dependency231565:e -> choice120494945116104101109101115471031101111091014511610410110910111545115116971101009711410045514650564511449:w [style=dotted,weight="100"];
+}
+}
+
+}

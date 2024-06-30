@@ -1,0 +1,98 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://sys-block/blktrace-1.3.0-r1", color=red, width=4, href="../sys-block/blktrace-1.3.0-r1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond110724 {
+dependency214737 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>doc</TD></TR></TABLE>>, shape=none, color=red];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# dependency214737 -> package_dependency(portage://sys-block/blktrace-1.3.0-r1,install,no,virtual,latex-base,none,[,,],[],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+subgraph pack101144 {
+dependency214738 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>app-text</TD></TR><TR><TD>texlive-core</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2014</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency214737:e -> dependency214738:w [weight=20,style="dashed",arrowhead="vee"];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# dependency214737 -> package_dependency(portage://sys-block/blktrace-1.3.0-r1,install,no,dev-texlive,texlive-latexextra,none,[,,],[],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+id:e -> dependency214737:w [weight=20,style="solid",arrowhead="vee"];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://sys-block/blktrace-1.3.0-r1,install,no,dev-libs,libaio,none,[,,],[],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://sys-block/blktrace-1.3.0-r1,install,no,sys-kernel,linux-headers,none,[,,],[],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://sys-block/blktrace-1.3.0-r1,run,no,dev-libs,libaio,none,[,,],[],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice101144 {
+color=black;
+nodesep=1;
+choice971121124511610112011647116101120108105118101459911111410145504850494511454 [label="portage://app-text/texlive-core-2021-r6", color=red, width=4,href="../app-text/texlive-core-2021-r6.svg"];
+choice971121124511610112011647116101120108105118101459911111410145504850494511455 [label="portage://app-text/texlive-core-2021-r7", color=red, width=4,href="../app-text/texlive-core-2021-r7.svg"];
+choice971121124511610112011647116101120108105118101459911111410145504850514511457 [label="portage://app-text/texlive-core-2023-r9", color=red, width=4,href="../app-text/texlive-core-2023-r9.svg"];
+dependency214738:e -> choice971121124511610112011647116101120108105118101459911111410145504850494511454:w [style=dotted,weight="100"];
+dependency214738:e -> choice971121124511610112011647116101120108105118101459911111410145504850494511455:w [style=dotted,weight="100"];
+dependency214738:e -> choice971121124511610112011647116101120108105118101459911111410145504850514511457:w [style=dotted,weight="100"];
+}
+}
+
+}

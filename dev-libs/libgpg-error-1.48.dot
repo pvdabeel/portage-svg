@@ -1,0 +1,88 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://dev-libs/libgpg-error-1.48", color=red, width=4, href="../dev-libs/libgpg-error-1.48.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond26070 {
+dependency55788 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>nls</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack28559 {
+dependency55789 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>libintl</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>0-r1</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency55788:e -> dependency55789:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency55788:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond26071 {
+dependency55790 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>nls</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack28560 {
+dependency55791 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>virtual</TD></TR><TR><TD>libintl</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>0-r1</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency55790:e -> dependency55791:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency55790:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice28559 {
+color=black;
+nodesep=1;
+choice11810511411611797108471081059810511011610845484511450 [label="portage://virtual/libintl-0-r2", color=red, width=4,href="../virtual/libintl-0-r2.svg"];
+dependency55789:e -> choice11810511411611797108471081059810511011610845484511450:w [style=dotted,weight="100"];
+}
+subgraph choice28560 {
+color=black;
+nodesep=1;
+choice11810511411611797108471081059810511011610845484511450 [label="portage://virtual/libintl-0-r2", color=red, width=4,href="../virtual/libintl-0-r2.svg"];
+dependency55791:e -> choice11810511411611797108471081059810511011610845484511450:w [style=dotted,weight="100"];
+}
+}
+
+}

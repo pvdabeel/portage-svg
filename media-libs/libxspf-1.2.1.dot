@@ -1,0 +1,134 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://media-libs/libxspf-1.2.1", color=red, width=4, href="../media-libs/libxspf-1.2.1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond74636 {
+dependency157076 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>test</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack80124 {
+dependency157077 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-util</TD></TR><TR><TD>cpptest</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.1</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency157076:e -> dependency157077:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency157076:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack80125 {
+dependency157078 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>expat</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency157078:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack80126 {
+dependency157079 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>uriparser</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>0.7.5</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency157079:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack80127 {
+dependency157080 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>expat</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>2</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency157080:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack80128 {
+dependency157081 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>uriparser</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>0.7.5</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency157081:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice80124 {
+color=black;
+nodesep=1;
+choice1001011184511711610510847991121121161011151164550464846484511449 [label="portage://dev-util/cpptest-2.0.0-r1", color=red, width=4,href="../dev-util/cpptest-2.0.0-r1.svg"];
+dependency157077:e -> choice1001011184511711610510847991121121161011151164550464846484511449:w [style=dotted,weight="100"];
+}
+subgraph choice80125 {
+color=black;
+nodesep=1;
+choice10010111845108105981154710112011297116455046534648 [label="portage://dev-libs/expat-2.5.0", color=red, width=4,href="../dev-libs/expat-2.5.0.svg"];
+choice10010111845108105981154710112011297116455046544648 [label="portage://dev-libs/expat-2.6.0", color=red, width=4,href="../dev-libs/expat-2.6.0.svg"];
+choice10010111845108105981154710112011297116455046544649 [label="portage://dev-libs/expat-2.6.1", color=red, width=4,href="../dev-libs/expat-2.6.1.svg"];
+choice10010111845108105981154710112011297116455046544650 [label="portage://dev-libs/expat-2.6.2", color=red, width=4,href="../dev-libs/expat-2.6.2.svg"];
+dependency157078:e -> choice10010111845108105981154710112011297116455046534648:w [style=dotted,weight="100"];
+dependency157078:e -> choice10010111845108105981154710112011297116455046544648:w [style=dotted,weight="100"];
+dependency157078:e -> choice10010111845108105981154710112011297116455046544649:w [style=dotted,weight="100"];
+dependency157078:e -> choice10010111845108105981154710112011297116455046544650:w [style=dotted,weight="100"];
+}
+subgraph choice80126 {
+color=black;
+nodesep=1;
+choice10010111845108105981154711711410511297114115101114454846574655 [label="portage://dev-libs/uriparser-0.9.7", color=red, width=4,href="../dev-libs/uriparser-0.9.7.svg"];
+choice10010111845108105981154711711410511297114115101114454846574656 [label="portage://dev-libs/uriparser-0.9.8", color=red, width=4,href="../dev-libs/uriparser-0.9.8.svg"];
+choice100101118451081059811547117114105112971141151011144548465746564511449 [label="portage://dev-libs/uriparser-0.9.8-r1", color=red, width=4,href="../dev-libs/uriparser-0.9.8-r1.svg"];
+dependency157079:e -> choice10010111845108105981154711711410511297114115101114454846574655:w [style=dotted,weight="100"];
+dependency157079:e -> choice10010111845108105981154711711410511297114115101114454846574656:w [style=dotted,weight="100"];
+dependency157079:e -> choice100101118451081059811547117114105112971141151011144548465746564511449:w [style=dotted,weight="100"];
+}
+subgraph choice80127 {
+color=black;
+nodesep=1;
+choice10010111845108105981154710112011297116455046534648 [label="portage://dev-libs/expat-2.5.0", color=red, width=4,href="../dev-libs/expat-2.5.0.svg"];
+choice10010111845108105981154710112011297116455046544648 [label="portage://dev-libs/expat-2.6.0", color=red, width=4,href="../dev-libs/expat-2.6.0.svg"];
+choice10010111845108105981154710112011297116455046544649 [label="portage://dev-libs/expat-2.6.1", color=red, width=4,href="../dev-libs/expat-2.6.1.svg"];
+choice10010111845108105981154710112011297116455046544650 [label="portage://dev-libs/expat-2.6.2", color=red, width=4,href="../dev-libs/expat-2.6.2.svg"];
+dependency157080:e -> choice10010111845108105981154710112011297116455046534648:w [style=dotted,weight="100"];
+dependency157080:e -> choice10010111845108105981154710112011297116455046544648:w [style=dotted,weight="100"];
+dependency157080:e -> choice10010111845108105981154710112011297116455046544649:w [style=dotted,weight="100"];
+dependency157080:e -> choice10010111845108105981154710112011297116455046544650:w [style=dotted,weight="100"];
+}
+subgraph choice80128 {
+color=black;
+nodesep=1;
+choice10010111845108105981154711711410511297114115101114454846574655 [label="portage://dev-libs/uriparser-0.9.7", color=red, width=4,href="../dev-libs/uriparser-0.9.7.svg"];
+choice10010111845108105981154711711410511297114115101114454846574656 [label="portage://dev-libs/uriparser-0.9.8", color=red, width=4,href="../dev-libs/uriparser-0.9.8.svg"];
+choice100101118451081059811547117114105112971141151011144548465746564511449 [label="portage://dev-libs/uriparser-0.9.8-r1", color=red, width=4,href="../dev-libs/uriparser-0.9.8-r1.svg"];
+dependency157081:e -> choice10010111845108105981154711711410511297114115101114454846574655:w [style=dotted,weight="100"];
+dependency157081:e -> choice10010111845108105981154711711410511297114115101114454846574656:w [style=dotted,weight="100"];
+dependency157081:e -> choice100101118451081059811547117114105112971141151011144548465746564511449:w [style=dotted,weight="100"];
+}
+}
+
+}

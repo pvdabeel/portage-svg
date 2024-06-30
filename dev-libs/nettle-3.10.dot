@@ -1,0 +1,88 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://dev-libs/nettle-3.10", color=red, width=4, href="../dev-libs/nettle-3.10.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond26962 {
+dependency57027 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>gmp</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack28902 {
+dependency57028 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>gmp</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>6.1</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency57027:e -> dependency57028:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency57027:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond26963 {
+dependency57029 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>gmp</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack28903 {
+dependency57030 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>gmp</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>6.1</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency57029:e -> dependency57030:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency57029:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice28902 {
+color=black;
+nodesep=1;
+choice1001011184510810598115471031091124554465146484511449 [label="portage://dev-libs/gmp-6.3.0-r1", color=red, width=4,href="../dev-libs/gmp-6.3.0-r1.svg"];
+dependency57028:e -> choice1001011184510810598115471031091124554465146484511449:w [style=dotted,weight="100"];
+}
+subgraph choice28903 {
+color=black;
+nodesep=1;
+choice1001011184510810598115471031091124554465146484511449 [label="portage://dev-libs/gmp-6.3.0-r1", color=red, width=4,href="../dev-libs/gmp-6.3.0-r1.svg"];
+dependency57030:e -> choice1001011184510810598115471031091124554465146484511449:w [style=dotted,weight="100"];
+}
+}
+
+}

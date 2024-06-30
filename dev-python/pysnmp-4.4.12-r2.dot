@@ -1,0 +1,90 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://dev-python/pysnmp-4.4.12-r2", color=red, width=4, href="../dev-python/pysnmp-4.4.12-r2.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond36568 {
+dependency79706 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>python_targets_python3_10</TD></TR></TABLE>>, shape=none, color=red];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# dependency79706 -> package_dependency(portage://dev-python/pysnmp-4.4.12-r2,run,no,dev-lang,python,none,[,,],[slot(3.10)],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+id:e -> dependency79706:w [weight=20,style="solid",arrowhead="odot"];
+subgraph cond36569 {
+dependency79707 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>python_targets_python3_11</TD></TR></TABLE>>, shape=none, color=red];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# dependency79707 -> package_dependency(portage://dev-python/pysnmp-4.4.12-r2,run,no,dev-lang,python,none,[,,],[slot(3.11)],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+id:e -> dependency79707:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack41904 {
+dependency79708 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-python</TD></TR><TR><TD>pyasn1</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>0.2.3</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency79708:w [weight=20,style="solid",arrowhead="odot"];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://dev-python/pysnmp-4.4.12-r2,run,no,dev-python,pycryptodome,none,[,,],[],[use(optenable(python_targets_python3_10),negative),use(optenable(python_targets_python3_11),negative)])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice41904 {
+color=black;
+nodesep=1;
+choice10010111845112121116104111110471121219711511049454846544648 [label="portage://dev-python/pyasn1-0.6.0", color=red, width=4,href="../dev-python/pyasn1-0.6.0.svg"];
+dependency79708:e -> choice10010111845112121116104111110471121219711511049454846544648:w [style=dotted,weight="100"];
+}
+}
+
+}

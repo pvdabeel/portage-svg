@@ -1,0 +1,84 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://dev-libs/cudnn-frontend-0.6.2", color=red, width=4, href="../dev-libs/cudnn-frontend-0.6.2.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack27880 {
+dependency54370 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>cudnn</TD></TR><TR><TD>equal</TD></TR><TR><TD>8*</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency54370:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack27881 {
+dependency54371 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>cudnn</TD></TR><TR><TD>equal</TD></TR><TR><TD>8*</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency54371:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice27880 {
+color=black;
+nodesep=1;
+choice1001011184510810598115479911710011011045564654464846495451 [label="portage://dev-libs/cudnn-8.6.0.163", color=red, width=4,href="../dev-libs/cudnn-8.6.0.163.svg"];
+choice1001011184510810598115479911710011011045564656464846495049 [label="portage://dev-libs/cudnn-8.8.0.121", color=red, width=4,href="../dev-libs/cudnn-8.8.0.121.svg"];
+dependency54370:e -> choice1001011184510810598115479911710011011045564654464846495451:w [style=dotted,weight="100"];
+dependency54370:e -> choice1001011184510810598115479911710011011045564656464846495049:w [style=dotted,weight="100"];
+}
+subgraph choice27881 {
+color=black;
+nodesep=1;
+choice1001011184510810598115479911710011011045564654464846495451 [label="portage://dev-libs/cudnn-8.6.0.163", color=red, width=4,href="../dev-libs/cudnn-8.6.0.163.svg"];
+choice1001011184510810598115479911710011011045564656464846495049 [label="portage://dev-libs/cudnn-8.8.0.121", color=red, width=4,href="../dev-libs/cudnn-8.8.0.121.svg"];
+dependency54371:e -> choice1001011184510810598115479911710011011045564654464846495451:w [style=dotted,weight="100"];
+dependency54371:e -> choice1001011184510810598115479911710011011045564656464846495049:w [style=dotted,weight="100"];
+}
+}
+
+}

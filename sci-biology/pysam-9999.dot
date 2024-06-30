@@ -1,0 +1,108 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+rank=same;
+label=<<i>ebuild</i>>;
+id [label="portage://sci-biology/pysam-9999", color=red, width=4, href="../sci-biology/pysam-9999.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://sci-biology/pysam-9999,install,no,dev-python,cython,none,[,,],[],[use(optenable(python_targets_python3_10),negative),use(optenable(python_targets_python3_11),negative)])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# id -> package_dependency(portage://sci-biology/pysam-9999,install,no,dev-python,setuptools,none,[,,],[],[use(optenable(python_targets_python3_10),negative),use(optenable(python_targets_python3_11),negative)])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+subgraph pack93752 {
+dependency198076 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sci-libs</TD></TR><TR><TD>htslib</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.17</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency198076:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond101570 {
+dependency198077 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>python_targets_python3_10</TD></TR></TABLE>>, shape=none, color=red];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# dependency198077 -> package_dependency(portage://sci-biology/pysam-9999,run,no,dev-lang,python,none,[,,],[slot(3.10)],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+id:e -> dependency198077:w [weight=20,style="solid",arrowhead="odot"];
+subgraph cond101571 {
+dependency198078 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>python_targets_python3_11</TD></TR></TABLE>>, shape=none, color=red];
+# *** BEGIN UNKNOWN DEPENDENCY TYPE (TODO) ***
+# dependency198078 -> package_dependency(portage://sci-biology/pysam-9999,run,no,dev-lang,python,none,[,,],[slot(3.11)],[])
+# *** END UNKNOWN DEPENDENCY TYPE (TODO) ***
+
+}
+id:e -> dependency198078:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack93753 {
+dependency198079 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">no</TD></TR><TR><TD>sci-libs</TD></TR><TR><TD>htslib</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>1.17</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency198079:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice93752 {
+color=black;
+nodesep=1;
+choice115991054510810598115471041161151081059845494649574649 [label="portage://sci-libs/htslib-1.19.1", color=red, width=4,href="../sci-libs/htslib-1.19.1.svg"];
+choice11599105451081059811547104116115108105984549465048 [label="portage://sci-libs/htslib-1.20", color=red, width=4,href="../sci-libs/htslib-1.20.svg"];
+dependency198076:e -> choice115991054510810598115471041161151081059845494649574649:w [style=dotted,weight="100"];
+dependency198076:e -> choice11599105451081059811547104116115108105984549465048:w [style=dotted,weight="100"];
+}
+subgraph choice93753 {
+color=black;
+nodesep=1;
+choice115991054510810598115471041161151081059845494649574649 [label="portage://sci-libs/htslib-1.19.1", color=red, width=4,href="../sci-libs/htslib-1.19.1.svg"];
+choice11599105451081059811547104116115108105984549465048 [label="portage://sci-libs/htslib-1.20", color=red, width=4,href="../sci-libs/htslib-1.20.svg"];
+dependency198079:e -> choice115991054510810598115471041161151081059845494649574649:w [style=dotted,weight="100"];
+dependency198079:e -> choice11599105451081059811547104116115108105984549465048:w [style=dotted,weight="100"];
+}
+}
+
+}
