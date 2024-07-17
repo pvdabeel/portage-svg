@@ -1,0 +1,87 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+label=<<i>ebuild</i>>;
+id [label="portage://kde-apps/kdeadmin-meta-24.05.2", color=red, width=4, href="../kde-apps/kdeadmin-meta-24.05.2.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond66963 {
+dependency250969 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>cron</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack182224 {
+dependency250970 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-apps</TD></TR><TR><TD>kcron</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>[24.05.2,,,24.05.2]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency250969:e -> dependency250970:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency250969:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack182225 {
+dependency250971 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-apps</TD></TR><TR><TD>ksystemlog</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>[24.05.2,,,24.05.2]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency250971:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice182224 {
+color=black;
+nodesep=1;
+choice107100101459711211211547107991141111104550524648534650 [label="portage://kde-apps/kcron-24.05.2", color=red, width=4,href="../kde-apps/kcron-24.05.2.svg"];
+choice107100101459711211211547107991141111104550514648564653 [label="portage://kde-apps/kcron-23.08.5", color=red, width=4,href="../kde-apps/kcron-23.08.5.svg"];
+dependency250970:e -> choice107100101459711211211547107991141111104550524648534650:w [style=dotted,weight="100"];
+dependency250970:e -> choice107100101459711211211547107991141111104550514648564653:w [style=dotted,weight="100"];
+}
+subgraph choice182225 {
+color=black;
+nodesep=1;
+choice1071001014597112112115471071151211151161011091081111034550524648534650 [label="portage://kde-apps/ksystemlog-24.05.2", color=red, width=4,href="../kde-apps/ksystemlog-24.05.2.svg"];
+choice1071001014597112112115471071151211151161011091081111034550514648564653 [label="portage://kde-apps/ksystemlog-23.08.5", color=red, width=4,href="../kde-apps/ksystemlog-23.08.5.svg"];
+dependency250971:e -> choice1071001014597112112115471071151211151161011091081111034550524648534650:w [style=dotted,weight="100"];
+dependency250971:e -> choice1071001014597112112115471071151211151161011091081111034550514648564653:w [style=dotted,weight="100"];
+}
+}
+
+}

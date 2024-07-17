@@ -1,0 +1,139 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+label=<<i>ebuild</i>>;
+id [label="portage://sci-libs/arborx-1.6", color=red, width=4, href="../sci-libs/arborx-1.6.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond104884 {
+dependency397431 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>mpi</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack289686 {
+dependency397432 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">install</TD></TR><TR><TD>virtual</TD></TR><TR><TD>mpi</TD></TR><TR><TD>none</TD></TR><TR><TD>[,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency397431:e -> dependency397432:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency397431:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack289687 {
+dependency397433 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>boost</TD></TR><TR><TD>none</TD></TR><TR><TD>[,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency397433:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack289688 {
+dependency397434 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">install</TD></TR><TR><TD>sci-libs</TD></TR><TR><TD>trilinos</TD></TR><TR><TD>none</TD></TR><TR><TD>[,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency397434:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond104885 {
+dependency397435 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>mpi</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack289689 {
+dependency397436 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>virtual</TD></TR><TR><TD>mpi</TD></TR><TR><TD>none</TD></TR><TR><TD>[,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency397435:e -> dependency397436:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency397435:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack289690 {
+dependency397437 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>boost</TD></TR><TR><TD>none</TD></TR><TR><TD>[,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency397437:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack289691 {
+dependency397438 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>sci-libs</TD></TR><TR><TD>trilinos</TD></TR><TR><TD>none</TD></TR><TR><TD>[,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency397438:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice289686 {
+color=black;
+nodesep=1;
+choice1181051141161179710847109112105455046484511456 [label="portage://virtual/mpi-2.0-r8", color=red, width=4,href="../virtual/mpi-2.0-r8.svg"];
+dependency397432:e -> choice1181051141161179710847109112105455046484511456:w [style=dotted,weight="100"];
+}
+subgraph choice289687 {
+color=black;
+nodesep=1;
+choice10010111845108105981154798111111115116454946565346484511449 [label="portage://dev-libs/boost-1.85.0-r1", color=red, width=4,href="../dev-libs/boost-1.85.0-r1.svg"];
+choice10010111845108105981154798111111115116454946565246484511451 [label="portage://dev-libs/boost-1.84.0-r3", color=red, width=4,href="../dev-libs/boost-1.84.0-r3.svg"];
+dependency397433:e -> choice10010111845108105981154798111111115116454946565346484511449:w [style=dotted,weight="100"];
+dependency397433:e -> choice10010111845108105981154798111111115116454946565246484511451:w [style=dotted,weight="100"];
+}
+subgraph choice289688 {
+color=black;
+nodesep=1;
+choice1159910545108105981154711611410510810511011111545495346494649 [label="portage://sci-libs/trilinos-15.1.1", color=red, width=4,href="../sci-libs/trilinos-15.1.1.svg"];
+choice1159910545108105981154711611410510810511011111545495346484648 [label="portage://sci-libs/trilinos-15.0.0", color=red, width=4,href="../sci-libs/trilinos-15.0.0.svg"];
+choice1159910545108105981154711611410510810511011111545495246524648 [label="portage://sci-libs/trilinos-14.4.0", color=red, width=4,href="../sci-libs/trilinos-14.4.0.svg"];
+dependency397434:e -> choice1159910545108105981154711611410510810511011111545495346494649:w [style=dotted,weight="100"];
+dependency397434:e -> choice1159910545108105981154711611410510810511011111545495346484648:w [style=dotted,weight="100"];
+dependency397434:e -> choice1159910545108105981154711611410510810511011111545495246524648:w [style=dotted,weight="100"];
+}
+subgraph choice289689 {
+color=black;
+nodesep=1;
+choice1181051141161179710847109112105455046484511456 [label="portage://virtual/mpi-2.0-r8", color=red, width=4,href="../virtual/mpi-2.0-r8.svg"];
+dependency397436:e -> choice1181051141161179710847109112105455046484511456:w [style=dotted,weight="100"];
+}
+subgraph choice289690 {
+color=black;
+nodesep=1;
+choice10010111845108105981154798111111115116454946565346484511449 [label="portage://dev-libs/boost-1.85.0-r1", color=red, width=4,href="../dev-libs/boost-1.85.0-r1.svg"];
+choice10010111845108105981154798111111115116454946565246484511451 [label="portage://dev-libs/boost-1.84.0-r3", color=red, width=4,href="../dev-libs/boost-1.84.0-r3.svg"];
+dependency397437:e -> choice10010111845108105981154798111111115116454946565346484511449:w [style=dotted,weight="100"];
+dependency397437:e -> choice10010111845108105981154798111111115116454946565246484511451:w [style=dotted,weight="100"];
+}
+subgraph choice289691 {
+color=black;
+nodesep=1;
+choice1159910545108105981154711611410510810511011111545495346494649 [label="portage://sci-libs/trilinos-15.1.1", color=red, width=4,href="../sci-libs/trilinos-15.1.1.svg"];
+choice1159910545108105981154711611410510810511011111545495346484648 [label="portage://sci-libs/trilinos-15.0.0", color=red, width=4,href="../sci-libs/trilinos-15.0.0.svg"];
+choice1159910545108105981154711611410510810511011111545495246524648 [label="portage://sci-libs/trilinos-14.4.0", color=red, width=4,href="../sci-libs/trilinos-14.4.0.svg"];
+dependency397438:e -> choice1159910545108105981154711611410510810511011111545495346494649:w [style=dotted,weight="100"];
+dependency397438:e -> choice1159910545108105981154711611410510810511011111545495346484648:w [style=dotted,weight="100"];
+dependency397438:e -> choice1159910545108105981154711611410510810511011111545495246524648:w [style=dotted,weight="100"];
+}
+}
+
+}

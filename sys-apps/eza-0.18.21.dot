@@ -1,0 +1,91 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+label=<<i>ebuild</i>>;
+id [label="portage://sys-apps/eza-0.18.21", color=red, width=4, href="../sys-apps/eza-0.18.21.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond110098 {
+dependency417174 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>git</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack304140 {
+dependency417175 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libgit2</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>[1.8.1,,,1.8.1]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency417174:e -> dependency417175:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency417174:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond110099 {
+dependency417176 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>git</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack304141 {
+dependency417177 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libgit2</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>[1.8.1,,,1.8.1]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency417176:e -> dependency417177:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency417176:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice304140 {
+color=black;
+nodesep=1;
+choice1001011184510810598115471081059810310511650454946564649 [label="portage://dev-libs/libgit2-1.8.1", color=red, width=4,href="../dev-libs/libgit2-1.8.1.svg"];
+choice1001011184510810598115471081059810310511650454946554650 [label="portage://dev-libs/libgit2-1.7.2", color=red, width=4,href="../dev-libs/libgit2-1.7.2.svg"];
+dependency417175:e -> choice1001011184510810598115471081059810310511650454946564649:w [style=dotted,weight="100"];
+dependency417175:e -> choice1001011184510810598115471081059810310511650454946554650:w [style=dotted,weight="100"];
+}
+subgraph choice304141 {
+color=black;
+nodesep=1;
+choice1001011184510810598115471081059810310511650454946564649 [label="portage://dev-libs/libgit2-1.8.1", color=red, width=4,href="../dev-libs/libgit2-1.8.1.svg"];
+choice1001011184510810598115471081059810310511650454946554650 [label="portage://dev-libs/libgit2-1.7.2", color=red, width=4,href="../dev-libs/libgit2-1.7.2.svg"];
+dependency417177:e -> choice1001011184510810598115471081059810310511650454946564649:w [style=dotted,weight="100"];
+dependency417177:e -> choice1001011184510810598115471081059810310511650454946554650:w [style=dotted,weight="100"];
+}
+}
+
+}

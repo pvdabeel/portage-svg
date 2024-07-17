@@ -1,0 +1,107 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+label=<<i>ebuild</i>>;
+id [label="portage://dev-libs/immer-0.8.1", color=red, width=4, href="../dev-libs/immer-0.8.1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack80518 {
+dependency108136 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>boehm-gc</TD></TR><TR><TD>none</TD></TR><TR><TD>[,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency108136:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack80519 {
+dependency108137 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>boost</TD></TR><TR><TD>none</TD></TR><TR><TD>[,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency108137:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack80520 {
+dependency108138 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>boehm-gc</TD></TR><TR><TD>none</TD></TR><TR><TD>[,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency108138:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack80521 {
+dependency108139 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>boost</TD></TR><TR><TD>none</TD></TR><TR><TD>[,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency108139:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice80518 {
+color=black;
+nodesep=1;
+choice100101118451081059811547981111011041094510399455646504654 [label="portage://dev-libs/boehm-gc-8.2.6", color=red, width=4,href="../dev-libs/boehm-gc-8.2.6.svg"];
+choice100101118451081059811547981111011041094510399455646504652 [label="portage://dev-libs/boehm-gc-8.2.4", color=red, width=4,href="../dev-libs/boehm-gc-8.2.4.svg"];
+dependency108136:e -> choice100101118451081059811547981111011041094510399455646504654:w [style=dotted,weight="100"];
+dependency108136:e -> choice100101118451081059811547981111011041094510399455646504652:w [style=dotted,weight="100"];
+}
+subgraph choice80519 {
+color=black;
+nodesep=1;
+choice10010111845108105981154798111111115116454946565346484511449 [label="portage://dev-libs/boost-1.85.0-r1", color=red, width=4,href="../dev-libs/boost-1.85.0-r1.svg"];
+choice10010111845108105981154798111111115116454946565246484511451 [label="portage://dev-libs/boost-1.84.0-r3", color=red, width=4,href="../dev-libs/boost-1.84.0-r3.svg"];
+dependency108137:e -> choice10010111845108105981154798111111115116454946565346484511449:w [style=dotted,weight="100"];
+dependency108137:e -> choice10010111845108105981154798111111115116454946565246484511451:w [style=dotted,weight="100"];
+}
+subgraph choice80520 {
+color=black;
+nodesep=1;
+choice100101118451081059811547981111011041094510399455646504654 [label="portage://dev-libs/boehm-gc-8.2.6", color=red, width=4,href="../dev-libs/boehm-gc-8.2.6.svg"];
+choice100101118451081059811547981111011041094510399455646504652 [label="portage://dev-libs/boehm-gc-8.2.4", color=red, width=4,href="../dev-libs/boehm-gc-8.2.4.svg"];
+dependency108138:e -> choice100101118451081059811547981111011041094510399455646504654:w [style=dotted,weight="100"];
+dependency108138:e -> choice100101118451081059811547981111011041094510399455646504652:w [style=dotted,weight="100"];
+}
+subgraph choice80521 {
+color=black;
+nodesep=1;
+choice10010111845108105981154798111111115116454946565346484511449 [label="portage://dev-libs/boost-1.85.0-r1", color=red, width=4,href="../dev-libs/boost-1.85.0-r1.svg"];
+choice10010111845108105981154798111111115116454946565246484511451 [label="portage://dev-libs/boost-1.84.0-r3", color=red, width=4,href="../dev-libs/boost-1.84.0-r3.svg"];
+dependency108139:e -> choice10010111845108105981154798111111115116454946565346484511449:w [style=dotted,weight="100"];
+dependency108139:e -> choice10010111845108105981154798111111115116454946565246484511451:w [style=dotted,weight="100"];
+}
+}
+
+}

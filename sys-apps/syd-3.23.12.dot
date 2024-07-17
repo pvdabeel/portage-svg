@@ -1,0 +1,123 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+label=<<i>ebuild</i>>;
+id [label="portage://sys-apps/syd-3.23.12", color=red, width=4, href="../sys-apps/syd-3.23.12.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond111467 {
+dependency421344 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>static</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack306933 {
+dependency421345 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">install</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>libseccomp</TD></TR><TR><TD>none</TD></TR><TR><TD>[,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency421344:e -> dependency421345:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency421344:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack306934 {
+dependency421346 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">install</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>libseccomp</TD></TR><TR><TD>none</TD></TR><TR><TD>[,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency421346:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond111468 {
+dependency421347 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>static</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack306935 {
+dependency421348 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>libseccomp</TD></TR><TR><TD>none</TD></TR><TR><TD>[,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency421347:e -> dependency421348:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency421347:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack306936 {
+dependency421349 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>libseccomp</TD></TR><TR><TD>none</TD></TR><TR><TD>[,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency421349:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice306933 {
+color=black;
+nodesep=1;
+choice1151211154510810598115471081059811510199991111091124557575757 [label="portage://sys-libs/libseccomp-9999", color=red, width=4,href="../sys-libs/libseccomp-9999.svg"];
+choice1151211154510810598115471081059811510199991111091124550465346534511449 [label="portage://sys-libs/libseccomp-2.5.5-r1", color=red, width=4,href="../sys-libs/libseccomp-2.5.5-r1.svg"];
+choice115121115451081059811547108105981151019999111109112455046534653 [label="portage://sys-libs/libseccomp-2.5.5", color=red, width=4,href="../sys-libs/libseccomp-2.5.5.svg"];
+dependency421345:e -> choice1151211154510810598115471081059811510199991111091124557575757:w [style=dotted,weight="100"];
+dependency421345:e -> choice1151211154510810598115471081059811510199991111091124550465346534511449:w [style=dotted,weight="100"];
+dependency421345:e -> choice115121115451081059811547108105981151019999111109112455046534653:w [style=dotted,weight="100"];
+}
+subgraph choice306934 {
+color=black;
+nodesep=1;
+choice1151211154510810598115471081059811510199991111091124557575757 [label="portage://sys-libs/libseccomp-9999", color=red, width=4,href="../sys-libs/libseccomp-9999.svg"];
+choice1151211154510810598115471081059811510199991111091124550465346534511449 [label="portage://sys-libs/libseccomp-2.5.5-r1", color=red, width=4,href="../sys-libs/libseccomp-2.5.5-r1.svg"];
+choice115121115451081059811547108105981151019999111109112455046534653 [label="portage://sys-libs/libseccomp-2.5.5", color=red, width=4,href="../sys-libs/libseccomp-2.5.5.svg"];
+dependency421346:e -> choice1151211154510810598115471081059811510199991111091124557575757:w [style=dotted,weight="100"];
+dependency421346:e -> choice1151211154510810598115471081059811510199991111091124550465346534511449:w [style=dotted,weight="100"];
+dependency421346:e -> choice115121115451081059811547108105981151019999111109112455046534653:w [style=dotted,weight="100"];
+}
+subgraph choice306935 {
+color=black;
+nodesep=1;
+choice1151211154510810598115471081059811510199991111091124557575757 [label="portage://sys-libs/libseccomp-9999", color=red, width=4,href="../sys-libs/libseccomp-9999.svg"];
+choice1151211154510810598115471081059811510199991111091124550465346534511449 [label="portage://sys-libs/libseccomp-2.5.5-r1", color=red, width=4,href="../sys-libs/libseccomp-2.5.5-r1.svg"];
+choice115121115451081059811547108105981151019999111109112455046534653 [label="portage://sys-libs/libseccomp-2.5.5", color=red, width=4,href="../sys-libs/libseccomp-2.5.5.svg"];
+dependency421348:e -> choice1151211154510810598115471081059811510199991111091124557575757:w [style=dotted,weight="100"];
+dependency421348:e -> choice1151211154510810598115471081059811510199991111091124550465346534511449:w [style=dotted,weight="100"];
+dependency421348:e -> choice115121115451081059811547108105981151019999111109112455046534653:w [style=dotted,weight="100"];
+}
+subgraph choice306936 {
+color=black;
+nodesep=1;
+choice1151211154510810598115471081059811510199991111091124557575757 [label="portage://sys-libs/libseccomp-9999", color=red, width=4,href="../sys-libs/libseccomp-9999.svg"];
+choice1151211154510810598115471081059811510199991111091124550465346534511449 [label="portage://sys-libs/libseccomp-2.5.5-r1", color=red, width=4,href="../sys-libs/libseccomp-2.5.5-r1.svg"];
+choice115121115451081059811547108105981151019999111109112455046534653 [label="portage://sys-libs/libseccomp-2.5.5", color=red, width=4,href="../sys-libs/libseccomp-2.5.5.svg"];
+dependency421349:e -> choice1151211154510810598115471081059811510199991111091124557575757:w [style=dotted,weight="100"];
+dependency421349:e -> choice1151211154510810598115471081059811510199991111091124550465346534511449:w [style=dotted,weight="100"];
+dependency421349:e -> choice115121115451081059811547108105981151019999111109112455046534653:w [style=dotted,weight="100"];
+}
+}
+
+}

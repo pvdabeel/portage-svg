@@ -1,0 +1,83 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+label=<<i>ebuild</i>>;
+id [label="portage://gui-libs/hyprutils-0.1.5", color=red, width=4, href="../gui-libs/hyprutils-0.1.5.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack175288 {
+dependency243182 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">install</TD></TR><TR><TD>x11-libs</TD></TR><TR><TD>pixman</TD></TR><TR><TD>none</TD></TR><TR><TD>[,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency243182:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack175289 {
+dependency243183 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>x11-libs</TD></TR><TR><TD>pixman</TD></TR><TR><TD>none</TD></TR><TR><TD>[,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency243183:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice175288 {
+color=black;
+nodesep=1;
+choice1204949451081059811547112105120109971104557575757 [label="portage://x11-libs/pixman-9999", color=red, width=4,href="../x11-libs/pixman-9999.svg"];
+choice12049494510810598115471121051201099711045484652514652 [label="portage://x11-libs/pixman-0.43.4", color=red, width=4,href="../x11-libs/pixman-0.43.4.svg"];
+dependency243182:e -> choice1204949451081059811547112105120109971104557575757:w [style=dotted,weight="100"];
+dependency243182:e -> choice12049494510810598115471121051201099711045484652514652:w [style=dotted,weight="100"];
+}
+subgraph choice175289 {
+color=black;
+nodesep=1;
+choice1204949451081059811547112105120109971104557575757 [label="portage://x11-libs/pixman-9999", color=red, width=4,href="../x11-libs/pixman-9999.svg"];
+choice12049494510810598115471121051201099711045484652514652 [label="portage://x11-libs/pixman-0.43.4", color=red, width=4,href="../x11-libs/pixman-0.43.4.svg"];
+dependency243183:e -> choice1204949451081059811547112105120109971104557575757:w [style=dotted,weight="100"];
+dependency243183:e -> choice12049494510810598115471121051201099711045484652514652:w [style=dotted,weight="100"];
+}
+}
+
+}

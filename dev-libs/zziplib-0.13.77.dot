@@ -1,0 +1,123 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+label=<<i>ebuild</i>>;
+id [label="portage://dev-libs/zziplib-0.13.77", color=red, width=4, href="../dev-libs/zziplib-0.13.77.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond28786 {
+dependency115283 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>sdl</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack85299 {
+dependency115284 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">install</TD></TR><TR><TD>media-libs</TD></TR><TR><TD>libsdl</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>[1.2.6,,,1.2.6]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency115283:e -> dependency115284:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency115283:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack85300 {
+dependency115285 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">install</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>zlib</TD></TR><TR><TD>none</TD></TR><TR><TD>[,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency115285:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond28787 {
+dependency115286 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>sdl</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack85301 {
+dependency115287 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>media-libs</TD></TR><TR><TD>libsdl</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>[1.2.6,,,1.2.6]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency115286:e -> dependency115287:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency115286:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack85302 {
+dependency115288 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>zlib</TD></TR><TR><TD>none</TD></TR><TR><TD>[,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency115288:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice85299 {
+color=black;
+nodesep=1;
+choice109101100105974510810598115471081059811510010845494650465456 [label="portage://media-libs/libsdl-1.2.68", color=red, width=4,href="../media-libs/libsdl-1.2.68.svg"];
+choice109101100105974510810598115471081059811510010845494650465452951125048505148555054 [label="portage://media-libs/libsdl-1.2.64_p20230726", color=red, width=4,href="../media-libs/libsdl-1.2.64_p20230726.svg"];
+choice109101100105974510810598115471081059811510010845494650465452 [label="portage://media-libs/libsdl-1.2.64", color=red, width=4,href="../media-libs/libsdl-1.2.64.svg"];
+choice109101100105974510810598115471081059811510010845494650464953951125048505049504849 [label="portage://media-libs/libsdl-1.2.15_p20221201", color=red, width=4,href="../media-libs/libsdl-1.2.15_p20221201.svg"];
+dependency115284:e -> choice109101100105974510810598115471081059811510010845494650465456:w [style=dotted,weight="100"];
+dependency115284:e -> choice109101100105974510810598115471081059811510010845494650465452951125048505148555054:w [style=dotted,weight="100"];
+dependency115284:e -> choice109101100105974510810598115471081059811510010845494650465452:w [style=dotted,weight="100"];
+dependency115284:e -> choice109101100105974510810598115471081059811510010845494650464953951125048505049504849:w [style=dotted,weight="100"];
+}
+subgraph choice85300 {
+color=black;
+nodesep=1;
+choice115121115451081059811547122108105984549465146494511449 [label="portage://sys-libs/zlib-1.3.1-r1", color=red, width=4,href="../sys-libs/zlib-1.3.1-r1.svg"];
+choice11512111545108105981154712210810598454946514511452 [label="portage://sys-libs/zlib-1.3-r4", color=red, width=4,href="../sys-libs/zlib-1.3-r4.svg"];
+dependency115285:e -> choice115121115451081059811547122108105984549465146494511449:w [style=dotted,weight="100"];
+dependency115285:e -> choice11512111545108105981154712210810598454946514511452:w [style=dotted,weight="100"];
+}
+subgraph choice85301 {
+color=black;
+nodesep=1;
+choice109101100105974510810598115471081059811510010845494650465456 [label="portage://media-libs/libsdl-1.2.68", color=red, width=4,href="../media-libs/libsdl-1.2.68.svg"];
+choice109101100105974510810598115471081059811510010845494650465452951125048505148555054 [label="portage://media-libs/libsdl-1.2.64_p20230726", color=red, width=4,href="../media-libs/libsdl-1.2.64_p20230726.svg"];
+choice109101100105974510810598115471081059811510010845494650465452 [label="portage://media-libs/libsdl-1.2.64", color=red, width=4,href="../media-libs/libsdl-1.2.64.svg"];
+choice109101100105974510810598115471081059811510010845494650464953951125048505049504849 [label="portage://media-libs/libsdl-1.2.15_p20221201", color=red, width=4,href="../media-libs/libsdl-1.2.15_p20221201.svg"];
+dependency115287:e -> choice109101100105974510810598115471081059811510010845494650465456:w [style=dotted,weight="100"];
+dependency115287:e -> choice109101100105974510810598115471081059811510010845494650465452951125048505148555054:w [style=dotted,weight="100"];
+dependency115287:e -> choice109101100105974510810598115471081059811510010845494650465452:w [style=dotted,weight="100"];
+dependency115287:e -> choice109101100105974510810598115471081059811510010845494650464953951125048505049504849:w [style=dotted,weight="100"];
+}
+subgraph choice85302 {
+color=black;
+nodesep=1;
+choice115121115451081059811547122108105984549465146494511449 [label="portage://sys-libs/zlib-1.3.1-r1", color=red, width=4,href="../sys-libs/zlib-1.3.1-r1.svg"];
+choice11512111545108105981154712210810598454946514511452 [label="portage://sys-libs/zlib-1.3-r4", color=red, width=4,href="../sys-libs/zlib-1.3-r4.svg"];
+dependency115288:e -> choice115121115451081059811547122108105984549465146494511449:w [style=dotted,weight="100"];
+dependency115288:e -> choice11512111545108105981154712210810598454946514511452:w [style=dotted,weight="100"];
+}
+}
+
+}

@@ -1,0 +1,88 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+label=<<i>ebuild</i>>;
+id [label="portage://app-emulation/virtualbox-extpack-oracle-7.0.20", color=red, width=4, href="../app-emulation/virtualbox-extpack-oracle-7.0.20.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph any281 {
+dependency32310 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD CELLPADDING="10">any_of_group</TD></TR></TABLE>>, shape=none, color=red];subgraph pack22795 {
+dependency32311 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>app-emulation</TD></TR><TR><TD>virtualbox</TD></TR><TR><TD>equal</TD></TR><TR><TD>[7.0.20*,,,7.0.20*]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency32310:e -> dependency32311:w [weight=20,style="dotted",arrowhead="oinv"];
+subgraph pack22796 {
+dependency32312 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>app-emulation</TD></TR><TR><TD>virtualbox-kvm</TD></TR><TR><TD>equal</TD></TR><TR><TD>[7.0.20*,,,7.0.20*]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency32310:e -> dependency32312:w [weight=20,style="dotted",arrowhead="oinv"];
+}
+id:e -> dependency32310:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice22795 {
+color=black;
+nodesep=1;
+choice9711211245101109117108971161051111104711810511411611797108981111204557575757 [label="portage://app-emulation/virtualbox-9999", color=red, width=4,href="../app-emulation/virtualbox-9999.svg"];
+choice97112112451011091171089711610511111047118105114116117971089811112045554648465048 [label="portage://app-emulation/virtualbox-7.0.20", color=red, width=4,href="../app-emulation/virtualbox-7.0.20.svg"];
+choice971121124510110911710897116105111110471181051141161179710898111120455546484649564511449 [label="portage://app-emulation/virtualbox-7.0.18-r1", color=red, width=4,href="../app-emulation/virtualbox-7.0.18-r1.svg"];
+choice971121124510110911710897116105111110471181051141161179710898111120455446494653484511451 [label="portage://app-emulation/virtualbox-6.1.50-r3", color=red, width=4,href="../app-emulation/virtualbox-6.1.50-r3.svg"];
+dependency32311:e -> choice9711211245101109117108971161051111104711810511411611797108981111204557575757:w [style=dotted,weight="100"];
+dependency32311:e -> choice97112112451011091171089711610511111047118105114116117971089811112045554648465048:w [style=dotted,weight="100"];
+dependency32311:e -> choice971121124510110911710897116105111110471181051141161179710898111120455546484649564511449:w [style=dotted,weight="100"];
+dependency32311:e -> choice971121124510110911710897116105111110471181051141161179710898111120455446494653484511451:w [style=dotted,weight="100"];
+}
+subgraph choice22796 {
+color=black;
+nodesep=1;
+choice9711211245101109117108971161051111104711810511411611797108981111204510711810945554648464956951121141015048505248544955 [label="portage://app-emulation/virtualbox-kvm-7.0.18_pre20240617", color=red, width=4,href="../app-emulation/virtualbox-kvm-7.0.18_pre20240617.svg"];
+dependency32312:e -> choice9711211245101109117108971161051111104711810511411611797108981111204510711810945554648464956951121141015048505248544955:w [style=dotted,weight="100"];
+}
+}
+
+}
