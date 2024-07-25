@@ -1,0 +1,115 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+label=<<i>ebuild</i>>;
+id [label="portage://gnustep-apps/gorm-1.4.0", color=red, width=4, href="../gnustep-apps/gorm-1.4.0.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack174155 {
+dependency241964 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">install</TD></TR><TR><TD>gnustep-base</TD></TR><TR><TD>gnustep-gui</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>[0.31.0,,,0.31.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency241964:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack174156 {
+dependency241965 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">install</TD></TR><TR><TD>virtual</TD></TR><TR><TD>gnustep-back</TD></TR><TR><TD>none</TD></TR><TR><TD>[,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency241965:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack174157 {
+dependency241966 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>gnustep-base</TD></TR><TR><TD>gnustep-gui</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>[0.31.0,,,0.31.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency241966:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack174158 {
+dependency241967 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>virtual</TD></TR><TR><TD>gnustep-back</TD></TR><TR><TD>none</TD></TR><TR><TD>[,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency241967:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice174155 {
+color=black;
+nodesep=1;
+choice103110117115116101112459897115101471031101171151161011124510311710545484651494649 [label="portage://gnustep-base/gnustep-gui-0.31.1", color=red, width=4,href="../gnustep-base/gnustep-gui-0.31.1.svg"];
+choice1031101171151161011124598971151014710311011711511610111245103117105454846514846484511450 [label="portage://gnustep-base/gnustep-gui-0.30.0-r2", color=red, width=4,href="../gnustep-base/gnustep-gui-0.30.0-r2.svg"];
+choice1031101171151161011124598971151014710311011711511610111245103117105454846505746484511450 [label="portage://gnustep-base/gnustep-gui-0.29.0-r2", color=red, width=4,href="../gnustep-base/gnustep-gui-0.29.0-r2.svg"];
+dependency241964:e -> choice103110117115116101112459897115101471031101171151161011124510311710545484651494649:w [style=dotted,weight="100"];
+dependency241964:e -> choice1031101171151161011124598971151014710311011711511610111245103117105454846514846484511450:w [style=dotted,weight="100"];
+dependency241964:e -> choice1031101171151161011124598971151014710311011711511610111245103117105454846505746484511450:w [style=dotted,weight="100"];
+}
+subgraph choice174156 {
+color=black;
+nodesep=1;
+choice11810511411611797108471031101171151161011124598979910745484651494648 [label="portage://virtual/gnustep-back-0.31.0", color=red, width=4,href="../virtual/gnustep-back-0.31.0.svg"];
+choice11810511411611797108471031101171151161011124598979910745484651484648 [label="portage://virtual/gnustep-back-0.30.0", color=red, width=4,href="../virtual/gnustep-back-0.30.0.svg"];
+choice11810511411611797108471031101171151161011124598979910745484650574648 [label="portage://virtual/gnustep-back-0.29.0", color=red, width=4,href="../virtual/gnustep-back-0.29.0.svg"];
+dependency241965:e -> choice11810511411611797108471031101171151161011124598979910745484651494648:w [style=dotted,weight="100"];
+dependency241965:e -> choice11810511411611797108471031101171151161011124598979910745484651484648:w [style=dotted,weight="100"];
+dependency241965:e -> choice11810511411611797108471031101171151161011124598979910745484650574648:w [style=dotted,weight="100"];
+}
+subgraph choice174157 {
+color=black;
+nodesep=1;
+choice103110117115116101112459897115101471031101171151161011124510311710545484651494649 [label="portage://gnustep-base/gnustep-gui-0.31.1", color=red, width=4,href="../gnustep-base/gnustep-gui-0.31.1.svg"];
+choice1031101171151161011124598971151014710311011711511610111245103117105454846514846484511450 [label="portage://gnustep-base/gnustep-gui-0.30.0-r2", color=red, width=4,href="../gnustep-base/gnustep-gui-0.30.0-r2.svg"];
+choice1031101171151161011124598971151014710311011711511610111245103117105454846505746484511450 [label="portage://gnustep-base/gnustep-gui-0.29.0-r2", color=red, width=4,href="../gnustep-base/gnustep-gui-0.29.0-r2.svg"];
+dependency241966:e -> choice103110117115116101112459897115101471031101171151161011124510311710545484651494649:w [style=dotted,weight="100"];
+dependency241966:e -> choice1031101171151161011124598971151014710311011711511610111245103117105454846514846484511450:w [style=dotted,weight="100"];
+dependency241966:e -> choice1031101171151161011124598971151014710311011711511610111245103117105454846505746484511450:w [style=dotted,weight="100"];
+}
+subgraph choice174158 {
+color=black;
+nodesep=1;
+choice11810511411611797108471031101171151161011124598979910745484651494648 [label="portage://virtual/gnustep-back-0.31.0", color=red, width=4,href="../virtual/gnustep-back-0.31.0.svg"];
+choice11810511411611797108471031101171151161011124598979910745484651484648 [label="portage://virtual/gnustep-back-0.30.0", color=red, width=4,href="../virtual/gnustep-back-0.30.0.svg"];
+choice11810511411611797108471031101171151161011124598979910745484650574648 [label="portage://virtual/gnustep-back-0.29.0", color=red, width=4,href="../virtual/gnustep-back-0.29.0.svg"];
+dependency241967:e -> choice11810511411611797108471031101171151161011124598979910745484651494648:w [style=dotted,weight="100"];
+dependency241967:e -> choice11810511411611797108471031101171151161011124598979910745484651484648:w [style=dotted,weight="100"];
+dependency241967:e -> choice11810511411611797108471031101171151161011124598979910745484650574648:w [style=dotted,weight="100"];
+}
+}
+
+}

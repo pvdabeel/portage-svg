@@ -1,0 +1,99 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+label=<<i>ebuild</i>>;
+id [label="portage://mail-filter/couriersrs-0.1.2-r1", color=red, width=4, href="../mail-filter/couriersrs-0.1.2-r1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack206670 {
+dependency279327 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>popt</TD></TR><TR><TD>none</TD></TR><TR><TD>[,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency279327:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack206671 {
+dependency279328 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">install</TD></TR><TR><TD>mail-filter</TD></TR><TR><TD>libsrs2</TD></TR><TR><TD>none</TD></TR><TR><TD>[,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency279328:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack206672 {
+dependency279329 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>popt</TD></TR><TR><TD>none</TD></TR><TR><TD>[,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency279329:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack206673 {
+dependency279330 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>mail-filter</TD></TR><TR><TD>libsrs2</TD></TR><TR><TD>none</TD></TR><TR><TD>[,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency279330:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice206670 {
+color=black;
+nodesep=1;
+choice10010111845108105981154711211111211645494649574511449 [label="portage://dev-libs/popt-1.19-r1", color=red, width=4,href="../dev-libs/popt-1.19-r1.svg"];
+dependency279327:e -> choice10010111845108105981154711211111211645494649574511449:w [style=dotted,weight="100"];
+}
+subgraph choice206671 {
+color=black;
+nodesep=1;
+choice1099710510845102105108116101114471081059811511411550454946484649564511449 [label="portage://mail-filter/libsrs2-1.0.18-r1", color=red, width=4,href="../mail-filter/libsrs2-1.0.18-r1.svg"];
+dependency279328:e -> choice1099710510845102105108116101114471081059811511411550454946484649564511449:w [style=dotted,weight="100"];
+}
+subgraph choice206672 {
+color=black;
+nodesep=1;
+choice10010111845108105981154711211111211645494649574511449 [label="portage://dev-libs/popt-1.19-r1", color=red, width=4,href="../dev-libs/popt-1.19-r1.svg"];
+dependency279329:e -> choice10010111845108105981154711211111211645494649574511449:w [style=dotted,weight="100"];
+}
+subgraph choice206673 {
+color=black;
+nodesep=1;
+choice1099710510845102105108116101114471081059811511411550454946484649564511449 [label="portage://mail-filter/libsrs2-1.0.18-r1", color=red, width=4,href="../mail-filter/libsrs2-1.0.18-r1.svg"];
+dependency279330:e -> choice1099710510845102105108116101114471081059811511411550454946484649564511449:w [style=dotted,weight="100"];
+}
+}
+
+}
