@@ -1,0 +1,131 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+label=<<i>ebuild</i>>;
+id [label="portage://gui-libs/greetd-0.10.3", color=red, width=4, href="../gui-libs/greetd-0.10.3.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack175745 {
+dependency243787 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">install</TD></TR><TR><TD>acct-user</TD></TR><TR><TD>greetd</TD></TR><TR><TD>none</TD></TR><TR><TD>[,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency243787:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack175746 {
+dependency243788 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">install</TD></TR><TR><TD>sys-auth</TD></TR><TR><TD>pambase</TD></TR><TR><TD>none</TD></TR><TR><TD>[,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency243788:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack175747 {
+dependency243789 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">install</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>pam</TD></TR><TR><TD>none</TD></TR><TR><TD>[,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency243789:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack175748 {
+dependency243790 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>acct-user</TD></TR><TR><TD>greetd</TD></TR><TR><TD>none</TD></TR><TR><TD>[,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency243790:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack175749 {
+dependency243791 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-auth</TD></TR><TR><TD>pambase</TD></TR><TR><TD>none</TD></TR><TR><TD>[,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency243791:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack175750 {
+dependency243792 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>pam</TD></TR><TR><TD>none</TD></TR><TR><TD>[,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency243792:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice175745 {
+color=black;
+nodesep=1;
+choice979999116451171151011144710311410110111610045484511451 [label="portage://acct-user/greetd-0-r3", color=red, width=4,href="../acct-user/greetd-0-r3.svg"];
+dependency243787:e -> choice979999116451171151011144710311410110111610045484511451:w [style=dotted,weight="100"];
+}
+subgraph choice175746 {
+color=black;
+nodesep=1;
+choice11512111545971171161044711297109989711510145575757575757575757 [label="portage://sys-auth/pambase-999999999", color=red, width=4,href="../sys-auth/pambase-999999999.svg"];
+choice115121115459711711610447112971099897115101455048505248495056 [label="portage://sys-auth/pambase-20240128", color=red, width=4,href="../sys-auth/pambase-20240128.svg"];
+choice115121115459711711610447112971099897115101455048505048504952 [label="portage://sys-auth/pambase-20220214", color=red, width=4,href="../sys-auth/pambase-20220214.svg"];
+dependency243788:e -> choice11512111545971171161044711297109989711510145575757575757575757:w [style=dotted,weight="100"];
+dependency243788:e -> choice115121115459711711610447112971099897115101455048505248495056:w [style=dotted,weight="100"];
+dependency243788:e -> choice115121115459711711610447112971099897115101455048505048504952:w [style=dotted,weight="100"];
+}
+subgraph choice175747 {
+color=black;
+nodesep=1;
+choice11512111545108105981154711297109454946544649 [label="portage://sys-libs/pam-1.6.1", color=red, width=4,href="../sys-libs/pam-1.6.1.svg"];
+choice115121115451081059811547112971094549465346514511449 [label="portage://sys-libs/pam-1.5.3-r1", color=red, width=4,href="../sys-libs/pam-1.5.3-r1.svg"];
+dependency243789:e -> choice11512111545108105981154711297109454946544649:w [style=dotted,weight="100"];
+dependency243789:e -> choice115121115451081059811547112971094549465346514511449:w [style=dotted,weight="100"];
+}
+subgraph choice175748 {
+color=black;
+nodesep=1;
+choice979999116451171151011144710311410110111610045484511451 [label="portage://acct-user/greetd-0-r3", color=red, width=4,href="../acct-user/greetd-0-r3.svg"];
+dependency243790:e -> choice979999116451171151011144710311410110111610045484511451:w [style=dotted,weight="100"];
+}
+subgraph choice175749 {
+color=black;
+nodesep=1;
+choice11512111545971171161044711297109989711510145575757575757575757 [label="portage://sys-auth/pambase-999999999", color=red, width=4,href="../sys-auth/pambase-999999999.svg"];
+choice115121115459711711610447112971099897115101455048505248495056 [label="portage://sys-auth/pambase-20240128", color=red, width=4,href="../sys-auth/pambase-20240128.svg"];
+choice115121115459711711610447112971099897115101455048505048504952 [label="portage://sys-auth/pambase-20220214", color=red, width=4,href="../sys-auth/pambase-20220214.svg"];
+dependency243791:e -> choice11512111545971171161044711297109989711510145575757575757575757:w [style=dotted,weight="100"];
+dependency243791:e -> choice115121115459711711610447112971099897115101455048505248495056:w [style=dotted,weight="100"];
+dependency243791:e -> choice115121115459711711610447112971099897115101455048505048504952:w [style=dotted,weight="100"];
+}
+subgraph choice175750 {
+color=black;
+nodesep=1;
+choice11512111545108105981154711297109454946544649 [label="portage://sys-libs/pam-1.6.1", color=red, width=4,href="../sys-libs/pam-1.6.1.svg"];
+choice115121115451081059811547112971094549465346514511449 [label="portage://sys-libs/pam-1.5.3-r1", color=red, width=4,href="../sys-libs/pam-1.5.3-r1.svg"];
+dependency243792:e -> choice11512111545108105981154711297109454946544649:w [style=dotted,weight="100"];
+dependency243792:e -> choice115121115451081059811547112971094549465346514511449:w [style=dotted,weight="100"];
+}
+}
+
+}
