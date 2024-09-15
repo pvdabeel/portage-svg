@@ -1,0 +1,129 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+label=<<i>ebuild</i>>;
+id [label="portage://app-crypt/acme-sh-3.0.8", color=red, width=4, href="../app-crypt/acme-sh-3.0.8.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond133169 {
+dependency506075 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>selinux</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack369237 {
+dependency506076 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>sec-policy</TD></TR><TR><TD>selinux-certbot</TD></TR><TR><TD>none</TD></TR><TR><TD>[,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency506075:e -> dependency506076:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency506075:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack369238 {
+dependency506077 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>openssl</TD></TR><TR><TD>none</TD></TR><TR><TD>[,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency506077:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack369239 {
+dependency506078 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>net-misc</TD></TR><TR><TD>curl</TD></TR><TR><TD>none</TD></TR><TR><TD>[,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency506078:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack369240 {
+dependency506079 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>net-misc</TD></TR><TR><TD>socat</TD></TR><TR><TD>none</TD></TR><TR><TD>[,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency506079:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice369237 {
+color=black;
+nodesep=1;
+choice115101994511211110810599121471151011081051101171204599101114116981111164557575757 [label="portage://sec-policy/selinux-certbot-9999", color=red, width=4,href="../sec-policy/selinux-certbot-9999.svg"];
+choice1151019945112111108105991214711510110810511011712045991011141169811111645504650485052485050544511450 [label="portage://sec-policy/selinux-certbot-2.20240226-r2", color=red, width=4,href="../sec-policy/selinux-certbot-2.20240226-r2.svg"];
+choice1151019945112111108105991214711510110810511011712045991011141169811111645504650485052485050544511449 [label="portage://sec-policy/selinux-certbot-2.20240226-r1", color=red, width=4,href="../sec-policy/selinux-certbot-2.20240226-r1.svg"];
+dependency506076:e -> choice115101994511211110810599121471151011081051101171204599101114116981111164557575757:w [style=dotted,weight="100"];
+dependency506076:e -> choice1151019945112111108105991214711510110810511011712045991011141169811111645504650485052485050544511450:w [style=dotted,weight="100"];
+dependency506076:e -> choice1151019945112111108105991214711510110810511011712045991011141169811111645504650485052485050544511449:w [style=dotted,weight="100"];
+}
+subgraph choice369238 {
+color=black;
+nodesep=1;
+choice1001011184510810598115471111121011101151151084551465146494511451 [label="portage://dev-libs/openssl-3.3.1-r3", color=red, width=4,href="../dev-libs/openssl-3.3.1-r3.svg"];
+choice100101118451081059811547111112101110115115108455146504650 [label="portage://dev-libs/openssl-3.2.2", color=red, width=4,href="../dev-libs/openssl-3.2.2.svg"];
+choice100101118451081059811547111112101110115115108455146494654 [label="portage://dev-libs/openssl-3.1.6", color=red, width=4,href="../dev-libs/openssl-3.1.6.svg"];
+choice10010111845108105981154711111210111011511510845514648464952 [label="portage://dev-libs/openssl-3.0.14", color=red, width=4,href="../dev-libs/openssl-3.0.14.svg"];
+choice100101118451081059811547111112101110115115108455146484649514511450 [label="portage://dev-libs/openssl-3.0.13-r2", color=red, width=4,href="../dev-libs/openssl-3.0.13-r2.svg"];
+choice100101118451081059811547111112101110115115108454946494649119 [label="portage://dev-libs/openssl-1.1.1w", color=red, width=4,href="../dev-libs/openssl-1.1.1w.svg"];
+choice1001011184510810598115471111121011101151151084549464846501174511449 [label="portage://dev-libs/openssl-1.0.2u-r1", color=red, width=4,href="../dev-libs/openssl-1.0.2u-r1.svg"];
+dependency506077:e -> choice1001011184510810598115471111121011101151151084551465146494511451:w [style=dotted,weight="100"];
+dependency506077:e -> choice100101118451081059811547111112101110115115108455146504650:w [style=dotted,weight="100"];
+dependency506077:e -> choice100101118451081059811547111112101110115115108455146494654:w [style=dotted,weight="100"];
+dependency506077:e -> choice10010111845108105981154711111210111011511510845514648464952:w [style=dotted,weight="100"];
+dependency506077:e -> choice100101118451081059811547111112101110115115108455146484649514511450:w [style=dotted,weight="100"];
+dependency506077:e -> choice100101118451081059811547111112101110115115108454946494649119:w [style=dotted,weight="100"];
+dependency506077:e -> choice1001011184510810598115471111121011101151151084549464846501174511449:w [style=dotted,weight="100"];
+}
+subgraph choice369239 {
+color=black;
+nodesep=1;
+choice110101116451091051159947991171141084557575757 [label="portage://net-misc/curl-9999", color=red, width=4,href="../net-misc/curl-9999.svg"];
+choice11010111645109105115994799117114108455646494846484511449 [label="portage://net-misc/curl-8.10.0-r1", color=red, width=4,href="../net-misc/curl-8.10.0-r1.svg"];
+choice110101116451091051159947991171141084556465746494511449 [label="portage://net-misc/curl-8.9.1-r1", color=red, width=4,href="../net-misc/curl-8.9.1-r1.svg"];
+choice110101116451091051159947991171141084556465646484511449 [label="portage://net-misc/curl-8.8.0-r1", color=red, width=4,href="../net-misc/curl-8.8.0-r1.svg"];
+choice110101116451091051159947991171141084556465546494511452 [label="portage://net-misc/curl-8.7.1-r4", color=red, width=4,href="../net-misc/curl-8.7.1-r4.svg"];
+dependency506078:e -> choice110101116451091051159947991171141084557575757:w [style=dotted,weight="100"];
+dependency506078:e -> choice11010111645109105115994799117114108455646494846484511449:w [style=dotted,weight="100"];
+dependency506078:e -> choice110101116451091051159947991171141084556465746494511449:w [style=dotted,weight="100"];
+dependency506078:e -> choice110101116451091051159947991171141084556465646484511449:w [style=dotted,weight="100"];
+dependency506078:e -> choice110101116451091051159947991171141084556465546494511452:w [style=dotted,weight="100"];
+}
+subgraph choice369240 {
+color=black;
+nodesep=1;
+choice11010111645109105115994711511199971164549465646484648 [label="portage://net-misc/socat-1.8.0.0", color=red, width=4,href="../net-misc/socat-1.8.0.0.svg"];
+choice110101116451091051159947115111999711645494655465246524511449 [label="portage://net-misc/socat-1.7.4.4-r1", color=red, width=4,href="../net-misc/socat-1.7.4.4-r1.svg"];
+dependency506079:e -> choice11010111645109105115994711511199971164549465646484648:w [style=dotted,weight="100"];
+dependency506079:e -> choice110101116451091051159947115111999711645494655465246524511449:w [style=dotted,weight="100"];
+}
+}
+
+}
