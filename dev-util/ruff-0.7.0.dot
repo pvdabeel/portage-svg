@@ -1,0 +1,131 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+label=<<i>ebuild</i>>;
+id [label="portage://dev-util/ruff-0.7.0", color=red, width=4, href="../dev-util/ruff-0.7.0.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond66420 {
+dependency231404 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>negative</TD></TR><TR><TD>elibc_musl</TD></TR></TABLE>>, shape=none, color=red];
+subgraph cond66421 {
+dependency231409 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>negative</TD></TR><TR><TD>elibc_Darwin</TD></TR></TABLE>>, shape=none, color=red];
+subgraph cond66425 {
+dependency231416 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>negative</TD></TR><TR><TD>elibc_bionic</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack163464 {
+dependency231422 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>jemalloc</TD></TR><TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency231416:e -> dependency231422:w [weight=20,style="dashed",arrowhead="vee"];
+}
+dependency231409:e -> dependency231416:w [weight=20,style="dashed",arrowhead="vee"];
+}
+dependency231404:e -> dependency231409:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency231404:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack163468 {
+dependency231429 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">install</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>zstd</TD></TR><TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency231429:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond66451 {
+dependency231531 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>negative</TD></TR><TR><TD>elibc_musl</TD></TR></TABLE>>, shape=none, color=red];
+subgraph cond66457 {
+dependency231533 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>negative</TD></TR><TR><TD>elibc_Darwin</TD></TR></TABLE>>, shape=none, color=red];
+subgraph cond66459 {
+dependency231551 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>negative</TD></TR><TR><TD>elibc_bionic</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack163558 {
+dependency231608 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>jemalloc</TD></TR><TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency231551:e -> dependency231608:w [weight=20,style="dashed",arrowhead="vee"];
+}
+dependency231533:e -> dependency231551:w [weight=20,style="dashed",arrowhead="vee"];
+}
+dependency231531:e -> dependency231533:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency231531:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack163599 {
+dependency231635 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>zstd</TD></TR><TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency231635:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice162847 {
+color=black;
+nodesep=1;
+choice10010111845108105981154710610110997108108111994553465146484511449 [label="portage://dev-libs/jemalloc-5.3.0-r1", color=red, width=4,href="../dev-libs/jemalloc-5.3.0-r1.svg"];
+dependency231422:e -> choice10010111845108105981154710610110997108108111994553465146484511449:w [style=dotted,weight="100"];
+}
+subgraph choice162859 {
+color=black;
+nodesep=1;
+choice9711211245971149910447122115116100454946534654 [label="portage://app-arch/zstd-1.5.6", color=red, width=4,href="../app-arch/zstd-1.5.6.svg"];
+choice97112112459711499104471221151161004549465346534511449 [label="portage://app-arch/zstd-1.5.5-r1", color=red, width=4,href="../app-arch/zstd-1.5.5-r1.svg"];
+choice9711211245971149910447122115116100454946534653 [label="portage://app-arch/zstd-1.5.5", color=red, width=4,href="../app-arch/zstd-1.5.5.svg"];
+dependency231429:e -> choice9711211245971149910447122115116100454946534654:w [style=dotted,weight="100"];
+dependency231429:e -> choice97112112459711499104471221151161004549465346534511449:w [style=dotted,weight="100"];
+dependency231429:e -> choice9711211245971149910447122115116100454946534653:w [style=dotted,weight="100"];
+}
+subgraph choice162864 {
+color=black;
+nodesep=1;
+choice10010111845108105981154710610110997108108111994553465146484511449 [label="portage://dev-libs/jemalloc-5.3.0-r1", color=red, width=4,href="../dev-libs/jemalloc-5.3.0-r1.svg"];
+dependency231608:e -> choice10010111845108105981154710610110997108108111994553465146484511449:w [style=dotted,weight="100"];
+}
+subgraph choice162875 {
+color=black;
+nodesep=1;
+choice9711211245971149910447122115116100454946534654 [label="portage://app-arch/zstd-1.5.6", color=red, width=4,href="../app-arch/zstd-1.5.6.svg"];
+choice97112112459711499104471221151161004549465346534511449 [label="portage://app-arch/zstd-1.5.5-r1", color=red, width=4,href="../app-arch/zstd-1.5.5-r1.svg"];
+choice9711211245971149910447122115116100454946534653 [label="portage://app-arch/zstd-1.5.5", color=red, width=4,href="../app-arch/zstd-1.5.5.svg"];
+dependency231635:e -> choice9711211245971149910447122115116100454946534654:w [style=dotted,weight="100"];
+dependency231635:e -> choice97112112459711499104471221151161004549465346534511449:w [style=dotted,weight="100"];
+dependency231635:e -> choice9711211245971149910447122115116100454946534653:w [style=dotted,weight="100"];
+}
+}
+
+}

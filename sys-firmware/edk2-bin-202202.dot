@@ -1,0 +1,73 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+label=<<i>ebuild</i>>;
+id [label="portage://sys-firmware/edk2-bin-202202", color=red, width=4, href="../sys-firmware/edk2-bin-202202.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack332907 {
+dependency458796 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-firmware</TD></TR><TR><TD>edk2</TD></TR><TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency458796:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice331702 {
+color=black;
+nodesep=1;
+choice1151211154510210511410911997114101471011001075045504850524856 [label="portage://sys-firmware/edk2-202408", color=red, width=4,href="../sys-firmware/edk2-202408.svg"];
+choice1151211154510210511410911997114101471011001075045504850524853 [label="portage://sys-firmware/edk2-202405", color=red, width=4,href="../sys-firmware/edk2-202405.svg"];
+choice1151211154510210511410911997114101471011001075045504850504850 [label="portage://sys-firmware/edk2-202202", color=red, width=4,href="../sys-firmware/edk2-202202.svg"];
+dependency458796:e -> choice1151211154510210511410911997114101471011001075045504850524856:w [style=dotted,weight="100"];
+dependency458796:e -> choice1151211154510210511410911997114101471011001075045504850524853:w [style=dotted,weight="100"];
+dependency458796:e -> choice1151211154510210511410911997114101471011001075045504850504850:w [style=dotted,weight="100"];
+}
+}
+
+}

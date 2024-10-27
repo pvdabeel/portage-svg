@@ -1,0 +1,117 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+label=<<i>ebuild</i>>;
+id [label="portage://dev-util/git-delta-0.18.2", color=red, width=4, href="../dev-util/git-delta-0.18.2.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack159872 {
+dependency226486 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>oniguruma</TD></TR><TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency226486:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack159904 {
+dependency226519 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">install</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>zlib</TD></TR><TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency226519:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack159907 {
+dependency226525 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>oniguruma</TD></TR><TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency226525:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack159910 {
+dependency226546 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>zlib</TD></TR><TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency226546:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack159996 {
+dependency226696 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>app-text</TD></TR><TR><TD>delta</TD></TR><TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency226696:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice159599 {
+color=black;
+nodesep=1;
+choice100101118451081059811547111110105103117114117109974557575757 [label="portage://dev-libs/oniguruma-9999", color=red, width=4,href="../dev-libs/oniguruma-9999.svg"];
+choice10010111845108105981154711111010510311711411710997455446574657 [label="portage://dev-libs/oniguruma-6.9.9", color=red, width=4,href="../dev-libs/oniguruma-6.9.9.svg"];
+dependency226486:e -> choice100101118451081059811547111110105103117114117109974557575757:w [style=dotted,weight="100"];
+dependency226486:e -> choice10010111845108105981154711111010510311711411710997455446574657:w [style=dotted,weight="100"];
+}
+subgraph choice159604 {
+color=black;
+nodesep=1;
+choice115121115451081059811547122108105984549465146494511449 [label="portage://sys-libs/zlib-1.3.1-r1", color=red, width=4,href="../sys-libs/zlib-1.3.1-r1.svg"];
+choice11512111545108105981154712210810598454946514511452 [label="portage://sys-libs/zlib-1.3-r4", color=red, width=4,href="../sys-libs/zlib-1.3-r4.svg"];
+dependency226519:e -> choice115121115451081059811547122108105984549465146494511449:w [style=dotted,weight="100"];
+dependency226519:e -> choice11512111545108105981154712210810598454946514511452:w [style=dotted,weight="100"];
+}
+subgraph choice159611 {
+color=black;
+nodesep=1;
+choice100101118451081059811547111110105103117114117109974557575757 [label="portage://dev-libs/oniguruma-9999", color=red, width=4,href="../dev-libs/oniguruma-9999.svg"];
+choice10010111845108105981154711111010510311711411710997455446574657 [label="portage://dev-libs/oniguruma-6.9.9", color=red, width=4,href="../dev-libs/oniguruma-6.9.9.svg"];
+dependency226525:e -> choice100101118451081059811547111110105103117114117109974557575757:w [style=dotted,weight="100"];
+dependency226525:e -> choice10010111845108105981154711111010510311711411710997455446574657:w [style=dotted,weight="100"];
+}
+subgraph choice159613 {
+color=black;
+nodesep=1;
+choice115121115451081059811547122108105984549465146494511449 [label="portage://sys-libs/zlib-1.3.1-r1", color=red, width=4,href="../sys-libs/zlib-1.3.1-r1.svg"];
+choice11512111545108105981154712210810598454946514511452 [label="portage://sys-libs/zlib-1.3-r4", color=red, width=4,href="../sys-libs/zlib-1.3-r4.svg"];
+dependency226546:e -> choice115121115451081059811547122108105984549465146494511449:w [style=dotted,weight="100"];
+dependency226546:e -> choice11512111545108105981154712210810598454946514511452:w [style=dotted,weight="100"];
+}
+subgraph choice159617 {
+color=black;
+nodesep=1;
+choice971121124511610112011647100101108116974550484854485648514511449 [label="portage://app-text/delta-20060803-r1", color=red, width=4,href="../app-text/delta-20060803-r1.svg"];
+dependency226696:e -> choice971121124511610112011647100101108116974550484854485648514511449:w [style=dotted,weight="100"];
+}
+}
+
+}

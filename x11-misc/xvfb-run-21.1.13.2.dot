@@ -1,0 +1,81 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+label=<<i>ebuild</i>>;
+id [label="portage://x11-misc/xvfb-run-21.1.13.2", color=red, width=4, href="../x11-misc/xvfb-run-21.1.13.2.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack355073 {
+dependency488811 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>x11-apps</TD></TR><TR><TD>xauth</TD></TR><TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency488811:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack355106 {
+dependency488853 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>x11-base</TD></TR><TR><TD>xorg-server</TD></TR><TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency488853:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice354646 {
+color=black;
+nodesep=1;
+choice120494945971121121154712097117116104454946494651 [label="portage://x11-apps/xauth-1.1.3", color=red, width=4,href="../x11-apps/xauth-1.1.3.svg"];
+dependency488811:e -> choice120494945971121121154712097117116104454946494651:w [style=dotted,weight="100"];
+}
+subgraph choice354649 {
+color=black;
+nodesep=1;
+choice120494945989711510147120111114103451151011141181011144557575757 [label="portage://x11-base/xorg-server-9999", color=red, width=4,href="../x11-base/xorg-server-9999.svg"];
+choice1204949459897115101471201111141034511510111411810111445504946494649514511449 [label="portage://x11-base/xorg-server-21.1.13-r1", color=red, width=4,href="../x11-base/xorg-server-21.1.13-r1.svg"];
+dependency488853:e -> choice120494945989711510147120111114103451151011141181011144557575757:w [style=dotted,weight="100"];
+dependency488853:e -> choice1204949459897115101471201111141034511510111411810111445504946494649514511449:w [style=dotted,weight="100"];
+}
+}
+
+}

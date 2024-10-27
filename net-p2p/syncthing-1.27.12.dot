@@ -1,0 +1,121 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+label=<<i>ebuild</i>>;
+id [label="portage://net-p2p/syncthing-1.27.12", color=red, width=4, href="../net-p2p/syncthing-1.27.12.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond106989 {
+dependency404634 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>selinux</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack294609 {
+dependency404636 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>sec-policy</TD></TR><TR><TD>selinux-syncthing</TD></TR><TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency404634:e -> dependency404636:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency404634:w [weight=20,style="solid",arrowhead="odot"];
+subgraph cond106991 {
+dependency404659 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>tools</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack294641 {
+dependency404691 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>acct-user</TD></TR><TR><TD>stdiscosrv</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>[[1],,,1]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency404659:e -> dependency404691:w [weight=20,style="dashed",arrowhead="vee"];
+subgraph pack294673 {
+dependency404777 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>acct-user</TD></TR><TR><TD>strelaysrv</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>[[1],,,1]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency404659:e -> dependency404777:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency404659:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack294739 {
+dependency404851 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>acct-group</TD></TR><TR><TD>syncthing</TD></TR><TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency404851:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack294778 {
+dependency404997 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>acct-user</TD></TR><TR><TD>syncthing</TD></TR><TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency404997:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice293834 {
+color=black;
+nodesep=1;
+choice1151019945112111108105991214711510110810511011712045115121110991161041051101034557575757 [label="portage://sec-policy/selinux-syncthing-9999", color=red, width=4,href="../sec-policy/selinux-syncthing-9999.svg"];
+choice11510199451121111081059912147115101108105110117120451151211109911610410511010345504650485052485749544511449 [label="portage://sec-policy/selinux-syncthing-2.20240916-r1", color=red, width=4,href="../sec-policy/selinux-syncthing-2.20240916-r1.svg"];
+choice11510199451121111081059912147115101108105110117120451151211109911610410511010345504650485052485050544511450 [label="portage://sec-policy/selinux-syncthing-2.20240226-r2", color=red, width=4,href="../sec-policy/selinux-syncthing-2.20240226-r2.svg"];
+dependency404636:e -> choice1151019945112111108105991214711510110810511011712045115121110991161041051101034557575757:w [style=dotted,weight="100"];
+dependency404636:e -> choice11510199451121111081059912147115101108105110117120451151211109911610410511010345504650485052485749544511449:w [style=dotted,weight="100"];
+dependency404636:e -> choice11510199451121111081059912147115101108105110117120451151211109911610410511010345504650485052485050544511450:w [style=dotted,weight="100"];
+}
+subgraph choice293842 {
+color=black;
+nodesep=1;
+choice97999911645117115101114471151161001051159911111511411845494511449 [label="portage://acct-user/stdiscosrv-1-r1", color=red, width=4,href="../acct-user/stdiscosrv-1-r1.svg"];
+dependency404691:e -> choice97999911645117115101114471151161001051159911111511411845494511449:w [style=dotted,weight="100"];
+}
+subgraph choice293844 {
+color=black;
+nodesep=1;
+choice97999911645117115101114471151161141011089712111511411845494511449 [label="portage://acct-user/strelaysrv-1-r1", color=red, width=4,href="../acct-user/strelaysrv-1-r1.svg"];
+dependency404777:e -> choice97999911645117115101114471151161141011089712111511411845494511449:w [style=dotted,weight="100"];
+}
+subgraph choice293846 {
+color=black;
+nodesep=1;
+choice97999911645103114111117112471151211109911610410511010345484511451 [label="portage://acct-group/syncthing-0-r3", color=red, width=4,href="../acct-group/syncthing-0-r3.svg"];
+dependency404851:e -> choice97999911645103114111117112471151211109911610410511010345484511451:w [style=dotted,weight="100"];
+}
+subgraph choice293890 {
+color=black;
+nodesep=1;
+choice97999911645117115101114471151211109911610410511010345484511451 [label="portage://acct-user/syncthing-0-r3", color=red, width=4,href="../acct-user/syncthing-0-r3.svg"];
+dependency404997:e -> choice97999911645117115101114471151211109911610410511010345484511451:w [style=dotted,weight="100"];
+}
+}
+
+}

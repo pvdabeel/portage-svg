@@ -1,0 +1,167 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+label=<<i>ebuild</i>>;
+id [label="portage://net-libs/libsrtp-2.6.0", color=red, width=4, href="../net-libs/libsrtp-2.6.0.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond100680 {
+dependency384202 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>nss</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack280568 {
+dependency384207 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>nss</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>[[3,52],,,3.52]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency384202:e -> dependency384207:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency384202:w [weight=20,style="solid",arrowhead="vee"];
+subgraph cond100695 {
+dependency384271 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>openssl</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack280611 {
+dependency384273 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>openssl</TD></TR><TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency384271:e -> dependency384273:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency384271:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond100726 {
+dependency384308 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>nss</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack280639 {
+dependency384327 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>nss</TD></TR><TR><TD>greaterequal</TD></TR><TR><TD>[[3,52],,,3.52]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency384308:e -> dependency384327:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency384308:w [weight=20,style="solid",arrowhead="odot"];
+subgraph cond100737 {
+dependency384350 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>openssl</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack280670 {
+dependency384437 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>openssl</TD></TR><TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency384350:e -> dependency384437:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency384350:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice280114 {
+color=black;
+nodesep=1;
+choice100101118451081059811547110115115455146494854 [label="portage://dev-libs/nss-3.106", color=red, width=4,href="../dev-libs/nss-3.106.svg"];
+choice100101118451081059811547110115115455146494853 [label="portage://dev-libs/nss-3.105", color=red, width=4,href="../dev-libs/nss-3.105.svg"];
+choice1001011184510810598115471101151154551464948494650 [label="portage://dev-libs/nss-3.101.2", color=red, width=4,href="../dev-libs/nss-3.101.2.svg"];
+choice100101118451081059811547110115115455146574846504511449 [label="portage://dev-libs/nss-3.90.2-r1", color=red, width=4,href="../dev-libs/nss-3.90.2-r1.svg"];
+dependency384207:e -> choice100101118451081059811547110115115455146494854:w [style=dotted,weight="100"];
+dependency384207:e -> choice100101118451081059811547110115115455146494853:w [style=dotted,weight="100"];
+dependency384207:e -> choice1001011184510810598115471101151154551464948494650:w [style=dotted,weight="100"];
+dependency384207:e -> choice100101118451081059811547110115115455146574846504511449:w [style=dotted,weight="100"];
+}
+subgraph choice280148 {
+color=black;
+nodesep=1;
+choice100101118451081059811547111112101110115115108455146514650 [label="portage://dev-libs/openssl-3.3.2", color=red, width=4,href="../dev-libs/openssl-3.3.2.svg"];
+choice1001011184510810598115471111121011101151151084551465146494511451 [label="portage://dev-libs/openssl-3.3.1-r3", color=red, width=4,href="../dev-libs/openssl-3.3.1-r3.svg"];
+choice100101118451081059811547111112101110115115108455146504651 [label="portage://dev-libs/openssl-3.2.3", color=red, width=4,href="../dev-libs/openssl-3.2.3.svg"];
+choice100101118451081059811547111112101110115115108455146504650 [label="portage://dev-libs/openssl-3.2.2", color=red, width=4,href="../dev-libs/openssl-3.2.2.svg"];
+choice100101118451081059811547111112101110115115108455146494655 [label="portage://dev-libs/openssl-3.1.7", color=red, width=4,href="../dev-libs/openssl-3.1.7.svg"];
+choice100101118451081059811547111112101110115115108455146494654 [label="portage://dev-libs/openssl-3.1.6", color=red, width=4,href="../dev-libs/openssl-3.1.6.svg"];
+choice10010111845108105981154711111210111011511510845514648464953 [label="portage://dev-libs/openssl-3.0.15", color=red, width=4,href="../dev-libs/openssl-3.0.15.svg"];
+choice10010111845108105981154711111210111011511510845514648464952 [label="portage://dev-libs/openssl-3.0.14", color=red, width=4,href="../dev-libs/openssl-3.0.14.svg"];
+choice100101118451081059811547111112101110115115108455146484649514511450 [label="portage://dev-libs/openssl-3.0.13-r2", color=red, width=4,href="../dev-libs/openssl-3.0.13-r2.svg"];
+choice100101118451081059811547111112101110115115108454946494649119 [label="portage://dev-libs/openssl-1.1.1w", color=red, width=4,href="../dev-libs/openssl-1.1.1w.svg"];
+choice1001011184510810598115471111121011101151151084549464846501174511449 [label="portage://dev-libs/openssl-1.0.2u-r1", color=red, width=4,href="../dev-libs/openssl-1.0.2u-r1.svg"];
+dependency384273:e -> choice100101118451081059811547111112101110115115108455146514650:w [style=dotted,weight="100"];
+dependency384273:e -> choice1001011184510810598115471111121011101151151084551465146494511451:w [style=dotted,weight="100"];
+dependency384273:e -> choice100101118451081059811547111112101110115115108455146504651:w [style=dotted,weight="100"];
+dependency384273:e -> choice100101118451081059811547111112101110115115108455146504650:w [style=dotted,weight="100"];
+dependency384273:e -> choice100101118451081059811547111112101110115115108455146494655:w [style=dotted,weight="100"];
+dependency384273:e -> choice100101118451081059811547111112101110115115108455146494654:w [style=dotted,weight="100"];
+dependency384273:e -> choice10010111845108105981154711111210111011511510845514648464953:w [style=dotted,weight="100"];
+dependency384273:e -> choice10010111845108105981154711111210111011511510845514648464952:w [style=dotted,weight="100"];
+dependency384273:e -> choice100101118451081059811547111112101110115115108455146484649514511450:w [style=dotted,weight="100"];
+dependency384273:e -> choice100101118451081059811547111112101110115115108454946494649119:w [style=dotted,weight="100"];
+dependency384273:e -> choice1001011184510810598115471111121011101151151084549464846501174511449:w [style=dotted,weight="100"];
+}
+subgraph choice280157 {
+color=black;
+nodesep=1;
+choice100101118451081059811547110115115455146494854 [label="portage://dev-libs/nss-3.106", color=red, width=4,href="../dev-libs/nss-3.106.svg"];
+choice100101118451081059811547110115115455146494853 [label="portage://dev-libs/nss-3.105", color=red, width=4,href="../dev-libs/nss-3.105.svg"];
+choice1001011184510810598115471101151154551464948494650 [label="portage://dev-libs/nss-3.101.2", color=red, width=4,href="../dev-libs/nss-3.101.2.svg"];
+choice100101118451081059811547110115115455146574846504511449 [label="portage://dev-libs/nss-3.90.2-r1", color=red, width=4,href="../dev-libs/nss-3.90.2-r1.svg"];
+dependency384327:e -> choice100101118451081059811547110115115455146494854:w [style=dotted,weight="100"];
+dependency384327:e -> choice100101118451081059811547110115115455146494853:w [style=dotted,weight="100"];
+dependency384327:e -> choice1001011184510810598115471101151154551464948494650:w [style=dotted,weight="100"];
+dependency384327:e -> choice100101118451081059811547110115115455146574846504511449:w [style=dotted,weight="100"];
+}
+subgraph choice280161 {
+color=black;
+nodesep=1;
+choice100101118451081059811547111112101110115115108455146514650 [label="portage://dev-libs/openssl-3.3.2", color=red, width=4,href="../dev-libs/openssl-3.3.2.svg"];
+choice1001011184510810598115471111121011101151151084551465146494511451 [label="portage://dev-libs/openssl-3.3.1-r3", color=red, width=4,href="../dev-libs/openssl-3.3.1-r3.svg"];
+choice100101118451081059811547111112101110115115108455146504651 [label="portage://dev-libs/openssl-3.2.3", color=red, width=4,href="../dev-libs/openssl-3.2.3.svg"];
+choice100101118451081059811547111112101110115115108455146504650 [label="portage://dev-libs/openssl-3.2.2", color=red, width=4,href="../dev-libs/openssl-3.2.2.svg"];
+choice100101118451081059811547111112101110115115108455146494655 [label="portage://dev-libs/openssl-3.1.7", color=red, width=4,href="../dev-libs/openssl-3.1.7.svg"];
+choice100101118451081059811547111112101110115115108455146494654 [label="portage://dev-libs/openssl-3.1.6", color=red, width=4,href="../dev-libs/openssl-3.1.6.svg"];
+choice10010111845108105981154711111210111011511510845514648464953 [label="portage://dev-libs/openssl-3.0.15", color=red, width=4,href="../dev-libs/openssl-3.0.15.svg"];
+choice10010111845108105981154711111210111011511510845514648464952 [label="portage://dev-libs/openssl-3.0.14", color=red, width=4,href="../dev-libs/openssl-3.0.14.svg"];
+choice100101118451081059811547111112101110115115108455146484649514511450 [label="portage://dev-libs/openssl-3.0.13-r2", color=red, width=4,href="../dev-libs/openssl-3.0.13-r2.svg"];
+choice100101118451081059811547111112101110115115108454946494649119 [label="portage://dev-libs/openssl-1.1.1w", color=red, width=4,href="../dev-libs/openssl-1.1.1w.svg"];
+choice1001011184510810598115471111121011101151151084549464846501174511449 [label="portage://dev-libs/openssl-1.0.2u-r1", color=red, width=4,href="../dev-libs/openssl-1.0.2u-r1.svg"];
+dependency384437:e -> choice100101118451081059811547111112101110115115108455146514650:w [style=dotted,weight="100"];
+dependency384437:e -> choice1001011184510810598115471111121011101151151084551465146494511451:w [style=dotted,weight="100"];
+dependency384437:e -> choice100101118451081059811547111112101110115115108455146504651:w [style=dotted,weight="100"];
+dependency384437:e -> choice100101118451081059811547111112101110115115108455146504650:w [style=dotted,weight="100"];
+dependency384437:e -> choice100101118451081059811547111112101110115115108455146494655:w [style=dotted,weight="100"];
+dependency384437:e -> choice100101118451081059811547111112101110115115108455146494654:w [style=dotted,weight="100"];
+dependency384437:e -> choice10010111845108105981154711111210111011511510845514648464953:w [style=dotted,weight="100"];
+dependency384437:e -> choice10010111845108105981154711111210111011511510845514648464952:w [style=dotted,weight="100"];
+dependency384437:e -> choice100101118451081059811547111112101110115115108455146484649514511450:w [style=dotted,weight="100"];
+dependency384437:e -> choice100101118451081059811547111112101110115115108454946494649119:w [style=dotted,weight="100"];
+dependency384437:e -> choice1001011184510810598115471111121011101151151084549464846501174511449:w [style=dotted,weight="100"];
+}
+}
+
+}

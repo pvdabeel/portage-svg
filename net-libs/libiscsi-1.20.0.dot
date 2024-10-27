@@ -1,0 +1,145 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+label=<<i>ebuild</i>>;
+id [label="portage://net-libs/libiscsi-1.20.0", color=red, width=4, href="../net-libs/libiscsi-1.20.0.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond100451 {
+dependency383415 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>rdma</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack280008 {
+dependency383455 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">install</TD></TR><TR><TD>sys-cluster</TD></TR><TR><TD>rdma-core</TD></TR><TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency383415:e -> dependency383455:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency383415:w [weight=20,style="solid",arrowhead="vee"];
+subgraph cond100468 {
+dependency383460 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>test</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack280040 {
+dependency383463 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-util</TD></TR><TR><TD>cunit</TD></TR><TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency383460:e -> dependency383463:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency383460:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack280042 {
+dependency383465 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libgcrypt</TD></TR><TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency383465:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph cond100473 {
+dependency383468 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>rdma</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack280059 {
+dependency383547 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-cluster</TD></TR><TR><TD>rdma-core</TD></TR><TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency383468:e -> dependency383547:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency383468:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack280100 {
+dependency383551 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libgcrypt</TD></TR><TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency383551:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice279491 {
+color=black;
+nodesep=1;
+choice1151211154599108117115116101114471141001099745991111141014557575757 [label="portage://sys-cluster/rdma-core-9999", color=red, width=4,href="../sys-cluster/rdma-core-9999.svg"];
+choice11512111545991081171151161011144711410010997459911111410145534846484511449 [label="portage://sys-cluster/rdma-core-50.0-r1", color=red, width=4,href="../sys-cluster/rdma-core-50.0-r1.svg"];
+choice1151211154599108117115116101114471141001099745991111141014553484648 [label="portage://sys-cluster/rdma-core-50.0", color=red, width=4,href="../sys-cluster/rdma-core-50.0.svg"];
+dependency383455:e -> choice1151211154599108117115116101114471141001099745991111141014557575757:w [style=dotted,weight="100"];
+dependency383455:e -> choice11512111545991081171151161011144711410010997459911111410145534846484511449:w [style=dotted,weight="100"];
+dependency383455:e -> choice1151211154599108117115116101114471141001099745991111141014553484648:w [style=dotted,weight="100"];
+}
+subgraph choice279496 {
+color=black;
+nodesep=1;
+choice1001011184511711610510847991171101051164550464995112514511449 [label="portage://dev-util/cunit-2.1_p3-r1", color=red, width=4,href="../dev-util/cunit-2.1_p3-r1.svg"];
+dependency383463:e -> choice1001011184511711610510847991171101051164550464995112514511449:w [style=dotted,weight="100"];
+}
+subgraph choice279536 {
+color=black;
+nodesep=1;
+choice1001011184510810598115471081059810399114121112116454946494946484511449 [label="portage://dev-libs/libgcrypt-1.11.0-r1", color=red, width=4,href="../dev-libs/libgcrypt-1.11.0-r1.svg"];
+choice100101118451081059811547108105981039911412111211645494649494648 [label="portage://dev-libs/libgcrypt-1.11.0", color=red, width=4,href="../dev-libs/libgcrypt-1.11.0.svg"];
+choice1001011184510810598115471081059810399114121112116454946494846514511450 [label="portage://dev-libs/libgcrypt-1.10.3-r2", color=red, width=4,href="../dev-libs/libgcrypt-1.10.3-r2.svg"];
+choice1001011184510810598115471081059810399114121112116454946494846514511449 [label="portage://dev-libs/libgcrypt-1.10.3-r1", color=red, width=4,href="../dev-libs/libgcrypt-1.10.3-r1.svg"];
+choice100101118451081059811547108105981039911412111211645494649484650 [label="portage://dev-libs/libgcrypt-1.10.2", color=red, width=4,href="../dev-libs/libgcrypt-1.10.2.svg"];
+dependency383465:e -> choice1001011184510810598115471081059810399114121112116454946494946484511449:w [style=dotted,weight="100"];
+dependency383465:e -> choice100101118451081059811547108105981039911412111211645494649494648:w [style=dotted,weight="100"];
+dependency383465:e -> choice1001011184510810598115471081059810399114121112116454946494846514511450:w [style=dotted,weight="100"];
+dependency383465:e -> choice1001011184510810598115471081059810399114121112116454946494846514511449:w [style=dotted,weight="100"];
+dependency383465:e -> choice100101118451081059811547108105981039911412111211645494649484650:w [style=dotted,weight="100"];
+}
+subgraph choice279541 {
+color=black;
+nodesep=1;
+choice1151211154599108117115116101114471141001099745991111141014557575757 [label="portage://sys-cluster/rdma-core-9999", color=red, width=4,href="../sys-cluster/rdma-core-9999.svg"];
+choice11512111545991081171151161011144711410010997459911111410145534846484511449 [label="portage://sys-cluster/rdma-core-50.0-r1", color=red, width=4,href="../sys-cluster/rdma-core-50.0-r1.svg"];
+choice1151211154599108117115116101114471141001099745991111141014553484648 [label="portage://sys-cluster/rdma-core-50.0", color=red, width=4,href="../sys-cluster/rdma-core-50.0.svg"];
+dependency383547:e -> choice1151211154599108117115116101114471141001099745991111141014557575757:w [style=dotted,weight="100"];
+dependency383547:e -> choice11512111545991081171151161011144711410010997459911111410145534846484511449:w [style=dotted,weight="100"];
+dependency383547:e -> choice1151211154599108117115116101114471141001099745991111141014553484648:w [style=dotted,weight="100"];
+}
+subgraph choice279545 {
+color=black;
+nodesep=1;
+choice1001011184510810598115471081059810399114121112116454946494946484511449 [label="portage://dev-libs/libgcrypt-1.11.0-r1", color=red, width=4,href="../dev-libs/libgcrypt-1.11.0-r1.svg"];
+choice100101118451081059811547108105981039911412111211645494649494648 [label="portage://dev-libs/libgcrypt-1.11.0", color=red, width=4,href="../dev-libs/libgcrypt-1.11.0.svg"];
+choice1001011184510810598115471081059810399114121112116454946494846514511450 [label="portage://dev-libs/libgcrypt-1.10.3-r2", color=red, width=4,href="../dev-libs/libgcrypt-1.10.3-r2.svg"];
+choice1001011184510810598115471081059810399114121112116454946494846514511449 [label="portage://dev-libs/libgcrypt-1.10.3-r1", color=red, width=4,href="../dev-libs/libgcrypt-1.10.3-r1.svg"];
+choice100101118451081059811547108105981039911412111211645494649484650 [label="portage://dev-libs/libgcrypt-1.10.2", color=red, width=4,href="../dev-libs/libgcrypt-1.10.2.svg"];
+dependency383551:e -> choice1001011184510810598115471081059810399114121112116454946494946484511449:w [style=dotted,weight="100"];
+dependency383551:e -> choice100101118451081059811547108105981039911412111211645494649494648:w [style=dotted,weight="100"];
+dependency383551:e -> choice1001011184510810598115471081059810399114121112116454946494846514511450:w [style=dotted,weight="100"];
+dependency383551:e -> choice1001011184510810598115471081059810399114121112116454946494846514511449:w [style=dotted,weight="100"];
+dependency383551:e -> choice100101118451081059811547108105981039911412111211645494649484650:w [style=dotted,weight="100"];
+}
+}
+
+}

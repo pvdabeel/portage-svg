@@ -1,0 +1,143 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+label=<<i>ebuild</i>>;
+id [label="portage://dev-python/uv-0.4.22", color=red, width=4, href="../dev-python/uv-0.4.22.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack128993 {
+dependency174261 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">install</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>bzip2</TD></TR><TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency174261:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack129005 {
+dependency174278 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">install</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>xz-utils</TD></TR><TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency174278:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack129020 {
+dependency174317 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">install</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>zstd</TD></TR><TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency174317:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack129048 {
+dependency174369 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>bzip2</TD></TR><TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency174369:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack129063 {
+dependency174393 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>xz-utils</TD></TR><TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency174393:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack129072 {
+dependency174410 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>zstd</TD></TR><TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency174410:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice128816 {
+color=black;
+nodesep=1;
+choice971121124597114991044798122105112504557575757 [label="portage://app-arch/bzip2-9999", color=red, width=4,href="../app-arch/bzip2-9999.svg"];
+choice971121124597114991044798122105112504549464846564511453 [label="portage://app-arch/bzip2-1.0.8-r5", color=red, width=4,href="../app-arch/bzip2-1.0.8-r5.svg"];
+dependency174261:e -> choice971121124597114991044798122105112504557575757:w [style=dotted,weight="100"];
+dependency174261:e -> choice971121124597114991044798122105112504549464846564511453:w [style=dotted,weight="100"];
+}
+subgraph choice128900 {
+color=black;
+nodesep=1;
+choice9711211245971149910447120122451171161051081154557575757 [label="portage://app-arch/xz-utils-9999", color=red, width=4,href="../app-arch/xz-utils-9999.svg"];
+choice971121124597114991044712012245117116105108115455346544651 [label="portage://app-arch/xz-utils-5.6.3", color=red, width=4,href="../app-arch/xz-utils-5.6.3.svg"];
+choice9711211245971149910447120122451171161051081154553465446504511449 [label="portage://app-arch/xz-utils-5.6.2-r1", color=red, width=4,href="../app-arch/xz-utils-5.6.2-r1.svg"];
+choice9711211245971149910447120122451171161051081154553465246554511449 [label="portage://app-arch/xz-utils-5.4.7-r1", color=red, width=4,href="../app-arch/xz-utils-5.4.7-r1.svg"];
+dependency174278:e -> choice9711211245971149910447120122451171161051081154557575757:w [style=dotted,weight="100"];
+dependency174278:e -> choice971121124597114991044712012245117116105108115455346544651:w [style=dotted,weight="100"];
+dependency174278:e -> choice9711211245971149910447120122451171161051081154553465446504511449:w [style=dotted,weight="100"];
+dependency174278:e -> choice9711211245971149910447120122451171161051081154553465246554511449:w [style=dotted,weight="100"];
+}
+subgraph choice128918 {
+color=black;
+nodesep=1;
+choice9711211245971149910447122115116100454946534654 [label="portage://app-arch/zstd-1.5.6", color=red, width=4,href="../app-arch/zstd-1.5.6.svg"];
+choice97112112459711499104471221151161004549465346534511449 [label="portage://app-arch/zstd-1.5.5-r1", color=red, width=4,href="../app-arch/zstd-1.5.5-r1.svg"];
+choice9711211245971149910447122115116100454946534653 [label="portage://app-arch/zstd-1.5.5", color=red, width=4,href="../app-arch/zstd-1.5.5.svg"];
+dependency174317:e -> choice9711211245971149910447122115116100454946534654:w [style=dotted,weight="100"];
+dependency174317:e -> choice97112112459711499104471221151161004549465346534511449:w [style=dotted,weight="100"];
+dependency174317:e -> choice9711211245971149910447122115116100454946534653:w [style=dotted,weight="100"];
+}
+subgraph choice128924 {
+color=black;
+nodesep=1;
+choice971121124597114991044798122105112504557575757 [label="portage://app-arch/bzip2-9999", color=red, width=4,href="../app-arch/bzip2-9999.svg"];
+choice971121124597114991044798122105112504549464846564511453 [label="portage://app-arch/bzip2-1.0.8-r5", color=red, width=4,href="../app-arch/bzip2-1.0.8-r5.svg"];
+dependency174369:e -> choice971121124597114991044798122105112504557575757:w [style=dotted,weight="100"];
+dependency174369:e -> choice971121124597114991044798122105112504549464846564511453:w [style=dotted,weight="100"];
+}
+subgraph choice128970 {
+color=black;
+nodesep=1;
+choice9711211245971149910447120122451171161051081154557575757 [label="portage://app-arch/xz-utils-9999", color=red, width=4,href="../app-arch/xz-utils-9999.svg"];
+choice971121124597114991044712012245117116105108115455346544651 [label="portage://app-arch/xz-utils-5.6.3", color=red, width=4,href="../app-arch/xz-utils-5.6.3.svg"];
+choice9711211245971149910447120122451171161051081154553465446504511449 [label="portage://app-arch/xz-utils-5.6.2-r1", color=red, width=4,href="../app-arch/xz-utils-5.6.2-r1.svg"];
+choice9711211245971149910447120122451171161051081154553465246554511449 [label="portage://app-arch/xz-utils-5.4.7-r1", color=red, width=4,href="../app-arch/xz-utils-5.4.7-r1.svg"];
+dependency174393:e -> choice9711211245971149910447120122451171161051081154557575757:w [style=dotted,weight="100"];
+dependency174393:e -> choice971121124597114991044712012245117116105108115455346544651:w [style=dotted,weight="100"];
+dependency174393:e -> choice9711211245971149910447120122451171161051081154553465446504511449:w [style=dotted,weight="100"];
+dependency174393:e -> choice9711211245971149910447120122451171161051081154553465246554511449:w [style=dotted,weight="100"];
+}
+subgraph choice128977 {
+color=black;
+nodesep=1;
+choice9711211245971149910447122115116100454946534654 [label="portage://app-arch/zstd-1.5.6", color=red, width=4,href="../app-arch/zstd-1.5.6.svg"];
+choice97112112459711499104471221151161004549465346534511449 [label="portage://app-arch/zstd-1.5.5-r1", color=red, width=4,href="../app-arch/zstd-1.5.5-r1.svg"];
+choice9711211245971149910447122115116100454946534653 [label="portage://app-arch/zstd-1.5.5", color=red, width=4,href="../app-arch/zstd-1.5.5.svg"];
+dependency174410:e -> choice9711211245971149910447122115116100454946534654:w [style=dotted,weight="100"];
+dependency174410:e -> choice97112112459711499104471221151161004549465346534511449:w [style=dotted,weight="100"];
+dependency174410:e -> choice9711211245971149910447122115116100454946534653:w [style=dotted,weight="100"];
+}
+}
+
+}

@@ -1,0 +1,99 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+label=<<i>ebuild</i>>;
+id [label="portage://kde-plasma/breeze-plymouth-6.2.2", color=red, width=4, href="../kde-plasma/breeze-plymouth-6.2.2.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph pack212406 {
+dependency288581 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">install</TD></TR><TR><TD>sys-boot</TD></TR><TR><TD>plymouth</TD></TR><TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency288581:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack212450 {
+dependency288615 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-boot</TD></TR><TR><TD>plymouth</TD></TR><TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency288615:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack212484 {
+dependency288619 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>breeze-plymouth</TD></TR><TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency288619:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice211554 {
+color=black;
+nodesep=1;
+choice1151211154598111111116471121081211091111171161044557575757 [label="portage://sys-boot/plymouth-9999", color=red, width=4,href="../sys-boot/plymouth-9999.svg"];
+choice115121115459811111111647112108121109111117116104455052464848524654484511449 [label="portage://sys-boot/plymouth-24.004.60-r1", color=red, width=4,href="../sys-boot/plymouth-24.004.60-r1.svg"];
+choice115121115459811111111647112108121109111117116104455050464850464950504511451 [label="portage://sys-boot/plymouth-22.02.122-r3", color=red, width=4,href="../sys-boot/plymouth-22.02.122-r3.svg"];
+dependency288581:e -> choice1151211154598111111116471121081211091111171161044557575757:w [style=dotted,weight="100"];
+dependency288581:e -> choice115121115459811111111647112108121109111117116104455052464848524654484511449:w [style=dotted,weight="100"];
+dependency288581:e -> choice115121115459811111111647112108121109111117116104455050464850464950504511451:w [style=dotted,weight="100"];
+}
+subgraph choice211598 {
+color=black;
+nodesep=1;
+choice1151211154598111111116471121081211091111171161044557575757 [label="portage://sys-boot/plymouth-9999", color=red, width=4,href="../sys-boot/plymouth-9999.svg"];
+choice115121115459811111111647112108121109111117116104455052464848524654484511449 [label="portage://sys-boot/plymouth-24.004.60-r1", color=red, width=4,href="../sys-boot/plymouth-24.004.60-r1.svg"];
+choice115121115459811111111647112108121109111117116104455050464850464950504511451 [label="portage://sys-boot/plymouth-22.02.122-r3", color=red, width=4,href="../sys-boot/plymouth-22.02.122-r3.svg"];
+dependency288615:e -> choice1151211154598111111116471121081211091111171161044557575757:w [style=dotted,weight="100"];
+dependency288615:e -> choice115121115459811111111647112108121109111117116104455052464848524654484511449:w [style=dotted,weight="100"];
+dependency288615:e -> choice115121115459811111111647112108121109111117116104455050464850464950504511451:w [style=dotted,weight="100"];
+}
+subgraph choice211624 {
+color=black;
+nodesep=1;
+choice107100101451121089711510997479811410110112210145112108121109111117116104455446504650 [label="portage://kde-plasma/breeze-plymouth-6.2.2", color=red, width=4,href="../kde-plasma/breeze-plymouth-6.2.2.svg"];
+choice107100101451121089711510997479811410110112210145112108121109111117116104455446494653 [label="portage://kde-plasma/breeze-plymouth-6.1.5", color=red, width=4,href="../kde-plasma/breeze-plymouth-6.1.5.svg"];
+dependency288619:e -> choice107100101451121089711510997479811410110112210145112108121109111117116104455446504650:w [style=dotted,weight="100"];
+dependency288619:e -> choice107100101451121089711510997479811410110112210145112108121109111117116104455446494653:w [style=dotted,weight="100"];
+}
+}
+
+}

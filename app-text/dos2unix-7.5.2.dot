@@ -1,0 +1,115 @@
+digraph prolog {
+
+# *************
+# Graph options
+# *************
+
+newrank=true;
+concentrate=true;
+compound=true;
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];#, ranksep=2.5, nodesep=0.2];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+color=gray;
+label=<<i>ebuild</i>>;
+id [label="portage://app-text/dos2unix-7.5.2", color=red, width=4, href="../app-text/dos2unix-7.5.2.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+color=gray;
+label=<<i>dependencies</i>>;
+subgraph cluster_compile {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile</i>>;
+subgraph cond16274 {
+dependency56743 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR><TR><TD>positive</TD></TR><TR><TD>test</TD></TR></TABLE>>, shape=none, color=red];
+subgraph pack39918 {
+dependency56756 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">install</TD></TR><TR><TD>virtual</TD></TR><TR><TD>perl-Test-Simple</TD></TR><TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+dependency56743:e -> dependency56756:w [weight=20,style="dashed",arrowhead="vee"];
+}
+id:e -> dependency56743:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack39922 {
+dependency56770 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">install</TD></TR><TR><TD>virtual</TD></TR><TR><TD>libintl</TD></TR><TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency56770:w [weight=20,style="solid",arrowhead="vee"];
+subgraph pack39952 {
+dependency56796 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">install</TD></TR><TR><TD>app-text</TD></TR><TR><TD>hd2u</TD></TR><TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency56796:w [weight=20,style="solid",arrowhead="vee"];
+}
+subgraph cluster_compileandrun {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>compile and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph pack39959 {
+dependency56804 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>virtual</TD></TR><TR><TD>libintl</TD></TR><TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency56804:w [weight=20,style="solid",arrowhead="odot"];
+subgraph pack39961 {
+dependency56808 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR><TR><TD WIDTH="110">run</TD></TR><TR><TD>app-text</TD></TR><TR><TD>hd2u</TD></TR><TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> dependency56808:w [weight=20,style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+color=gray;
+label=<<i>candidates</i>>;
+
+subgraph choice38672 {
+color=black;
+nodesep=1;
+choice11810511411611797108471121011141084584101115116458310510911210810145494651485046495757 [label="portage://virtual/perl-Test-Simple-1.302.199", color=red, width=4,href="../virtual/perl-Test-Simple-1.302.199.svg"];
+choice11810511411611797108471121011141084584101115116458310510911210810145494651485046495754 [label="portage://virtual/perl-Test-Simple-1.302.196", color=red, width=4,href="../virtual/perl-Test-Simple-1.302.196.svg"];
+dependency56756:e -> choice11810511411611797108471121011141084584101115116458310510911210810145494651485046495757:w [style=dotted,weight="100"];
+dependency56756:e -> choice11810511411611797108471121011141084584101115116458310510911210810145494651485046495754:w [style=dotted,weight="100"];
+}
+subgraph choice38677 {
+color=black;
+nodesep=1;
+choice11810511411611797108471081059810511011610845484511450 [label="portage://virtual/libintl-0-r2", color=red, width=4,href="../virtual/libintl-0-r2.svg"];
+dependency56770:e -> choice11810511411611797108471081059810511011610845484511450:w [style=dotted,weight="100"];
+}
+subgraph choice38680 {
+color=black;
+nodesep=1;
+choice97112112451161011201164710410050117454946484651 [label="portage://app-text/hd2u-1.0.3", color=red, width=4,href="../app-text/hd2u-1.0.3.svg"];
+dependency56796:e -> choice97112112451161011201164710410050117454946484651:w [style=dotted,weight="100"];
+}
+subgraph choice38712 {
+color=black;
+nodesep=1;
+choice11810511411611797108471081059810511011610845484511450 [label="portage://virtual/libintl-0-r2", color=red, width=4,href="../virtual/libintl-0-r2.svg"];
+dependency56804:e -> choice11810511411611797108471081059810511011610845484511450:w [style=dotted,weight="100"];
+}
+subgraph choice38713 {
+color=black;
+nodesep=1;
+choice97112112451161011201164710410050117454946484651 [label="portage://app-text/hd2u-1.0.3", color=red, width=4,href="../app-text/hd2u-1.0.3.svg"];
+dependency56808:e -> choice97112112451161011201164710410050117454946484651:w [style=dotted,weight="100"];
+}
+}
+
+}
