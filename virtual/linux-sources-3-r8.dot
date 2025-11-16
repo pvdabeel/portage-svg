@@ -1,0 +1,692 @@
+digraph prolog {
+
+newrank=true;
+concentrate=true;
+compound=true;
+
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+graph [labelloc=t, labeljust=l, fontcolor=blue, fontname=Helvetica, fontsize=10, label=<<TABLE BORDER='0' CELLBORDER='1' CELLSPACING='0' CELLPADDING='6'><TR><TD COLSPAN='3'><FONT COLOR='black'><B>navigation</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='7'><FONT COLOR='black'><B>dependency graph</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='4'><FONT COLOR='black'><B>version control</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='3'><FONT COLOR='black'><B>command line</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='1'><FONT COLOR='black'><B>legacy</B></FONT></TD></TR><TR><TD title="repository" href="../index.html">portage</TD><TD title="repository" href="./index.html">virtual</TD><TD title="repository" href="./linux-sources.html">linux-sources</TD><TD BORDER='0'></TD><TD title="portage://virtual/linux-sources-3-r8" href="../virtual/linux-sources-3-r8.svg"><u>detail</u></TD><TD title="portage://virtual/linux-sources-3-r8" href="../virtual/linux-sources-3-r8-bdepend.svg">bdepend</TD><TD title="portage://virtual/linux-sources-3-r8" href="../virtual/linux-sources-3-r8-cdepend.svg">cdepend</TD><TD title="portage://virtual/linux-sources-3-r8" href="../virtual/linux-sources-3-r8-depend.svg">depend</TD><TD title="portage://virtual/linux-sources-3-r8" href="../virtual/linux-sources-3-r8-idepend.svg">idepend</TD><TD title="portage://virtual/linux-sources-3-r8" href="../virtual/linux-sources-3-r8-rdepend.svg">rdepend</TD><TD title="portage://virtual/linux-sources-3-r8" href="../virtual/linux-sources-3-r8-pdepend.svg">pdepend</TD><TD BORDER='0'></TD><TD><FONT color="gray">&lt;&lt; newest</FONT></TD><TD><FONT color="gray">&lt; newer</FONT></TD><TD><FONT color="gray">older &gt;</FONT></TD><TD><FONT color="gray">oldest &gt;&gt;</FONT></TD><TD BORDER='0'></TD><TD title="portage://virtual/linux-sources-3-r8" href="../virtual/linux-sources-3-r8-merge.svg">--merge&nbsp;</TD><TD title="portage://virtual/linux-sources-3-r8" href="../virtual/linux-sources-3-r8-fetchonly.svg">--fetchonly&nbsp;</TD><TD title="portage://virtual/linux-sources-3-r8" href="../virtual/linux-sources-3-r8-info.svg">--info&nbsp;</TD><TD BORDER='0'></TD><TD title="portage://virtual/linux-sources-3-r8" href="../virtual/linux-sources-3-r8-emerge.svg">emerge</TD></TR></TABLE>>];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+fontcolor=gray;
+label=<<i>ebuild</i>>;
+labelloc=t;
+labeljust=c;
+id [label="portage://virtual/linux-sources-3-r8", color=red, width=4, penwidth=2, fontname="Helvetica-Bold", href="../virtual/linux-sources-3-r8.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+fontcolor=gray;
+label=<<i>dependencies</i>>;
+labelloc=t;
+labeljust=c
+subgraph cluster_install {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install</i>>;
+}
+subgraph cluster_install_and_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph  {
+any_of_group1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD CELLPADDING="10">any_of_group</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-kernel</TD></TR><TR><TD>gentoo-sources</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+any_of_group1:e -> package_dependency1:w [weight=20, style="dotted",arrowhead="oinv"];
+subgraph  {
+package_dependency2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-kernel</TD></TR><TR><TD>vanilla-sources</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+any_of_group1:e -> package_dependency2:w [weight=20, style="dotted",arrowhead="oinv"];
+subgraph  {
+package_dependency3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-kernel</TD></TR><TR><TD>git-sources</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+any_of_group1:e -> package_dependency3:w [weight=20, style="dotted",arrowhead="oinv"];
+subgraph  {
+package_dependency4 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-kernel</TD></TR><TR><TD>mips-sources</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+any_of_group1:e -> package_dependency4:w [weight=20, style="dotted",arrowhead="oinv"];
+subgraph  {
+package_dependency5 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-kernel</TD></TR><TR><TD>pf-sources</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+any_of_group1:e -> package_dependency5:w [weight=20, style="dotted",arrowhead="oinv"];
+subgraph  {
+package_dependency6 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-kernel</TD></TR><TR><TD>rt-sources</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+any_of_group1:e -> package_dependency6:w [weight=20, style="dotted",arrowhead="oinv"];
+subgraph  {
+package_dependency7 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-kernel</TD></TR><TR><TD>zen-sources</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+any_of_group1:e -> package_dependency7:w [weight=20, style="dotted",arrowhead="oinv"];
+subgraph  {
+package_dependency8 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-kernel</TD></TR><TR><TD>raspberrypi-sources</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+any_of_group1:e -> package_dependency8:w [weight=20, style="dotted",arrowhead="oinv"];
+subgraph  {
+package_dependency9 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-kernel</TD></TR><TR><TD>gentoo-kernel</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+any_of_group1:e -> package_dependency9:w [weight=20, style="dotted",arrowhead="oinv"];
+subgraph  {
+package_dependency10 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-kernel</TD></TR><TR><TD>gentoo-kernel-bin</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+any_of_group1:e -> package_dependency10:w [weight=20, style="dotted",arrowhead="oinv"];
+subgraph  {
+package_dependency11 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-kernel</TD></TR><TR><TD>vanilla-kernel</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+any_of_group1:e -> package_dependency11:w [weight=20, style="dotted",arrowhead="oinv"];
+subgraph  {
+package_dependency12 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-kernel</TD></TR><TR><TD>linux-next</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+any_of_group1:e -> package_dependency12:w [weight=20, style="dotted",arrowhead="oinv"];
+subgraph  {
+package_dependency13 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-kernel</TD></TR><TR><TD>asahi-sources</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+any_of_group1:e -> package_dependency13:w [weight=20, style="dotted",arrowhead="oinv"];
+}
+id:e -> any_of_group1:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>firmware</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency14 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-kernel</TD></TR><TR><TD>linux-firmware</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group1:e -> package_dependency14:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group1:w [weight=20, style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+fontcolor=gray;
+label=<<i>candidates</i>>;
+labelloc=t;
+labeljust=c
+
+subgraph  {
+color=black;
+nodesep=1;
+"sys-kernel/gentoo-sources-6.17.8" [label="portage://sys-kernel/gentoo-sources-6.17.8", color=red, width=4,href="../sys-kernel/gentoo-sources-6.17.8.svg"];
+"sys-kernel/gentoo-sources-6.17.7" [label="portage://sys-kernel/gentoo-sources-6.17.7", color=red, width=4,href="../sys-kernel/gentoo-sources-6.17.7.svg"];
+"sys-kernel/gentoo-sources-6.17.6" [label="portage://sys-kernel/gentoo-sources-6.17.6", color=red, width=4,href="../sys-kernel/gentoo-sources-6.17.6.svg"];
+"sys-kernel/gentoo-sources-6.17.5-r1" [label="portage://sys-kernel/gentoo-sources-6.17.5-r1", color=red, width=4,href="../sys-kernel/gentoo-sources-6.17.5-r1.svg"];
+"sys-kernel/gentoo-sources-6.17.5" [label="portage://sys-kernel/gentoo-sources-6.17.5", color=red, width=4,href="../sys-kernel/gentoo-sources-6.17.5.svg"];
+"sys-kernel/gentoo-sources-6.17.4" [label="portage://sys-kernel/gentoo-sources-6.17.4", color=red, width=4,href="../sys-kernel/gentoo-sources-6.17.4.svg"];
+"sys-kernel/gentoo-sources-6.17.3" [label="portage://sys-kernel/gentoo-sources-6.17.3", color=red, width=4,href="../sys-kernel/gentoo-sources-6.17.3.svg"];
+"sys-kernel/gentoo-sources-6.17.2" [label="portage://sys-kernel/gentoo-sources-6.17.2", color=red, width=4,href="../sys-kernel/gentoo-sources-6.17.2.svg"];
+"sys-kernel/gentoo-sources-6.17.1" [label="portage://sys-kernel/gentoo-sources-6.17.1", color=red, width=4,href="../sys-kernel/gentoo-sources-6.17.1.svg"];
+"sys-kernel/gentoo-sources-6.17.0-r1" [label="portage://sys-kernel/gentoo-sources-6.17.0-r1", color=red, width=4,href="../sys-kernel/gentoo-sources-6.17.0-r1.svg"];
+"sys-kernel/gentoo-sources-6.17.0" [label="portage://sys-kernel/gentoo-sources-6.17.0", color=red, width=4,href="../sys-kernel/gentoo-sources-6.17.0.svg"];
+"sys-kernel/gentoo-sources-6.16.12" [label="portage://sys-kernel/gentoo-sources-6.16.12", color=red, width=4,href="../sys-kernel/gentoo-sources-6.16.12.svg"];
+"sys-kernel/gentoo-sources-6.16.11" [label="portage://sys-kernel/gentoo-sources-6.16.11", color=red, width=4,href="../sys-kernel/gentoo-sources-6.16.11.svg"];
+"sys-kernel/gentoo-sources-6.16.10" [label="portage://sys-kernel/gentoo-sources-6.16.10", color=red, width=4,href="../sys-kernel/gentoo-sources-6.16.10.svg"];
+"sys-kernel/gentoo-sources-6.16.9-r1" [label="portage://sys-kernel/gentoo-sources-6.16.9-r1", color=red, width=4,href="../sys-kernel/gentoo-sources-6.16.9-r1.svg"];
+"sys-kernel/gentoo-sources-6.16.9" [label="portage://sys-kernel/gentoo-sources-6.16.9", color=red, width=4,href="../sys-kernel/gentoo-sources-6.16.9.svg"];
+"sys-kernel/gentoo-sources-6.16.8" [label="portage://sys-kernel/gentoo-sources-6.16.8", color=red, width=4,href="../sys-kernel/gentoo-sources-6.16.8.svg"];
+"sys-kernel/gentoo-sources-6.16.7" [label="portage://sys-kernel/gentoo-sources-6.16.7", color=red, width=4,href="../sys-kernel/gentoo-sources-6.16.7.svg"];
+"sys-kernel/gentoo-sources-6.16.6" [label="portage://sys-kernel/gentoo-sources-6.16.6", color=red, width=4,href="../sys-kernel/gentoo-sources-6.16.6.svg"];
+"sys-kernel/gentoo-sources-6.16.5-r1" [label="portage://sys-kernel/gentoo-sources-6.16.5-r1", color=red, width=4,href="../sys-kernel/gentoo-sources-6.16.5-r1.svg"];
+"sys-kernel/gentoo-sources-6.16.5" [label="portage://sys-kernel/gentoo-sources-6.16.5", color=red, width=4,href="../sys-kernel/gentoo-sources-6.16.5.svg"];
+"sys-kernel/gentoo-sources-6.16.4" [label="portage://sys-kernel/gentoo-sources-6.16.4", color=red, width=4,href="../sys-kernel/gentoo-sources-6.16.4.svg"];
+"sys-kernel/gentoo-sources-6.16.3" [label="portage://sys-kernel/gentoo-sources-6.16.3", color=red, width=4,href="../sys-kernel/gentoo-sources-6.16.3.svg"];
+"sys-kernel/gentoo-sources-6.16.2" [label="portage://sys-kernel/gentoo-sources-6.16.2", color=red, width=4,href="../sys-kernel/gentoo-sources-6.16.2.svg"];
+"sys-kernel/gentoo-sources-6.16.1" [label="portage://sys-kernel/gentoo-sources-6.16.1", color=red, width=4,href="../sys-kernel/gentoo-sources-6.16.1.svg"];
+"sys-kernel/gentoo-sources-6.16.0" [label="portage://sys-kernel/gentoo-sources-6.16.0", color=red, width=4,href="../sys-kernel/gentoo-sources-6.16.0.svg"];
+"sys-kernel/gentoo-sources-6.15.11" [label="portage://sys-kernel/gentoo-sources-6.15.11", color=red, width=4,href="../sys-kernel/gentoo-sources-6.15.11.svg"];
+"sys-kernel/gentoo-sources-6.15.10" [label="portage://sys-kernel/gentoo-sources-6.15.10", color=red, width=4,href="../sys-kernel/gentoo-sources-6.15.10.svg"];
+"sys-kernel/gentoo-sources-6.15.9-r1" [label="portage://sys-kernel/gentoo-sources-6.15.9-r1", color=red, width=4,href="../sys-kernel/gentoo-sources-6.15.9-r1.svg"];
+"sys-kernel/gentoo-sources-6.15.9" [label="portage://sys-kernel/gentoo-sources-6.15.9", color=red, width=4,href="../sys-kernel/gentoo-sources-6.15.9.svg"];
+"sys-kernel/gentoo-sources-6.15.8" [label="portage://sys-kernel/gentoo-sources-6.15.8", color=red, width=4,href="../sys-kernel/gentoo-sources-6.15.8.svg"];
+"sys-kernel/gentoo-sources-6.15.7" [label="portage://sys-kernel/gentoo-sources-6.15.7", color=red, width=4,href="../sys-kernel/gentoo-sources-6.15.7.svg"];
+"sys-kernel/gentoo-sources-6.15.6" [label="portage://sys-kernel/gentoo-sources-6.15.6", color=red, width=4,href="../sys-kernel/gentoo-sources-6.15.6.svg"];
+"sys-kernel/gentoo-sources-6.15.5" [label="portage://sys-kernel/gentoo-sources-6.15.5", color=red, width=4,href="../sys-kernel/gentoo-sources-6.15.5.svg"];
+"sys-kernel/gentoo-sources-6.15.4" [label="portage://sys-kernel/gentoo-sources-6.15.4", color=red, width=4,href="../sys-kernel/gentoo-sources-6.15.4.svg"];
+"sys-kernel/gentoo-sources-6.15.3" [label="portage://sys-kernel/gentoo-sources-6.15.3", color=red, width=4,href="../sys-kernel/gentoo-sources-6.15.3.svg"];
+"sys-kernel/gentoo-sources-6.15.2" [label="portage://sys-kernel/gentoo-sources-6.15.2", color=red, width=4,href="../sys-kernel/gentoo-sources-6.15.2.svg"];
+"sys-kernel/gentoo-sources-6.15.1" [label="portage://sys-kernel/gentoo-sources-6.15.1", color=red, width=4,href="../sys-kernel/gentoo-sources-6.15.1.svg"];
+"sys-kernel/gentoo-sources-6.12.58" [label="portage://sys-kernel/gentoo-sources-6.12.58", color=red, width=4,href="../sys-kernel/gentoo-sources-6.12.58.svg"];
+"sys-kernel/gentoo-sources-6.12.57" [label="portage://sys-kernel/gentoo-sources-6.12.57", color=red, width=4,href="../sys-kernel/gentoo-sources-6.12.57.svg"];
+"sys-kernel/gentoo-sources-6.12.56" [label="portage://sys-kernel/gentoo-sources-6.12.56", color=red, width=4,href="../sys-kernel/gentoo-sources-6.12.56.svg"];
+"sys-kernel/gentoo-sources-6.12.55" [label="portage://sys-kernel/gentoo-sources-6.12.55", color=red, width=4,href="../sys-kernel/gentoo-sources-6.12.55.svg"];
+"sys-kernel/gentoo-sources-6.12.54" [label="portage://sys-kernel/gentoo-sources-6.12.54", color=red, width=4,href="../sys-kernel/gentoo-sources-6.12.54.svg"];
+"sys-kernel/gentoo-sources-6.12.53" [label="portage://sys-kernel/gentoo-sources-6.12.53", color=red, width=4,href="../sys-kernel/gentoo-sources-6.12.53.svg"];
+"sys-kernel/gentoo-sources-6.12.52" [label="portage://sys-kernel/gentoo-sources-6.12.52", color=red, width=4,href="../sys-kernel/gentoo-sources-6.12.52.svg"];
+"sys-kernel/gentoo-sources-6.12.51" [label="portage://sys-kernel/gentoo-sources-6.12.51", color=red, width=4,href="../sys-kernel/gentoo-sources-6.12.51.svg"];
+"sys-kernel/gentoo-sources-6.12.50" [label="portage://sys-kernel/gentoo-sources-6.12.50", color=red, width=4,href="../sys-kernel/gentoo-sources-6.12.50.svg"];
+"sys-kernel/gentoo-sources-6.12.49" [label="portage://sys-kernel/gentoo-sources-6.12.49", color=red, width=4,href="../sys-kernel/gentoo-sources-6.12.49.svg"];
+"sys-kernel/gentoo-sources-6.12.48" [label="portage://sys-kernel/gentoo-sources-6.12.48", color=red, width=4,href="../sys-kernel/gentoo-sources-6.12.48.svg"];
+"sys-kernel/gentoo-sources-6.12.47" [label="portage://sys-kernel/gentoo-sources-6.12.47", color=red, width=4,href="../sys-kernel/gentoo-sources-6.12.47.svg"];
+"sys-kernel/gentoo-sources-6.12.46" [label="portage://sys-kernel/gentoo-sources-6.12.46", color=red, width=4,href="../sys-kernel/gentoo-sources-6.12.46.svg"];
+"sys-kernel/gentoo-sources-6.12.45-r1" [label="portage://sys-kernel/gentoo-sources-6.12.45-r1", color=red, width=4,href="../sys-kernel/gentoo-sources-6.12.45-r1.svg"];
+"sys-kernel/gentoo-sources-6.12.45" [label="portage://sys-kernel/gentoo-sources-6.12.45", color=red, width=4,href="../sys-kernel/gentoo-sources-6.12.45.svg"];
+"sys-kernel/gentoo-sources-6.12.44" [label="portage://sys-kernel/gentoo-sources-6.12.44", color=red, width=4,href="../sys-kernel/gentoo-sources-6.12.44.svg"];
+"sys-kernel/gentoo-sources-6.12.43" [label="portage://sys-kernel/gentoo-sources-6.12.43", color=red, width=4,href="../sys-kernel/gentoo-sources-6.12.43.svg"];
+"sys-kernel/gentoo-sources-6.12.42" [label="portage://sys-kernel/gentoo-sources-6.12.42", color=red, width=4,href="../sys-kernel/gentoo-sources-6.12.42.svg"];
+"sys-kernel/gentoo-sources-6.12.41" [label="portage://sys-kernel/gentoo-sources-6.12.41", color=red, width=4,href="../sys-kernel/gentoo-sources-6.12.41.svg"];
+"sys-kernel/gentoo-sources-6.12.40" [label="portage://sys-kernel/gentoo-sources-6.12.40", color=red, width=4,href="../sys-kernel/gentoo-sources-6.12.40.svg"];
+"sys-kernel/gentoo-sources-6.12.39" [label="portage://sys-kernel/gentoo-sources-6.12.39", color=red, width=4,href="../sys-kernel/gentoo-sources-6.12.39.svg"];
+"sys-kernel/gentoo-sources-6.12.38" [label="portage://sys-kernel/gentoo-sources-6.12.38", color=red, width=4,href="../sys-kernel/gentoo-sources-6.12.38.svg"];
+"sys-kernel/gentoo-sources-6.12.37" [label="portage://sys-kernel/gentoo-sources-6.12.37", color=red, width=4,href="../sys-kernel/gentoo-sources-6.12.37.svg"];
+"sys-kernel/gentoo-sources-6.12.36" [label="portage://sys-kernel/gentoo-sources-6.12.36", color=red, width=4,href="../sys-kernel/gentoo-sources-6.12.36.svg"];
+"sys-kernel/gentoo-sources-6.12.35" [label="portage://sys-kernel/gentoo-sources-6.12.35", color=red, width=4,href="../sys-kernel/gentoo-sources-6.12.35.svg"];
+"sys-kernel/gentoo-sources-6.12.34" [label="portage://sys-kernel/gentoo-sources-6.12.34", color=red, width=4,href="../sys-kernel/gentoo-sources-6.12.34.svg"];
+"sys-kernel/gentoo-sources-6.12.33" [label="portage://sys-kernel/gentoo-sources-6.12.33", color=red, width=4,href="../sys-kernel/gentoo-sources-6.12.33.svg"];
+"sys-kernel/gentoo-sources-6.12.31" [label="portage://sys-kernel/gentoo-sources-6.12.31", color=red, width=4,href="../sys-kernel/gentoo-sources-6.12.31.svg"];
+"sys-kernel/gentoo-sources-6.12.21" [label="portage://sys-kernel/gentoo-sources-6.12.21", color=red, width=4,href="../sys-kernel/gentoo-sources-6.12.21.svg"];
+"sys-kernel/gentoo-sources-6.6.116" [label="portage://sys-kernel/gentoo-sources-6.6.116", color=red, width=4,href="../sys-kernel/gentoo-sources-6.6.116.svg"];
+"sys-kernel/gentoo-sources-6.6.115" [label="portage://sys-kernel/gentoo-sources-6.6.115", color=red, width=4,href="../sys-kernel/gentoo-sources-6.6.115.svg"];
+"sys-kernel/gentoo-sources-6.6.114" [label="portage://sys-kernel/gentoo-sources-6.6.114", color=red, width=4,href="../sys-kernel/gentoo-sources-6.6.114.svg"];
+"sys-kernel/gentoo-sources-6.6.113" [label="portage://sys-kernel/gentoo-sources-6.6.113", color=red, width=4,href="../sys-kernel/gentoo-sources-6.6.113.svg"];
+"sys-kernel/gentoo-sources-6.6.112" [label="portage://sys-kernel/gentoo-sources-6.6.112", color=red, width=4,href="../sys-kernel/gentoo-sources-6.6.112.svg"];
+"sys-kernel/gentoo-sources-6.6.111" [label="portage://sys-kernel/gentoo-sources-6.6.111", color=red, width=4,href="../sys-kernel/gentoo-sources-6.6.111.svg"];
+"sys-kernel/gentoo-sources-6.6.110" [label="portage://sys-kernel/gentoo-sources-6.6.110", color=red, width=4,href="../sys-kernel/gentoo-sources-6.6.110.svg"];
+"sys-kernel/gentoo-sources-6.6.109" [label="portage://sys-kernel/gentoo-sources-6.6.109", color=red, width=4,href="../sys-kernel/gentoo-sources-6.6.109.svg"];
+"sys-kernel/gentoo-sources-6.6.108" [label="portage://sys-kernel/gentoo-sources-6.6.108", color=red, width=4,href="../sys-kernel/gentoo-sources-6.6.108.svg"];
+"sys-kernel/gentoo-sources-6.6.107" [label="portage://sys-kernel/gentoo-sources-6.6.107", color=red, width=4,href="../sys-kernel/gentoo-sources-6.6.107.svg"];
+"sys-kernel/gentoo-sources-6.6.106" [label="portage://sys-kernel/gentoo-sources-6.6.106", color=red, width=4,href="../sys-kernel/gentoo-sources-6.6.106.svg"];
+"sys-kernel/gentoo-sources-6.6.105" [label="portage://sys-kernel/gentoo-sources-6.6.105", color=red, width=4,href="../sys-kernel/gentoo-sources-6.6.105.svg"];
+"sys-kernel/gentoo-sources-6.6.104" [label="portage://sys-kernel/gentoo-sources-6.6.104", color=red, width=4,href="../sys-kernel/gentoo-sources-6.6.104.svg"];
+"sys-kernel/gentoo-sources-6.6.103" [label="portage://sys-kernel/gentoo-sources-6.6.103", color=red, width=4,href="../sys-kernel/gentoo-sources-6.6.103.svg"];
+"sys-kernel/gentoo-sources-6.6.102" [label="portage://sys-kernel/gentoo-sources-6.6.102", color=red, width=4,href="../sys-kernel/gentoo-sources-6.6.102.svg"];
+"sys-kernel/gentoo-sources-6.6.101" [label="portage://sys-kernel/gentoo-sources-6.6.101", color=red, width=4,href="../sys-kernel/gentoo-sources-6.6.101.svg"];
+"sys-kernel/gentoo-sources-6.6.100" [label="portage://sys-kernel/gentoo-sources-6.6.100", color=red, width=4,href="../sys-kernel/gentoo-sources-6.6.100.svg"];
+"sys-kernel/gentoo-sources-6.6.99" [label="portage://sys-kernel/gentoo-sources-6.6.99", color=red, width=4,href="../sys-kernel/gentoo-sources-6.6.99.svg"];
+"sys-kernel/gentoo-sources-6.6.98" [label="portage://sys-kernel/gentoo-sources-6.6.98", color=red, width=4,href="../sys-kernel/gentoo-sources-6.6.98.svg"];
+"sys-kernel/gentoo-sources-6.6.97" [label="portage://sys-kernel/gentoo-sources-6.6.97", color=red, width=4,href="../sys-kernel/gentoo-sources-6.6.97.svg"];
+"sys-kernel/gentoo-sources-6.6.96" [label="portage://sys-kernel/gentoo-sources-6.6.96", color=red, width=4,href="../sys-kernel/gentoo-sources-6.6.96.svg"];
+"sys-kernel/gentoo-sources-6.6.95" [label="portage://sys-kernel/gentoo-sources-6.6.95", color=red, width=4,href="../sys-kernel/gentoo-sources-6.6.95.svg"];
+"sys-kernel/gentoo-sources-6.6.94" [label="portage://sys-kernel/gentoo-sources-6.6.94", color=red, width=4,href="../sys-kernel/gentoo-sources-6.6.94.svg"];
+"sys-kernel/gentoo-sources-6.6.93" [label="portage://sys-kernel/gentoo-sources-6.6.93", color=red, width=4,href="../sys-kernel/gentoo-sources-6.6.93.svg"];
+"sys-kernel/gentoo-sources-6.6.92" [label="portage://sys-kernel/gentoo-sources-6.6.92", color=red, width=4,href="../sys-kernel/gentoo-sources-6.6.92.svg"];
+"sys-kernel/gentoo-sources-6.6.85" [label="portage://sys-kernel/gentoo-sources-6.6.85", color=red, width=4,href="../sys-kernel/gentoo-sources-6.6.85.svg"];
+"sys-kernel/gentoo-sources-6.1.158" [label="portage://sys-kernel/gentoo-sources-6.1.158", color=red, width=4,href="../sys-kernel/gentoo-sources-6.1.158.svg"];
+"sys-kernel/gentoo-sources-6.1.157" [label="portage://sys-kernel/gentoo-sources-6.1.157", color=red, width=4,href="../sys-kernel/gentoo-sources-6.1.157.svg"];
+"sys-kernel/gentoo-sources-6.1.156" [label="portage://sys-kernel/gentoo-sources-6.1.156", color=red, width=4,href="../sys-kernel/gentoo-sources-6.1.156.svg"];
+"sys-kernel/gentoo-sources-6.1.155" [label="portage://sys-kernel/gentoo-sources-6.1.155", color=red, width=4,href="../sys-kernel/gentoo-sources-6.1.155.svg"];
+"sys-kernel/gentoo-sources-6.1.154" [label="portage://sys-kernel/gentoo-sources-6.1.154", color=red, width=4,href="../sys-kernel/gentoo-sources-6.1.154.svg"];
+"sys-kernel/gentoo-sources-6.1.153" [label="portage://sys-kernel/gentoo-sources-6.1.153", color=red, width=4,href="../sys-kernel/gentoo-sources-6.1.153.svg"];
+"sys-kernel/gentoo-sources-6.1.152" [label="portage://sys-kernel/gentoo-sources-6.1.152", color=red, width=4,href="../sys-kernel/gentoo-sources-6.1.152.svg"];
+"sys-kernel/gentoo-sources-6.1.151" [label="portage://sys-kernel/gentoo-sources-6.1.151", color=red, width=4,href="../sys-kernel/gentoo-sources-6.1.151.svg"];
+"sys-kernel/gentoo-sources-6.1.150" [label="portage://sys-kernel/gentoo-sources-6.1.150", color=red, width=4,href="../sys-kernel/gentoo-sources-6.1.150.svg"];
+"sys-kernel/gentoo-sources-6.1.149" [label="portage://sys-kernel/gentoo-sources-6.1.149", color=red, width=4,href="../sys-kernel/gentoo-sources-6.1.149.svg"];
+"sys-kernel/gentoo-sources-6.1.148" [label="portage://sys-kernel/gentoo-sources-6.1.148", color=red, width=4,href="../sys-kernel/gentoo-sources-6.1.148.svg"];
+"sys-kernel/gentoo-sources-6.1.147" [label="portage://sys-kernel/gentoo-sources-6.1.147", color=red, width=4,href="../sys-kernel/gentoo-sources-6.1.147.svg"];
+"sys-kernel/gentoo-sources-6.1.146" [label="portage://sys-kernel/gentoo-sources-6.1.146", color=red, width=4,href="../sys-kernel/gentoo-sources-6.1.146.svg"];
+"sys-kernel/gentoo-sources-6.1.145" [label="portage://sys-kernel/gentoo-sources-6.1.145", color=red, width=4,href="../sys-kernel/gentoo-sources-6.1.145.svg"];
+"sys-kernel/gentoo-sources-6.1.144" [label="portage://sys-kernel/gentoo-sources-6.1.144", color=red, width=4,href="../sys-kernel/gentoo-sources-6.1.144.svg"];
+"sys-kernel/gentoo-sources-6.1.143" [label="portage://sys-kernel/gentoo-sources-6.1.143", color=red, width=4,href="../sys-kernel/gentoo-sources-6.1.143.svg"];
+"sys-kernel/gentoo-sources-6.1.142" [label="portage://sys-kernel/gentoo-sources-6.1.142", color=red, width=4,href="../sys-kernel/gentoo-sources-6.1.142.svg"];
+"sys-kernel/gentoo-sources-6.1.141" [label="portage://sys-kernel/gentoo-sources-6.1.141", color=red, width=4,href="../sys-kernel/gentoo-sources-6.1.141.svg"];
+"sys-kernel/gentoo-sources-6.1.140" [label="portage://sys-kernel/gentoo-sources-6.1.140", color=red, width=4,href="../sys-kernel/gentoo-sources-6.1.140.svg"];
+"sys-kernel/gentoo-sources-6.1.132" [label="portage://sys-kernel/gentoo-sources-6.1.132", color=red, width=4,href="../sys-kernel/gentoo-sources-6.1.132.svg"];
+"sys-kernel/gentoo-sources-5.15.196" [label="portage://sys-kernel/gentoo-sources-5.15.196", color=red, width=4,href="../sys-kernel/gentoo-sources-5.15.196.svg"];
+"sys-kernel/gentoo-sources-5.15.195" [label="portage://sys-kernel/gentoo-sources-5.15.195", color=red, width=4,href="../sys-kernel/gentoo-sources-5.15.195.svg"];
+"sys-kernel/gentoo-sources-5.15.194" [label="portage://sys-kernel/gentoo-sources-5.15.194", color=red, width=4,href="../sys-kernel/gentoo-sources-5.15.194.svg"];
+"sys-kernel/gentoo-sources-5.15.193" [label="portage://sys-kernel/gentoo-sources-5.15.193", color=red, width=4,href="../sys-kernel/gentoo-sources-5.15.193.svg"];
+"sys-kernel/gentoo-sources-5.15.192" [label="portage://sys-kernel/gentoo-sources-5.15.192", color=red, width=4,href="../sys-kernel/gentoo-sources-5.15.192.svg"];
+"sys-kernel/gentoo-sources-5.15.191" [label="portage://sys-kernel/gentoo-sources-5.15.191", color=red, width=4,href="../sys-kernel/gentoo-sources-5.15.191.svg"];
+"sys-kernel/gentoo-sources-5.15.190" [label="portage://sys-kernel/gentoo-sources-5.15.190", color=red, width=4,href="../sys-kernel/gentoo-sources-5.15.190.svg"];
+"sys-kernel/gentoo-sources-5.15.189" [label="portage://sys-kernel/gentoo-sources-5.15.189", color=red, width=4,href="../sys-kernel/gentoo-sources-5.15.189.svg"];
+"sys-kernel/gentoo-sources-5.15.188" [label="portage://sys-kernel/gentoo-sources-5.15.188", color=red, width=4,href="../sys-kernel/gentoo-sources-5.15.188.svg"];
+"sys-kernel/gentoo-sources-5.15.187" [label="portage://sys-kernel/gentoo-sources-5.15.187", color=red, width=4,href="../sys-kernel/gentoo-sources-5.15.187.svg"];
+"sys-kernel/gentoo-sources-5.15.186" [label="portage://sys-kernel/gentoo-sources-5.15.186", color=red, width=4,href="../sys-kernel/gentoo-sources-5.15.186.svg"];
+"sys-kernel/gentoo-sources-5.15.185" [label="portage://sys-kernel/gentoo-sources-5.15.185", color=red, width=4,href="../sys-kernel/gentoo-sources-5.15.185.svg"];
+"sys-kernel/gentoo-sources-5.15.184" [label="portage://sys-kernel/gentoo-sources-5.15.184", color=red, width=4,href="../sys-kernel/gentoo-sources-5.15.184.svg"];
+"sys-kernel/gentoo-sources-5.15.177" [label="portage://sys-kernel/gentoo-sources-5.15.177", color=red, width=4,href="../sys-kernel/gentoo-sources-5.15.177.svg"];
+"sys-kernel/gentoo-sources-5.10.246" [label="portage://sys-kernel/gentoo-sources-5.10.246", color=red, width=4,href="../sys-kernel/gentoo-sources-5.10.246.svg"];
+"sys-kernel/gentoo-sources-5.10.245" [label="portage://sys-kernel/gentoo-sources-5.10.245", color=red, width=4,href="../sys-kernel/gentoo-sources-5.10.245.svg"];
+"sys-kernel/gentoo-sources-5.10.244" [label="portage://sys-kernel/gentoo-sources-5.10.244", color=red, width=4,href="../sys-kernel/gentoo-sources-5.10.244.svg"];
+"sys-kernel/gentoo-sources-5.10.243" [label="portage://sys-kernel/gentoo-sources-5.10.243", color=red, width=4,href="../sys-kernel/gentoo-sources-5.10.243.svg"];
+"sys-kernel/gentoo-sources-5.10.242" [label="portage://sys-kernel/gentoo-sources-5.10.242", color=red, width=4,href="../sys-kernel/gentoo-sources-5.10.242.svg"];
+"sys-kernel/gentoo-sources-5.10.241-r1" [label="portage://sys-kernel/gentoo-sources-5.10.241-r1", color=red, width=4,href="../sys-kernel/gentoo-sources-5.10.241-r1.svg"];
+"sys-kernel/gentoo-sources-5.10.241" [label="portage://sys-kernel/gentoo-sources-5.10.241", color=red, width=4,href="../sys-kernel/gentoo-sources-5.10.241.svg"];
+"sys-kernel/gentoo-sources-5.10.240" [label="portage://sys-kernel/gentoo-sources-5.10.240", color=red, width=4,href="../sys-kernel/gentoo-sources-5.10.240.svg"];
+"sys-kernel/gentoo-sources-5.10.239" [label="portage://sys-kernel/gentoo-sources-5.10.239", color=red, width=4,href="../sys-kernel/gentoo-sources-5.10.239.svg"];
+"sys-kernel/gentoo-sources-5.10.238" [label="portage://sys-kernel/gentoo-sources-5.10.238", color=red, width=4,href="../sys-kernel/gentoo-sources-5.10.238.svg"];
+"sys-kernel/gentoo-sources-5.10.237" [label="portage://sys-kernel/gentoo-sources-5.10.237", color=red, width=4,href="../sys-kernel/gentoo-sources-5.10.237.svg"];
+"sys-kernel/gentoo-sources-5.10.233" [label="portage://sys-kernel/gentoo-sources-5.10.233", color=red, width=4,href="../sys-kernel/gentoo-sources-5.10.233.svg"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.17.8":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.17.7":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.17.6":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.17.5-r1":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.17.5":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.17.4":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.17.3":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.17.2":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.17.1":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.17.0-r1":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.17.0":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.16.12":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.16.11":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.16.10":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.16.9-r1":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.16.9":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.16.8":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.16.7":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.16.6":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.16.5-r1":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.16.5":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.16.4":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.16.3":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.16.2":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.16.1":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.16.0":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.15.11":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.15.10":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.15.9-r1":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.15.9":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.15.8":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.15.7":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.15.6":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.15.5":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.15.4":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.15.3":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.15.2":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.15.1":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.12.58":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.12.57":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.12.56":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.12.55":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.12.54":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.12.53":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.12.52":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.12.51":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.12.50":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.12.49":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.12.48":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.12.47":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.12.46":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.12.45-r1":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.12.45":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.12.44":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.12.43":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.12.42":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.12.41":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.12.40":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.12.39":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.12.38":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.12.37":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.12.36":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.12.35":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.12.34":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.12.33":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.12.31":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.12.21":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.6.116":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.6.115":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.6.114":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.6.113":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.6.112":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.6.111":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.6.110":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.6.109":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.6.108":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.6.107":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.6.106":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.6.105":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.6.104":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.6.103":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.6.102":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.6.101":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.6.100":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.6.99":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.6.98":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.6.97":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.6.96":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.6.95":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.6.94":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.6.93":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.6.92":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.6.85":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.1.158":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.1.157":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.1.156":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.1.155":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.1.154":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.1.153":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.1.152":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.1.151":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.1.150":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.1.149":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.1.148":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.1.147":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.1.146":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.1.145":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.1.144":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.1.143":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.1.142":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.1.141":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.1.140":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-6.1.132":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-5.15.196":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-5.15.195":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-5.15.194":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-5.15.193":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-5.15.192":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-5.15.191":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-5.15.190":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-5.15.189":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-5.15.188":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-5.15.187":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-5.15.186":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-5.15.185":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-5.15.184":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-5.15.177":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-5.10.246":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-5.10.245":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-5.10.244":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-5.10.243":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-5.10.242":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-5.10.241-r1":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-5.10.241":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-5.10.240":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-5.10.239":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-5.10.238":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-5.10.237":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-kernel/gentoo-sources-5.10.233":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-kernel/vanilla-sources-6.17.8" [label="portage://sys-kernel/vanilla-sources-6.17.8", color=red, width=4,href="../sys-kernel/vanilla-sources-6.17.8.svg"];
+"sys-kernel/vanilla-sources-6.16.12" [label="portage://sys-kernel/vanilla-sources-6.16.12", color=red, width=4,href="../sys-kernel/vanilla-sources-6.16.12.svg"];
+"sys-kernel/vanilla-sources-6.12.58" [label="portage://sys-kernel/vanilla-sources-6.12.58", color=red, width=4,href="../sys-kernel/vanilla-sources-6.12.58.svg"];
+"sys-kernel/vanilla-sources-6.6.116" [label="portage://sys-kernel/vanilla-sources-6.6.116", color=red, width=4,href="../sys-kernel/vanilla-sources-6.6.116.svg"];
+"sys-kernel/vanilla-sources-6.1.158" [label="portage://sys-kernel/vanilla-sources-6.1.158", color=red, width=4,href="../sys-kernel/vanilla-sources-6.1.158.svg"];
+"sys-kernel/vanilla-sources-5.15.196" [label="portage://sys-kernel/vanilla-sources-5.15.196", color=red, width=4,href="../sys-kernel/vanilla-sources-5.15.196.svg"];
+"sys-kernel/vanilla-sources-5.10.246" [label="portage://sys-kernel/vanilla-sources-5.10.246", color=red, width=4,href="../sys-kernel/vanilla-sources-5.10.246.svg"];
+"sys-kernel/vanilla-sources-5.4.301" [label="portage://sys-kernel/vanilla-sources-5.4.301", color=red, width=4,href="../sys-kernel/vanilla-sources-5.4.301.svg"];
+package_dependency2:e -> "sys-kernel/vanilla-sources-6.17.8":w [style=dotted,weight="100"];
+package_dependency2:e -> "sys-kernel/vanilla-sources-6.16.12":w [style=dotted,weight="100"];
+package_dependency2:e -> "sys-kernel/vanilla-sources-6.12.58":w [style=dotted,weight="100"];
+package_dependency2:e -> "sys-kernel/vanilla-sources-6.6.116":w [style=dotted,weight="100"];
+package_dependency2:e -> "sys-kernel/vanilla-sources-6.1.158":w [style=dotted,weight="100"];
+package_dependency2:e -> "sys-kernel/vanilla-sources-5.15.196":w [style=dotted,weight="100"];
+package_dependency2:e -> "sys-kernel/vanilla-sources-5.10.246":w [style=dotted,weight="100"];
+package_dependency2:e -> "sys-kernel/vanilla-sources-5.4.301":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-kernel/git-sources-6.18_rc5" [label="portage://sys-kernel/git-sources-6.18_rc5", color=red, width=4,href="../sys-kernel/git-sources-6.18_rc5.svg"];
+"sys-kernel/git-sources-6.18_rc4" [label="portage://sys-kernel/git-sources-6.18_rc4", color=red, width=4,href="../sys-kernel/git-sources-6.18_rc4.svg"];
+"sys-kernel/git-sources-6.18_rc3" [label="portage://sys-kernel/git-sources-6.18_rc3", color=red, width=4,href="../sys-kernel/git-sources-6.18_rc3.svg"];
+"sys-kernel/git-sources-6.18_rc2" [label="portage://sys-kernel/git-sources-6.18_rc2", color=red, width=4,href="../sys-kernel/git-sources-6.18_rc2.svg"];
+"sys-kernel/git-sources-6.18_rc1" [label="portage://sys-kernel/git-sources-6.18_rc1", color=red, width=4,href="../sys-kernel/git-sources-6.18_rc1.svg"];
+package_dependency3:e -> "sys-kernel/git-sources-6.18_rc5":w [style=dotted,weight="100"];
+package_dependency3:e -> "sys-kernel/git-sources-6.18_rc4":w [style=dotted,weight="100"];
+package_dependency3:e -> "sys-kernel/git-sources-6.18_rc3":w [style=dotted,weight="100"];
+package_dependency3:e -> "sys-kernel/git-sources-6.18_rc2":w [style=dotted,weight="100"];
+package_dependency3:e -> "sys-kernel/git-sources-6.18_rc1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-kernel/mips-sources-5.4.294" [label="portage://sys-kernel/mips-sources-5.4.294", color=red, width=4,href="../sys-kernel/mips-sources-5.4.294.svg"];
+"sys-kernel/mips-sources-4.19.325" [label="portage://sys-kernel/mips-sources-4.19.325", color=red, width=4,href="../sys-kernel/mips-sources-4.19.325.svg"];
+package_dependency4:e -> "sys-kernel/mips-sources-5.4.294":w [style=dotted,weight="100"];
+package_dependency4:e -> "sys-kernel/mips-sources-4.19.325":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-kernel/pf-sources-6.9_p7" [label="portage://sys-kernel/pf-sources-6.9_p7", color=red, width=4,href="../sys-kernel/pf-sources-6.9_p7.svg"];
+"sys-kernel/pf-sources-6.9_p4" [label="portage://sys-kernel/pf-sources-6.9_p4", color=red, width=4,href="../sys-kernel/pf-sources-6.9_p4.svg"];
+"sys-kernel/pf-sources-6.9_p2" [label="portage://sys-kernel/pf-sources-6.9_p2", color=red, width=4,href="../sys-kernel/pf-sources-6.9_p2.svg"];
+"sys-kernel/pf-sources-6.8_p9" [label="portage://sys-kernel/pf-sources-6.8_p9", color=red, width=4,href="../sys-kernel/pf-sources-6.8_p9.svg"];
+"sys-kernel/pf-sources-6.8_p8" [label="portage://sys-kernel/pf-sources-6.8_p8", color=red, width=4,href="../sys-kernel/pf-sources-6.8_p8.svg"];
+"sys-kernel/pf-sources-6.8_p7" [label="portage://sys-kernel/pf-sources-6.8_p7", color=red, width=4,href="../sys-kernel/pf-sources-6.8_p7.svg"];
+"sys-kernel/pf-sources-6.8_p6" [label="portage://sys-kernel/pf-sources-6.8_p6", color=red, width=4,href="../sys-kernel/pf-sources-6.8_p6.svg"];
+"sys-kernel/pf-sources-6.8_p5" [label="portage://sys-kernel/pf-sources-6.8_p5", color=red, width=4,href="../sys-kernel/pf-sources-6.8_p5.svg"];
+"sys-kernel/pf-sources-6.8_p1" [label="portage://sys-kernel/pf-sources-6.8_p1", color=red, width=4,href="../sys-kernel/pf-sources-6.8_p1.svg"];
+package_dependency5:e -> "sys-kernel/pf-sources-6.9_p7":w [style=dotted,weight="100"];
+package_dependency5:e -> "sys-kernel/pf-sources-6.9_p4":w [style=dotted,weight="100"];
+package_dependency5:e -> "sys-kernel/pf-sources-6.9_p2":w [style=dotted,weight="100"];
+package_dependency5:e -> "sys-kernel/pf-sources-6.8_p9":w [style=dotted,weight="100"];
+package_dependency5:e -> "sys-kernel/pf-sources-6.8_p8":w [style=dotted,weight="100"];
+package_dependency5:e -> "sys-kernel/pf-sources-6.8_p7":w [style=dotted,weight="100"];
+package_dependency5:e -> "sys-kernel/pf-sources-6.8_p6":w [style=dotted,weight="100"];
+package_dependency5:e -> "sys-kernel/pf-sources-6.8_p5":w [style=dotted,weight="100"];
+package_dependency5:e -> "sys-kernel/pf-sources-6.8_p1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-kernel/rt-sources-6.12.28_p10" [label="portage://sys-kernel/rt-sources-6.12.28_p10", color=red, width=4,href="../sys-kernel/rt-sources-6.12.28_p10.svg"];
+"sys-kernel/rt-sources-6.6.94_p56" [label="portage://sys-kernel/rt-sources-6.6.94_p56", color=red, width=4,href="../sys-kernel/rt-sources-6.6.94_p56.svg"];
+"sys-kernel/rt-sources-6.5.2_p8" [label="portage://sys-kernel/rt-sources-6.5.2_p8", color=red, width=4,href="../sys-kernel/rt-sources-6.5.2_p8.svg"];
+"sys-kernel/rt-sources-6.1.141_p52" [label="portage://sys-kernel/rt-sources-6.1.141_p52", color=red, width=4,href="../sys-kernel/rt-sources-6.1.141_p52.svg"];
+"sys-kernel/rt-sources-6.1.134_p51" [label="portage://sys-kernel/rt-sources-6.1.134_p51", color=red, width=4,href="../sys-kernel/rt-sources-6.1.134_p51.svg"];
+"sys-kernel/rt-sources-6.0.5_p14" [label="portage://sys-kernel/rt-sources-6.0.5_p14", color=red, width=4,href="../sys-kernel/rt-sources-6.0.5_p14.svg"];
+"sys-kernel/rt-sources-5.15.185_p86" [label="portage://sys-kernel/rt-sources-5.15.185_p86", color=red, width=4,href="../sys-kernel/rt-sources-5.15.185_p86.svg"];
+"sys-kernel/rt-sources-5.10.239_p133" [label="portage://sys-kernel/rt-sources-5.10.239_p133", color=red, width=4,href="../sys-kernel/rt-sources-5.10.239_p133.svg"];
+"sys-kernel/rt-sources-5.4.293_p98" [label="portage://sys-kernel/rt-sources-5.4.293_p98", color=red, width=4,href="../sys-kernel/rt-sources-5.4.293_p98.svg"];
+"sys-kernel/rt-sources-4.19.325_p140" [label="portage://sys-kernel/rt-sources-4.19.325_p140", color=red, width=4,href="../sys-kernel/rt-sources-4.19.325_p140.svg"];
+"sys-kernel/rt-sources-4.14.336_p159" [label="portage://sys-kernel/rt-sources-4.14.336_p159", color=red, width=4,href="../sys-kernel/rt-sources-4.14.336_p159.svg"];
+package_dependency6:e -> "sys-kernel/rt-sources-6.12.28_p10":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-kernel/rt-sources-6.6.94_p56":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-kernel/rt-sources-6.5.2_p8":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-kernel/rt-sources-6.1.141_p52":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-kernel/rt-sources-6.1.134_p51":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-kernel/rt-sources-6.0.5_p14":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-kernel/rt-sources-5.15.185_p86":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-kernel/rt-sources-5.10.239_p133":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-kernel/rt-sources-5.4.293_p98":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-kernel/rt-sources-4.19.325_p140":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-kernel/rt-sources-4.14.336_p159":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-kernel/zen-sources-6.13.8" [label="portage://sys-kernel/zen-sources-6.13.8", color=red, width=4,href="../sys-kernel/zen-sources-6.13.8.svg"];
+package_dependency7:e -> "sys-kernel/zen-sources-6.13.8":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-kernel/raspberrypi-sources-6.6.47_p20240902" [label="portage://sys-kernel/raspberrypi-sources-6.6.47_p20240902", color=red, width=4,href="../sys-kernel/raspberrypi-sources-6.6.47_p20240902.svg"];
+"sys-kernel/raspberrypi-sources-6.6.31_p20240529" [label="portage://sys-kernel/raspberrypi-sources-6.6.31_p20240529", color=red, width=4,href="../sys-kernel/raspberrypi-sources-6.6.31_p20240529.svg"];
+"sys-kernel/raspberrypi-sources-6.1.21_p20230405" [label="portage://sys-kernel/raspberrypi-sources-6.1.21_p20230405", color=red, width=4,href="../sys-kernel/raspberrypi-sources-6.1.21_p20230405.svg"];
+"sys-kernel/raspberrypi-sources-5.15.84_p20230106" [label="portage://sys-kernel/raspberrypi-sources-5.15.84_p20230106", color=red, width=4,href="../sys-kernel/raspberrypi-sources-5.15.84_p20230106.svg"];
+"sys-kernel/raspberrypi-sources-5.15.76_p20221104" [label="portage://sys-kernel/raspberrypi-sources-5.15.76_p20221104", color=red, width=4,href="../sys-kernel/raspberrypi-sources-5.15.76_p20221104.svg"];
+package_dependency8:e -> "sys-kernel/raspberrypi-sources-6.6.47_p20240902":w [style=dotted,weight="100"];
+package_dependency8:e -> "sys-kernel/raspberrypi-sources-6.6.31_p20240529":w [style=dotted,weight="100"];
+package_dependency8:e -> "sys-kernel/raspberrypi-sources-6.1.21_p20230405":w [style=dotted,weight="100"];
+package_dependency8:e -> "sys-kernel/raspberrypi-sources-5.15.84_p20230106":w [style=dotted,weight="100"];
+package_dependency8:e -> "sys-kernel/raspberrypi-sources-5.15.76_p20221104":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-kernel/gentoo-kernel-6.17.8" [label="portage://sys-kernel/gentoo-kernel-6.17.8", color=red, width=4,href="../sys-kernel/gentoo-kernel-6.17.8.svg"];
+"sys-kernel/gentoo-kernel-6.17.7" [label="portage://sys-kernel/gentoo-kernel-6.17.7", color=red, width=4,href="../sys-kernel/gentoo-kernel-6.17.7.svg"];
+"sys-kernel/gentoo-kernel-6.12.58" [label="portage://sys-kernel/gentoo-kernel-6.12.58", color=red, width=4,href="../sys-kernel/gentoo-kernel-6.12.58.svg"];
+"sys-kernel/gentoo-kernel-6.12.57" [label="portage://sys-kernel/gentoo-kernel-6.12.57", color=red, width=4,href="../sys-kernel/gentoo-kernel-6.12.57.svg"];
+"sys-kernel/gentoo-kernel-6.12.54" [label="portage://sys-kernel/gentoo-kernel-6.12.54", color=red, width=4,href="../sys-kernel/gentoo-kernel-6.12.54.svg"];
+"sys-kernel/gentoo-kernel-6.6.116" [label="portage://sys-kernel/gentoo-kernel-6.6.116", color=red, width=4,href="../sys-kernel/gentoo-kernel-6.6.116.svg"];
+"sys-kernel/gentoo-kernel-6.6.113" [label="portage://sys-kernel/gentoo-kernel-6.6.113", color=red, width=4,href="../sys-kernel/gentoo-kernel-6.6.113.svg"];
+"sys-kernel/gentoo-kernel-6.1.158" [label="portage://sys-kernel/gentoo-kernel-6.1.158", color=red, width=4,href="../sys-kernel/gentoo-kernel-6.1.158.svg"];
+"sys-kernel/gentoo-kernel-6.1.157" [label="portage://sys-kernel/gentoo-kernel-6.1.157", color=red, width=4,href="../sys-kernel/gentoo-kernel-6.1.157.svg"];
+"sys-kernel/gentoo-kernel-5.15.196" [label="portage://sys-kernel/gentoo-kernel-5.15.196", color=red, width=4,href="../sys-kernel/gentoo-kernel-5.15.196.svg"];
+"sys-kernel/gentoo-kernel-5.15.195" [label="portage://sys-kernel/gentoo-kernel-5.15.195", color=red, width=4,href="../sys-kernel/gentoo-kernel-5.15.195.svg"];
+"sys-kernel/gentoo-kernel-5.10.246" [label="portage://sys-kernel/gentoo-kernel-5.10.246", color=red, width=4,href="../sys-kernel/gentoo-kernel-5.10.246.svg"];
+"sys-kernel/gentoo-kernel-5.10.245" [label="portage://sys-kernel/gentoo-kernel-5.10.245", color=red, width=4,href="../sys-kernel/gentoo-kernel-5.10.245.svg"];
+package_dependency9:e -> "sys-kernel/gentoo-kernel-6.17.8":w [style=dotted,weight="100"];
+package_dependency9:e -> "sys-kernel/gentoo-kernel-6.17.7":w [style=dotted,weight="100"];
+package_dependency9:e -> "sys-kernel/gentoo-kernel-6.12.58":w [style=dotted,weight="100"];
+package_dependency9:e -> "sys-kernel/gentoo-kernel-6.12.57":w [style=dotted,weight="100"];
+package_dependency9:e -> "sys-kernel/gentoo-kernel-6.12.54":w [style=dotted,weight="100"];
+package_dependency9:e -> "sys-kernel/gentoo-kernel-6.6.116":w [style=dotted,weight="100"];
+package_dependency9:e -> "sys-kernel/gentoo-kernel-6.6.113":w [style=dotted,weight="100"];
+package_dependency9:e -> "sys-kernel/gentoo-kernel-6.1.158":w [style=dotted,weight="100"];
+package_dependency9:e -> "sys-kernel/gentoo-kernel-6.1.157":w [style=dotted,weight="100"];
+package_dependency9:e -> "sys-kernel/gentoo-kernel-5.15.196":w [style=dotted,weight="100"];
+package_dependency9:e -> "sys-kernel/gentoo-kernel-5.15.195":w [style=dotted,weight="100"];
+package_dependency9:e -> "sys-kernel/gentoo-kernel-5.10.246":w [style=dotted,weight="100"];
+package_dependency9:e -> "sys-kernel/gentoo-kernel-5.10.245":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-kernel/gentoo-kernel-bin-6.17.8" [label="portage://sys-kernel/gentoo-kernel-bin-6.17.8", color=red, width=4,href="../sys-kernel/gentoo-kernel-bin-6.17.8.svg"];
+"sys-kernel/gentoo-kernel-bin-6.17.7" [label="portage://sys-kernel/gentoo-kernel-bin-6.17.7", color=red, width=4,href="../sys-kernel/gentoo-kernel-bin-6.17.7.svg"];
+"sys-kernel/gentoo-kernel-bin-6.12.58" [label="portage://sys-kernel/gentoo-kernel-bin-6.12.58", color=red, width=4,href="../sys-kernel/gentoo-kernel-bin-6.12.58.svg"];
+"sys-kernel/gentoo-kernel-bin-6.12.57" [label="portage://sys-kernel/gentoo-kernel-bin-6.12.57", color=red, width=4,href="../sys-kernel/gentoo-kernel-bin-6.12.57.svg"];
+"sys-kernel/gentoo-kernel-bin-6.12.54" [label="portage://sys-kernel/gentoo-kernel-bin-6.12.54", color=red, width=4,href="../sys-kernel/gentoo-kernel-bin-6.12.54.svg"];
+"sys-kernel/gentoo-kernel-bin-6.6.116" [label="portage://sys-kernel/gentoo-kernel-bin-6.6.116", color=red, width=4,href="../sys-kernel/gentoo-kernel-bin-6.6.116.svg"];
+"sys-kernel/gentoo-kernel-bin-6.6.113" [label="portage://sys-kernel/gentoo-kernel-bin-6.6.113", color=red, width=4,href="../sys-kernel/gentoo-kernel-bin-6.6.113.svg"];
+"sys-kernel/gentoo-kernel-bin-6.1.158" [label="portage://sys-kernel/gentoo-kernel-bin-6.1.158", color=red, width=4,href="../sys-kernel/gentoo-kernel-bin-6.1.158.svg"];
+"sys-kernel/gentoo-kernel-bin-6.1.157" [label="portage://sys-kernel/gentoo-kernel-bin-6.1.157", color=red, width=4,href="../sys-kernel/gentoo-kernel-bin-6.1.157.svg"];
+"sys-kernel/gentoo-kernel-bin-5.15.196" [label="portage://sys-kernel/gentoo-kernel-bin-5.15.196", color=red, width=4,href="../sys-kernel/gentoo-kernel-bin-5.15.196.svg"];
+"sys-kernel/gentoo-kernel-bin-5.15.195" [label="portage://sys-kernel/gentoo-kernel-bin-5.15.195", color=red, width=4,href="../sys-kernel/gentoo-kernel-bin-5.15.195.svg"];
+"sys-kernel/gentoo-kernel-bin-5.10.246" [label="portage://sys-kernel/gentoo-kernel-bin-5.10.246", color=red, width=4,href="../sys-kernel/gentoo-kernel-bin-5.10.246.svg"];
+"sys-kernel/gentoo-kernel-bin-5.10.245" [label="portage://sys-kernel/gentoo-kernel-bin-5.10.245", color=red, width=4,href="../sys-kernel/gentoo-kernel-bin-5.10.245.svg"];
+package_dependency10:e -> "sys-kernel/gentoo-kernel-bin-6.17.8":w [style=dotted,weight="100"];
+package_dependency10:e -> "sys-kernel/gentoo-kernel-bin-6.17.7":w [style=dotted,weight="100"];
+package_dependency10:e -> "sys-kernel/gentoo-kernel-bin-6.12.58":w [style=dotted,weight="100"];
+package_dependency10:e -> "sys-kernel/gentoo-kernel-bin-6.12.57":w [style=dotted,weight="100"];
+package_dependency10:e -> "sys-kernel/gentoo-kernel-bin-6.12.54":w [style=dotted,weight="100"];
+package_dependency10:e -> "sys-kernel/gentoo-kernel-bin-6.6.116":w [style=dotted,weight="100"];
+package_dependency10:e -> "sys-kernel/gentoo-kernel-bin-6.6.113":w [style=dotted,weight="100"];
+package_dependency10:e -> "sys-kernel/gentoo-kernel-bin-6.1.158":w [style=dotted,weight="100"];
+package_dependency10:e -> "sys-kernel/gentoo-kernel-bin-6.1.157":w [style=dotted,weight="100"];
+package_dependency10:e -> "sys-kernel/gentoo-kernel-bin-5.15.196":w [style=dotted,weight="100"];
+package_dependency10:e -> "sys-kernel/gentoo-kernel-bin-5.15.195":w [style=dotted,weight="100"];
+package_dependency10:e -> "sys-kernel/gentoo-kernel-bin-5.10.246":w [style=dotted,weight="100"];
+package_dependency10:e -> "sys-kernel/gentoo-kernel-bin-5.10.245":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-kernel/vanilla-kernel-6.17.8" [label="portage://sys-kernel/vanilla-kernel-6.17.8", color=red, width=4,href="../sys-kernel/vanilla-kernel-6.17.8.svg"];
+"sys-kernel/vanilla-kernel-6.17.7" [label="portage://sys-kernel/vanilla-kernel-6.17.7", color=red, width=4,href="../sys-kernel/vanilla-kernel-6.17.7.svg"];
+"sys-kernel/vanilla-kernel-6.12.9999" [label="portage://sys-kernel/vanilla-kernel-6.12.9999", color=red, width=4,href="../sys-kernel/vanilla-kernel-6.12.9999.svg"];
+"sys-kernel/vanilla-kernel-6.12.58" [label="portage://sys-kernel/vanilla-kernel-6.12.58", color=red, width=4,href="../sys-kernel/vanilla-kernel-6.12.58.svg"];
+"sys-kernel/vanilla-kernel-6.12.57" [label="portage://sys-kernel/vanilla-kernel-6.12.57", color=red, width=4,href="../sys-kernel/vanilla-kernel-6.12.57.svg"];
+"sys-kernel/vanilla-kernel-6.12.54" [label="portage://sys-kernel/vanilla-kernel-6.12.54", color=red, width=4,href="../sys-kernel/vanilla-kernel-6.12.54.svg"];
+"sys-kernel/vanilla-kernel-6.6.9999" [label="portage://sys-kernel/vanilla-kernel-6.6.9999", color=red, width=4,href="../sys-kernel/vanilla-kernel-6.6.9999.svg"];
+"sys-kernel/vanilla-kernel-6.6.116" [label="portage://sys-kernel/vanilla-kernel-6.6.116", color=red, width=4,href="../sys-kernel/vanilla-kernel-6.6.116.svg"];
+"sys-kernel/vanilla-kernel-6.6.113" [label="portage://sys-kernel/vanilla-kernel-6.6.113", color=red, width=4,href="../sys-kernel/vanilla-kernel-6.6.113.svg"];
+"sys-kernel/vanilla-kernel-6.1.9999" [label="portage://sys-kernel/vanilla-kernel-6.1.9999", color=red, width=4,href="../sys-kernel/vanilla-kernel-6.1.9999.svg"];
+"sys-kernel/vanilla-kernel-6.1.158" [label="portage://sys-kernel/vanilla-kernel-6.1.158", color=red, width=4,href="../sys-kernel/vanilla-kernel-6.1.158.svg"];
+"sys-kernel/vanilla-kernel-6.1.157" [label="portage://sys-kernel/vanilla-kernel-6.1.157", color=red, width=4,href="../sys-kernel/vanilla-kernel-6.1.157.svg"];
+"sys-kernel/vanilla-kernel-5.15.9999" [label="portage://sys-kernel/vanilla-kernel-5.15.9999", color=red, width=4,href="../sys-kernel/vanilla-kernel-5.15.9999.svg"];
+"sys-kernel/vanilla-kernel-5.15.196" [label="portage://sys-kernel/vanilla-kernel-5.15.196", color=red, width=4,href="../sys-kernel/vanilla-kernel-5.15.196.svg"];
+"sys-kernel/vanilla-kernel-5.15.195" [label="portage://sys-kernel/vanilla-kernel-5.15.195", color=red, width=4,href="../sys-kernel/vanilla-kernel-5.15.195.svg"];
+"sys-kernel/vanilla-kernel-5.10.9999" [label="portage://sys-kernel/vanilla-kernel-5.10.9999", color=red, width=4,href="../sys-kernel/vanilla-kernel-5.10.9999.svg"];
+"sys-kernel/vanilla-kernel-5.10.246" [label="portage://sys-kernel/vanilla-kernel-5.10.246", color=red, width=4,href="../sys-kernel/vanilla-kernel-5.10.246.svg"];
+"sys-kernel/vanilla-kernel-5.10.245" [label="portage://sys-kernel/vanilla-kernel-5.10.245", color=red, width=4,href="../sys-kernel/vanilla-kernel-5.10.245.svg"];
+package_dependency11:e -> "sys-kernel/vanilla-kernel-6.17.8":w [style=dotted,weight="100"];
+package_dependency11:e -> "sys-kernel/vanilla-kernel-6.17.7":w [style=dotted,weight="100"];
+package_dependency11:e -> "sys-kernel/vanilla-kernel-6.12.9999":w [style=dotted,weight="100"];
+package_dependency11:e -> "sys-kernel/vanilla-kernel-6.12.58":w [style=dotted,weight="100"];
+package_dependency11:e -> "sys-kernel/vanilla-kernel-6.12.57":w [style=dotted,weight="100"];
+package_dependency11:e -> "sys-kernel/vanilla-kernel-6.12.54":w [style=dotted,weight="100"];
+package_dependency11:e -> "sys-kernel/vanilla-kernel-6.6.9999":w [style=dotted,weight="100"];
+package_dependency11:e -> "sys-kernel/vanilla-kernel-6.6.116":w [style=dotted,weight="100"];
+package_dependency11:e -> "sys-kernel/vanilla-kernel-6.6.113":w [style=dotted,weight="100"];
+package_dependency11:e -> "sys-kernel/vanilla-kernel-6.1.9999":w [style=dotted,weight="100"];
+package_dependency11:e -> "sys-kernel/vanilla-kernel-6.1.158":w [style=dotted,weight="100"];
+package_dependency11:e -> "sys-kernel/vanilla-kernel-6.1.157":w [style=dotted,weight="100"];
+package_dependency11:e -> "sys-kernel/vanilla-kernel-5.15.9999":w [style=dotted,weight="100"];
+package_dependency11:e -> "sys-kernel/vanilla-kernel-5.15.196":w [style=dotted,weight="100"];
+package_dependency11:e -> "sys-kernel/vanilla-kernel-5.15.195":w [style=dotted,weight="100"];
+package_dependency11:e -> "sys-kernel/vanilla-kernel-5.10.9999":w [style=dotted,weight="100"];
+package_dependency11:e -> "sys-kernel/vanilla-kernel-5.10.246":w [style=dotted,weight="100"];
+package_dependency11:e -> "sys-kernel/vanilla-kernel-5.10.245":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-kernel/linux-next-9999" [label="portage://sys-kernel/linux-next-9999", color=red, width=4,href="../sys-kernel/linux-next-9999.svg"];
+package_dependency12:e -> "sys-kernel/linux-next-9999":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-kernel/asahi-sources-6.16.4_p2" [label="portage://sys-kernel/asahi-sources-6.16.4_p2", color=red, width=4,href="../sys-kernel/asahi-sources-6.16.4_p2.svg"];
+"sys-kernel/asahi-sources-6.15.7_p1" [label="portage://sys-kernel/asahi-sources-6.15.7_p1", color=red, width=4,href="../sys-kernel/asahi-sources-6.15.7_p1.svg"];
+package_dependency13:e -> "sys-kernel/asahi-sources-6.16.4_p2":w [style=dotted,weight="100"];
+package_dependency13:e -> "sys-kernel/asahi-sources-6.15.7_p1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-kernel/linux-firmware-99999999" [label="portage://sys-kernel/linux-firmware-99999999", color=red, width=4,href="../sys-kernel/linux-firmware-99999999.svg"];
+"sys-kernel/linux-firmware-20251111" [label="portage://sys-kernel/linux-firmware-20251111", color=red, width=4,href="../sys-kernel/linux-firmware-20251111.svg"];
+"sys-kernel/linux-firmware-20251021" [label="portage://sys-kernel/linux-firmware-20251021", color=red, width=4,href="../sys-kernel/linux-firmware-20251021.svg"];
+"sys-kernel/linux-firmware-20251011" [label="portage://sys-kernel/linux-firmware-20251011", color=red, width=4,href="../sys-kernel/linux-firmware-20251011.svg"];
+"sys-kernel/linux-firmware-20250917" [label="portage://sys-kernel/linux-firmware-20250917", color=red, width=4,href="../sys-kernel/linux-firmware-20250917.svg"];
+"sys-kernel/linux-firmware-20250808" [label="portage://sys-kernel/linux-firmware-20250808", color=red, width=4,href="../sys-kernel/linux-firmware-20250808.svg"];
+"sys-kernel/linux-firmware-20250708" [label="portage://sys-kernel/linux-firmware-20250708", color=red, width=4,href="../sys-kernel/linux-firmware-20250708.svg"];
+"sys-kernel/linux-firmware-20250627" [label="portage://sys-kernel/linux-firmware-20250627", color=red, width=4,href="../sys-kernel/linux-firmware-20250627.svg"];
+"sys-kernel/linux-firmware-20250613_p20250624" [label="portage://sys-kernel/linux-firmware-20250613_p20250624", color=red, width=4,href="../sys-kernel/linux-firmware-20250613_p20250624.svg"];
+"sys-kernel/linux-firmware-20250613-r1" [label="portage://sys-kernel/linux-firmware-20250613-r1", color=red, width=4,href="../sys-kernel/linux-firmware-20250613-r1.svg"];
+"sys-kernel/linux-firmware-20250410" [label="portage://sys-kernel/linux-firmware-20250410", color=red, width=4,href="../sys-kernel/linux-firmware-20250410.svg"];
+"sys-kernel/linux-firmware-20250311" [label="portage://sys-kernel/linux-firmware-20250311", color=red, width=4,href="../sys-kernel/linux-firmware-20250311.svg"];
+"sys-kernel/linux-firmware-20250211" [label="portage://sys-kernel/linux-firmware-20250211", color=red, width=4,href="../sys-kernel/linux-firmware-20250211.svg"];
+package_dependency14:e -> "sys-kernel/linux-firmware-99999999":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-kernel/linux-firmware-20251111":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-kernel/linux-firmware-20251021":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-kernel/linux-firmware-20251011":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-kernel/linux-firmware-20250917":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-kernel/linux-firmware-20250808":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-kernel/linux-firmware-20250708":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-kernel/linux-firmware-20250627":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-kernel/linux-firmware-20250613_p20250624":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-kernel/linux-firmware-20250613-r1":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-kernel/linux-firmware-20250410":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-kernel/linux-firmware-20250311":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-kernel/linux-firmware-20250211":w [style=dotted,weight="100"];
+}
+}
+}
