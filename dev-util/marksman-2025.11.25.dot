@@ -1,0 +1,119 @@
+digraph prolog {
+
+newrank=true;
+concentrate=true;
+compound=true;
+
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+graph [labelloc=t, labeljust=l, fontcolor=blue, fontname=Helvetica, fontsize=10, label=<<TABLE BORDER='0' CELLBORDER='1' CELLSPACING='0' CELLPADDING='6'><TR><TD COLSPAN='3'><FONT COLOR='black'><B>navigation</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='7'><FONT COLOR='black'><B>dependency graph</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='4'><FONT COLOR='black'><B>version control</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='3'><FONT COLOR='black'><B>command line</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='1'><FONT COLOR='black'><B>legacy</B></FONT></TD></TR><TR><TD title="repository" href="../index.html">portage</TD><TD title="repository" href="./index.html">dev-util</TD><TD title="repository" href="./marksman.html">marksman</TD><TD BORDER='0'></TD><TD title="portage://dev-util/marksman-2025.11.25" href="../dev-util/marksman-2025.11.25.svg"><u>detail</u></TD><TD title="portage://dev-util/marksman-2025.11.25" href="../dev-util/marksman-2025.11.25-bdepend.svg">bdepend</TD><TD title="portage://dev-util/marksman-2025.11.25" href="../dev-util/marksman-2025.11.25-cdepend.svg">cdepend</TD><TD title="portage://dev-util/marksman-2025.11.25" href="../dev-util/marksman-2025.11.25-depend.svg">depend</TD><TD title="portage://dev-util/marksman-2025.11.25" href="../dev-util/marksman-2025.11.25-idepend.svg">idepend</TD><TD title="portage://dev-util/marksman-2025.11.25" href="../dev-util/marksman-2025.11.25-rdepend.svg">rdepend</TD><TD title="portage://dev-util/marksman-2025.11.25" href="../dev-util/marksman-2025.11.25-pdepend.svg">pdepend</TD><TD BORDER='0'></TD><TD><FONT color="gray">&lt;&lt; newest</FONT></TD><TD><FONT color="gray">&lt; newer</FONT></TD><TD title="portage://dev-util/marksman-2024.12.18" href="../dev-util/marksman-2024.12.18.svg">older &gt;</TD><TD title="portage://dev-util/marksman-2024.12.18" href="../dev-util/marksman-2024.12.18.svg">oldest &gt;&gt;</TD><TD BORDER='0'></TD><TD title="portage://dev-util/marksman-2025.11.25" href="../dev-util/marksman-2025.11.25-merge.svg">--merge&nbsp;</TD><TD title="portage://dev-util/marksman-2025.11.25" href="../dev-util/marksman-2025.11.25-fetchonly.svg">--fetchonly&nbsp;</TD><TD title="portage://dev-util/marksman-2025.11.25" href="../dev-util/marksman-2025.11.25-info.svg">--info&nbsp;</TD><TD BORDER='0'></TD><TD title="portage://dev-util/marksman-2025.11.25" href="../dev-util/marksman-2025.11.25-emerge.svg">emerge</TD></TR></TABLE>>];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+fontcolor=gray;
+label=<<i>ebuild</i>>;
+labelloc=t;
+labeljust=c;
+id [label="portage://dev-util/marksman-2025.11.25", color=red, width=4, penwidth=2, fontname="Helvetica-Bold", href="../dev-util/marksman-2025.11.25.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+fontcolor=gray;
+label=<<i>dependencies</i>>;
+labelloc=t;
+labeljust=c
+subgraph cluster_install {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install</i>>;
+subgraph  {
+package_dependency1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-dotnet</TD></TR><TR><TD>csharp-gentoodotnetinfo</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency1:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>virtual</TD></TR><TR><TD>dotnet-sdk</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency2:w [weight=20, style="solid",arrowhead="vee"];
+}
+subgraph cluster_install_and_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph  {
+package_dependency3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>virtual</TD></TR><TR><TD>dotnet-sdk</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency3:w [weight=20, style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+fontcolor=gray;
+label=<<i>candidates</i>>;
+labelloc=t;
+labeljust=c
+
+subgraph  {
+color=black;
+nodesep=1;
+"dev-dotnet/csharp-gentoodotnetinfo-2.9999" [label="portage://dev-dotnet/csharp-gentoodotnetinfo-2.9999", color=red, width=4,href="../dev-dotnet/csharp-gentoodotnetinfo-2.9999.svg"];
+"dev-dotnet/csharp-gentoodotnetinfo-2.0.0-r1" [label="portage://dev-dotnet/csharp-gentoodotnetinfo-2.0.0-r1", color=red, width=4,href="../dev-dotnet/csharp-gentoodotnetinfo-2.0.0-r1.svg"];
+"dev-dotnet/csharp-gentoodotnetinfo-2.0.0" [label="portage://dev-dotnet/csharp-gentoodotnetinfo-2.0.0", color=red, width=4,href="../dev-dotnet/csharp-gentoodotnetinfo-2.0.0.svg"];
+package_dependency1:e -> "dev-dotnet/csharp-gentoodotnetinfo-2.9999":w [style=dotted,weight="100"];
+package_dependency1:e -> "dev-dotnet/csharp-gentoodotnetinfo-2.0.0-r1":w [style=dotted,weight="100"];
+package_dependency1:e -> "dev-dotnet/csharp-gentoodotnetinfo-2.0.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"virtual/dotnet-sdk-10.0" [label="portage://virtual/dotnet-sdk-10.0", color=red, width=4,href="../virtual/dotnet-sdk-10.0.svg"];
+"virtual/dotnet-sdk-9.0" [label="portage://virtual/dotnet-sdk-9.0", color=red, width=4,href="../virtual/dotnet-sdk-9.0.svg"];
+"virtual/dotnet-sdk-8.0" [label="portage://virtual/dotnet-sdk-8.0", color=red, width=4,href="../virtual/dotnet-sdk-8.0.svg"];
+"virtual/dotnet-sdk-7.0-r1" [label="portage://virtual/dotnet-sdk-7.0-r1", color=red, width=4,href="../virtual/dotnet-sdk-7.0-r1.svg"];
+"virtual/dotnet-sdk-6.0-r2" [label="portage://virtual/dotnet-sdk-6.0-r2", color=red, width=4,href="../virtual/dotnet-sdk-6.0-r2.svg"];
+package_dependency2:e -> "virtual/dotnet-sdk-10.0":w [style=dotted,weight="100"];
+package_dependency2:e -> "virtual/dotnet-sdk-9.0":w [style=dotted,weight="100"];
+package_dependency2:e -> "virtual/dotnet-sdk-8.0":w [style=dotted,weight="100"];
+package_dependency2:e -> "virtual/dotnet-sdk-7.0-r1":w [style=dotted,weight="100"];
+package_dependency2:e -> "virtual/dotnet-sdk-6.0-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"virtual/dotnet-sdk-10.0" [label="portage://virtual/dotnet-sdk-10.0", color=red, width=4,href="../virtual/dotnet-sdk-10.0.svg"];
+"virtual/dotnet-sdk-9.0" [label="portage://virtual/dotnet-sdk-9.0", color=red, width=4,href="../virtual/dotnet-sdk-9.0.svg"];
+"virtual/dotnet-sdk-8.0" [label="portage://virtual/dotnet-sdk-8.0", color=red, width=4,href="../virtual/dotnet-sdk-8.0.svg"];
+"virtual/dotnet-sdk-7.0-r1" [label="portage://virtual/dotnet-sdk-7.0-r1", color=red, width=4,href="../virtual/dotnet-sdk-7.0-r1.svg"];
+"virtual/dotnet-sdk-6.0-r2" [label="portage://virtual/dotnet-sdk-6.0-r2", color=red, width=4,href="../virtual/dotnet-sdk-6.0-r2.svg"];
+package_dependency3:e -> "virtual/dotnet-sdk-10.0":w [style=dotted,weight="100"];
+package_dependency3:e -> "virtual/dotnet-sdk-9.0":w [style=dotted,weight="100"];
+package_dependency3:e -> "virtual/dotnet-sdk-8.0":w [style=dotted,weight="100"];
+package_dependency3:e -> "virtual/dotnet-sdk-7.0-r1":w [style=dotted,weight="100"];
+package_dependency3:e -> "virtual/dotnet-sdk-6.0-r2":w [style=dotted,weight="100"];
+}
+}
+}

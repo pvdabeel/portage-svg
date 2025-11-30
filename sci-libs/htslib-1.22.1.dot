@@ -1,0 +1,221 @@
+digraph prolog {
+
+newrank=true;
+concentrate=true;
+compound=true;
+
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+graph [labelloc=t, labeljust=l, fontcolor=blue, fontname=Helvetica, fontsize=10, label=<<TABLE BORDER='0' CELLBORDER='1' CELLSPACING='0' CELLPADDING='6'><TR><TD COLSPAN='3'><FONT COLOR='black'><B>navigation</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='7'><FONT COLOR='black'><B>dependency graph</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='4'><FONT COLOR='black'><B>version control</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='3'><FONT COLOR='black'><B>command line</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='1'><FONT COLOR='black'><B>legacy</B></FONT></TD></TR><TR><TD title="repository" href="../index.html">portage</TD><TD title="repository" href="./index.html">sci-libs</TD><TD title="repository" href="./htslib.html">htslib</TD><TD BORDER='0'></TD><TD title="portage://sci-libs/htslib-1.22.1" href="../sci-libs/htslib-1.22.1.svg"><u>detail</u></TD><TD title="portage://sci-libs/htslib-1.22.1" href="../sci-libs/htslib-1.22.1-bdepend.svg">bdepend</TD><TD title="portage://sci-libs/htslib-1.22.1" href="../sci-libs/htslib-1.22.1-cdepend.svg">cdepend</TD><TD title="portage://sci-libs/htslib-1.22.1" href="../sci-libs/htslib-1.22.1-depend.svg">depend</TD><TD title="portage://sci-libs/htslib-1.22.1" href="../sci-libs/htslib-1.22.1-idepend.svg">idepend</TD><TD title="portage://sci-libs/htslib-1.22.1" href="../sci-libs/htslib-1.22.1-rdepend.svg">rdepend</TD><TD title="portage://sci-libs/htslib-1.22.1" href="../sci-libs/htslib-1.22.1-pdepend.svg">pdepend</TD><TD BORDER='0'></TD><TD><FONT color="gray">&lt;&lt; newest</FONT></TD><TD><FONT color="gray">&lt; newer</FONT></TD><TD title="portage://sci-libs/htslib-1.22" href="../sci-libs/htslib-1.22.svg">older &gt;</TD><TD title="portage://sci-libs/htslib-1.20" href="../sci-libs/htslib-1.20.svg">oldest &gt;&gt;</TD><TD BORDER='0'></TD><TD title="portage://sci-libs/htslib-1.22.1" href="../sci-libs/htslib-1.22.1-merge.svg">--merge&nbsp;</TD><TD title="portage://sci-libs/htslib-1.22.1" href="../sci-libs/htslib-1.22.1-fetchonly.svg">--fetchonly&nbsp;</TD><TD title="portage://sci-libs/htslib-1.22.1" href="../sci-libs/htslib-1.22.1-info.svg">--info&nbsp;</TD><TD BORDER='0'></TD><TD title="portage://sci-libs/htslib-1.22.1" href="../sci-libs/htslib-1.22.1-emerge.svg">emerge</TD></TR></TABLE>>];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+fontcolor=gray;
+label=<<i>ebuild</i>>;
+labelloc=t;
+labeljust=c;
+id [label="portage://sci-libs/htslib-1.22.1", color=red, width=4, penwidth=2, fontname="Helvetica-Bold", href="../sci-libs/htslib-1.22.1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+fontcolor=gray;
+label=<<i>dependencies</i>>;
+labelloc=t;
+labeljust=c
+subgraph cluster_install {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install</i>>;
+subgraph  {
+use_conditional_group1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>bzip2</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>bzip2</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group1:e -> package_dependency1:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group1:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>curl</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>net-misc</TD></TR><TR><TD>curl</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group2:e -> package_dependency2:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group2:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>lzma</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>xz-utils</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group3:e -> package_dependency3:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group3:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency4 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>virtual</TD></TR><TR><TD>zlib</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency4:w [weight=20, style="solid",arrowhead="vee"];
+}
+subgraph cluster_install_and_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph  {
+use_conditional_group4 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>bzip2</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency5 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>bzip2</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group4:e -> package_dependency5:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group4:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group5 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>curl</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency6 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>net-misc</TD></TR><TR><TD>curl</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group5:e -> package_dependency6:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group5:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group6 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>lzma</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency7 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>xz-utils</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group6:e -> package_dependency7:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group6:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency8 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>virtual</TD></TR><TR><TD>zlib</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency8:w [weight=20, style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+fontcolor=gray;
+label=<<i>candidates</i>>;
+labelloc=t;
+labeljust=c
+
+subgraph  {
+color=black;
+nodesep=1;
+"app-arch/bzip2-9999" [label="portage://app-arch/bzip2-9999", color=red, width=4,href="../app-arch/bzip2-9999.svg"];
+"app-arch/bzip2-1.0.8-r5" [label="portage://app-arch/bzip2-1.0.8-r5", color=red, width=4,href="../app-arch/bzip2-1.0.8-r5.svg"];
+package_dependency1:e -> "app-arch/bzip2-9999":w [style=dotted,weight="100"];
+package_dependency1:e -> "app-arch/bzip2-1.0.8-r5":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"net-misc/curl-9999" [label="portage://net-misc/curl-9999", color=red, width=4,href="../net-misc/curl-9999.svg"];
+"net-misc/curl-8.17.0-r1" [label="portage://net-misc/curl-8.17.0-r1", color=red, width=4,href="../net-misc/curl-8.17.0-r1.svg"];
+"net-misc/curl-8.17.0" [label="portage://net-misc/curl-8.17.0", color=red, width=4,href="../net-misc/curl-8.17.0.svg"];
+"net-misc/curl-8.16.0-r1" [label="portage://net-misc/curl-8.16.0-r1", color=red, width=4,href="../net-misc/curl-8.16.0-r1.svg"];
+"net-misc/curl-8.15.0" [label="portage://net-misc/curl-8.15.0", color=red, width=4,href="../net-misc/curl-8.15.0.svg"];
+package_dependency2:e -> "net-misc/curl-9999":w [style=dotted,weight="100"];
+package_dependency2:e -> "net-misc/curl-8.17.0-r1":w [style=dotted,weight="100"];
+package_dependency2:e -> "net-misc/curl-8.17.0":w [style=dotted,weight="100"];
+package_dependency2:e -> "net-misc/curl-8.16.0-r1":w [style=dotted,weight="100"];
+package_dependency2:e -> "net-misc/curl-8.15.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-arch/xz-utils-9999" [label="portage://app-arch/xz-utils-9999", color=red, width=4,href="../app-arch/xz-utils-9999.svg"];
+"app-arch/xz-utils-5.8.1-r1" [label="portage://app-arch/xz-utils-5.8.1-r1", color=red, width=4,href="../app-arch/xz-utils-5.8.1-r1.svg"];
+"app-arch/xz-utils-5.6.4-r2" [label="portage://app-arch/xz-utils-5.6.4-r2", color=red, width=4,href="../app-arch/xz-utils-5.6.4-r2.svg"];
+package_dependency3:e -> "app-arch/xz-utils-9999":w [style=dotted,weight="100"];
+package_dependency3:e -> "app-arch/xz-utils-5.8.1-r1":w [style=dotted,weight="100"];
+package_dependency3:e -> "app-arch/xz-utils-5.6.4-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"virtual/zlib-1.3.1-r1" [label="portage://virtual/zlib-1.3.1-r1", color=red, width=4,href="../virtual/zlib-1.3.1-r1.svg"];
+"virtual/zlib-1.3.1" [label="portage://virtual/zlib-1.3.1", color=red, width=4,href="../virtual/zlib-1.3.1.svg"];
+package_dependency4:e -> "virtual/zlib-1.3.1-r1":w [style=dotted,weight="100"];
+package_dependency4:e -> "virtual/zlib-1.3.1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-arch/bzip2-9999" [label="portage://app-arch/bzip2-9999", color=red, width=4,href="../app-arch/bzip2-9999.svg"];
+"app-arch/bzip2-1.0.8-r5" [label="portage://app-arch/bzip2-1.0.8-r5", color=red, width=4,href="../app-arch/bzip2-1.0.8-r5.svg"];
+package_dependency5:e -> "app-arch/bzip2-9999":w [style=dotted,weight="100"];
+package_dependency5:e -> "app-arch/bzip2-1.0.8-r5":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"net-misc/curl-9999" [label="portage://net-misc/curl-9999", color=red, width=4,href="../net-misc/curl-9999.svg"];
+"net-misc/curl-8.17.0-r1" [label="portage://net-misc/curl-8.17.0-r1", color=red, width=4,href="../net-misc/curl-8.17.0-r1.svg"];
+"net-misc/curl-8.17.0" [label="portage://net-misc/curl-8.17.0", color=red, width=4,href="../net-misc/curl-8.17.0.svg"];
+"net-misc/curl-8.16.0-r1" [label="portage://net-misc/curl-8.16.0-r1", color=red, width=4,href="../net-misc/curl-8.16.0-r1.svg"];
+"net-misc/curl-8.15.0" [label="portage://net-misc/curl-8.15.0", color=red, width=4,href="../net-misc/curl-8.15.0.svg"];
+package_dependency6:e -> "net-misc/curl-9999":w [style=dotted,weight="100"];
+package_dependency6:e -> "net-misc/curl-8.17.0-r1":w [style=dotted,weight="100"];
+package_dependency6:e -> "net-misc/curl-8.17.0":w [style=dotted,weight="100"];
+package_dependency6:e -> "net-misc/curl-8.16.0-r1":w [style=dotted,weight="100"];
+package_dependency6:e -> "net-misc/curl-8.15.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-arch/xz-utils-9999" [label="portage://app-arch/xz-utils-9999", color=red, width=4,href="../app-arch/xz-utils-9999.svg"];
+"app-arch/xz-utils-5.8.1-r1" [label="portage://app-arch/xz-utils-5.8.1-r1", color=red, width=4,href="../app-arch/xz-utils-5.8.1-r1.svg"];
+"app-arch/xz-utils-5.6.4-r2" [label="portage://app-arch/xz-utils-5.6.4-r2", color=red, width=4,href="../app-arch/xz-utils-5.6.4-r2.svg"];
+package_dependency7:e -> "app-arch/xz-utils-9999":w [style=dotted,weight="100"];
+package_dependency7:e -> "app-arch/xz-utils-5.8.1-r1":w [style=dotted,weight="100"];
+package_dependency7:e -> "app-arch/xz-utils-5.6.4-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"virtual/zlib-1.3.1-r1" [label="portage://virtual/zlib-1.3.1-r1", color=red, width=4,href="../virtual/zlib-1.3.1-r1.svg"];
+"virtual/zlib-1.3.1" [label="portage://virtual/zlib-1.3.1", color=red, width=4,href="../virtual/zlib-1.3.1.svg"];
+package_dependency8:e -> "virtual/zlib-1.3.1-r1":w [style=dotted,weight="100"];
+package_dependency8:e -> "virtual/zlib-1.3.1":w [style=dotted,weight="100"];
+}
+}
+}

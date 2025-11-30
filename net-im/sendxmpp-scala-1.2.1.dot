@@ -1,0 +1,91 @@
+digraph prolog {
+
+newrank=true;
+concentrate=true;
+compound=true;
+
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+graph [labelloc=t, labeljust=l, fontcolor=blue, fontname=Helvetica, fontsize=10, label=<<TABLE BORDER='0' CELLBORDER='1' CELLSPACING='0' CELLPADDING='6'><TR><TD COLSPAN='3'><FONT COLOR='black'><B>navigation</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='7'><FONT COLOR='black'><B>dependency graph</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='4'><FONT COLOR='black'><B>version control</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='3'><FONT COLOR='black'><B>command line</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='1'><FONT COLOR='black'><B>legacy</B></FONT></TD></TR><TR><TD title="repository" href="../index.html">portage</TD><TD title="repository" href="./index.html">net-im</TD><TD title="repository" href="./sendxmpp-scala.html">sendxmpp-scala</TD><TD BORDER='0'></TD><TD title="portage://net-im/sendxmpp-scala-1.2.1" href="../net-im/sendxmpp-scala-1.2.1.svg"><u>detail</u></TD><TD title="portage://net-im/sendxmpp-scala-1.2.1" href="../net-im/sendxmpp-scala-1.2.1-bdepend.svg">bdepend</TD><TD title="portage://net-im/sendxmpp-scala-1.2.1" href="../net-im/sendxmpp-scala-1.2.1-cdepend.svg">cdepend</TD><TD title="portage://net-im/sendxmpp-scala-1.2.1" href="../net-im/sendxmpp-scala-1.2.1-depend.svg">depend</TD><TD title="portage://net-im/sendxmpp-scala-1.2.1" href="../net-im/sendxmpp-scala-1.2.1-idepend.svg">idepend</TD><TD title="portage://net-im/sendxmpp-scala-1.2.1" href="../net-im/sendxmpp-scala-1.2.1-rdepend.svg">rdepend</TD><TD title="portage://net-im/sendxmpp-scala-1.2.1" href="../net-im/sendxmpp-scala-1.2.1-pdepend.svg">pdepend</TD><TD BORDER='0'></TD><TD title="portage://net-im/sendxmpp-scala-9999" href="../net-im/sendxmpp-scala-9999.svg">&lt;&lt; newest</TD><TD title="portage://net-im/sendxmpp-scala-9999" href="../net-im/sendxmpp-scala-9999.svg">&lt; newer</TD><TD title="portage://net-im/sendxmpp-scala-1.2.0" href="../net-im/sendxmpp-scala-1.2.0.svg">older &gt;</TD><TD title="portage://net-im/sendxmpp-scala-1.2.0" href="../net-im/sendxmpp-scala-1.2.0.svg">oldest &gt;&gt;</TD><TD BORDER='0'></TD><TD title="portage://net-im/sendxmpp-scala-1.2.1" href="../net-im/sendxmpp-scala-1.2.1-merge.svg">--merge&nbsp;</TD><TD title="portage://net-im/sendxmpp-scala-1.2.1" href="../net-im/sendxmpp-scala-1.2.1-fetchonly.svg">--fetchonly&nbsp;</TD><TD title="portage://net-im/sendxmpp-scala-1.2.1" href="../net-im/sendxmpp-scala-1.2.1-info.svg">--info&nbsp;</TD><TD BORDER='0'></TD><TD title="portage://net-im/sendxmpp-scala-1.2.1" href="../net-im/sendxmpp-scala-1.2.1-emerge.svg">emerge</TD></TR></TABLE>>];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+fontcolor=gray;
+label=<<i>ebuild</i>>;
+labelloc=t;
+labeljust=c;
+id [label="portage://net-im/sendxmpp-scala-1.2.1", color=red, width=4, penwidth=2, fontname="Helvetica-Bold", href="../net-im/sendxmpp-scala-1.2.1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+fontcolor=gray;
+label=<<i>dependencies</i>>;
+labelloc=t;
+labeljust=c
+subgraph cluster_install {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install</i>>;
+}
+subgraph cluster_install_and_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph  {
+package_dependency1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>virtual</TD></TR><TR><TD>jre</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[17],,,17]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency1:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+weak_blocker1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">blocking (weak)</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>net-im</TD></TR><TR><TD>sendxmpp</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=orange];
+}
+id:e -> weak_blocker1:w [weight=20, color="orange", style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+fontcolor=gray;
+label=<<i>candidates</i>>;
+labelloc=t;
+labeljust=c
+
+subgraph  {
+color=black;
+nodesep=1;
+"virtual/jre-25" [label="portage://virtual/jre-25", color=red, width=4,href="../virtual/jre-25.svg"];
+"virtual/jre-21" [label="portage://virtual/jre-21", color=red, width=4,href="../virtual/jre-21.svg"];
+"virtual/jre-17" [label="portage://virtual/jre-17", color=red, width=4,href="../virtual/jre-17.svg"];
+package_dependency1:e -> "virtual/jre-25":w [style=dotted,weight="100"];
+package_dependency1:e -> "virtual/jre-21":w [style=dotted,weight="100"];
+package_dependency1:e -> "virtual/jre-17":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"net-im/sendxmpp-1.24" [label="portage://net-im/sendxmpp-1.24", color=red, width=4,href="../net-im/sendxmpp-1.24.svg"];
+weak_blocker1:e -> "net-im/sendxmpp-1.24":w [style=dotted,weight="100"];
+}
+}
+}

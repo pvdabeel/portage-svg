@@ -1,0 +1,682 @@
+digraph prolog {
+
+newrank=true;
+concentrate=true;
+compound=true;
+
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+graph [labelloc=t, labeljust=l, fontcolor=blue, fontname=Helvetica, fontsize=10, label=<<TABLE BORDER='0' CELLBORDER='1' CELLSPACING='0' CELLPADDING='6'><TR><TD COLSPAN='3'><FONT COLOR='black'><B>navigation</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='7'><FONT COLOR='black'><B>dependency graph</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='4'><FONT COLOR='black'><B>version control</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='3'><FONT COLOR='black'><B>command line</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='1'><FONT COLOR='black'><B>legacy</B></FONT></TD></TR><TR><TD title="repository" href="../index.html">portage</TD><TD title="repository" href="./index.html">app-admin</TD><TD title="repository" href="./keepassxc.html">keepassxc</TD><TD BORDER='0'></TD><TD title="portage://app-admin/keepassxc-2.7.11" href="../app-admin/keepassxc-2.7.11.svg"><u>detail</u></TD><TD title="portage://app-admin/keepassxc-2.7.11" href="../app-admin/keepassxc-2.7.11-bdepend.svg">bdepend</TD><TD title="portage://app-admin/keepassxc-2.7.11" href="../app-admin/keepassxc-2.7.11-cdepend.svg">cdepend</TD><TD title="portage://app-admin/keepassxc-2.7.11" href="../app-admin/keepassxc-2.7.11-depend.svg">depend</TD><TD title="portage://app-admin/keepassxc-2.7.11" href="../app-admin/keepassxc-2.7.11-idepend.svg">idepend</TD><TD title="portage://app-admin/keepassxc-2.7.11" href="../app-admin/keepassxc-2.7.11-rdepend.svg">rdepend</TD><TD title="portage://app-admin/keepassxc-2.7.11" href="../app-admin/keepassxc-2.7.11-pdepend.svg">pdepend</TD><TD BORDER='0'></TD><TD title="portage://app-admin/keepassxc-9999" href="../app-admin/keepassxc-9999.svg">&lt;&lt; newest</TD><TD title="portage://app-admin/keepassxc-9999" href="../app-admin/keepassxc-9999.svg">&lt; newer</TD><TD title="portage://app-admin/keepassxc-2.7.10-r2" href="../app-admin/keepassxc-2.7.10-r2.svg">older &gt;</TD><TD title="portage://app-admin/keepassxc-2.7.10-r2" href="../app-admin/keepassxc-2.7.10-r2.svg">oldest &gt;&gt;</TD><TD BORDER='0'></TD><TD title="portage://app-admin/keepassxc-2.7.11" href="../app-admin/keepassxc-2.7.11-merge.svg">--merge&nbsp;</TD><TD title="portage://app-admin/keepassxc-2.7.11" href="../app-admin/keepassxc-2.7.11-fetchonly.svg">--fetchonly&nbsp;</TD><TD title="portage://app-admin/keepassxc-2.7.11" href="../app-admin/keepassxc-2.7.11-info.svg">--info&nbsp;</TD><TD BORDER='0'></TD><TD title="portage://app-admin/keepassxc-2.7.11" href="../app-admin/keepassxc-2.7.11-emerge.svg">emerge</TD></TR></TABLE>>];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+fontcolor=gray;
+label=<<i>ebuild</i>>;
+labelloc=t;
+labeljust=c;
+id [label="portage://app-admin/keepassxc-2.7.11", color=red, width=4, penwidth=2, fontname="Helvetica-Bold", href="../app-admin/keepassxc-2.7.11.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+fontcolor=gray;
+label=<<i>dependencies</i>>;
+labelloc=t;
+labeljust=c
+subgraph cluster_install {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install</i>>;
+subgraph  {
+use_conditional_group1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>X</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-qt</TD></TR><TR><TD>qtx11extras</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group1:e -> package_dependency1:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group1:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>autotype</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>x11-libs</TD></TR><TR><TD>libX11</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group2:e -> package_dependency2:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>x11-libs</TD></TR><TR><TD>libXtst</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group2:e -> package_dependency3:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group2:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>doc</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency4 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-ruby</TD></TR><TR><TD>asciidoctor</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group3:e -> package_dependency4:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group3:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group4 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>yubikey</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency5 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libusb</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group4:e -> package_dependency5:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency6 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>pcsc-lite</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group4:e -> package_dependency6:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group4:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency7 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>app-alternatives</TD></TR><TR><TD>ninja</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency7:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency8 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>app-crypt</TD></TR><TR><TD>argon2</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency8:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency9 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-build</TD></TR><TR><TD>cmake</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[3,28,5],,,3.28.5]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency9:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency10 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>botan</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency10:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency11 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>zxcvbn-c</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency11:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency12 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-qt</TD></TR><TR><TD>linguist-tools</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency12:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency13 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-qt</TD></TR><TR><TD>qtconcurrent</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency13:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency14 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-qt</TD></TR><TR><TD>qtcore</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency14:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency15 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-qt</TD></TR><TR><TD>qtdbus</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency15:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency16 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-qt</TD></TR><TR><TD>qtgui</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency16:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency17 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-qt</TD></TR><TR><TD>qtnetwork</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency17:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency18 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-qt</TD></TR><TR><TD>qtsvg</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency18:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency19 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-qt</TD></TR><TR><TD>qttest</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency19:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency20 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-qt</TD></TR><TR><TD>qtwidgets</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency20:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency21 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>media-gfx</TD></TR><TR><TD>qrencode</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency21:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency22 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>readline</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency22:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency23 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>virtual</TD></TR><TR><TD>minizip</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency23:w [weight=20, style="solid",arrowhead="vee"];
+}
+subgraph cluster_install_and_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph  {
+use_conditional_group5 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>X</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency24 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-qt</TD></TR><TR><TD>qtx11extras</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group5:e -> package_dependency24:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group5:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group6 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>autotype</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency25 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>x11-libs</TD></TR><TR><TD>libX11</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group6:e -> package_dependency25:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency26 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>x11-libs</TD></TR><TR><TD>libXtst</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group6:e -> package_dependency26:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group6:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group7 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>yubikey</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency27 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libusb</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group7:e -> package_dependency27:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency28 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>pcsc-lite</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group7:e -> package_dependency28:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group7:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency29 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-util</TD></TR><TR><TD>desktop-file-utils</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency29:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency30 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>x11-misc</TD></TR><TR><TD>shared-mime-info</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency30:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency31 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>app-crypt</TD></TR><TR><TD>argon2</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency31:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency32 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>botan</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency32:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency33 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>zxcvbn-c</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency33:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency34 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-qt</TD></TR><TR><TD>qtconcurrent</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency34:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency35 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-qt</TD></TR><TR><TD>qtcore</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency35:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency36 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-qt</TD></TR><TR><TD>qtdbus</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency36:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency37 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-qt</TD></TR><TR><TD>qtgui</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency37:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency38 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-qt</TD></TR><TR><TD>qtnetwork</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency38:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency39 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-qt</TD></TR><TR><TD>qtsvg</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency39:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency40 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-qt</TD></TR><TR><TD>qtwidgets</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency40:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency41 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>media-gfx</TD></TR><TR><TD>qrencode</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency41:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency42 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>readline</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency42:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency43 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>virtual</TD></TR><TR><TD>minizip</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency43:w [weight=20, style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+fontcolor=gray;
+label=<<i>candidates</i>>;
+labelloc=t;
+labeljust=c
+
+subgraph  {
+color=black;
+nodesep=1;
+"dev-qt/qtx11extras-5.15.18" [label="portage://dev-qt/qtx11extras-5.15.18", color=red, width=4,href="../dev-qt/qtx11extras-5.15.18.svg"];
+package_dependency1:e -> "dev-qt/qtx11extras-5.15.18":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"x11-libs/libX11-1.8.12" [label="portage://x11-libs/libX11-1.8.12", color=red, width=4,href="../x11-libs/libX11-1.8.12.svg"];
+package_dependency2:e -> "x11-libs/libX11-1.8.12":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"x11-libs/libXtst-1.2.5" [label="portage://x11-libs/libXtst-1.2.5", color=red, width=4,href="../x11-libs/libXtst-1.2.5.svg"];
+package_dependency3:e -> "x11-libs/libXtst-1.2.5":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-ruby/asciidoctor-2.0.26" [label="portage://dev-ruby/asciidoctor-2.0.26", color=red, width=4,href="../dev-ruby/asciidoctor-2.0.26.svg"];
+"dev-ruby/asciidoctor-2.0.25" [label="portage://dev-ruby/asciidoctor-2.0.25", color=red, width=4,href="../dev-ruby/asciidoctor-2.0.25.svg"];
+"dev-ruby/asciidoctor-2.0.24" [label="portage://dev-ruby/asciidoctor-2.0.24", color=red, width=4,href="../dev-ruby/asciidoctor-2.0.24.svg"];
+"dev-ruby/asciidoctor-2.0.23" [label="portage://dev-ruby/asciidoctor-2.0.23", color=red, width=4,href="../dev-ruby/asciidoctor-2.0.23.svg"];
+package_dependency4:e -> "dev-ruby/asciidoctor-2.0.26":w [style=dotted,weight="100"];
+package_dependency4:e -> "dev-ruby/asciidoctor-2.0.25":w [style=dotted,weight="100"];
+package_dependency4:e -> "dev-ruby/asciidoctor-2.0.24":w [style=dotted,weight="100"];
+package_dependency4:e -> "dev-ruby/asciidoctor-2.0.23":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/libusb-1.0.29" [label="portage://dev-libs/libusb-1.0.29", color=red, width=4,href="../dev-libs/libusb-1.0.29.svg"];
+"dev-libs/libusb-1.0.28" [label="portage://dev-libs/libusb-1.0.28", color=red, width=4,href="../dev-libs/libusb-1.0.28.svg"];
+"dev-libs/libusb-1.0.27-r1" [label="portage://dev-libs/libusb-1.0.27-r1", color=red, width=4,href="../dev-libs/libusb-1.0.27-r1.svg"];
+package_dependency5:e -> "dev-libs/libusb-1.0.29":w [style=dotted,weight="100"];
+package_dependency5:e -> "dev-libs/libusb-1.0.28":w [style=dotted,weight="100"];
+package_dependency5:e -> "dev-libs/libusb-1.0.27-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-apps/pcsc-lite-2.4.0" [label="portage://sys-apps/pcsc-lite-2.4.0", color=red, width=4,href="../sys-apps/pcsc-lite-2.4.0.svg"];
+"sys-apps/pcsc-lite-2.3.3" [label="portage://sys-apps/pcsc-lite-2.3.3", color=red, width=4,href="../sys-apps/pcsc-lite-2.3.3.svg"];
+package_dependency6:e -> "sys-apps/pcsc-lite-2.4.0":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-apps/pcsc-lite-2.3.3":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-alternatives/ninja-1" [label="portage://app-alternatives/ninja-1", color=red, width=4,href="../app-alternatives/ninja-1.svg"];
+package_dependency7:e -> "app-alternatives/ninja-1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-crypt/argon2-20190702-r1" [label="portage://app-crypt/argon2-20190702-r1", color=red, width=4,href="../app-crypt/argon2-20190702-r1.svg"];
+package_dependency8:e -> "app-crypt/argon2-20190702-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-build/cmake-9999" [label="portage://dev-build/cmake-9999", color=red, width=4,href="../dev-build/cmake-9999.svg"];
+"dev-build/cmake-4.1.3" [label="portage://dev-build/cmake-4.1.3", color=red, width=4,href="../dev-build/cmake-4.1.3.svg"];
+"dev-build/cmake-4.1.2-r1" [label="portage://dev-build/cmake-4.1.2-r1", color=red, width=4,href="../dev-build/cmake-4.1.2-r1.svg"];
+"dev-build/cmake-3.31.10" [label="portage://dev-build/cmake-3.31.10", color=red, width=4,href="../dev-build/cmake-3.31.10.svg"];
+"dev-build/cmake-3.31.9-r1" [label="portage://dev-build/cmake-3.31.9-r1", color=red, width=4,href="../dev-build/cmake-3.31.9-r1.svg"];
+package_dependency9:e -> "dev-build/cmake-9999":w [style=dotted,weight="100"];
+package_dependency9:e -> "dev-build/cmake-4.1.3":w [style=dotted,weight="100"];
+package_dependency9:e -> "dev-build/cmake-4.1.2-r1":w [style=dotted,weight="100"];
+package_dependency9:e -> "dev-build/cmake-3.31.10":w [style=dotted,weight="100"];
+package_dependency9:e -> "dev-build/cmake-3.31.9-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/botan-3.9.0" [label="portage://dev-libs/botan-3.9.0", color=red, width=4,href="../dev-libs/botan-3.9.0.svg"];
+"dev-libs/botan-3.8.1" [label="portage://dev-libs/botan-3.8.1", color=red, width=4,href="../dev-libs/botan-3.8.1.svg"];
+"dev-libs/botan-2.19.5" [label="portage://dev-libs/botan-2.19.5", color=red, width=4,href="../dev-libs/botan-2.19.5.svg"];
+package_dependency10:e -> "dev-libs/botan-3.9.0":w [style=dotted,weight="100"];
+package_dependency10:e -> "dev-libs/botan-3.8.1":w [style=dotted,weight="100"];
+package_dependency10:e -> "dev-libs/botan-2.19.5":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/zxcvbn-c-2.5" [label="portage://dev-libs/zxcvbn-c-2.5", color=red, width=4,href="../dev-libs/zxcvbn-c-2.5.svg"];
+package_dependency11:e -> "dev-libs/zxcvbn-c-2.5":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-qt/linguist-tools-5.15.18" [label="portage://dev-qt/linguist-tools-5.15.18", color=red, width=4,href="../dev-qt/linguist-tools-5.15.18.svg"];
+package_dependency12:e -> "dev-qt/linguist-tools-5.15.18":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-qt/qtconcurrent-5.15.18" [label="portage://dev-qt/qtconcurrent-5.15.18", color=red, width=4,href="../dev-qt/qtconcurrent-5.15.18.svg"];
+package_dependency13:e -> "dev-qt/qtconcurrent-5.15.18":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-qt/qtcore-5.15.18" [label="portage://dev-qt/qtcore-5.15.18", color=red, width=4,href="../dev-qt/qtcore-5.15.18.svg"];
+package_dependency14:e -> "dev-qt/qtcore-5.15.18":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-qt/qtdbus-5.15.18" [label="portage://dev-qt/qtdbus-5.15.18", color=red, width=4,href="../dev-qt/qtdbus-5.15.18.svg"];
+package_dependency15:e -> "dev-qt/qtdbus-5.15.18":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-qt/qtgui-5.15.18" [label="portage://dev-qt/qtgui-5.15.18", color=red, width=4,href="../dev-qt/qtgui-5.15.18.svg"];
+package_dependency16:e -> "dev-qt/qtgui-5.15.18":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-qt/qtnetwork-5.15.18" [label="portage://dev-qt/qtnetwork-5.15.18", color=red, width=4,href="../dev-qt/qtnetwork-5.15.18.svg"];
+package_dependency17:e -> "dev-qt/qtnetwork-5.15.18":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-qt/qtsvg-6.9999" [label="portage://dev-qt/qtsvg-6.9999", color=red, width=4,href="../dev-qt/qtsvg-6.9999.svg"];
+"dev-qt/qtsvg-6.10.9999" [label="portage://dev-qt/qtsvg-6.10.9999", color=red, width=4,href="../dev-qt/qtsvg-6.10.9999.svg"];
+"dev-qt/qtsvg-6.10.1" [label="portage://dev-qt/qtsvg-6.10.1", color=red, width=4,href="../dev-qt/qtsvg-6.10.1.svg"];
+"dev-qt/qtsvg-6.9.3" [label="portage://dev-qt/qtsvg-6.9.3", color=red, width=4,href="../dev-qt/qtsvg-6.9.3.svg"];
+"dev-qt/qtsvg-5.15.18" [label="portage://dev-qt/qtsvg-5.15.18", color=red, width=4,href="../dev-qt/qtsvg-5.15.18.svg"];
+package_dependency18:e -> "dev-qt/qtsvg-6.9999":w [style=dotted,weight="100"];
+package_dependency18:e -> "dev-qt/qtsvg-6.10.9999":w [style=dotted,weight="100"];
+package_dependency18:e -> "dev-qt/qtsvg-6.10.1":w [style=dotted,weight="100"];
+package_dependency18:e -> "dev-qt/qtsvg-6.9.3":w [style=dotted,weight="100"];
+package_dependency18:e -> "dev-qt/qtsvg-5.15.18":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-qt/qttest-5.15.18" [label="portage://dev-qt/qttest-5.15.18", color=red, width=4,href="../dev-qt/qttest-5.15.18.svg"];
+package_dependency19:e -> "dev-qt/qttest-5.15.18":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-qt/qtwidgets-5.15.18" [label="portage://dev-qt/qtwidgets-5.15.18", color=red, width=4,href="../dev-qt/qtwidgets-5.15.18.svg"];
+package_dependency20:e -> "dev-qt/qtwidgets-5.15.18":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"media-gfx/qrencode-4.1.1-r1" [label="portage://media-gfx/qrencode-4.1.1-r1", color=red, width=4,href="../media-gfx/qrencode-4.1.1-r1.svg"];
+package_dependency21:e -> "media-gfx/qrencode-4.1.1-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-libs/readline-9999" [label="portage://sys-libs/readline-9999", color=red, width=4,href="../sys-libs/readline-9999.svg"];
+"sys-libs/readline-8.4_alpha_pre20251007" [label="portage://sys-libs/readline-8.4_alpha_pre20251007", color=red, width=4,href="../sys-libs/readline-8.4_alpha_pre20251007.svg"];
+"sys-libs/readline-8.3_p1" [label="portage://sys-libs/readline-8.3_p1", color=red, width=4,href="../sys-libs/readline-8.3_p1.svg"];
+"sys-libs/readline-8.2_p13-r1" [label="portage://sys-libs/readline-8.2_p13-r1", color=red, width=4,href="../sys-libs/readline-8.2_p13-r1.svg"];
+package_dependency22:e -> "sys-libs/readline-9999":w [style=dotted,weight="100"];
+package_dependency22:e -> "sys-libs/readline-8.4_alpha_pre20251007":w [style=dotted,weight="100"];
+package_dependency22:e -> "sys-libs/readline-8.3_p1":w [style=dotted,weight="100"];
+package_dependency22:e -> "sys-libs/readline-8.2_p13-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"virtual/minizip-1.3.1" [label="portage://virtual/minizip-1.3.1", color=red, width=4,href="../virtual/minizip-1.3.1.svg"];
+package_dependency23:e -> "virtual/minizip-1.3.1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-qt/qtx11extras-5.15.18" [label="portage://dev-qt/qtx11extras-5.15.18", color=red, width=4,href="../dev-qt/qtx11extras-5.15.18.svg"];
+package_dependency24:e -> "dev-qt/qtx11extras-5.15.18":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"x11-libs/libX11-1.8.12" [label="portage://x11-libs/libX11-1.8.12", color=red, width=4,href="../x11-libs/libX11-1.8.12.svg"];
+package_dependency25:e -> "x11-libs/libX11-1.8.12":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"x11-libs/libXtst-1.2.5" [label="portage://x11-libs/libXtst-1.2.5", color=red, width=4,href="../x11-libs/libXtst-1.2.5.svg"];
+package_dependency26:e -> "x11-libs/libXtst-1.2.5":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/libusb-1.0.29" [label="portage://dev-libs/libusb-1.0.29", color=red, width=4,href="../dev-libs/libusb-1.0.29.svg"];
+"dev-libs/libusb-1.0.28" [label="portage://dev-libs/libusb-1.0.28", color=red, width=4,href="../dev-libs/libusb-1.0.28.svg"];
+"dev-libs/libusb-1.0.27-r1" [label="portage://dev-libs/libusb-1.0.27-r1", color=red, width=4,href="../dev-libs/libusb-1.0.27-r1.svg"];
+package_dependency27:e -> "dev-libs/libusb-1.0.29":w [style=dotted,weight="100"];
+package_dependency27:e -> "dev-libs/libusb-1.0.28":w [style=dotted,weight="100"];
+package_dependency27:e -> "dev-libs/libusb-1.0.27-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-apps/pcsc-lite-2.4.0" [label="portage://sys-apps/pcsc-lite-2.4.0", color=red, width=4,href="../sys-apps/pcsc-lite-2.4.0.svg"];
+"sys-apps/pcsc-lite-2.3.3" [label="portage://sys-apps/pcsc-lite-2.3.3", color=red, width=4,href="../sys-apps/pcsc-lite-2.3.3.svg"];
+package_dependency28:e -> "sys-apps/pcsc-lite-2.4.0":w [style=dotted,weight="100"];
+package_dependency28:e -> "sys-apps/pcsc-lite-2.3.3":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-util/desktop-file-utils-0.28" [label="portage://dev-util/desktop-file-utils-0.28", color=red, width=4,href="../dev-util/desktop-file-utils-0.28.svg"];
+"dev-util/desktop-file-utils-0.27-r1" [label="portage://dev-util/desktop-file-utils-0.27-r1", color=red, width=4,href="../dev-util/desktop-file-utils-0.27-r1.svg"];
+"dev-util/desktop-file-utils-0.27" [label="portage://dev-util/desktop-file-utils-0.27", color=red, width=4,href="../dev-util/desktop-file-utils-0.27.svg"];
+package_dependency29:e -> "dev-util/desktop-file-utils-0.28":w [style=dotted,weight="100"];
+package_dependency29:e -> "dev-util/desktop-file-utils-0.27-r1":w [style=dotted,weight="100"];
+package_dependency29:e -> "dev-util/desktop-file-utils-0.27":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"x11-misc/shared-mime-info-2.4-r3" [label="portage://x11-misc/shared-mime-info-2.4-r3", color=red, width=4,href="../x11-misc/shared-mime-info-2.4-r3.svg"];
+"x11-misc/shared-mime-info-2.4-r2" [label="portage://x11-misc/shared-mime-info-2.4-r2", color=red, width=4,href="../x11-misc/shared-mime-info-2.4-r2.svg"];
+package_dependency30:e -> "x11-misc/shared-mime-info-2.4-r3":w [style=dotted,weight="100"];
+package_dependency30:e -> "x11-misc/shared-mime-info-2.4-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-crypt/argon2-20190702-r1" [label="portage://app-crypt/argon2-20190702-r1", color=red, width=4,href="../app-crypt/argon2-20190702-r1.svg"];
+package_dependency31:e -> "app-crypt/argon2-20190702-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/botan-3.9.0" [label="portage://dev-libs/botan-3.9.0", color=red, width=4,href="../dev-libs/botan-3.9.0.svg"];
+"dev-libs/botan-3.8.1" [label="portage://dev-libs/botan-3.8.1", color=red, width=4,href="../dev-libs/botan-3.8.1.svg"];
+"dev-libs/botan-2.19.5" [label="portage://dev-libs/botan-2.19.5", color=red, width=4,href="../dev-libs/botan-2.19.5.svg"];
+package_dependency32:e -> "dev-libs/botan-3.9.0":w [style=dotted,weight="100"];
+package_dependency32:e -> "dev-libs/botan-3.8.1":w [style=dotted,weight="100"];
+package_dependency32:e -> "dev-libs/botan-2.19.5":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/zxcvbn-c-2.5" [label="portage://dev-libs/zxcvbn-c-2.5", color=red, width=4,href="../dev-libs/zxcvbn-c-2.5.svg"];
+package_dependency33:e -> "dev-libs/zxcvbn-c-2.5":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-qt/qtconcurrent-5.15.18" [label="portage://dev-qt/qtconcurrent-5.15.18", color=red, width=4,href="../dev-qt/qtconcurrent-5.15.18.svg"];
+package_dependency34:e -> "dev-qt/qtconcurrent-5.15.18":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-qt/qtcore-5.15.18" [label="portage://dev-qt/qtcore-5.15.18", color=red, width=4,href="../dev-qt/qtcore-5.15.18.svg"];
+package_dependency35:e -> "dev-qt/qtcore-5.15.18":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-qt/qtdbus-5.15.18" [label="portage://dev-qt/qtdbus-5.15.18", color=red, width=4,href="../dev-qt/qtdbus-5.15.18.svg"];
+package_dependency36:e -> "dev-qt/qtdbus-5.15.18":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-qt/qtgui-5.15.18" [label="portage://dev-qt/qtgui-5.15.18", color=red, width=4,href="../dev-qt/qtgui-5.15.18.svg"];
+package_dependency37:e -> "dev-qt/qtgui-5.15.18":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-qt/qtnetwork-5.15.18" [label="portage://dev-qt/qtnetwork-5.15.18", color=red, width=4,href="../dev-qt/qtnetwork-5.15.18.svg"];
+package_dependency38:e -> "dev-qt/qtnetwork-5.15.18":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-qt/qtsvg-6.9999" [label="portage://dev-qt/qtsvg-6.9999", color=red, width=4,href="../dev-qt/qtsvg-6.9999.svg"];
+"dev-qt/qtsvg-6.10.9999" [label="portage://dev-qt/qtsvg-6.10.9999", color=red, width=4,href="../dev-qt/qtsvg-6.10.9999.svg"];
+"dev-qt/qtsvg-6.10.1" [label="portage://dev-qt/qtsvg-6.10.1", color=red, width=4,href="../dev-qt/qtsvg-6.10.1.svg"];
+"dev-qt/qtsvg-6.9.3" [label="portage://dev-qt/qtsvg-6.9.3", color=red, width=4,href="../dev-qt/qtsvg-6.9.3.svg"];
+"dev-qt/qtsvg-5.15.18" [label="portage://dev-qt/qtsvg-5.15.18", color=red, width=4,href="../dev-qt/qtsvg-5.15.18.svg"];
+package_dependency39:e -> "dev-qt/qtsvg-6.9999":w [style=dotted,weight="100"];
+package_dependency39:e -> "dev-qt/qtsvg-6.10.9999":w [style=dotted,weight="100"];
+package_dependency39:e -> "dev-qt/qtsvg-6.10.1":w [style=dotted,weight="100"];
+package_dependency39:e -> "dev-qt/qtsvg-6.9.3":w [style=dotted,weight="100"];
+package_dependency39:e -> "dev-qt/qtsvg-5.15.18":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-qt/qtwidgets-5.15.18" [label="portage://dev-qt/qtwidgets-5.15.18", color=red, width=4,href="../dev-qt/qtwidgets-5.15.18.svg"];
+package_dependency40:e -> "dev-qt/qtwidgets-5.15.18":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"media-gfx/qrencode-4.1.1-r1" [label="portage://media-gfx/qrencode-4.1.1-r1", color=red, width=4,href="../media-gfx/qrencode-4.1.1-r1.svg"];
+package_dependency41:e -> "media-gfx/qrencode-4.1.1-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-libs/readline-9999" [label="portage://sys-libs/readline-9999", color=red, width=4,href="../sys-libs/readline-9999.svg"];
+"sys-libs/readline-8.4_alpha_pre20251007" [label="portage://sys-libs/readline-8.4_alpha_pre20251007", color=red, width=4,href="../sys-libs/readline-8.4_alpha_pre20251007.svg"];
+"sys-libs/readline-8.3_p1" [label="portage://sys-libs/readline-8.3_p1", color=red, width=4,href="../sys-libs/readline-8.3_p1.svg"];
+"sys-libs/readline-8.2_p13-r1" [label="portage://sys-libs/readline-8.2_p13-r1", color=red, width=4,href="../sys-libs/readline-8.2_p13-r1.svg"];
+package_dependency42:e -> "sys-libs/readline-9999":w [style=dotted,weight="100"];
+package_dependency42:e -> "sys-libs/readline-8.4_alpha_pre20251007":w [style=dotted,weight="100"];
+package_dependency42:e -> "sys-libs/readline-8.3_p1":w [style=dotted,weight="100"];
+package_dependency42:e -> "sys-libs/readline-8.2_p13-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"virtual/minizip-1.3.1" [label="portage://virtual/minizip-1.3.1", color=red, width=4,href="../virtual/minizip-1.3.1.svg"];
+package_dependency43:e -> "virtual/minizip-1.3.1":w [style=dotted,weight="100"];
+}
+}
+}

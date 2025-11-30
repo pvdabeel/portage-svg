@@ -1,0 +1,713 @@
+digraph prolog {
+
+newrank=true;
+concentrate=true;
+compound=true;
+
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+graph [labelloc=t, labeljust=l, fontcolor=blue, fontname=Helvetica, fontsize=10, label=<<TABLE BORDER='0' CELLBORDER='1' CELLSPACING='0' CELLPADDING='6'><TR><TD COLSPAN='3'><FONT COLOR='black'><B>navigation</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='7'><FONT COLOR='black'><B>dependency graph</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='4'><FONT COLOR='black'><B>version control</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='3'><FONT COLOR='black'><B>command line</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='1'><FONT COLOR='black'><B>legacy</B></FONT></TD></TR><TR><TD title="repository" href="../index.html">portage</TD><TD title="repository" href="./index.html">sci-mathematics</TD><TD title="repository" href="./polymake.html">polymake</TD><TD BORDER='0'></TD><TD title="portage://sci-mathematics/polymake-4.15" href="../sci-mathematics/polymake-4.15.svg"><u>detail</u></TD><TD title="portage://sci-mathematics/polymake-4.15" href="../sci-mathematics/polymake-4.15-bdepend.svg">bdepend</TD><TD title="portage://sci-mathematics/polymake-4.15" href="../sci-mathematics/polymake-4.15-cdepend.svg">cdepend</TD><TD title="portage://sci-mathematics/polymake-4.15" href="../sci-mathematics/polymake-4.15-depend.svg">depend</TD><TD title="portage://sci-mathematics/polymake-4.15" href="../sci-mathematics/polymake-4.15-idepend.svg">idepend</TD><TD title="portage://sci-mathematics/polymake-4.15" href="../sci-mathematics/polymake-4.15-rdepend.svg">rdepend</TD><TD title="portage://sci-mathematics/polymake-4.15" href="../sci-mathematics/polymake-4.15-pdepend.svg">pdepend</TD><TD BORDER='0'></TD><TD><FONT color="gray">&lt;&lt; newest</FONT></TD><TD><FONT color="gray">&lt; newer</FONT></TD><TD title="portage://sci-mathematics/polymake-4.14" href="../sci-mathematics/polymake-4.14.svg">older &gt;</TD><TD title="portage://sci-mathematics/polymake-4.13" href="../sci-mathematics/polymake-4.13.svg">oldest &gt;&gt;</TD><TD BORDER='0'></TD><TD title="portage://sci-mathematics/polymake-4.15" href="../sci-mathematics/polymake-4.15-merge.svg">--merge&nbsp;</TD><TD title="portage://sci-mathematics/polymake-4.15" href="../sci-mathematics/polymake-4.15-fetchonly.svg">--fetchonly&nbsp;</TD><TD title="portage://sci-mathematics/polymake-4.15" href="../sci-mathematics/polymake-4.15-info.svg">--info&nbsp;</TD><TD BORDER='0'></TD><TD title="portage://sci-mathematics/polymake-4.15" href="../sci-mathematics/polymake-4.15-emerge.svg">emerge</TD></TR></TABLE>>];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+fontcolor=gray;
+label=<<i>ebuild</i>>;
+labelloc=t;
+labeljust=c;
+id [label="portage://sci-mathematics/polymake-4.15", color=red, width=4, penwidth=2, fontname="Helvetica-Bold", href="../sci-mathematics/polymake-4.15.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+fontcolor=gray;
+label=<<i>dependencies</i>>;
+labelloc=t;
+labeljust=c
+subgraph cluster_install {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install</i>>;
+subgraph  {
+use_conditional_group1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>bliss</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>sci-libs</TD></TR><TR><TD>bliss</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group1:e -> package_dependency1:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group1:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>cdd</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>sci-libs</TD></TR><TR><TD>cddlib</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group2:e -> package_dependency2:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group2:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>flint</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>sci-mathematics</TD></TR><TR><TD>flint</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group3:e -> package_dependency3:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group3:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group4 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>libpolymake</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency4 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>perl</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group4:e -> package_dependency4:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group4:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group5 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>lrs</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency5 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>sci-libs</TD></TR><TR><TD>lrslib</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[51],,,051]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group5:e -> package_dependency5:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group5:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group6 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>nauty</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency6 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>sci-mathematics</TD></TR><TR><TD>nauty</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group6:e -> package_dependency6:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group6:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group7 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>normaliz</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency7 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>sci-mathematics</TD></TR><TR><TD>normaliz</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[3,8],,,3.8]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group7:e -> package_dependency7:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group7:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group8 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>ppl</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency8 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>ppl</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group8:e -> package_dependency8:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group8:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group9 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>singular</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency9 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>sci-mathematics</TD></TR><TR><TD>singular</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group9:e -> package_dependency9:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group9:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency10 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>app-alternatives</TD></TR><TR><TD>ninja</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency10:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency11 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>perl</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency11:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency12 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>boost</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency12:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency13 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>gmp</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency13:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency14 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libxml2</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency14:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency15 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libxslt</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency15:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency16 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>mpfr</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency16:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency17 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>readline</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency17:w [weight=20, style="solid",arrowhead="vee"];
+}
+subgraph cluster_install_and_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph  {
+use_conditional_group10 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>bliss</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency18 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sci-libs</TD></TR><TR><TD>bliss</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group10:e -> package_dependency18:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group10:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group11 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>cdd</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency19 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sci-libs</TD></TR><TR><TD>cddlib</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group11:e -> package_dependency19:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group11:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group12 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>flint</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency20 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sci-mathematics</TD></TR><TR><TD>flint</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group12:e -> package_dependency20:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group12:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group13 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>libpolymake</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency21 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>perl</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group13:e -> package_dependency21:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group13:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group14 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>lrs</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency22 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sci-libs</TD></TR><TR><TD>lrslib</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[51],,,051]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group14:e -> package_dependency22:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group14:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group15 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>nauty</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency23 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sci-mathematics</TD></TR><TR><TD>nauty</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group15:e -> package_dependency23:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group15:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group16 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>normaliz</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency24 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sci-mathematics</TD></TR><TR><TD>normaliz</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[3,8],,,3.8]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group16:e -> package_dependency24:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group16:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group17 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>ppl</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency25 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>ppl</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group17:e -> package_dependency25:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group17:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group18 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>singular</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency26 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sci-mathematics</TD></TR><TR><TD>singular</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group18:e -> package_dependency26:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group18:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency27 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>perl</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency27:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency28 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>boost</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency28:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency29 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>gmp</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency29:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency30 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libxml2</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency30:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency31 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libxslt</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency31:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency32 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>mpfr</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency32:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency33 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-perl</TD></TR><TR><TD>JSON</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency33:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency34 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-perl</TD></TR><TR><TD>Term-ReadLine-Gnu</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency34:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency35 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-perl</TD></TR><TR><TD>TermReadKey</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency35:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency36 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-perl</TD></TR><TR><TD>XML-SAX</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency36:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency37 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-perl</TD></TR><TR><TD>XML-Writer</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency37:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency38 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>readline</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency38:w [weight=20, style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+fontcolor=gray;
+label=<<i>candidates</i>>;
+labelloc=t;
+labeljust=c
+
+subgraph  {
+color=black;
+nodesep=1;
+"sci-libs/bliss-0.77-r1" [label="portage://sci-libs/bliss-0.77-r1", color=red, width=4,href="../sci-libs/bliss-0.77-r1.svg"];
+"sci-libs/bliss-0.77" [label="portage://sci-libs/bliss-0.77", color=red, width=4,href="../sci-libs/bliss-0.77.svg"];
+package_dependency1:e -> "sci-libs/bliss-0.77-r1":w [style=dotted,weight="100"];
+package_dependency1:e -> "sci-libs/bliss-0.77":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sci-libs/cddlib-094m-r2" [label="portage://sci-libs/cddlib-094m-r2", color=red, width=4,href="../sci-libs/cddlib-094m-r2.svg"];
+package_dependency2:e -> "sci-libs/cddlib-094m-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sci-mathematics/flint-3.3.1-r1" [label="portage://sci-mathematics/flint-3.3.1-r1", color=red, width=4,href="../sci-mathematics/flint-3.3.1-r1.svg"];
+"sci-mathematics/flint-3.1.3_p1-r4" [label="portage://sci-mathematics/flint-3.1.3_p1-r4", color=red, width=4,href="../sci-mathematics/flint-3.1.3_p1-r4.svg"];
+package_dependency3:e -> "sci-mathematics/flint-3.3.1-r1":w [style=dotted,weight="100"];
+package_dependency3:e -> "sci-mathematics/flint-3.1.3_p1-r4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-lang/perl-5.42.0-r1" [label="portage://dev-lang/perl-5.42.0-r1", color=red, width=4,href="../dev-lang/perl-5.42.0-r1.svg"];
+"dev-lang/perl-5.42.0" [label="portage://dev-lang/perl-5.42.0", color=red, width=4,href="../dev-lang/perl-5.42.0.svg"];
+"dev-lang/perl-5.40.2" [label="portage://dev-lang/perl-5.40.2", color=red, width=4,href="../dev-lang/perl-5.40.2.svg"];
+"dev-lang/perl-5.40.1" [label="portage://dev-lang/perl-5.40.1", color=red, width=4,href="../dev-lang/perl-5.40.1.svg"];
+"dev-lang/perl-5.40.0-r1" [label="portage://dev-lang/perl-5.40.0-r1", color=red, width=4,href="../dev-lang/perl-5.40.0-r1.svg"];
+package_dependency4:e -> "dev-lang/perl-5.42.0-r1":w [style=dotted,weight="100"];
+package_dependency4:e -> "dev-lang/perl-5.42.0":w [style=dotted,weight="100"];
+package_dependency4:e -> "dev-lang/perl-5.40.2":w [style=dotted,weight="100"];
+package_dependency4:e -> "dev-lang/perl-5.40.1":w [style=dotted,weight="100"];
+package_dependency4:e -> "dev-lang/perl-5.40.0-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sci-libs/lrslib-073" [label="portage://sci-libs/lrslib-073", color=red, width=4,href="../sci-libs/lrslib-073.svg"];
+"sci-libs/lrslib-071b-r1" [label="portage://sci-libs/lrslib-071b-r1", color=red, width=4,href="../sci-libs/lrslib-071b-r1.svg"];
+package_dependency5:e -> "sci-libs/lrslib-073":w [style=dotted,weight="100"];
+package_dependency5:e -> "sci-libs/lrslib-071b-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sci-mathematics/nauty-2.8.8-r1" [label="portage://sci-mathematics/nauty-2.8.8-r1", color=red, width=4,href="../sci-mathematics/nauty-2.8.8-r1.svg"];
+package_dependency6:e -> "sci-mathematics/nauty-2.8.8-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sci-mathematics/normaliz-3.10.5" [label="portage://sci-mathematics/normaliz-3.10.5", color=red, width=4,href="../sci-mathematics/normaliz-3.10.5.svg"];
+"sci-mathematics/normaliz-3.10.1" [label="portage://sci-mathematics/normaliz-3.10.1", color=red, width=4,href="../sci-mathematics/normaliz-3.10.1.svg"];
+"sci-mathematics/normaliz-3.9.3" [label="portage://sci-mathematics/normaliz-3.9.3", color=red, width=4,href="../sci-mathematics/normaliz-3.9.3.svg"];
+package_dependency7:e -> "sci-mathematics/normaliz-3.10.5":w [style=dotted,weight="100"];
+package_dependency7:e -> "sci-mathematics/normaliz-3.10.1":w [style=dotted,weight="100"];
+package_dependency7:e -> "sci-mathematics/normaliz-3.9.3":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/ppl-1.2-r5" [label="portage://dev-libs/ppl-1.2-r5", color=red, width=4,href="../dev-libs/ppl-1.2-r5.svg"];
+package_dependency8:e -> "dev-libs/ppl-1.2-r5":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sci-mathematics/singular-4.4.1-r1" [label="portage://sci-mathematics/singular-4.4.1-r1", color=red, width=4,href="../sci-mathematics/singular-4.4.1-r1.svg"];
+"sci-mathematics/singular-4.4.1" [label="portage://sci-mathematics/singular-4.4.1", color=red, width=4,href="../sci-mathematics/singular-4.4.1.svg"];
+package_dependency9:e -> "sci-mathematics/singular-4.4.1-r1":w [style=dotted,weight="100"];
+package_dependency9:e -> "sci-mathematics/singular-4.4.1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-alternatives/ninja-1" [label="portage://app-alternatives/ninja-1", color=red, width=4,href="../app-alternatives/ninja-1.svg"];
+package_dependency10:e -> "app-alternatives/ninja-1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-lang/perl-5.42.0-r1" [label="portage://dev-lang/perl-5.42.0-r1", color=red, width=4,href="../dev-lang/perl-5.42.0-r1.svg"];
+"dev-lang/perl-5.42.0" [label="portage://dev-lang/perl-5.42.0", color=red, width=4,href="../dev-lang/perl-5.42.0.svg"];
+"dev-lang/perl-5.40.2" [label="portage://dev-lang/perl-5.40.2", color=red, width=4,href="../dev-lang/perl-5.40.2.svg"];
+"dev-lang/perl-5.40.1" [label="portage://dev-lang/perl-5.40.1", color=red, width=4,href="../dev-lang/perl-5.40.1.svg"];
+"dev-lang/perl-5.40.0-r1" [label="portage://dev-lang/perl-5.40.0-r1", color=red, width=4,href="../dev-lang/perl-5.40.0-r1.svg"];
+package_dependency11:e -> "dev-lang/perl-5.42.0-r1":w [style=dotted,weight="100"];
+package_dependency11:e -> "dev-lang/perl-5.42.0":w [style=dotted,weight="100"];
+package_dependency11:e -> "dev-lang/perl-5.40.2":w [style=dotted,weight="100"];
+package_dependency11:e -> "dev-lang/perl-5.40.1":w [style=dotted,weight="100"];
+package_dependency11:e -> "dev-lang/perl-5.40.0-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/boost-1.89.0" [label="portage://dev-libs/boost-1.89.0", color=red, width=4,href="../dev-libs/boost-1.89.0.svg"];
+"dev-libs/boost-1.88.0-r1" [label="portage://dev-libs/boost-1.88.0-r1", color=red, width=4,href="../dev-libs/boost-1.88.0-r1.svg"];
+package_dependency12:e -> "dev-libs/boost-1.89.0":w [style=dotted,weight="100"];
+package_dependency12:e -> "dev-libs/boost-1.88.0-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/gmp-6.3.0-r1" [label="portage://dev-libs/gmp-6.3.0-r1", color=red, width=4,href="../dev-libs/gmp-6.3.0-r1.svg"];
+package_dependency13:e -> "dev-libs/gmp-6.3.0-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/libxml2-9999" [label="portage://dev-libs/libxml2-9999", color=red, width=4,href="../dev-libs/libxml2-9999.svg"];
+"dev-libs/libxml2-2.15.1" [label="portage://dev-libs/libxml2-2.15.1", color=red, width=4,href="../dev-libs/libxml2-2.15.1.svg"];
+"dev-libs/libxml2-2.15.0-r1" [label="portage://dev-libs/libxml2-2.15.0-r1", color=red, width=4,href="../dev-libs/libxml2-2.15.0-r1.svg"];
+"dev-libs/libxml2-2.14.6" [label="portage://dev-libs/libxml2-2.14.6", color=red, width=4,href="../dev-libs/libxml2-2.14.6.svg"];
+"dev-libs/libxml2-2.13.9" [label="portage://dev-libs/libxml2-2.13.9", color=red, width=4,href="../dev-libs/libxml2-2.13.9.svg"];
+package_dependency14:e -> "dev-libs/libxml2-9999":w [style=dotted,weight="100"];
+package_dependency14:e -> "dev-libs/libxml2-2.15.1":w [style=dotted,weight="100"];
+package_dependency14:e -> "dev-libs/libxml2-2.15.0-r1":w [style=dotted,weight="100"];
+package_dependency14:e -> "dev-libs/libxml2-2.14.6":w [style=dotted,weight="100"];
+package_dependency14:e -> "dev-libs/libxml2-2.13.9":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/libxslt-9999" [label="portage://dev-libs/libxslt-9999", color=red, width=4,href="../dev-libs/libxslt-9999.svg"];
+"dev-libs/libxslt-1.1.43-r2" [label="portage://dev-libs/libxslt-1.1.43-r2", color=red, width=4,href="../dev-libs/libxslt-1.1.43-r2.svg"];
+"dev-libs/libxslt-1.1.43-r1" [label="portage://dev-libs/libxslt-1.1.43-r1", color=red, width=4,href="../dev-libs/libxslt-1.1.43-r1.svg"];
+package_dependency15:e -> "dev-libs/libxslt-9999":w [style=dotted,weight="100"];
+package_dependency15:e -> "dev-libs/libxslt-1.1.43-r2":w [style=dotted,weight="100"];
+package_dependency15:e -> "dev-libs/libxslt-1.1.43-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/mpfr-4.2.2" [label="portage://dev-libs/mpfr-4.2.2", color=red, width=4,href="../dev-libs/mpfr-4.2.2.svg"];
+"dev-libs/mpfr-4.2.1" [label="portage://dev-libs/mpfr-4.2.1", color=red, width=4,href="../dev-libs/mpfr-4.2.1.svg"];
+package_dependency16:e -> "dev-libs/mpfr-4.2.2":w [style=dotted,weight="100"];
+package_dependency16:e -> "dev-libs/mpfr-4.2.1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-libs/readline-9999" [label="portage://sys-libs/readline-9999", color=red, width=4,href="../sys-libs/readline-9999.svg"];
+"sys-libs/readline-8.4_alpha_pre20251007" [label="portage://sys-libs/readline-8.4_alpha_pre20251007", color=red, width=4,href="../sys-libs/readline-8.4_alpha_pre20251007.svg"];
+"sys-libs/readline-8.3_p1" [label="portage://sys-libs/readline-8.3_p1", color=red, width=4,href="../sys-libs/readline-8.3_p1.svg"];
+"sys-libs/readline-8.2_p13-r1" [label="portage://sys-libs/readline-8.2_p13-r1", color=red, width=4,href="../sys-libs/readline-8.2_p13-r1.svg"];
+package_dependency17:e -> "sys-libs/readline-9999":w [style=dotted,weight="100"];
+package_dependency17:e -> "sys-libs/readline-8.4_alpha_pre20251007":w [style=dotted,weight="100"];
+package_dependency17:e -> "sys-libs/readline-8.3_p1":w [style=dotted,weight="100"];
+package_dependency17:e -> "sys-libs/readline-8.2_p13-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sci-libs/bliss-0.77-r1" [label="portage://sci-libs/bliss-0.77-r1", color=red, width=4,href="../sci-libs/bliss-0.77-r1.svg"];
+"sci-libs/bliss-0.77" [label="portage://sci-libs/bliss-0.77", color=red, width=4,href="../sci-libs/bliss-0.77.svg"];
+package_dependency18:e -> "sci-libs/bliss-0.77-r1":w [style=dotted,weight="100"];
+package_dependency18:e -> "sci-libs/bliss-0.77":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sci-libs/cddlib-094m-r2" [label="portage://sci-libs/cddlib-094m-r2", color=red, width=4,href="../sci-libs/cddlib-094m-r2.svg"];
+package_dependency19:e -> "sci-libs/cddlib-094m-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sci-mathematics/flint-3.3.1-r1" [label="portage://sci-mathematics/flint-3.3.1-r1", color=red, width=4,href="../sci-mathematics/flint-3.3.1-r1.svg"];
+"sci-mathematics/flint-3.1.3_p1-r4" [label="portage://sci-mathematics/flint-3.1.3_p1-r4", color=red, width=4,href="../sci-mathematics/flint-3.1.3_p1-r4.svg"];
+package_dependency20:e -> "sci-mathematics/flint-3.3.1-r1":w [style=dotted,weight="100"];
+package_dependency20:e -> "sci-mathematics/flint-3.1.3_p1-r4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-lang/perl-5.42.0-r1" [label="portage://dev-lang/perl-5.42.0-r1", color=red, width=4,href="../dev-lang/perl-5.42.0-r1.svg"];
+"dev-lang/perl-5.42.0" [label="portage://dev-lang/perl-5.42.0", color=red, width=4,href="../dev-lang/perl-5.42.0.svg"];
+"dev-lang/perl-5.40.2" [label="portage://dev-lang/perl-5.40.2", color=red, width=4,href="../dev-lang/perl-5.40.2.svg"];
+"dev-lang/perl-5.40.1" [label="portage://dev-lang/perl-5.40.1", color=red, width=4,href="../dev-lang/perl-5.40.1.svg"];
+"dev-lang/perl-5.40.0-r1" [label="portage://dev-lang/perl-5.40.0-r1", color=red, width=4,href="../dev-lang/perl-5.40.0-r1.svg"];
+package_dependency21:e -> "dev-lang/perl-5.42.0-r1":w [style=dotted,weight="100"];
+package_dependency21:e -> "dev-lang/perl-5.42.0":w [style=dotted,weight="100"];
+package_dependency21:e -> "dev-lang/perl-5.40.2":w [style=dotted,weight="100"];
+package_dependency21:e -> "dev-lang/perl-5.40.1":w [style=dotted,weight="100"];
+package_dependency21:e -> "dev-lang/perl-5.40.0-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sci-libs/lrslib-073" [label="portage://sci-libs/lrslib-073", color=red, width=4,href="../sci-libs/lrslib-073.svg"];
+"sci-libs/lrslib-071b-r1" [label="portage://sci-libs/lrslib-071b-r1", color=red, width=4,href="../sci-libs/lrslib-071b-r1.svg"];
+package_dependency22:e -> "sci-libs/lrslib-073":w [style=dotted,weight="100"];
+package_dependency22:e -> "sci-libs/lrslib-071b-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sci-mathematics/nauty-2.8.8-r1" [label="portage://sci-mathematics/nauty-2.8.8-r1", color=red, width=4,href="../sci-mathematics/nauty-2.8.8-r1.svg"];
+package_dependency23:e -> "sci-mathematics/nauty-2.8.8-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sci-mathematics/normaliz-3.10.5" [label="portage://sci-mathematics/normaliz-3.10.5", color=red, width=4,href="../sci-mathematics/normaliz-3.10.5.svg"];
+"sci-mathematics/normaliz-3.10.1" [label="portage://sci-mathematics/normaliz-3.10.1", color=red, width=4,href="../sci-mathematics/normaliz-3.10.1.svg"];
+"sci-mathematics/normaliz-3.9.3" [label="portage://sci-mathematics/normaliz-3.9.3", color=red, width=4,href="../sci-mathematics/normaliz-3.9.3.svg"];
+package_dependency24:e -> "sci-mathematics/normaliz-3.10.5":w [style=dotted,weight="100"];
+package_dependency24:e -> "sci-mathematics/normaliz-3.10.1":w [style=dotted,weight="100"];
+package_dependency24:e -> "sci-mathematics/normaliz-3.9.3":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/ppl-1.2-r5" [label="portage://dev-libs/ppl-1.2-r5", color=red, width=4,href="../dev-libs/ppl-1.2-r5.svg"];
+package_dependency25:e -> "dev-libs/ppl-1.2-r5":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sci-mathematics/singular-4.4.1-r1" [label="portage://sci-mathematics/singular-4.4.1-r1", color=red, width=4,href="../sci-mathematics/singular-4.4.1-r1.svg"];
+"sci-mathematics/singular-4.4.1" [label="portage://sci-mathematics/singular-4.4.1", color=red, width=4,href="../sci-mathematics/singular-4.4.1.svg"];
+package_dependency26:e -> "sci-mathematics/singular-4.4.1-r1":w [style=dotted,weight="100"];
+package_dependency26:e -> "sci-mathematics/singular-4.4.1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-lang/perl-5.42.0-r1" [label="portage://dev-lang/perl-5.42.0-r1", color=red, width=4,href="../dev-lang/perl-5.42.0-r1.svg"];
+"dev-lang/perl-5.42.0" [label="portage://dev-lang/perl-5.42.0", color=red, width=4,href="../dev-lang/perl-5.42.0.svg"];
+"dev-lang/perl-5.40.2" [label="portage://dev-lang/perl-5.40.2", color=red, width=4,href="../dev-lang/perl-5.40.2.svg"];
+"dev-lang/perl-5.40.1" [label="portage://dev-lang/perl-5.40.1", color=red, width=4,href="../dev-lang/perl-5.40.1.svg"];
+"dev-lang/perl-5.40.0-r1" [label="portage://dev-lang/perl-5.40.0-r1", color=red, width=4,href="../dev-lang/perl-5.40.0-r1.svg"];
+package_dependency27:e -> "dev-lang/perl-5.42.0-r1":w [style=dotted,weight="100"];
+package_dependency27:e -> "dev-lang/perl-5.42.0":w [style=dotted,weight="100"];
+package_dependency27:e -> "dev-lang/perl-5.40.2":w [style=dotted,weight="100"];
+package_dependency27:e -> "dev-lang/perl-5.40.1":w [style=dotted,weight="100"];
+package_dependency27:e -> "dev-lang/perl-5.40.0-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/boost-1.89.0" [label="portage://dev-libs/boost-1.89.0", color=red, width=4,href="../dev-libs/boost-1.89.0.svg"];
+"dev-libs/boost-1.88.0-r1" [label="portage://dev-libs/boost-1.88.0-r1", color=red, width=4,href="../dev-libs/boost-1.88.0-r1.svg"];
+package_dependency28:e -> "dev-libs/boost-1.89.0":w [style=dotted,weight="100"];
+package_dependency28:e -> "dev-libs/boost-1.88.0-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/gmp-6.3.0-r1" [label="portage://dev-libs/gmp-6.3.0-r1", color=red, width=4,href="../dev-libs/gmp-6.3.0-r1.svg"];
+package_dependency29:e -> "dev-libs/gmp-6.3.0-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/libxml2-9999" [label="portage://dev-libs/libxml2-9999", color=red, width=4,href="../dev-libs/libxml2-9999.svg"];
+"dev-libs/libxml2-2.15.1" [label="portage://dev-libs/libxml2-2.15.1", color=red, width=4,href="../dev-libs/libxml2-2.15.1.svg"];
+"dev-libs/libxml2-2.15.0-r1" [label="portage://dev-libs/libxml2-2.15.0-r1", color=red, width=4,href="../dev-libs/libxml2-2.15.0-r1.svg"];
+"dev-libs/libxml2-2.14.6" [label="portage://dev-libs/libxml2-2.14.6", color=red, width=4,href="../dev-libs/libxml2-2.14.6.svg"];
+"dev-libs/libxml2-2.13.9" [label="portage://dev-libs/libxml2-2.13.9", color=red, width=4,href="../dev-libs/libxml2-2.13.9.svg"];
+package_dependency30:e -> "dev-libs/libxml2-9999":w [style=dotted,weight="100"];
+package_dependency30:e -> "dev-libs/libxml2-2.15.1":w [style=dotted,weight="100"];
+package_dependency30:e -> "dev-libs/libxml2-2.15.0-r1":w [style=dotted,weight="100"];
+package_dependency30:e -> "dev-libs/libxml2-2.14.6":w [style=dotted,weight="100"];
+package_dependency30:e -> "dev-libs/libxml2-2.13.9":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/libxslt-9999" [label="portage://dev-libs/libxslt-9999", color=red, width=4,href="../dev-libs/libxslt-9999.svg"];
+"dev-libs/libxslt-1.1.43-r2" [label="portage://dev-libs/libxslt-1.1.43-r2", color=red, width=4,href="../dev-libs/libxslt-1.1.43-r2.svg"];
+"dev-libs/libxslt-1.1.43-r1" [label="portage://dev-libs/libxslt-1.1.43-r1", color=red, width=4,href="../dev-libs/libxslt-1.1.43-r1.svg"];
+package_dependency31:e -> "dev-libs/libxslt-9999":w [style=dotted,weight="100"];
+package_dependency31:e -> "dev-libs/libxslt-1.1.43-r2":w [style=dotted,weight="100"];
+package_dependency31:e -> "dev-libs/libxslt-1.1.43-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/mpfr-4.2.2" [label="portage://dev-libs/mpfr-4.2.2", color=red, width=4,href="../dev-libs/mpfr-4.2.2.svg"];
+"dev-libs/mpfr-4.2.1" [label="portage://dev-libs/mpfr-4.2.1", color=red, width=4,href="../dev-libs/mpfr-4.2.1.svg"];
+package_dependency32:e -> "dev-libs/mpfr-4.2.2":w [style=dotted,weight="100"];
+package_dependency32:e -> "dev-libs/mpfr-4.2.1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-perl/JSON-4.100.0" [label="portage://dev-perl/JSON-4.100.0", color=red, width=4,href="../dev-perl/JSON-4.100.0.svg"];
+package_dependency33:e -> "dev-perl/JSON-4.100.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-perl/Term-ReadLine-Gnu-1.470.0" [label="portage://dev-perl/Term-ReadLine-Gnu-1.470.0", color=red, width=4,href="../dev-perl/Term-ReadLine-Gnu-1.470.0.svg"];
+"dev-perl/Term-ReadLine-Gnu-1.460.0-r1" [label="portage://dev-perl/Term-ReadLine-Gnu-1.460.0-r1", color=red, width=4,href="../dev-perl/Term-ReadLine-Gnu-1.460.0-r1.svg"];
+"dev-perl/Term-ReadLine-Gnu-1.460.0" [label="portage://dev-perl/Term-ReadLine-Gnu-1.460.0", color=red, width=4,href="../dev-perl/Term-ReadLine-Gnu-1.460.0.svg"];
+package_dependency34:e -> "dev-perl/Term-ReadLine-Gnu-1.470.0":w [style=dotted,weight="100"];
+package_dependency34:e -> "dev-perl/Term-ReadLine-Gnu-1.460.0-r1":w [style=dotted,weight="100"];
+package_dependency34:e -> "dev-perl/Term-ReadLine-Gnu-1.460.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-perl/TermReadKey-2.380.0-r1" [label="portage://dev-perl/TermReadKey-2.380.0-r1", color=red, width=4,href="../dev-perl/TermReadKey-2.380.0-r1.svg"];
+package_dependency35:e -> "dev-perl/TermReadKey-2.380.0-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-perl/XML-SAX-1.20.0-r2" [label="portage://dev-perl/XML-SAX-1.20.0-r2", color=red, width=4,href="../dev-perl/XML-SAX-1.20.0-r2.svg"];
+package_dependency36:e -> "dev-perl/XML-SAX-1.20.0-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-perl/XML-Writer-0.900.0" [label="portage://dev-perl/XML-Writer-0.900.0", color=red, width=4,href="../dev-perl/XML-Writer-0.900.0.svg"];
+package_dependency37:e -> "dev-perl/XML-Writer-0.900.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-libs/readline-9999" [label="portage://sys-libs/readline-9999", color=red, width=4,href="../sys-libs/readline-9999.svg"];
+"sys-libs/readline-8.4_alpha_pre20251007" [label="portage://sys-libs/readline-8.4_alpha_pre20251007", color=red, width=4,href="../sys-libs/readline-8.4_alpha_pre20251007.svg"];
+"sys-libs/readline-8.3_p1" [label="portage://sys-libs/readline-8.3_p1", color=red, width=4,href="../sys-libs/readline-8.3_p1.svg"];
+"sys-libs/readline-8.2_p13-r1" [label="portage://sys-libs/readline-8.2_p13-r1", color=red, width=4,href="../sys-libs/readline-8.2_p13-r1.svg"];
+package_dependency38:e -> "sys-libs/readline-9999":w [style=dotted,weight="100"];
+package_dependency38:e -> "sys-libs/readline-8.4_alpha_pre20251007":w [style=dotted,weight="100"];
+package_dependency38:e -> "sys-libs/readline-8.3_p1":w [style=dotted,weight="100"];
+package_dependency38:e -> "sys-libs/readline-8.2_p13-r1":w [style=dotted,weight="100"];
+}
+}
+}

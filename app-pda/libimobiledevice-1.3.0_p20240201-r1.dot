@@ -1,0 +1,528 @@
+digraph prolog {
+
+newrank=true;
+concentrate=true;
+compound=true;
+
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+graph [labelloc=t, labeljust=l, fontcolor=blue, fontname=Helvetica, fontsize=10, label=<<TABLE BORDER='0' CELLBORDER='1' CELLSPACING='0' CELLPADDING='6'><TR><TD COLSPAN='3'><FONT COLOR='black'><B>navigation</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='7'><FONT COLOR='black'><B>dependency graph</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='4'><FONT COLOR='black'><B>version control</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='3'><FONT COLOR='black'><B>command line</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='1'><FONT COLOR='black'><B>legacy</B></FONT></TD></TR><TR><TD title="repository" href="../index.html">portage</TD><TD title="repository" href="./index.html">app-pda</TD><TD title="repository" href="./libimobiledevice.html">libimobiledevice</TD><TD BORDER='0'></TD><TD title="portage://app-pda/libimobiledevice-1.3.0_p20240201-r1" href="../app-pda/libimobiledevice-1.3.0_p20240201-r1.svg"><u>detail</u></TD><TD title="portage://app-pda/libimobiledevice-1.3.0_p20240201-r1" href="../app-pda/libimobiledevice-1.3.0_p20240201-r1-bdepend.svg">bdepend</TD><TD title="portage://app-pda/libimobiledevice-1.3.0_p20240201-r1" href="../app-pda/libimobiledevice-1.3.0_p20240201-r1-cdepend.svg">cdepend</TD><TD title="portage://app-pda/libimobiledevice-1.3.0_p20240201-r1" href="../app-pda/libimobiledevice-1.3.0_p20240201-r1-depend.svg">depend</TD><TD title="portage://app-pda/libimobiledevice-1.3.0_p20240201-r1" href="../app-pda/libimobiledevice-1.3.0_p20240201-r1-idepend.svg">idepend</TD><TD title="portage://app-pda/libimobiledevice-1.3.0_p20240201-r1" href="../app-pda/libimobiledevice-1.3.0_p20240201-r1-rdepend.svg">rdepend</TD><TD title="portage://app-pda/libimobiledevice-1.3.0_p20240201-r1" href="../app-pda/libimobiledevice-1.3.0_p20240201-r1-pdepend.svg">pdepend</TD><TD BORDER='0'></TD><TD><FONT color="gray">&lt;&lt; newest</FONT></TD><TD><FONT color="gray">&lt; newer</FONT></TD><TD><FONT color="gray">older &gt;</FONT></TD><TD><FONT color="gray">oldest &gt;&gt;</FONT></TD><TD BORDER='0'></TD><TD title="portage://app-pda/libimobiledevice-1.3.0_p20240201-r1" href="../app-pda/libimobiledevice-1.3.0_p20240201-r1-merge.svg">--merge&nbsp;</TD><TD title="portage://app-pda/libimobiledevice-1.3.0_p20240201-r1" href="../app-pda/libimobiledevice-1.3.0_p20240201-r1-fetchonly.svg">--fetchonly&nbsp;</TD><TD title="portage://app-pda/libimobiledevice-1.3.0_p20240201-r1" href="../app-pda/libimobiledevice-1.3.0_p20240201-r1-info.svg">--info&nbsp;</TD><TD BORDER='0'></TD><TD title="portage://app-pda/libimobiledevice-1.3.0_p20240201-r1" href="../app-pda/libimobiledevice-1.3.0_p20240201-r1-emerge.svg">emerge</TD></TR></TABLE>>];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+fontcolor=gray;
+label=<<i>ebuild</i>>;
+labelloc=t;
+labeljust=c;
+id [label="portage://app-pda/libimobiledevice-1.3.0_p20240201-r1", color=red, width=4, penwidth=2, fontname="Helvetica-Bold", href="../app-pda/libimobiledevice-1.3.0_p20240201-r1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+fontcolor=gray;
+label=<<i>dependencies</i>>;
+labelloc=t;
+labeljust=c
+subgraph cluster_install {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install</i>>;
+subgraph  {
+any_of_group1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD CELLPADDING="10">any_of_group</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-build</TD></TR><TR><TD>autoconf</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[2,72],,-r1,2.72-r1]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+any_of_group1:e -> package_dependency1:w [weight=20, style="dotted",arrowhead="oinv"];
+}
+id:e -> any_of_group1:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+any_of_group2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD CELLPADDING="10">any_of_group</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-build</TD></TR><TR><TD>automake</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[1,18],,,1.18]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+any_of_group2:e -> package_dependency2:w [weight=20, style="dotted",arrowhead="oinv"];
+subgraph  {
+package_dependency3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-build</TD></TR><TR><TD>automake</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[1,17],,-r1,1.17-r1]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+any_of_group2:e -> package_dependency3:w [weight=20, style="dotted",arrowhead="oinv"];
+}
+id:e -> any_of_group2:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>negative</TD></TR><TR><TD>gnutls</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency4 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>openssl</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group1:e -> package_dependency4:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group1:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>doc</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency5 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>app-text</TD></TR><TR><TD>doxygen</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group2:e -> package_dependency5:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group2:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>gnutls</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency6 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libgcrypt</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group3:e -> package_dependency6:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency7 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libtasn1</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[1,1],,,1.1]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group3:e -> package_dependency7:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency8 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>net-libs</TD></TR><TR><TD>gnutls</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[2,2,0],,,2.2.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group3:e -> package_dependency8:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group3:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group4 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>readline</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency9 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>readline</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group4:e -> package_dependency9:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group4:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency10 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>app-pda</TD></TR><TR><TD>libimobiledevice-glue</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency10:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency11 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>app-pda</TD></TR><TR><TD>libplist</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[2,3],,,2.3]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency11:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency12 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>app-pda</TD></TR><TR><TD>libusbmuxd</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[2,0,2],,,2.0.2]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency12:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency13 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>app-portage</TD></TR><TR><TD>elt-patches</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[20250306],,,20250306]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency13:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency14 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-build</TD></TR><TR><TD>libtool</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[2,4,7],,-r3,2.4.7-r3]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency14:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency15 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>sys-devel</TD></TR><TR><TD>gnuconfig</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency15:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency16 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>virtual</TD></TR><TR><TD>pkgconfig</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency16:w [weight=20, style="solid",arrowhead="vee"];
+}
+subgraph cluster_install_and_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph  {
+use_conditional_group5 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>negative</TD></TR><TR><TD>gnutls</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency17 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>openssl</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group5:e -> package_dependency17:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group5:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group6 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>gnutls</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency18 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libgcrypt</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group6:e -> package_dependency18:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency19 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libtasn1</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[1,1],,,1.1]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group6:e -> package_dependency19:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency20 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>net-libs</TD></TR><TR><TD>gnutls</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[2,2,0],,,2.2.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group6:e -> package_dependency20:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group6:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group7 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>readline</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency21 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>readline</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group7:e -> package_dependency21:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group7:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency22 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>app-pda</TD></TR><TR><TD>libimobiledevice-glue</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency22:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency23 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>app-pda</TD></TR><TR><TD>libplist</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[2,3],,,2.3]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency23:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency24 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>app-pda</TD></TR><TR><TD>libusbmuxd</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[2,0,2],,,2.0.2]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency24:w [weight=20, style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+fontcolor=gray;
+label=<<i>candidates</i>>;
+labelloc=t;
+labeljust=c
+
+subgraph  {
+color=black;
+nodesep=1;
+"dev-build/autoconf-9999" [label="portage://dev-build/autoconf-9999", color=red, width=4,href="../dev-build/autoconf-9999.svg"];
+"dev-build/autoconf-2.72-r5" [label="portage://dev-build/autoconf-2.72-r5", color=red, width=4,href="../dev-build/autoconf-2.72-r5.svg"];
+"dev-build/autoconf-2.72-r4" [label="portage://dev-build/autoconf-2.72-r4", color=red, width=4,href="../dev-build/autoconf-2.72-r4.svg"];
+"dev-build/autoconf-2.72-r1" [label="portage://dev-build/autoconf-2.72-r1", color=red, width=4,href="../dev-build/autoconf-2.72-r1.svg"];
+package_dependency1:e -> "dev-build/autoconf-9999":w [style=dotted,weight="100"];
+package_dependency1:e -> "dev-build/autoconf-2.72-r5":w [style=dotted,weight="100"];
+package_dependency1:e -> "dev-build/autoconf-2.72-r4":w [style=dotted,weight="100"];
+package_dependency1:e -> "dev-build/autoconf-2.72-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-build/automake-9999" [label="portage://dev-build/automake-9999", color=red, width=4,href="../dev-build/automake-9999.svg"];
+"dev-build/automake-1.18.1" [label="portage://dev-build/automake-1.18.1", color=red, width=4,href="../dev-build/automake-1.18.1.svg"];
+package_dependency2:e -> "dev-build/automake-9999":w [style=dotted,weight="100"];
+package_dependency2:e -> "dev-build/automake-1.18.1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-build/automake-9999" [label="portage://dev-build/automake-9999", color=red, width=4,href="../dev-build/automake-9999.svg"];
+"dev-build/automake-1.18.1" [label="portage://dev-build/automake-1.18.1", color=red, width=4,href="../dev-build/automake-1.18.1.svg"];
+"dev-build/automake-1.17-r2" [label="portage://dev-build/automake-1.17-r2", color=red, width=4,href="../dev-build/automake-1.17-r2.svg"];
+package_dependency3:e -> "dev-build/automake-9999":w [style=dotted,weight="100"];
+package_dependency3:e -> "dev-build/automake-1.18.1":w [style=dotted,weight="100"];
+package_dependency3:e -> "dev-build/automake-1.17-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/openssl-3.6.9999" [label="portage://dev-libs/openssl-3.6.9999", color=red, width=4,href="../dev-libs/openssl-3.6.9999.svg"];
+"dev-libs/openssl-3.6.0" [label="portage://dev-libs/openssl-3.6.0", color=red, width=4,href="../dev-libs/openssl-3.6.0.svg"];
+"dev-libs/openssl-3.5.9999" [label="portage://dev-libs/openssl-3.5.9999", color=red, width=4,href="../dev-libs/openssl-3.5.9999.svg"];
+"dev-libs/openssl-3.5.4" [label="portage://dev-libs/openssl-3.5.4", color=red, width=4,href="../dev-libs/openssl-3.5.4.svg"];
+"dev-libs/openssl-3.4.9999" [label="portage://dev-libs/openssl-3.4.9999", color=red, width=4,href="../dev-libs/openssl-3.4.9999.svg"];
+"dev-libs/openssl-3.4.3" [label="portage://dev-libs/openssl-3.4.3", color=red, width=4,href="../dev-libs/openssl-3.4.3.svg"];
+"dev-libs/openssl-3.3.9999" [label="portage://dev-libs/openssl-3.3.9999", color=red, width=4,href="../dev-libs/openssl-3.3.9999.svg"];
+"dev-libs/openssl-3.3.5" [label="portage://dev-libs/openssl-3.3.5", color=red, width=4,href="../dev-libs/openssl-3.3.5.svg"];
+"dev-libs/openssl-3.2.9999" [label="portage://dev-libs/openssl-3.2.9999", color=red, width=4,href="../dev-libs/openssl-3.2.9999.svg"];
+"dev-libs/openssl-3.2.6" [label="portage://dev-libs/openssl-3.2.6", color=red, width=4,href="../dev-libs/openssl-3.2.6.svg"];
+"dev-libs/openssl-3.0.9999" [label="portage://dev-libs/openssl-3.0.9999", color=red, width=4,href="../dev-libs/openssl-3.0.9999.svg"];
+"dev-libs/openssl-3.0.18" [label="portage://dev-libs/openssl-3.0.18", color=red, width=4,href="../dev-libs/openssl-3.0.18.svg"];
+"dev-libs/openssl-1.1.1w" [label="portage://dev-libs/openssl-1.1.1w", color=red, width=4,href="../dev-libs/openssl-1.1.1w.svg"];
+"dev-libs/openssl-1.0.2u-r1" [label="portage://dev-libs/openssl-1.0.2u-r1", color=red, width=4,href="../dev-libs/openssl-1.0.2u-r1.svg"];
+package_dependency4:e -> "dev-libs/openssl-3.6.9999":w [style=dotted,weight="100"];
+package_dependency4:e -> "dev-libs/openssl-3.6.0":w [style=dotted,weight="100"];
+package_dependency4:e -> "dev-libs/openssl-3.5.9999":w [style=dotted,weight="100"];
+package_dependency4:e -> "dev-libs/openssl-3.5.4":w [style=dotted,weight="100"];
+package_dependency4:e -> "dev-libs/openssl-3.4.9999":w [style=dotted,weight="100"];
+package_dependency4:e -> "dev-libs/openssl-3.4.3":w [style=dotted,weight="100"];
+package_dependency4:e -> "dev-libs/openssl-3.3.9999":w [style=dotted,weight="100"];
+package_dependency4:e -> "dev-libs/openssl-3.3.5":w [style=dotted,weight="100"];
+package_dependency4:e -> "dev-libs/openssl-3.2.9999":w [style=dotted,weight="100"];
+package_dependency4:e -> "dev-libs/openssl-3.2.6":w [style=dotted,weight="100"];
+package_dependency4:e -> "dev-libs/openssl-3.0.9999":w [style=dotted,weight="100"];
+package_dependency4:e -> "dev-libs/openssl-3.0.18":w [style=dotted,weight="100"];
+package_dependency4:e -> "dev-libs/openssl-1.1.1w":w [style=dotted,weight="100"];
+package_dependency4:e -> "dev-libs/openssl-1.0.2u-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-text/doxygen-9999" [label="portage://app-text/doxygen-9999", color=red, width=4,href="../app-text/doxygen-9999.svg"];
+"app-text/doxygen-1.15.0" [label="portage://app-text/doxygen-1.15.0", color=red, width=4,href="../app-text/doxygen-1.15.0.svg"];
+"app-text/doxygen-1.14.0" [label="portage://app-text/doxygen-1.14.0", color=red, width=4,href="../app-text/doxygen-1.14.0.svg"];
+"app-text/doxygen-1.13.2" [label="portage://app-text/doxygen-1.13.2", color=red, width=4,href="../app-text/doxygen-1.13.2.svg"];
+package_dependency5:e -> "app-text/doxygen-9999":w [style=dotted,weight="100"];
+package_dependency5:e -> "app-text/doxygen-1.15.0":w [style=dotted,weight="100"];
+package_dependency5:e -> "app-text/doxygen-1.14.0":w [style=dotted,weight="100"];
+package_dependency5:e -> "app-text/doxygen-1.13.2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/libgcrypt-1.11.2" [label="portage://dev-libs/libgcrypt-1.11.2", color=red, width=4,href="../dev-libs/libgcrypt-1.11.2.svg"];
+"dev-libs/libgcrypt-1.11.1" [label="portage://dev-libs/libgcrypt-1.11.1", color=red, width=4,href="../dev-libs/libgcrypt-1.11.1.svg"];
+"dev-libs/libgcrypt-1.11.0-r2" [label="portage://dev-libs/libgcrypt-1.11.0-r2", color=red, width=4,href="../dev-libs/libgcrypt-1.11.0-r2.svg"];
+"dev-libs/libgcrypt-1.11.0-r1" [label="portage://dev-libs/libgcrypt-1.11.0-r1", color=red, width=4,href="../dev-libs/libgcrypt-1.11.0-r1.svg"];
+"dev-libs/libgcrypt-1.10.3-r2" [label="portage://dev-libs/libgcrypt-1.10.3-r2", color=red, width=4,href="../dev-libs/libgcrypt-1.10.3-r2.svg"];
+"dev-libs/libgcrypt-1.10.3-r1" [label="portage://dev-libs/libgcrypt-1.10.3-r1", color=red, width=4,href="../dev-libs/libgcrypt-1.10.3-r1.svg"];
+"dev-libs/libgcrypt-1.10.2" [label="portage://dev-libs/libgcrypt-1.10.2", color=red, width=4,href="../dev-libs/libgcrypt-1.10.2.svg"];
+package_dependency6:e -> "dev-libs/libgcrypt-1.11.2":w [style=dotted,weight="100"];
+package_dependency6:e -> "dev-libs/libgcrypt-1.11.1":w [style=dotted,weight="100"];
+package_dependency6:e -> "dev-libs/libgcrypt-1.11.0-r2":w [style=dotted,weight="100"];
+package_dependency6:e -> "dev-libs/libgcrypt-1.11.0-r1":w [style=dotted,weight="100"];
+package_dependency6:e -> "dev-libs/libgcrypt-1.10.3-r2":w [style=dotted,weight="100"];
+package_dependency6:e -> "dev-libs/libgcrypt-1.10.3-r1":w [style=dotted,weight="100"];
+package_dependency6:e -> "dev-libs/libgcrypt-1.10.2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/libtasn1-4.20.0" [label="portage://dev-libs/libtasn1-4.20.0", color=red, width=4,href="../dev-libs/libtasn1-4.20.0.svg"];
+"dev-libs/libtasn1-4.19.0" [label="portage://dev-libs/libtasn1-4.19.0", color=red, width=4,href="../dev-libs/libtasn1-4.19.0.svg"];
+package_dependency7:e -> "dev-libs/libtasn1-4.20.0":w [style=dotted,weight="100"];
+package_dependency7:e -> "dev-libs/libtasn1-4.19.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"net-libs/gnutls-3.8.11" [label="portage://net-libs/gnutls-3.8.11", color=red, width=4,href="../net-libs/gnutls-3.8.11.svg"];
+"net-libs/gnutls-3.8.10-r1" [label="portage://net-libs/gnutls-3.8.10-r1", color=red, width=4,href="../net-libs/gnutls-3.8.10-r1.svg"];
+"net-libs/gnutls-3.8.10" [label="portage://net-libs/gnutls-3.8.10", color=red, width=4,href="../net-libs/gnutls-3.8.10.svg"];
+"net-libs/gnutls-3.8.9-r1" [label="portage://net-libs/gnutls-3.8.9-r1", color=red, width=4,href="../net-libs/gnutls-3.8.9-r1.svg"];
+package_dependency8:e -> "net-libs/gnutls-3.8.11":w [style=dotted,weight="100"];
+package_dependency8:e -> "net-libs/gnutls-3.8.10-r1":w [style=dotted,weight="100"];
+package_dependency8:e -> "net-libs/gnutls-3.8.10":w [style=dotted,weight="100"];
+package_dependency8:e -> "net-libs/gnutls-3.8.9-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-libs/readline-9999" [label="portage://sys-libs/readline-9999", color=red, width=4,href="../sys-libs/readline-9999.svg"];
+"sys-libs/readline-8.4_alpha_pre20251007" [label="portage://sys-libs/readline-8.4_alpha_pre20251007", color=red, width=4,href="../sys-libs/readline-8.4_alpha_pre20251007.svg"];
+"sys-libs/readline-8.3_p1" [label="portage://sys-libs/readline-8.3_p1", color=red, width=4,href="../sys-libs/readline-8.3_p1.svg"];
+"sys-libs/readline-8.2_p13-r1" [label="portage://sys-libs/readline-8.2_p13-r1", color=red, width=4,href="../sys-libs/readline-8.2_p13-r1.svg"];
+package_dependency9:e -> "sys-libs/readline-9999":w [style=dotted,weight="100"];
+package_dependency9:e -> "sys-libs/readline-8.4_alpha_pre20251007":w [style=dotted,weight="100"];
+package_dependency9:e -> "sys-libs/readline-8.3_p1":w [style=dotted,weight="100"];
+package_dependency9:e -> "sys-libs/readline-8.2_p13-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-pda/libimobiledevice-glue-1.3.1" [label="portage://app-pda/libimobiledevice-glue-1.3.1", color=red, width=4,href="../app-pda/libimobiledevice-glue-1.3.1.svg"];
+package_dependency10:e -> "app-pda/libimobiledevice-glue-1.3.1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-pda/libplist-2.6.0" [label="portage://app-pda/libplist-2.6.0", color=red, width=4,href="../app-pda/libplist-2.6.0.svg"];
+package_dependency11:e -> "app-pda/libplist-2.6.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-pda/libusbmuxd-2.1.0" [label="portage://app-pda/libusbmuxd-2.1.0", color=red, width=4,href="../app-pda/libusbmuxd-2.1.0.svg"];
+package_dependency12:e -> "app-pda/libusbmuxd-2.1.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-portage/elt-patches-99999999" [label="portage://app-portage/elt-patches-99999999", color=red, width=4,href="../app-portage/elt-patches-99999999.svg"];
+"app-portage/elt-patches-20250718" [label="portage://app-portage/elt-patches-20250718", color=red, width=4,href="../app-portage/elt-patches-20250718.svg"];
+"app-portage/elt-patches-20250306" [label="portage://app-portage/elt-patches-20250306", color=red, width=4,href="../app-portage/elt-patches-20250306.svg"];
+package_dependency13:e -> "app-portage/elt-patches-99999999":w [style=dotted,weight="100"];
+package_dependency13:e -> "app-portage/elt-patches-20250718":w [style=dotted,weight="100"];
+package_dependency13:e -> "app-portage/elt-patches-20250306":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-build/libtool-9999" [label="portage://dev-build/libtool-9999", color=red, width=4,href="../dev-build/libtool-9999.svg"];
+"dev-build/libtool-2.6.0" [label="portage://dev-build/libtool-2.6.0", color=red, width=4,href="../dev-build/libtool-2.6.0.svg"];
+"dev-build/libtool-2.5.4" [label="portage://dev-build/libtool-2.5.4", color=red, width=4,href="../dev-build/libtool-2.5.4.svg"];
+package_dependency14:e -> "dev-build/libtool-9999":w [style=dotted,weight="100"];
+package_dependency14:e -> "dev-build/libtool-2.6.0":w [style=dotted,weight="100"];
+package_dependency14:e -> "dev-build/libtool-2.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-devel/gnuconfig-99999999" [label="portage://sys-devel/gnuconfig-99999999", color=red, width=4,href="../sys-devel/gnuconfig-99999999.svg"];
+"sys-devel/gnuconfig-20250710" [label="portage://sys-devel/gnuconfig-20250710", color=red, width=4,href="../sys-devel/gnuconfig-20250710.svg"];
+"sys-devel/gnuconfig-20240728" [label="portage://sys-devel/gnuconfig-20240728", color=red, width=4,href="../sys-devel/gnuconfig-20240728.svg"];
+package_dependency15:e -> "sys-devel/gnuconfig-99999999":w [style=dotted,weight="100"];
+package_dependency15:e -> "sys-devel/gnuconfig-20250710":w [style=dotted,weight="100"];
+package_dependency15:e -> "sys-devel/gnuconfig-20240728":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"virtual/pkgconfig-3" [label="portage://virtual/pkgconfig-3", color=red, width=4,href="../virtual/pkgconfig-3.svg"];
+package_dependency16:e -> "virtual/pkgconfig-3":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/openssl-3.6.9999" [label="portage://dev-libs/openssl-3.6.9999", color=red, width=4,href="../dev-libs/openssl-3.6.9999.svg"];
+"dev-libs/openssl-3.6.0" [label="portage://dev-libs/openssl-3.6.0", color=red, width=4,href="../dev-libs/openssl-3.6.0.svg"];
+"dev-libs/openssl-3.5.9999" [label="portage://dev-libs/openssl-3.5.9999", color=red, width=4,href="../dev-libs/openssl-3.5.9999.svg"];
+"dev-libs/openssl-3.5.4" [label="portage://dev-libs/openssl-3.5.4", color=red, width=4,href="../dev-libs/openssl-3.5.4.svg"];
+"dev-libs/openssl-3.4.9999" [label="portage://dev-libs/openssl-3.4.9999", color=red, width=4,href="../dev-libs/openssl-3.4.9999.svg"];
+"dev-libs/openssl-3.4.3" [label="portage://dev-libs/openssl-3.4.3", color=red, width=4,href="../dev-libs/openssl-3.4.3.svg"];
+"dev-libs/openssl-3.3.9999" [label="portage://dev-libs/openssl-3.3.9999", color=red, width=4,href="../dev-libs/openssl-3.3.9999.svg"];
+"dev-libs/openssl-3.3.5" [label="portage://dev-libs/openssl-3.3.5", color=red, width=4,href="../dev-libs/openssl-3.3.5.svg"];
+"dev-libs/openssl-3.2.9999" [label="portage://dev-libs/openssl-3.2.9999", color=red, width=4,href="../dev-libs/openssl-3.2.9999.svg"];
+"dev-libs/openssl-3.2.6" [label="portage://dev-libs/openssl-3.2.6", color=red, width=4,href="../dev-libs/openssl-3.2.6.svg"];
+"dev-libs/openssl-3.0.9999" [label="portage://dev-libs/openssl-3.0.9999", color=red, width=4,href="../dev-libs/openssl-3.0.9999.svg"];
+"dev-libs/openssl-3.0.18" [label="portage://dev-libs/openssl-3.0.18", color=red, width=4,href="../dev-libs/openssl-3.0.18.svg"];
+"dev-libs/openssl-1.1.1w" [label="portage://dev-libs/openssl-1.1.1w", color=red, width=4,href="../dev-libs/openssl-1.1.1w.svg"];
+"dev-libs/openssl-1.0.2u-r1" [label="portage://dev-libs/openssl-1.0.2u-r1", color=red, width=4,href="../dev-libs/openssl-1.0.2u-r1.svg"];
+package_dependency17:e -> "dev-libs/openssl-3.6.9999":w [style=dotted,weight="100"];
+package_dependency17:e -> "dev-libs/openssl-3.6.0":w [style=dotted,weight="100"];
+package_dependency17:e -> "dev-libs/openssl-3.5.9999":w [style=dotted,weight="100"];
+package_dependency17:e -> "dev-libs/openssl-3.5.4":w [style=dotted,weight="100"];
+package_dependency17:e -> "dev-libs/openssl-3.4.9999":w [style=dotted,weight="100"];
+package_dependency17:e -> "dev-libs/openssl-3.4.3":w [style=dotted,weight="100"];
+package_dependency17:e -> "dev-libs/openssl-3.3.9999":w [style=dotted,weight="100"];
+package_dependency17:e -> "dev-libs/openssl-3.3.5":w [style=dotted,weight="100"];
+package_dependency17:e -> "dev-libs/openssl-3.2.9999":w [style=dotted,weight="100"];
+package_dependency17:e -> "dev-libs/openssl-3.2.6":w [style=dotted,weight="100"];
+package_dependency17:e -> "dev-libs/openssl-3.0.9999":w [style=dotted,weight="100"];
+package_dependency17:e -> "dev-libs/openssl-3.0.18":w [style=dotted,weight="100"];
+package_dependency17:e -> "dev-libs/openssl-1.1.1w":w [style=dotted,weight="100"];
+package_dependency17:e -> "dev-libs/openssl-1.0.2u-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/libgcrypt-1.11.2" [label="portage://dev-libs/libgcrypt-1.11.2", color=red, width=4,href="../dev-libs/libgcrypt-1.11.2.svg"];
+"dev-libs/libgcrypt-1.11.1" [label="portage://dev-libs/libgcrypt-1.11.1", color=red, width=4,href="../dev-libs/libgcrypt-1.11.1.svg"];
+"dev-libs/libgcrypt-1.11.0-r2" [label="portage://dev-libs/libgcrypt-1.11.0-r2", color=red, width=4,href="../dev-libs/libgcrypt-1.11.0-r2.svg"];
+"dev-libs/libgcrypt-1.11.0-r1" [label="portage://dev-libs/libgcrypt-1.11.0-r1", color=red, width=4,href="../dev-libs/libgcrypt-1.11.0-r1.svg"];
+"dev-libs/libgcrypt-1.10.3-r2" [label="portage://dev-libs/libgcrypt-1.10.3-r2", color=red, width=4,href="../dev-libs/libgcrypt-1.10.3-r2.svg"];
+"dev-libs/libgcrypt-1.10.3-r1" [label="portage://dev-libs/libgcrypt-1.10.3-r1", color=red, width=4,href="../dev-libs/libgcrypt-1.10.3-r1.svg"];
+"dev-libs/libgcrypt-1.10.2" [label="portage://dev-libs/libgcrypt-1.10.2", color=red, width=4,href="../dev-libs/libgcrypt-1.10.2.svg"];
+package_dependency18:e -> "dev-libs/libgcrypt-1.11.2":w [style=dotted,weight="100"];
+package_dependency18:e -> "dev-libs/libgcrypt-1.11.1":w [style=dotted,weight="100"];
+package_dependency18:e -> "dev-libs/libgcrypt-1.11.0-r2":w [style=dotted,weight="100"];
+package_dependency18:e -> "dev-libs/libgcrypt-1.11.0-r1":w [style=dotted,weight="100"];
+package_dependency18:e -> "dev-libs/libgcrypt-1.10.3-r2":w [style=dotted,weight="100"];
+package_dependency18:e -> "dev-libs/libgcrypt-1.10.3-r1":w [style=dotted,weight="100"];
+package_dependency18:e -> "dev-libs/libgcrypt-1.10.2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/libtasn1-4.20.0" [label="portage://dev-libs/libtasn1-4.20.0", color=red, width=4,href="../dev-libs/libtasn1-4.20.0.svg"];
+"dev-libs/libtasn1-4.19.0" [label="portage://dev-libs/libtasn1-4.19.0", color=red, width=4,href="../dev-libs/libtasn1-4.19.0.svg"];
+package_dependency19:e -> "dev-libs/libtasn1-4.20.0":w [style=dotted,weight="100"];
+package_dependency19:e -> "dev-libs/libtasn1-4.19.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"net-libs/gnutls-3.8.11" [label="portage://net-libs/gnutls-3.8.11", color=red, width=4,href="../net-libs/gnutls-3.8.11.svg"];
+"net-libs/gnutls-3.8.10-r1" [label="portage://net-libs/gnutls-3.8.10-r1", color=red, width=4,href="../net-libs/gnutls-3.8.10-r1.svg"];
+"net-libs/gnutls-3.8.10" [label="portage://net-libs/gnutls-3.8.10", color=red, width=4,href="../net-libs/gnutls-3.8.10.svg"];
+"net-libs/gnutls-3.8.9-r1" [label="portage://net-libs/gnutls-3.8.9-r1", color=red, width=4,href="../net-libs/gnutls-3.8.9-r1.svg"];
+package_dependency20:e -> "net-libs/gnutls-3.8.11":w [style=dotted,weight="100"];
+package_dependency20:e -> "net-libs/gnutls-3.8.10-r1":w [style=dotted,weight="100"];
+package_dependency20:e -> "net-libs/gnutls-3.8.10":w [style=dotted,weight="100"];
+package_dependency20:e -> "net-libs/gnutls-3.8.9-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-libs/readline-9999" [label="portage://sys-libs/readline-9999", color=red, width=4,href="../sys-libs/readline-9999.svg"];
+"sys-libs/readline-8.4_alpha_pre20251007" [label="portage://sys-libs/readline-8.4_alpha_pre20251007", color=red, width=4,href="../sys-libs/readline-8.4_alpha_pre20251007.svg"];
+"sys-libs/readline-8.3_p1" [label="portage://sys-libs/readline-8.3_p1", color=red, width=4,href="../sys-libs/readline-8.3_p1.svg"];
+"sys-libs/readline-8.2_p13-r1" [label="portage://sys-libs/readline-8.2_p13-r1", color=red, width=4,href="../sys-libs/readline-8.2_p13-r1.svg"];
+package_dependency21:e -> "sys-libs/readline-9999":w [style=dotted,weight="100"];
+package_dependency21:e -> "sys-libs/readline-8.4_alpha_pre20251007":w [style=dotted,weight="100"];
+package_dependency21:e -> "sys-libs/readline-8.3_p1":w [style=dotted,weight="100"];
+package_dependency21:e -> "sys-libs/readline-8.2_p13-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-pda/libimobiledevice-glue-1.3.1" [label="portage://app-pda/libimobiledevice-glue-1.3.1", color=red, width=4,href="../app-pda/libimobiledevice-glue-1.3.1.svg"];
+package_dependency22:e -> "app-pda/libimobiledevice-glue-1.3.1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-pda/libplist-2.6.0" [label="portage://app-pda/libplist-2.6.0", color=red, width=4,href="../app-pda/libplist-2.6.0.svg"];
+package_dependency23:e -> "app-pda/libplist-2.6.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-pda/libusbmuxd-2.1.0" [label="portage://app-pda/libusbmuxd-2.1.0", color=red, width=4,href="../app-pda/libusbmuxd-2.1.0.svg"];
+package_dependency24:e -> "app-pda/libusbmuxd-2.1.0":w [style=dotted,weight="100"];
+}
+}
+}

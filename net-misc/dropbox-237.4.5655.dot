@@ -1,0 +1,371 @@
+digraph prolog {
+
+newrank=true;
+concentrate=true;
+compound=true;
+
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+graph [labelloc=t, labeljust=l, fontcolor=blue, fontname=Helvetica, fontsize=10, label=<<TABLE BORDER='0' CELLBORDER='1' CELLSPACING='0' CELLPADDING='6'><TR><TD COLSPAN='3'><FONT COLOR='black'><B>navigation</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='7'><FONT COLOR='black'><B>dependency graph</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='4'><FONT COLOR='black'><B>version control</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='3'><FONT COLOR='black'><B>command line</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='1'><FONT COLOR='black'><B>legacy</B></FONT></TD></TR><TR><TD title="repository" href="../index.html">portage</TD><TD title="repository" href="./index.html">net-misc</TD><TD title="repository" href="./dropbox.html">dropbox</TD><TD BORDER='0'></TD><TD title="portage://net-misc/dropbox-237.4.5655" href="../net-misc/dropbox-237.4.5655.svg"><u>detail</u></TD><TD title="portage://net-misc/dropbox-237.4.5655" href="../net-misc/dropbox-237.4.5655-bdepend.svg">bdepend</TD><TD title="portage://net-misc/dropbox-237.4.5655" href="../net-misc/dropbox-237.4.5655-cdepend.svg">cdepend</TD><TD title="portage://net-misc/dropbox-237.4.5655" href="../net-misc/dropbox-237.4.5655-depend.svg">depend</TD><TD title="portage://net-misc/dropbox-237.4.5655" href="../net-misc/dropbox-237.4.5655-idepend.svg">idepend</TD><TD title="portage://net-misc/dropbox-237.4.5655" href="../net-misc/dropbox-237.4.5655-rdepend.svg">rdepend</TD><TD title="portage://net-misc/dropbox-237.4.5655" href="../net-misc/dropbox-237.4.5655-pdepend.svg">pdepend</TD><TD BORDER='0'></TD><TD><FONT color="gray">&lt;&lt; newest</FONT></TD><TD><FONT color="gray">&lt; newer</FONT></TD><TD title="portage://net-misc/dropbox-236.4.5918" href="../net-misc/dropbox-236.4.5918.svg">older &gt;</TD><TD title="portage://net-misc/dropbox-232.4.5988" href="../net-misc/dropbox-232.4.5988.svg">oldest &gt;&gt;</TD><TD BORDER='0'></TD><TD title="portage://net-misc/dropbox-237.4.5655" href="../net-misc/dropbox-237.4.5655-merge.svg">--merge&nbsp;</TD><TD title="portage://net-misc/dropbox-237.4.5655" href="../net-misc/dropbox-237.4.5655-fetchonly.svg">--fetchonly&nbsp;</TD><TD title="portage://net-misc/dropbox-237.4.5655" href="../net-misc/dropbox-237.4.5655-info.svg">--info&nbsp;</TD><TD BORDER='0'></TD><TD title="portage://net-misc/dropbox-237.4.5655" href="../net-misc/dropbox-237.4.5655-emerge.svg">emerge</TD></TR></TABLE>>];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+fontcolor=gray;
+label=<<i>ebuild</i>>;
+labelloc=t;
+labeljust=c;
+id [label="portage://net-misc/dropbox-237.4.5655", color=red, width=4, penwidth=2, fontname="Helvetica-Bold", href="../net-misc/dropbox-237.4.5655.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+fontcolor=gray;
+label=<<i>dependencies</i>>;
+labelloc=t;
+labeljust=c
+subgraph cluster_install {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install</i>>;
+subgraph  {
+package_dependency1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-util</TD></TR><TR><TD>patchelf</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency1:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>virtual</TD></TR><TR><TD>pkgconfig</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency2:w [weight=20, style="solid",arrowhead="vee"];
+}
+subgraph cluster_install_and_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph  {
+use_conditional_group1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>X</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>x11-themes</TD></TR><TR><TD>hicolor-icon-theme</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group1:e -> package_dependency3:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency4 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libayatana-appindicator</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group1:e -> package_dependency4:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group1:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>selinux</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency5 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sec-policy</TD></TR><TR><TD>selinux-dropbox</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group2:e -> package_dependency5:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group2:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency6 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-util</TD></TR><TR><TD>desktop-file-utils</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency6:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency7 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>x11-misc</TD></TR><TR><TD>shared-mime-info</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency7:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency8 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>bzip2</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency8:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency9 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>glib</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency9:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency10 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libffi-compat</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency10:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency11 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>media-libs</TD></TR><TR><TD>fontconfig</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency11:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency12 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>media-libs</TD></TR><TR><TD>freetype</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency12:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency13 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>net-misc</TD></TR><TR><TD>wget</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency13:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency14 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>ncurses-compat</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency14:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency15 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>zlib</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency15:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency16 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>virtual</TD></TR><TR><TD>opengl</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency16:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency17 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>x11-libs</TD></TR><TR><TD>libICE</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency17:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency18 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>x11-libs</TD></TR><TR><TD>libSM</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency18:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency19 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>x11-libs</TD></TR><TR><TD>libX11</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency19:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency20 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>x11-libs</TD></TR><TR><TD>libXext</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency20:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency21 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>x11-libs</TD></TR><TR><TD>libXrender</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency21:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency22 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>x11-libs</TD></TR><TR><TD>libxcb</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency22:w [weight=20, style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+fontcolor=gray;
+label=<<i>candidates</i>>;
+labelloc=t;
+labeljust=c
+
+subgraph  {
+color=black;
+nodesep=1;
+"dev-util/patchelf-0.18.0" [label="portage://dev-util/patchelf-0.18.0", color=red, width=4,href="../dev-util/patchelf-0.18.0.svg"];
+"dev-util/patchelf-0.17.2-r1" [label="portage://dev-util/patchelf-0.17.2-r1", color=red, width=4,href="../dev-util/patchelf-0.17.2-r1.svg"];
+package_dependency1:e -> "dev-util/patchelf-0.18.0":w [style=dotted,weight="100"];
+package_dependency1:e -> "dev-util/patchelf-0.17.2-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"virtual/pkgconfig-3" [label="portage://virtual/pkgconfig-3", color=red, width=4,href="../virtual/pkgconfig-3.svg"];
+package_dependency2:e -> "virtual/pkgconfig-3":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"x11-themes/hicolor-icon-theme-0.17" [label="portage://x11-themes/hicolor-icon-theme-0.17", color=red, width=4,href="../x11-themes/hicolor-icon-theme-0.17.svg"];
+package_dependency3:e -> "x11-themes/hicolor-icon-theme-0.17":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/libayatana-appindicator-0.5.94" [label="portage://dev-libs/libayatana-appindicator-0.5.94", color=red, width=4,href="../dev-libs/libayatana-appindicator-0.5.94.svg"];
+"dev-libs/libayatana-appindicator-0.5.93" [label="portage://dev-libs/libayatana-appindicator-0.5.93", color=red, width=4,href="../dev-libs/libayatana-appindicator-0.5.93.svg"];
+package_dependency4:e -> "dev-libs/libayatana-appindicator-0.5.94":w [style=dotted,weight="100"];
+package_dependency4:e -> "dev-libs/libayatana-appindicator-0.5.93":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sec-policy/selinux-dropbox-9999" [label="portage://sec-policy/selinux-dropbox-9999", color=red, width=4,href="../sec-policy/selinux-dropbox-9999.svg"];
+"sec-policy/selinux-dropbox-2.20250618-r1" [label="portage://sec-policy/selinux-dropbox-2.20250618-r1", color=red, width=4,href="../sec-policy/selinux-dropbox-2.20250618-r1.svg"];
+"sec-policy/selinux-dropbox-2.20250213-r1" [label="portage://sec-policy/selinux-dropbox-2.20250213-r1", color=red, width=4,href="../sec-policy/selinux-dropbox-2.20250213-r1.svg"];
+package_dependency5:e -> "sec-policy/selinux-dropbox-9999":w [style=dotted,weight="100"];
+package_dependency5:e -> "sec-policy/selinux-dropbox-2.20250618-r1":w [style=dotted,weight="100"];
+package_dependency5:e -> "sec-policy/selinux-dropbox-2.20250213-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-util/desktop-file-utils-0.28" [label="portage://dev-util/desktop-file-utils-0.28", color=red, width=4,href="../dev-util/desktop-file-utils-0.28.svg"];
+"dev-util/desktop-file-utils-0.27-r1" [label="portage://dev-util/desktop-file-utils-0.27-r1", color=red, width=4,href="../dev-util/desktop-file-utils-0.27-r1.svg"];
+"dev-util/desktop-file-utils-0.27" [label="portage://dev-util/desktop-file-utils-0.27", color=red, width=4,href="../dev-util/desktop-file-utils-0.27.svg"];
+package_dependency6:e -> "dev-util/desktop-file-utils-0.28":w [style=dotted,weight="100"];
+package_dependency6:e -> "dev-util/desktop-file-utils-0.27-r1":w [style=dotted,weight="100"];
+package_dependency6:e -> "dev-util/desktop-file-utils-0.27":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"x11-misc/shared-mime-info-2.4-r3" [label="portage://x11-misc/shared-mime-info-2.4-r3", color=red, width=4,href="../x11-misc/shared-mime-info-2.4-r3.svg"];
+"x11-misc/shared-mime-info-2.4-r2" [label="portage://x11-misc/shared-mime-info-2.4-r2", color=red, width=4,href="../x11-misc/shared-mime-info-2.4-r2.svg"];
+package_dependency7:e -> "x11-misc/shared-mime-info-2.4-r3":w [style=dotted,weight="100"];
+package_dependency7:e -> "x11-misc/shared-mime-info-2.4-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-arch/bzip2-9999" [label="portage://app-arch/bzip2-9999", color=red, width=4,href="../app-arch/bzip2-9999.svg"];
+"app-arch/bzip2-1.0.8-r5" [label="portage://app-arch/bzip2-1.0.8-r5", color=red, width=4,href="../app-arch/bzip2-1.0.8-r5.svg"];
+package_dependency8:e -> "app-arch/bzip2-9999":w [style=dotted,weight="100"];
+package_dependency8:e -> "app-arch/bzip2-1.0.8-r5":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/glib-2.86.1" [label="portage://dev-libs/glib-2.86.1", color=red, width=4,href="../dev-libs/glib-2.86.1.svg"];
+"dev-libs/glib-2.84.4" [label="portage://dev-libs/glib-2.84.4", color=red, width=4,href="../dev-libs/glib-2.84.4.svg"];
+"dev-libs/glib-2.82.5" [label="portage://dev-libs/glib-2.82.5", color=red, width=4,href="../dev-libs/glib-2.82.5.svg"];
+package_dependency9:e -> "dev-libs/glib-2.86.1":w [style=dotted,weight="100"];
+package_dependency9:e -> "dev-libs/glib-2.84.4":w [style=dotted,weight="100"];
+package_dependency9:e -> "dev-libs/glib-2.82.5":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/libffi-compat-3.3-r2" [label="portage://dev-libs/libffi-compat-3.3-r2", color=red, width=4,href="../dev-libs/libffi-compat-3.3-r2.svg"];
+"dev-libs/libffi-compat-3.2.1-r3" [label="portage://dev-libs/libffi-compat-3.2.1-r3", color=red, width=4,href="../dev-libs/libffi-compat-3.2.1-r3.svg"];
+package_dependency10:e -> "dev-libs/libffi-compat-3.3-r2":w [style=dotted,weight="100"];
+package_dependency10:e -> "dev-libs/libffi-compat-3.2.1-r3":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"media-libs/fontconfig-2.17.1" [label="portage://media-libs/fontconfig-2.17.1", color=red, width=4,href="../media-libs/fontconfig-2.17.1.svg"];
+"media-libs/fontconfig-2.16.2-r1" [label="portage://media-libs/fontconfig-2.16.2-r1", color=red, width=4,href="../media-libs/fontconfig-2.16.2-r1.svg"];
+package_dependency11:e -> "media-libs/fontconfig-2.17.1":w [style=dotted,weight="100"];
+package_dependency11:e -> "media-libs/fontconfig-2.16.2-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"media-libs/freetype-9999" [label="portage://media-libs/freetype-9999", color=red, width=4,href="../media-libs/freetype-9999.svg"];
+"media-libs/freetype-2.14.1-r1" [label="portage://media-libs/freetype-2.14.1-r1", color=red, width=4,href="../media-libs/freetype-2.14.1-r1.svg"];
+"media-libs/freetype-2.14.1" [label="portage://media-libs/freetype-2.14.1", color=red, width=4,href="../media-libs/freetype-2.14.1.svg"];
+"media-libs/freetype-2.13.3" [label="portage://media-libs/freetype-2.13.3", color=red, width=4,href="../media-libs/freetype-2.13.3.svg"];
+package_dependency12:e -> "media-libs/freetype-9999":w [style=dotted,weight="100"];
+package_dependency12:e -> "media-libs/freetype-2.14.1-r1":w [style=dotted,weight="100"];
+package_dependency12:e -> "media-libs/freetype-2.14.1":w [style=dotted,weight="100"];
+package_dependency12:e -> "media-libs/freetype-2.13.3":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"net-misc/wget-1.25.0-r1" [label="portage://net-misc/wget-1.25.0-r1", color=red, width=4,href="../net-misc/wget-1.25.0-r1.svg"];
+package_dependency13:e -> "net-misc/wget-1.25.0-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-libs/ncurses-compat-6.4_p20240414" [label="portage://sys-libs/ncurses-compat-6.4_p20240414", color=red, width=4,href="../sys-libs/ncurses-compat-6.4_p20240414.svg"];
+"sys-libs/ncurses-compat-6.4_p20240330" [label="portage://sys-libs/ncurses-compat-6.4_p20240330", color=red, width=4,href="../sys-libs/ncurses-compat-6.4_p20240330.svg"];
+"sys-libs/ncurses-compat-6.4_p20230401" [label="portage://sys-libs/ncurses-compat-6.4_p20230401", color=red, width=4,href="../sys-libs/ncurses-compat-6.4_p20230401.svg"];
+package_dependency14:e -> "sys-libs/ncurses-compat-6.4_p20240414":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-libs/ncurses-compat-6.4_p20240330":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-libs/ncurses-compat-6.4_p20230401":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-libs/zlib-1.3.1-r1" [label="portage://sys-libs/zlib-1.3.1-r1", color=red, width=4,href="../sys-libs/zlib-1.3.1-r1.svg"];
+package_dependency15:e -> "sys-libs/zlib-1.3.1-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"virtual/opengl-8" [label="portage://virtual/opengl-8", color=red, width=4,href="../virtual/opengl-8.svg"];
+package_dependency16:e -> "virtual/opengl-8":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"x11-libs/libICE-1.1.2" [label="portage://x11-libs/libICE-1.1.2", color=red, width=4,href="../x11-libs/libICE-1.1.2.svg"];
+package_dependency17:e -> "x11-libs/libICE-1.1.2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"x11-libs/libSM-1.2.6" [label="portage://x11-libs/libSM-1.2.6", color=red, width=4,href="../x11-libs/libSM-1.2.6.svg"];
+package_dependency18:e -> "x11-libs/libSM-1.2.6":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"x11-libs/libX11-1.8.12" [label="portage://x11-libs/libX11-1.8.12", color=red, width=4,href="../x11-libs/libX11-1.8.12.svg"];
+package_dependency19:e -> "x11-libs/libX11-1.8.12":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"x11-libs/libXext-1.3.6" [label="portage://x11-libs/libXext-1.3.6", color=red, width=4,href="../x11-libs/libXext-1.3.6.svg"];
+package_dependency20:e -> "x11-libs/libXext-1.3.6":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"x11-libs/libXrender-0.9.12" [label="portage://x11-libs/libXrender-0.9.12", color=red, width=4,href="../x11-libs/libXrender-0.9.12.svg"];
+package_dependency21:e -> "x11-libs/libXrender-0.9.12":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"x11-libs/libxcb-1.17.0" [label="portage://x11-libs/libxcb-1.17.0", color=red, width=4,href="../x11-libs/libxcb-1.17.0.svg"];
+package_dependency22:e -> "x11-libs/libxcb-1.17.0":w [style=dotted,weight="100"];
+}
+}
+}

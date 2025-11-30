@@ -1,0 +1,153 @@
+digraph prolog {
+
+newrank=true;
+concentrate=true;
+compound=true;
+
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+graph [labelloc=t, labeljust=l, fontcolor=blue, fontname=Helvetica, fontsize=10, label=<<TABLE BORDER='0' CELLBORDER='1' CELLSPACING='0' CELLPADDING='6'><TR><TD COLSPAN='3'><FONT COLOR='black'><B>navigation</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='7'><FONT COLOR='black'><B>dependency graph</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='4'><FONT COLOR='black'><B>version control</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='3'><FONT COLOR='black'><B>command line</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='1'><FONT COLOR='black'><B>legacy</B></FONT></TD></TR><TR><TD title="repository" href="../index.html">portage</TD><TD title="repository" href="./index.html">llvm-core</TD><TD title="repository" href="./clang-linker-config.html">clang-linker-config</TD><TD BORDER='0'></TD><TD title="portage://llvm-core/clang-linker-config-18" href="../llvm-core/clang-linker-config-18.svg"><u>detail</u></TD><TD title="portage://llvm-core/clang-linker-config-18" href="../llvm-core/clang-linker-config-18-bdepend.svg">bdepend</TD><TD title="portage://llvm-core/clang-linker-config-18" href="../llvm-core/clang-linker-config-18-cdepend.svg">cdepend</TD><TD title="portage://llvm-core/clang-linker-config-18" href="../llvm-core/clang-linker-config-18-depend.svg">depend</TD><TD title="portage://llvm-core/clang-linker-config-18" href="../llvm-core/clang-linker-config-18-idepend.svg">idepend</TD><TD title="portage://llvm-core/clang-linker-config-18" href="../llvm-core/clang-linker-config-18-rdepend.svg">rdepend</TD><TD title="portage://llvm-core/clang-linker-config-18" href="../llvm-core/clang-linker-config-18-pdepend.svg">pdepend</TD><TD BORDER='0'></TD><TD title="portage://llvm-core/clang-linker-config-22" href="../llvm-core/clang-linker-config-22.svg">&lt;&lt; newest</TD><TD title="portage://llvm-core/clang-linker-config-19" href="../llvm-core/clang-linker-config-19.svg">&lt; newer</TD><TD title="portage://llvm-core/clang-linker-config-17" href="../llvm-core/clang-linker-config-17.svg">older &gt;</TD><TD title="portage://llvm-core/clang-linker-config-16" href="../llvm-core/clang-linker-config-16.svg">oldest &gt;&gt;</TD><TD BORDER='0'></TD><TD title="portage://llvm-core/clang-linker-config-18" href="../llvm-core/clang-linker-config-18-merge.svg">--merge&nbsp;</TD><TD title="portage://llvm-core/clang-linker-config-18" href="../llvm-core/clang-linker-config-18-fetchonly.svg">--fetchonly&nbsp;</TD><TD title="portage://llvm-core/clang-linker-config-18" href="../llvm-core/clang-linker-config-18-info.svg">--info&nbsp;</TD><TD BORDER='0'></TD><TD title="portage://llvm-core/clang-linker-config-18" href="../llvm-core/clang-linker-config-18-emerge.svg">emerge</TD></TR></TABLE>>];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+fontcolor=gray;
+label=<<i>ebuild</i>>;
+labelloc=t;
+labeljust=c;
+id [label="portage://llvm-core/clang-linker-config-18", color=red, width=4, penwidth=2, fontname="Helvetica-Bold", href="../llvm-core/clang-linker-config-18.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+fontcolor=gray;
+label=<<i>dependencies</i>>;
+labelloc=t;
+labeljust=c
+subgraph cluster_install {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install</i>>;
+}
+subgraph cluster_install_and_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph  {
+use_conditional_group1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>negative</TD></TR><TR><TD>default-lld</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-devel</TD></TR><TR><TD>binutils</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group1:e -> package_dependency1:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group1:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>default-lld</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>llvm-core</TD></TR><TR><TD>lld</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group2:e -> package_dependency2:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group2:w [weight=20, style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+fontcolor=gray;
+label=<<i>candidates</i>>;
+labelloc=t;
+labeljust=c
+
+subgraph  {
+color=black;
+nodesep=1;
+"sys-devel/binutils-9999" [label="portage://sys-devel/binutils-9999", color=red, width=4,href="../sys-devel/binutils-9999.svg"];
+"sys-devel/binutils-2.45.9999" [label="portage://sys-devel/binutils-2.45.9999", color=red, width=4,href="../sys-devel/binutils-2.45.9999.svg"];
+"sys-devel/binutils-2.45.1" [label="portage://sys-devel/binutils-2.45.1", color=red, width=4,href="../sys-devel/binutils-2.45.1.svg"];
+"sys-devel/binutils-2.45-r1" [label="portage://sys-devel/binutils-2.45-r1", color=red, width=4,href="../sys-devel/binutils-2.45-r1.svg"];
+"sys-devel/binutils-2.45" [label="portage://sys-devel/binutils-2.45", color=red, width=4,href="../sys-devel/binutils-2.45.svg"];
+"sys-devel/binutils-2.44-r4" [label="portage://sys-devel/binutils-2.44-r4", color=red, width=4,href="../sys-devel/binutils-2.44-r4.svg"];
+"sys-devel/binutils-2.43-r2" [label="portage://sys-devel/binutils-2.43-r2", color=red, width=4,href="../sys-devel/binutils-2.43-r2.svg"];
+"sys-devel/binutils-2.42-r2" [label="portage://sys-devel/binutils-2.42-r2", color=red, width=4,href="../sys-devel/binutils-2.42-r2.svg"];
+"sys-devel/binutils-2.41-r5" [label="portage://sys-devel/binutils-2.41-r5", color=red, width=4,href="../sys-devel/binutils-2.41-r5.svg"];
+"sys-devel/binutils-2.40-r9" [label="portage://sys-devel/binutils-2.40-r9", color=red, width=4,href="../sys-devel/binutils-2.40-r9.svg"];
+"sys-devel/binutils-2.39-r5" [label="portage://sys-devel/binutils-2.39-r5", color=red, width=4,href="../sys-devel/binutils-2.39-r5.svg"];
+"sys-devel/binutils-2.38-r2" [label="portage://sys-devel/binutils-2.38-r2", color=red, width=4,href="../sys-devel/binutils-2.38-r2.svg"];
+"sys-devel/binutils-2.37_p1-r2" [label="portage://sys-devel/binutils-2.37_p1-r2", color=red, width=4,href="../sys-devel/binutils-2.37_p1-r2.svg"];
+"sys-devel/binutils-2.36.1-r2" [label="portage://sys-devel/binutils-2.36.1-r2", color=red, width=4,href="../sys-devel/binutils-2.36.1-r2.svg"];
+"sys-devel/binutils-2.35.2" [label="portage://sys-devel/binutils-2.35.2", color=red, width=4,href="../sys-devel/binutils-2.35.2.svg"];
+"sys-devel/binutils-2.34-r2" [label="portage://sys-devel/binutils-2.34-r2", color=red, width=4,href="../sys-devel/binutils-2.34-r2.svg"];
+"sys-devel/binutils-2.33.1-r1" [label="portage://sys-devel/binutils-2.33.1-r1", color=red, width=4,href="../sys-devel/binutils-2.33.1-r1.svg"];
+"sys-devel/binutils-2.32-r2" [label="portage://sys-devel/binutils-2.32-r2", color=red, width=4,href="../sys-devel/binutils-2.32-r2.svg"];
+package_dependency1:e -> "sys-devel/binutils-9999":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-devel/binutils-2.45.9999":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-devel/binutils-2.45.1":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-devel/binutils-2.45-r1":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-devel/binutils-2.45":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-devel/binutils-2.44-r4":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-devel/binutils-2.43-r2":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-devel/binutils-2.42-r2":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-devel/binutils-2.41-r5":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-devel/binutils-2.40-r9":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-devel/binutils-2.39-r5":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-devel/binutils-2.38-r2":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-devel/binutils-2.37_p1-r2":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-devel/binutils-2.36.1-r2":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-devel/binutils-2.35.2":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-devel/binutils-2.34-r2":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-devel/binutils-2.33.1-r1":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-devel/binutils-2.32-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"llvm-core/lld-22.0.0.9999" [label="portage://llvm-core/lld-22.0.0.9999", color=red, width=4,href="../llvm-core/lld-22.0.0.9999.svg"];
+"llvm-core/lld-22.0.0_pre20251127" [label="portage://llvm-core/lld-22.0.0_pre20251127", color=red, width=4,href="../llvm-core/lld-22.0.0_pre20251127.svg"];
+"llvm-core/lld-22.0.0_pre20251120" [label="portage://llvm-core/lld-22.0.0_pre20251120", color=red, width=4,href="../llvm-core/lld-22.0.0_pre20251120.svg"];
+"llvm-core/lld-22.0.0_pre20251108" [label="portage://llvm-core/lld-22.0.0_pre20251108", color=red, width=4,href="../llvm-core/lld-22.0.0_pre20251108.svg"];
+"llvm-core/lld-21.1.6" [label="portage://llvm-core/lld-21.1.6", color=red, width=4,href="../llvm-core/lld-21.1.6.svg"];
+"llvm-core/lld-21.1.5" [label="portage://llvm-core/lld-21.1.5", color=red, width=4,href="../llvm-core/lld-21.1.5.svg"];
+"llvm-core/lld-20.1.8" [label="portage://llvm-core/lld-20.1.8", color=red, width=4,href="../llvm-core/lld-20.1.8.svg"];
+"llvm-core/lld-19.1.7" [label="portage://llvm-core/lld-19.1.7", color=red, width=4,href="../llvm-core/lld-19.1.7.svg"];
+"llvm-core/lld-18.1.8" [label="portage://llvm-core/lld-18.1.8", color=red, width=4,href="../llvm-core/lld-18.1.8.svg"];
+"llvm-core/lld-17.0.6" [label="portage://llvm-core/lld-17.0.6", color=red, width=4,href="../llvm-core/lld-17.0.6.svg"];
+"llvm-core/lld-16.0.6" [label="portage://llvm-core/lld-16.0.6", color=red, width=4,href="../llvm-core/lld-16.0.6.svg"];
+"llvm-core/lld-15.0.7" [label="portage://llvm-core/lld-15.0.7", color=red, width=4,href="../llvm-core/lld-15.0.7.svg"];
+package_dependency2:e -> "llvm-core/lld-22.0.0.9999":w [style=dotted,weight="100"];
+package_dependency2:e -> "llvm-core/lld-22.0.0_pre20251127":w [style=dotted,weight="100"];
+package_dependency2:e -> "llvm-core/lld-22.0.0_pre20251120":w [style=dotted,weight="100"];
+package_dependency2:e -> "llvm-core/lld-22.0.0_pre20251108":w [style=dotted,weight="100"];
+package_dependency2:e -> "llvm-core/lld-21.1.6":w [style=dotted,weight="100"];
+package_dependency2:e -> "llvm-core/lld-21.1.5":w [style=dotted,weight="100"];
+package_dependency2:e -> "llvm-core/lld-20.1.8":w [style=dotted,weight="100"];
+package_dependency2:e -> "llvm-core/lld-19.1.7":w [style=dotted,weight="100"];
+package_dependency2:e -> "llvm-core/lld-18.1.8":w [style=dotted,weight="100"];
+package_dependency2:e -> "llvm-core/lld-17.0.6":w [style=dotted,weight="100"];
+package_dependency2:e -> "llvm-core/lld-16.0.6":w [style=dotted,weight="100"];
+package_dependency2:e -> "llvm-core/lld-15.0.7":w [style=dotted,weight="100"];
+}
+}
+}

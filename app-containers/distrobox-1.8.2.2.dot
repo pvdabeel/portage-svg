@@ -1,0 +1,107 @@
+digraph prolog {
+
+newrank=true;
+concentrate=true;
+compound=true;
+
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+graph [labelloc=t, labeljust=l, fontcolor=blue, fontname=Helvetica, fontsize=10, label=<<TABLE BORDER='0' CELLBORDER='1' CELLSPACING='0' CELLPADDING='6'><TR><TD COLSPAN='3'><FONT COLOR='black'><B>navigation</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='7'><FONT COLOR='black'><B>dependency graph</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='4'><FONT COLOR='black'><B>version control</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='3'><FONT COLOR='black'><B>command line</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='1'><FONT COLOR='black'><B>legacy</B></FONT></TD></TR><TR><TD title="repository" href="../index.html">portage</TD><TD title="repository" href="./index.html">app-containers</TD><TD title="repository" href="./distrobox.html">distrobox</TD><TD BORDER='0'></TD><TD title="portage://app-containers/distrobox-1.8.2.2" href="../app-containers/distrobox-1.8.2.2.svg"><u>detail</u></TD><TD title="portage://app-containers/distrobox-1.8.2.2" href="../app-containers/distrobox-1.8.2.2-bdepend.svg">bdepend</TD><TD title="portage://app-containers/distrobox-1.8.2.2" href="../app-containers/distrobox-1.8.2.2-cdepend.svg">cdepend</TD><TD title="portage://app-containers/distrobox-1.8.2.2" href="../app-containers/distrobox-1.8.2.2-depend.svg">depend</TD><TD title="portage://app-containers/distrobox-1.8.2.2" href="../app-containers/distrobox-1.8.2.2-idepend.svg">idepend</TD><TD title="portage://app-containers/distrobox-1.8.2.2" href="../app-containers/distrobox-1.8.2.2-rdepend.svg">rdepend</TD><TD title="portage://app-containers/distrobox-1.8.2.2" href="../app-containers/distrobox-1.8.2.2-pdepend.svg">pdepend</TD><TD BORDER='0'></TD><TD title="portage://app-containers/distrobox-9999" href="../app-containers/distrobox-9999.svg">&lt;&lt; newest</TD><TD title="portage://app-containers/distrobox-9999" href="../app-containers/distrobox-9999.svg">&lt; newer</TD><TD title="portage://app-containers/distrobox-1.8.2.1" href="../app-containers/distrobox-1.8.2.1.svg">older &gt;</TD><TD title="portage://app-containers/distrobox-1.8.1.2-r1" href="../app-containers/distrobox-1.8.1.2-r1.svg">oldest &gt;&gt;</TD><TD BORDER='0'></TD><TD title="portage://app-containers/distrobox-1.8.2.2" href="../app-containers/distrobox-1.8.2.2-merge.svg">--merge&nbsp;</TD><TD title="portage://app-containers/distrobox-1.8.2.2" href="../app-containers/distrobox-1.8.2.2-fetchonly.svg">--fetchonly&nbsp;</TD><TD title="portage://app-containers/distrobox-1.8.2.2" href="../app-containers/distrobox-1.8.2.2-info.svg">--info&nbsp;</TD><TD BORDER='0'></TD><TD title="portage://app-containers/distrobox-1.8.2.2" href="../app-containers/distrobox-1.8.2.2-emerge.svg">emerge</TD></TR></TABLE>>];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+fontcolor=gray;
+label=<<i>ebuild</i>>;
+labelloc=t;
+labeljust=c;
+id [label="portage://app-containers/distrobox-1.8.2.2", color=red, width=4, penwidth=2, fontname="Helvetica-Bold", href="../app-containers/distrobox-1.8.2.2.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+fontcolor=gray;
+label=<<i>dependencies</i>>;
+labelloc=t;
+labeljust=c
+subgraph cluster_install {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install</i>>;
+}
+subgraph cluster_install_and_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph  {
+any_of_group1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD CELLPADDING="10">any_of_group</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>app-containers</TD></TR><TR><TD>docker</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+any_of_group1:e -> package_dependency1:w [weight=20, style="dotted",arrowhead="oinv"];
+subgraph  {
+package_dependency2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>app-containers</TD></TR><TR><TD>podman</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+any_of_group1:e -> package_dependency2:w [weight=20, style="dotted",arrowhead="oinv"];
+}
+id:e -> any_of_group1:w [weight=20, style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+fontcolor=gray;
+label=<<i>candidates</i>>;
+labelloc=t;
+labeljust=c
+
+subgraph  {
+color=black;
+nodesep=1;
+"app-containers/docker-28.4.0" [label="portage://app-containers/docker-28.4.0", color=red, width=4,href="../app-containers/docker-28.4.0.svg"];
+"app-containers/docker-28.2.2" [label="portage://app-containers/docker-28.2.2", color=red, width=4,href="../app-containers/docker-28.2.2.svg"];
+"app-containers/docker-28.1.1" [label="portage://app-containers/docker-28.1.1", color=red, width=4,href="../app-containers/docker-28.1.1.svg"];
+"app-containers/docker-28.0.4" [label="portage://app-containers/docker-28.0.4", color=red, width=4,href="../app-containers/docker-28.0.4.svg"];
+"app-containers/docker-28.0.1" [label="portage://app-containers/docker-28.0.1", color=red, width=4,href="../app-containers/docker-28.0.1.svg"];
+package_dependency1:e -> "app-containers/docker-28.4.0":w [style=dotted,weight="100"];
+package_dependency1:e -> "app-containers/docker-28.2.2":w [style=dotted,weight="100"];
+package_dependency1:e -> "app-containers/docker-28.1.1":w [style=dotted,weight="100"];
+package_dependency1:e -> "app-containers/docker-28.0.4":w [style=dotted,weight="100"];
+package_dependency1:e -> "app-containers/docker-28.0.1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-containers/podman-9999" [label="portage://app-containers/podman-9999", color=red, width=4,href="../app-containers/podman-9999.svg"];
+"app-containers/podman-5.7.0" [label="portage://app-containers/podman-5.7.0", color=red, width=4,href="../app-containers/podman-5.7.0.svg"];
+"app-containers/podman-5.5.2" [label="portage://app-containers/podman-5.5.2", color=red, width=4,href="../app-containers/podman-5.5.2.svg"];
+"app-containers/podman-5.4.2" [label="portage://app-containers/podman-5.4.2", color=red, width=4,href="../app-containers/podman-5.4.2.svg"];
+"app-containers/podman-5.3.2" [label="portage://app-containers/podman-5.3.2", color=red, width=4,href="../app-containers/podman-5.3.2.svg"];
+package_dependency2:e -> "app-containers/podman-9999":w [style=dotted,weight="100"];
+package_dependency2:e -> "app-containers/podman-5.7.0":w [style=dotted,weight="100"];
+package_dependency2:e -> "app-containers/podman-5.5.2":w [style=dotted,weight="100"];
+package_dependency2:e -> "app-containers/podman-5.4.2":w [style=dotted,weight="100"];
+package_dependency2:e -> "app-containers/podman-5.3.2":w [style=dotted,weight="100"];
+}
+}
+}

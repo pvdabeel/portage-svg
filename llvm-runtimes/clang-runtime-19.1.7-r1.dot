@@ -1,0 +1,278 @@
+digraph prolog {
+
+newrank=true;
+concentrate=true;
+compound=true;
+
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+graph [labelloc=t, labeljust=l, fontcolor=blue, fontname=Helvetica, fontsize=10, label=<<TABLE BORDER='0' CELLBORDER='1' CELLSPACING='0' CELLPADDING='6'><TR><TD COLSPAN='3'><FONT COLOR='black'><B>navigation</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='7'><FONT COLOR='black'><B>dependency graph</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='4'><FONT COLOR='black'><B>version control</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='3'><FONT COLOR='black'><B>command line</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='1'><FONT COLOR='black'><B>legacy</B></FONT></TD></TR><TR><TD title="repository" href="../index.html">portage</TD><TD title="repository" href="./index.html">llvm-runtimes</TD><TD title="repository" href="./clang-runtime.html">clang-runtime</TD><TD BORDER='0'></TD><TD title="portage://llvm-runtimes/clang-runtime-19.1.7-r1" href="../llvm-runtimes/clang-runtime-19.1.7-r1.svg"><u>detail</u></TD><TD title="portage://llvm-runtimes/clang-runtime-19.1.7-r1" href="../llvm-runtimes/clang-runtime-19.1.7-r1-bdepend.svg">bdepend</TD><TD title="portage://llvm-runtimes/clang-runtime-19.1.7-r1" href="../llvm-runtimes/clang-runtime-19.1.7-r1-cdepend.svg">cdepend</TD><TD title="portage://llvm-runtimes/clang-runtime-19.1.7-r1" href="../llvm-runtimes/clang-runtime-19.1.7-r1-depend.svg">depend</TD><TD title="portage://llvm-runtimes/clang-runtime-19.1.7-r1" href="../llvm-runtimes/clang-runtime-19.1.7-r1-idepend.svg">idepend</TD><TD title="portage://llvm-runtimes/clang-runtime-19.1.7-r1" href="../llvm-runtimes/clang-runtime-19.1.7-r1-rdepend.svg">rdepend</TD><TD title="portage://llvm-runtimes/clang-runtime-19.1.7-r1" href="../llvm-runtimes/clang-runtime-19.1.7-r1-pdepend.svg">pdepend</TD><TD BORDER='0'></TD><TD title="portage://llvm-runtimes/clang-runtime-22" href="../llvm-runtimes/clang-runtime-22.svg">&lt;&lt; newest</TD><TD title="portage://llvm-runtimes/clang-runtime-20.1.8" href="../llvm-runtimes/clang-runtime-20.1.8.svg">&lt; newer</TD><TD title="portage://llvm-runtimes/clang-runtime-19.1.7" href="../llvm-runtimes/clang-runtime-19.1.7.svg">older &gt;</TD><TD title="portage://llvm-runtimes/clang-runtime-15.0.7" href="../llvm-runtimes/clang-runtime-15.0.7.svg">oldest &gt;&gt;</TD><TD BORDER='0'></TD><TD title="portage://llvm-runtimes/clang-runtime-19.1.7-r1" href="../llvm-runtimes/clang-runtime-19.1.7-r1-merge.svg">--merge&nbsp;</TD><TD title="portage://llvm-runtimes/clang-runtime-19.1.7-r1" href="../llvm-runtimes/clang-runtime-19.1.7-r1-fetchonly.svg">--fetchonly&nbsp;</TD><TD title="portage://llvm-runtimes/clang-runtime-19.1.7-r1" href="../llvm-runtimes/clang-runtime-19.1.7-r1-info.svg">--info&nbsp;</TD><TD BORDER='0'></TD><TD title="portage://llvm-runtimes/clang-runtime-19.1.7-r1" href="../llvm-runtimes/clang-runtime-19.1.7-r1-emerge.svg">emerge</TD></TR></TABLE>>];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+fontcolor=gray;
+label=<<i>ebuild</i>>;
+labelloc=t;
+labeljust=c;
+id [label="portage://llvm-runtimes/clang-runtime-19.1.7-r1", color=red, width=4, penwidth=2, fontname="Helvetica-Bold", href="../llvm-runtimes/clang-runtime-19.1.7-r1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+fontcolor=gray;
+label=<<i>dependencies</i>>;
+labelloc=t;
+labeljust=c
+subgraph cluster_install {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install</i>>;
+}
+subgraph cluster_install_and_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph  {
+use_conditional_group1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>compiler-rt</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>llvm-runtimes</TD></TR><TR><TD>compiler-rt</TD></TR>
+                     <TR><TD>tilde</TD></TR><TR><TD>[[19,1,7],,,19.1.7]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group1:e -> package_dependency1:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+use_conditional_group2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>sanitize</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>llvm-runtimes</TD></TR><TR><TD>compiler-rt-sanitizers</TD></TR>
+                     <TR><TD>tilde</TD></TR><TR><TD>[[19,1,7],,,19.1.7]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group2:e -> package_dependency2:w [weight=20, style="dashed",arrowhead="vee"];
+}
+use_conditional_group1:e -> use_conditional_group2:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group1:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>libcxx</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>llvm-runtimes</TD></TR><TR><TD>libcxx</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[19,1,7],,,19.1.7]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group3:e -> package_dependency3:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group3:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group4 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>openmp</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency4 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>llvm-runtimes</TD></TR><TR><TD>openmp</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[19,1,7],,,19.1.7]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group4:e -> package_dependency4:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+use_conditional_group5 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>offload</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency5 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>llvm-runtimes</TD></TR><TR><TD>offload</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[19,1,7],,,19.1.7]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group5:e -> package_dependency5:w [weight=20, style="dashed",arrowhead="vee"];
+}
+use_conditional_group4:e -> use_conditional_group5:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group4:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency6 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>llvm-core</TD></TR><TR><TD>clang-common</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency6:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency7 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>llvm-core</TD></TR><TR><TD>clang-linker-config</TD></TR>
+                     <TR><TD>tilde</TD></TR><TR><TD>[[19],,,19]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency7:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency8 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>llvm-runtimes</TD></TR><TR><TD>clang-rtlib-config</TD></TR>
+                     <TR><TD>tilde</TD></TR><TR><TD>[[19],,,19]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency8:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency9 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>llvm-runtimes</TD></TR><TR><TD>clang-stdlib-config</TD></TR>
+                     <TR><TD>tilde</TD></TR><TR><TD>[[19],,,19]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency9:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency10 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>llvm-runtimes</TD></TR><TR><TD>clang-unwindlib-config</TD></TR>
+                     <TR><TD>tilde</TD></TR><TR><TD>[[19],,,19]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency10:w [weight=20, style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+fontcolor=gray;
+label=<<i>candidates</i>>;
+labelloc=t;
+labeljust=c
+
+subgraph  {
+color=black;
+nodesep=1;
+"llvm-runtimes/compiler-rt-19.1.7" [label="portage://llvm-runtimes/compiler-rt-19.1.7", color=red, width=4,href="../llvm-runtimes/compiler-rt-19.1.7.svg"];
+package_dependency1:e -> "llvm-runtimes/compiler-rt-19.1.7":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"llvm-runtimes/compiler-rt-sanitizers-19.1.7" [label="portage://llvm-runtimes/compiler-rt-sanitizers-19.1.7", color=red, width=4,href="../llvm-runtimes/compiler-rt-sanitizers-19.1.7.svg"];
+package_dependency2:e -> "llvm-runtimes/compiler-rt-sanitizers-19.1.7":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"llvm-runtimes/libcxx-22.0.0.9999" [label="portage://llvm-runtimes/libcxx-22.0.0.9999", color=red, width=4,href="../llvm-runtimes/libcxx-22.0.0.9999.svg"];
+"llvm-runtimes/libcxx-22.0.0_pre20251127" [label="portage://llvm-runtimes/libcxx-22.0.0_pre20251127", color=red, width=4,href="../llvm-runtimes/libcxx-22.0.0_pre20251127.svg"];
+"llvm-runtimes/libcxx-22.0.0_pre20251120" [label="portage://llvm-runtimes/libcxx-22.0.0_pre20251120", color=red, width=4,href="../llvm-runtimes/libcxx-22.0.0_pre20251120.svg"];
+"llvm-runtimes/libcxx-22.0.0_pre20251108" [label="portage://llvm-runtimes/libcxx-22.0.0_pre20251108", color=red, width=4,href="../llvm-runtimes/libcxx-22.0.0_pre20251108.svg"];
+"llvm-runtimes/libcxx-21.1.6" [label="portage://llvm-runtimes/libcxx-21.1.6", color=red, width=4,href="../llvm-runtimes/libcxx-21.1.6.svg"];
+"llvm-runtimes/libcxx-21.1.5" [label="portage://llvm-runtimes/libcxx-21.1.5", color=red, width=4,href="../llvm-runtimes/libcxx-21.1.5.svg"];
+"llvm-runtimes/libcxx-20.1.8-r1" [label="portage://llvm-runtimes/libcxx-20.1.8-r1", color=red, width=4,href="../llvm-runtimes/libcxx-20.1.8-r1.svg"];
+"llvm-runtimes/libcxx-20.1.8" [label="portage://llvm-runtimes/libcxx-20.1.8", color=red, width=4,href="../llvm-runtimes/libcxx-20.1.8.svg"];
+"llvm-runtimes/libcxx-19.1.7" [label="portage://llvm-runtimes/libcxx-19.1.7", color=red, width=4,href="../llvm-runtimes/libcxx-19.1.7.svg"];
+package_dependency3:e -> "llvm-runtimes/libcxx-22.0.0.9999":w [style=dotted,weight="100"];
+package_dependency3:e -> "llvm-runtimes/libcxx-22.0.0_pre20251127":w [style=dotted,weight="100"];
+package_dependency3:e -> "llvm-runtimes/libcxx-22.0.0_pre20251120":w [style=dotted,weight="100"];
+package_dependency3:e -> "llvm-runtimes/libcxx-22.0.0_pre20251108":w [style=dotted,weight="100"];
+package_dependency3:e -> "llvm-runtimes/libcxx-21.1.6":w [style=dotted,weight="100"];
+package_dependency3:e -> "llvm-runtimes/libcxx-21.1.5":w [style=dotted,weight="100"];
+package_dependency3:e -> "llvm-runtimes/libcxx-20.1.8-r1":w [style=dotted,weight="100"];
+package_dependency3:e -> "llvm-runtimes/libcxx-20.1.8":w [style=dotted,weight="100"];
+package_dependency3:e -> "llvm-runtimes/libcxx-19.1.7":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"llvm-runtimes/openmp-22.0.0.9999" [label="portage://llvm-runtimes/openmp-22.0.0.9999", color=red, width=4,href="../llvm-runtimes/openmp-22.0.0.9999.svg"];
+"llvm-runtimes/openmp-22.0.0_pre20251127" [label="portage://llvm-runtimes/openmp-22.0.0_pre20251127", color=red, width=4,href="../llvm-runtimes/openmp-22.0.0_pre20251127.svg"];
+"llvm-runtimes/openmp-22.0.0_pre20251120" [label="portage://llvm-runtimes/openmp-22.0.0_pre20251120", color=red, width=4,href="../llvm-runtimes/openmp-22.0.0_pre20251120.svg"];
+"llvm-runtimes/openmp-22.0.0_pre20251108" [label="portage://llvm-runtimes/openmp-22.0.0_pre20251108", color=red, width=4,href="../llvm-runtimes/openmp-22.0.0_pre20251108.svg"];
+"llvm-runtimes/openmp-21.1.6" [label="portage://llvm-runtimes/openmp-21.1.6", color=red, width=4,href="../llvm-runtimes/openmp-21.1.6.svg"];
+"llvm-runtimes/openmp-21.1.5" [label="portage://llvm-runtimes/openmp-21.1.5", color=red, width=4,href="../llvm-runtimes/openmp-21.1.5.svg"];
+"llvm-runtimes/openmp-20.1.8" [label="portage://llvm-runtimes/openmp-20.1.8", color=red, width=4,href="../llvm-runtimes/openmp-20.1.8.svg"];
+"llvm-runtimes/openmp-19.1.7" [label="portage://llvm-runtimes/openmp-19.1.7", color=red, width=4,href="../llvm-runtimes/openmp-19.1.7.svg"];
+package_dependency4:e -> "llvm-runtimes/openmp-22.0.0.9999":w [style=dotted,weight="100"];
+package_dependency4:e -> "llvm-runtimes/openmp-22.0.0_pre20251127":w [style=dotted,weight="100"];
+package_dependency4:e -> "llvm-runtimes/openmp-22.0.0_pre20251120":w [style=dotted,weight="100"];
+package_dependency4:e -> "llvm-runtimes/openmp-22.0.0_pre20251108":w [style=dotted,weight="100"];
+package_dependency4:e -> "llvm-runtimes/openmp-21.1.6":w [style=dotted,weight="100"];
+package_dependency4:e -> "llvm-runtimes/openmp-21.1.5":w [style=dotted,weight="100"];
+package_dependency4:e -> "llvm-runtimes/openmp-20.1.8":w [style=dotted,weight="100"];
+package_dependency4:e -> "llvm-runtimes/openmp-19.1.7":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"llvm-runtimes/offload-22.0.0.9999" [label="portage://llvm-runtimes/offload-22.0.0.9999", color=red, width=4,href="../llvm-runtimes/offload-22.0.0.9999.svg"];
+"llvm-runtimes/offload-22.0.0_pre20251127" [label="portage://llvm-runtimes/offload-22.0.0_pre20251127", color=red, width=4,href="../llvm-runtimes/offload-22.0.0_pre20251127.svg"];
+"llvm-runtimes/offload-22.0.0_pre20251120" [label="portage://llvm-runtimes/offload-22.0.0_pre20251120", color=red, width=4,href="../llvm-runtimes/offload-22.0.0_pre20251120.svg"];
+"llvm-runtimes/offload-22.0.0_pre20251108" [label="portage://llvm-runtimes/offload-22.0.0_pre20251108", color=red, width=4,href="../llvm-runtimes/offload-22.0.0_pre20251108.svg"];
+"llvm-runtimes/offload-21.1.6" [label="portage://llvm-runtimes/offload-21.1.6", color=red, width=4,href="../llvm-runtimes/offload-21.1.6.svg"];
+"llvm-runtimes/offload-21.1.5" [label="portage://llvm-runtimes/offload-21.1.5", color=red, width=4,href="../llvm-runtimes/offload-21.1.5.svg"];
+"llvm-runtimes/offload-20.1.8-r1" [label="portage://llvm-runtimes/offload-20.1.8-r1", color=red, width=4,href="../llvm-runtimes/offload-20.1.8-r1.svg"];
+"llvm-runtimes/offload-19.1.7" [label="portage://llvm-runtimes/offload-19.1.7", color=red, width=4,href="../llvm-runtimes/offload-19.1.7.svg"];
+package_dependency5:e -> "llvm-runtimes/offload-22.0.0.9999":w [style=dotted,weight="100"];
+package_dependency5:e -> "llvm-runtimes/offload-22.0.0_pre20251127":w [style=dotted,weight="100"];
+package_dependency5:e -> "llvm-runtimes/offload-22.0.0_pre20251120":w [style=dotted,weight="100"];
+package_dependency5:e -> "llvm-runtimes/offload-22.0.0_pre20251108":w [style=dotted,weight="100"];
+package_dependency5:e -> "llvm-runtimes/offload-21.1.6":w [style=dotted,weight="100"];
+package_dependency5:e -> "llvm-runtimes/offload-21.1.5":w [style=dotted,weight="100"];
+package_dependency5:e -> "llvm-runtimes/offload-20.1.8-r1":w [style=dotted,weight="100"];
+package_dependency5:e -> "llvm-runtimes/offload-19.1.7":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"llvm-core/clang-common-22.0.0.9999" [label="portage://llvm-core/clang-common-22.0.0.9999", color=red, width=4,href="../llvm-core/clang-common-22.0.0.9999.svg"];
+"llvm-core/clang-common-22.0.0_pre20251127" [label="portage://llvm-core/clang-common-22.0.0_pre20251127", color=red, width=4,href="../llvm-core/clang-common-22.0.0_pre20251127.svg"];
+"llvm-core/clang-common-22.0.0_pre20251120" [label="portage://llvm-core/clang-common-22.0.0_pre20251120", color=red, width=4,href="../llvm-core/clang-common-22.0.0_pre20251120.svg"];
+"llvm-core/clang-common-22.0.0_pre20251108" [label="portage://llvm-core/clang-common-22.0.0_pre20251108", color=red, width=4,href="../llvm-core/clang-common-22.0.0_pre20251108.svg"];
+"llvm-core/clang-common-21.1.6" [label="portage://llvm-core/clang-common-21.1.6", color=red, width=4,href="../llvm-core/clang-common-21.1.6.svg"];
+"llvm-core/clang-common-21.1.5" [label="portage://llvm-core/clang-common-21.1.5", color=red, width=4,href="../llvm-core/clang-common-21.1.5.svg"];
+"llvm-core/clang-common-20.1.8-r1" [label="portage://llvm-core/clang-common-20.1.8-r1", color=red, width=4,href="../llvm-core/clang-common-20.1.8-r1.svg"];
+"llvm-core/clang-common-20.1.8" [label="portage://llvm-core/clang-common-20.1.8", color=red, width=4,href="../llvm-core/clang-common-20.1.8.svg"];
+"llvm-core/clang-common-19.1.7" [label="portage://llvm-core/clang-common-19.1.7", color=red, width=4,href="../llvm-core/clang-common-19.1.7.svg"];
+"llvm-core/clang-common-18.1.8-r3" [label="portage://llvm-core/clang-common-18.1.8-r3", color=red, width=4,href="../llvm-core/clang-common-18.1.8-r3.svg"];
+"llvm-core/clang-common-17.0.6-r9" [label="portage://llvm-core/clang-common-17.0.6-r9", color=red, width=4,href="../llvm-core/clang-common-17.0.6-r9.svg"];
+"llvm-core/clang-common-17.0.6-r10" [label="portage://llvm-core/clang-common-17.0.6-r10", color=red, width=4,href="../llvm-core/clang-common-17.0.6-r10.svg"];
+"llvm-core/clang-common-16.0.6-r6" [label="portage://llvm-core/clang-common-16.0.6-r6", color=red, width=4,href="../llvm-core/clang-common-16.0.6-r6.svg"];
+"llvm-core/clang-common-15.0.7-r10" [label="portage://llvm-core/clang-common-15.0.7-r10", color=red, width=4,href="../llvm-core/clang-common-15.0.7-r10.svg"];
+package_dependency6:e -> "llvm-core/clang-common-22.0.0.9999":w [style=dotted,weight="100"];
+package_dependency6:e -> "llvm-core/clang-common-22.0.0_pre20251127":w [style=dotted,weight="100"];
+package_dependency6:e -> "llvm-core/clang-common-22.0.0_pre20251120":w [style=dotted,weight="100"];
+package_dependency6:e -> "llvm-core/clang-common-22.0.0_pre20251108":w [style=dotted,weight="100"];
+package_dependency6:e -> "llvm-core/clang-common-21.1.6":w [style=dotted,weight="100"];
+package_dependency6:e -> "llvm-core/clang-common-21.1.5":w [style=dotted,weight="100"];
+package_dependency6:e -> "llvm-core/clang-common-20.1.8-r1":w [style=dotted,weight="100"];
+package_dependency6:e -> "llvm-core/clang-common-20.1.8":w [style=dotted,weight="100"];
+package_dependency6:e -> "llvm-core/clang-common-19.1.7":w [style=dotted,weight="100"];
+package_dependency6:e -> "llvm-core/clang-common-18.1.8-r3":w [style=dotted,weight="100"];
+package_dependency6:e -> "llvm-core/clang-common-17.0.6-r9":w [style=dotted,weight="100"];
+package_dependency6:e -> "llvm-core/clang-common-17.0.6-r10":w [style=dotted,weight="100"];
+package_dependency6:e -> "llvm-core/clang-common-16.0.6-r6":w [style=dotted,weight="100"];
+package_dependency6:e -> "llvm-core/clang-common-15.0.7-r10":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"llvm-core/clang-linker-config-19" [label="portage://llvm-core/clang-linker-config-19", color=red, width=4,href="../llvm-core/clang-linker-config-19.svg"];
+package_dependency7:e -> "llvm-core/clang-linker-config-19":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"llvm-runtimes/clang-rtlib-config-19" [label="portage://llvm-runtimes/clang-rtlib-config-19", color=red, width=4,href="../llvm-runtimes/clang-rtlib-config-19.svg"];
+package_dependency8:e -> "llvm-runtimes/clang-rtlib-config-19":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"llvm-runtimes/clang-stdlib-config-19" [label="portage://llvm-runtimes/clang-stdlib-config-19", color=red, width=4,href="../llvm-runtimes/clang-stdlib-config-19.svg"];
+package_dependency9:e -> "llvm-runtimes/clang-stdlib-config-19":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"llvm-runtimes/clang-unwindlib-config-19" [label="portage://llvm-runtimes/clang-unwindlib-config-19", color=red, width=4,href="../llvm-runtimes/clang-unwindlib-config-19.svg"];
+package_dependency10:e -> "llvm-runtimes/clang-unwindlib-config-19":w [style=dotted,weight="100"];
+}
+}
+}

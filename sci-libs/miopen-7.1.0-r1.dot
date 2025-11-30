@@ -1,0 +1,604 @@
+digraph prolog {
+
+newrank=true;
+concentrate=true;
+compound=true;
+
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+graph [labelloc=t, labeljust=l, fontcolor=blue, fontname=Helvetica, fontsize=10, label=<<TABLE BORDER='0' CELLBORDER='1' CELLSPACING='0' CELLPADDING='6'><TR><TD COLSPAN='3'><FONT COLOR='black'><B>navigation</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='7'><FONT COLOR='black'><B>dependency graph</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='4'><FONT COLOR='black'><B>version control</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='3'><FONT COLOR='black'><B>command line</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='1'><FONT COLOR='black'><B>legacy</B></FONT></TD></TR><TR><TD title="repository" href="../index.html">portage</TD><TD title="repository" href="./index.html">sci-libs</TD><TD title="repository" href="./miopen.html">miopen</TD><TD BORDER='0'></TD><TD title="portage://sci-libs/miopen-7.1.0-r1" href="../sci-libs/miopen-7.1.0-r1.svg"><u>detail</u></TD><TD title="portage://sci-libs/miopen-7.1.0-r1" href="../sci-libs/miopen-7.1.0-r1-bdepend.svg">bdepend</TD><TD title="portage://sci-libs/miopen-7.1.0-r1" href="../sci-libs/miopen-7.1.0-r1-cdepend.svg">cdepend</TD><TD title="portage://sci-libs/miopen-7.1.0-r1" href="../sci-libs/miopen-7.1.0-r1-depend.svg">depend</TD><TD title="portage://sci-libs/miopen-7.1.0-r1" href="../sci-libs/miopen-7.1.0-r1-idepend.svg">idepend</TD><TD title="portage://sci-libs/miopen-7.1.0-r1" href="../sci-libs/miopen-7.1.0-r1-rdepend.svg">rdepend</TD><TD title="portage://sci-libs/miopen-7.1.0-r1" href="../sci-libs/miopen-7.1.0-r1-pdepend.svg">pdepend</TD><TD BORDER='0'></TD><TD><FONT color="gray">&lt;&lt; newest</FONT></TD><TD><FONT color="gray">&lt; newer</FONT></TD><TD title="portage://sci-libs/miopen-7.0.2" href="../sci-libs/miopen-7.0.2.svg">older &gt;</TD><TD title="portage://sci-libs/miopen-6.3.3" href="../sci-libs/miopen-6.3.3.svg">oldest &gt;&gt;</TD><TD BORDER='0'></TD><TD title="portage://sci-libs/miopen-7.1.0-r1" href="../sci-libs/miopen-7.1.0-r1-merge.svg">--merge&nbsp;</TD><TD title="portage://sci-libs/miopen-7.1.0-r1" href="../sci-libs/miopen-7.1.0-r1-fetchonly.svg">--fetchonly&nbsp;</TD><TD title="portage://sci-libs/miopen-7.1.0-r1" href="../sci-libs/miopen-7.1.0-r1-info.svg">--info&nbsp;</TD><TD BORDER='0'></TD><TD title="portage://sci-libs/miopen-7.1.0-r1" href="../sci-libs/miopen-7.1.0-r1-emerge.svg">emerge</TD></TR></TABLE>>];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+fontcolor=gray;
+label=<<i>ebuild</i>>;
+labelloc=t;
+labeljust=c;
+id [label="portage://sci-libs/miopen-7.1.0-r1", color=red, width=4, penwidth=2, fontname="Helvetica-Bold", href="../sci-libs/miopen-7.1.0-r1.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+fontcolor=gray;
+label=<<i>dependencies</i>>;
+labelloc=t;
+labeljust=c
+subgraph cluster_install {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install</i>>;
+subgraph  {
+use_conditional_group1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>amdgpu_targets_gfx908</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-cpp</TD></TR><TR><TD>frugally-deep</TD></TR>
+                     <TR><TD>equal</TD></TR><TR><TD>[[0,15],,,0.15*]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group1:e -> package_dependency1:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group1:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>amdgpu_targets_gfx940</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-cpp</TD></TR><TR><TD>frugally-deep</TD></TR>
+                     <TR><TD>equal</TD></TR><TR><TD>[[0,15],,,0.15*]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group2:e -> package_dependency2:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group2:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>amdgpu_targets_gfx941</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-cpp</TD></TR><TR><TD>frugally-deep</TD></TR>
+                     <TR><TD>equal</TD></TR><TR><TD>[[0,15],,,0.15*]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group3:e -> package_dependency3:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group3:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group4 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>amdgpu_targets_gfx942</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency4 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-cpp</TD></TR><TR><TD>frugally-deep</TD></TR>
+                     <TR><TD>equal</TD></TR><TR><TD>[[0,15],,,0.15*]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group4:e -> package_dependency4:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group4:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group5 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>composable-kernel</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency5 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>sci-libs</TD></TR><TR><TD>composable-kernel</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group5:e -> package_dependency5:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group5:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group6 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>hipblaslt</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency6 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>sci-libs</TD></TR><TR><TD>hipBLASLt</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group6:e -> package_dependency6:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group6:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group7 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>rocblas</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency7 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>sci-libs</TD></TR><TR><TD>rocBLAS</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group7:e -> package_dependency7:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group7:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group8 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>roctracer</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency8 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-util</TD></TR><TR><TD>roctracer</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group8:e -> package_dependency8:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group8:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group9 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>test</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency9 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-cpp</TD></TR><TR><TD>gtest</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group9:e -> package_dependency9:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group9:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency10 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>app-alternatives</TD></TR><TR><TD>ninja</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency10:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency11 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>bzip2</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency11:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency12 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-build</TD></TR><TR><TD>cmake</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[3,28,5],,,3.28.5]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency12:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency13 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-build</TD></TR><TR><TD>rocm-cmake</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency13:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency14 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-cpp</TD></TR><TR><TD>nlohmann_json</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency14:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency15 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-db</TD></TR><TR><TD>sqlite</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency15:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency16 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>boost</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency16:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency17 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>half</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[1,12,0],,-r1,1.12.0-r1]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency17:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency18 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>rocm-comgr</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency18:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency19 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-util</TD></TR><TR><TD>hip</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency19:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency20 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>sci-libs</TD></TR><TR><TD>rocRAND</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency20:w [weight=20, style="solid",arrowhead="vee"];
+}
+subgraph cluster_install_and_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph  {
+use_conditional_group10 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>composable-kernel</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency21 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sci-libs</TD></TR><TR><TD>composable-kernel</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group10:e -> package_dependency21:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group10:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group11 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>hipblaslt</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency22 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sci-libs</TD></TR><TR><TD>hipBLASLt</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group11:e -> package_dependency22:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group11:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group12 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>rocblas</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency23 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sci-libs</TD></TR><TR><TD>rocBLAS</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group12:e -> package_dependency23:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group12:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group13 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>roctracer</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency24 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-util</TD></TR><TR><TD>roctracer</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group13:e -> package_dependency24:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group13:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency25 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>bzip2</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency25:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency26 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-db</TD></TR><TR><TD>sqlite</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency26:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency27 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>boost</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency27:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency28 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>rocm-comgr</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency28:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency29 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-util</TD></TR><TR><TD>hip</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency29:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency30 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sci-libs</TD></TR><TR><TD>rocRAND</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency30:w [weight=20, style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+fontcolor=gray;
+label=<<i>candidates</i>>;
+labelloc=t;
+labeljust=c
+
+subgraph  {
+color=black;
+nodesep=1;
+}
+subgraph  {
+color=black;
+nodesep=1;
+}
+subgraph  {
+color=black;
+nodesep=1;
+}
+subgraph  {
+color=black;
+nodesep=1;
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sci-libs/composable-kernel-7.1.0" [label="portage://sci-libs/composable-kernel-7.1.0", color=red, width=4,href="../sci-libs/composable-kernel-7.1.0.svg"];
+"sci-libs/composable-kernel-7.0.2" [label="portage://sci-libs/composable-kernel-7.0.2", color=red, width=4,href="../sci-libs/composable-kernel-7.0.2.svg"];
+"sci-libs/composable-kernel-6.4.3" [label="portage://sci-libs/composable-kernel-6.4.3", color=red, width=4,href="../sci-libs/composable-kernel-6.4.3.svg"];
+"sci-libs/composable-kernel-6.3.0" [label="portage://sci-libs/composable-kernel-6.3.0", color=red, width=4,href="../sci-libs/composable-kernel-6.3.0.svg"];
+package_dependency5:e -> "sci-libs/composable-kernel-7.1.0":w [style=dotted,weight="100"];
+package_dependency5:e -> "sci-libs/composable-kernel-7.0.2":w [style=dotted,weight="100"];
+package_dependency5:e -> "sci-libs/composable-kernel-6.4.3":w [style=dotted,weight="100"];
+package_dependency5:e -> "sci-libs/composable-kernel-6.3.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sci-libs/hipBLASLt-7.1.0-r2" [label="portage://sci-libs/hipBLASLt-7.1.0-r2", color=red, width=4,href="../sci-libs/hipBLASLt-7.1.0-r2.svg"];
+"sci-libs/hipBLASLt-7.0.2-r2" [label="portage://sci-libs/hipBLASLt-7.0.2-r2", color=red, width=4,href="../sci-libs/hipBLASLt-7.0.2-r2.svg"];
+"sci-libs/hipBLASLt-6.4.3" [label="portage://sci-libs/hipBLASLt-6.4.3", color=red, width=4,href="../sci-libs/hipBLASLt-6.4.3.svg"];
+"sci-libs/hipBLASLt-6.3.3" [label="portage://sci-libs/hipBLASLt-6.3.3", color=red, width=4,href="../sci-libs/hipBLASLt-6.3.3.svg"];
+package_dependency6:e -> "sci-libs/hipBLASLt-7.1.0-r2":w [style=dotted,weight="100"];
+package_dependency6:e -> "sci-libs/hipBLASLt-7.0.2-r2":w [style=dotted,weight="100"];
+package_dependency6:e -> "sci-libs/hipBLASLt-6.4.3":w [style=dotted,weight="100"];
+package_dependency6:e -> "sci-libs/hipBLASLt-6.3.3":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sci-libs/rocBLAS-9999" [label="portage://sci-libs/rocBLAS-9999", color=red, width=4,href="../sci-libs/rocBLAS-9999.svg"];
+"sci-libs/rocBLAS-7.1.0" [label="portage://sci-libs/rocBLAS-7.1.0", color=red, width=4,href="../sci-libs/rocBLAS-7.1.0.svg"];
+"sci-libs/rocBLAS-7.0.2-r1" [label="portage://sci-libs/rocBLAS-7.0.2-r1", color=red, width=4,href="../sci-libs/rocBLAS-7.0.2-r1.svg"];
+"sci-libs/rocBLAS-6.4.3-r1" [label="portage://sci-libs/rocBLAS-6.4.3-r1", color=red, width=4,href="../sci-libs/rocBLAS-6.4.3-r1.svg"];
+"sci-libs/rocBLAS-6.3.3" [label="portage://sci-libs/rocBLAS-6.3.3", color=red, width=4,href="../sci-libs/rocBLAS-6.3.3.svg"];
+package_dependency7:e -> "sci-libs/rocBLAS-9999":w [style=dotted,weight="100"];
+package_dependency7:e -> "sci-libs/rocBLAS-7.1.0":w [style=dotted,weight="100"];
+package_dependency7:e -> "sci-libs/rocBLAS-7.0.2-r1":w [style=dotted,weight="100"];
+package_dependency7:e -> "sci-libs/rocBLAS-6.4.3-r1":w [style=dotted,weight="100"];
+package_dependency7:e -> "sci-libs/rocBLAS-6.3.3":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-util/roctracer-7.1.0" [label="portage://dev-util/roctracer-7.1.0", color=red, width=4,href="../dev-util/roctracer-7.1.0.svg"];
+"dev-util/roctracer-7.0.2" [label="portage://dev-util/roctracer-7.0.2", color=red, width=4,href="../dev-util/roctracer-7.0.2.svg"];
+"dev-util/roctracer-6.4.3" [label="portage://dev-util/roctracer-6.4.3", color=red, width=4,href="../dev-util/roctracer-6.4.3.svg"];
+"dev-util/roctracer-6.3.3" [label="portage://dev-util/roctracer-6.3.3", color=red, width=4,href="../dev-util/roctracer-6.3.3.svg"];
+package_dependency8:e -> "dev-util/roctracer-7.1.0":w [style=dotted,weight="100"];
+package_dependency8:e -> "dev-util/roctracer-7.0.2":w [style=dotted,weight="100"];
+package_dependency8:e -> "dev-util/roctracer-6.4.3":w [style=dotted,weight="100"];
+package_dependency8:e -> "dev-util/roctracer-6.3.3":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-cpp/gtest-9999" [label="portage://dev-cpp/gtest-9999", color=red, width=4,href="../dev-cpp/gtest-9999.svg"];
+"dev-cpp/gtest-1.17.0" [label="portage://dev-cpp/gtest-1.17.0", color=red, width=4,href="../dev-cpp/gtest-1.17.0.svg"];
+"dev-cpp/gtest-1.14.0-r2" [label="portage://dev-cpp/gtest-1.14.0-r2", color=red, width=4,href="../dev-cpp/gtest-1.14.0-r2.svg"];
+package_dependency9:e -> "dev-cpp/gtest-9999":w [style=dotted,weight="100"];
+package_dependency9:e -> "dev-cpp/gtest-1.17.0":w [style=dotted,weight="100"];
+package_dependency9:e -> "dev-cpp/gtest-1.14.0-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-alternatives/ninja-1" [label="portage://app-alternatives/ninja-1", color=red, width=4,href="../app-alternatives/ninja-1.svg"];
+package_dependency10:e -> "app-alternatives/ninja-1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-arch/bzip2-9999" [label="portage://app-arch/bzip2-9999", color=red, width=4,href="../app-arch/bzip2-9999.svg"];
+"app-arch/bzip2-1.0.8-r5" [label="portage://app-arch/bzip2-1.0.8-r5", color=red, width=4,href="../app-arch/bzip2-1.0.8-r5.svg"];
+package_dependency11:e -> "app-arch/bzip2-9999":w [style=dotted,weight="100"];
+package_dependency11:e -> "app-arch/bzip2-1.0.8-r5":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-build/cmake-9999" [label="portage://dev-build/cmake-9999", color=red, width=4,href="../dev-build/cmake-9999.svg"];
+"dev-build/cmake-4.1.3" [label="portage://dev-build/cmake-4.1.3", color=red, width=4,href="../dev-build/cmake-4.1.3.svg"];
+"dev-build/cmake-4.1.2-r1" [label="portage://dev-build/cmake-4.1.2-r1", color=red, width=4,href="../dev-build/cmake-4.1.2-r1.svg"];
+"dev-build/cmake-3.31.10" [label="portage://dev-build/cmake-3.31.10", color=red, width=4,href="../dev-build/cmake-3.31.10.svg"];
+"dev-build/cmake-3.31.9-r1" [label="portage://dev-build/cmake-3.31.9-r1", color=red, width=4,href="../dev-build/cmake-3.31.9-r1.svg"];
+package_dependency12:e -> "dev-build/cmake-9999":w [style=dotted,weight="100"];
+package_dependency12:e -> "dev-build/cmake-4.1.3":w [style=dotted,weight="100"];
+package_dependency12:e -> "dev-build/cmake-4.1.2-r1":w [style=dotted,weight="100"];
+package_dependency12:e -> "dev-build/cmake-3.31.10":w [style=dotted,weight="100"];
+package_dependency12:e -> "dev-build/cmake-3.31.9-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-build/rocm-cmake-7.1.0" [label="portage://dev-build/rocm-cmake-7.1.0", color=red, width=4,href="../dev-build/rocm-cmake-7.1.0.svg"];
+"dev-build/rocm-cmake-7.0.2" [label="portage://dev-build/rocm-cmake-7.0.2", color=red, width=4,href="../dev-build/rocm-cmake-7.0.2.svg"];
+"dev-build/rocm-cmake-6.4.3" [label="portage://dev-build/rocm-cmake-6.4.3", color=red, width=4,href="../dev-build/rocm-cmake-6.4.3.svg"];
+"dev-build/rocm-cmake-6.3.3" [label="portage://dev-build/rocm-cmake-6.3.3", color=red, width=4,href="../dev-build/rocm-cmake-6.3.3.svg"];
+package_dependency13:e -> "dev-build/rocm-cmake-7.1.0":w [style=dotted,weight="100"];
+package_dependency13:e -> "dev-build/rocm-cmake-7.0.2":w [style=dotted,weight="100"];
+package_dependency13:e -> "dev-build/rocm-cmake-6.4.3":w [style=dotted,weight="100"];
+package_dependency13:e -> "dev-build/rocm-cmake-6.3.3":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-cpp/nlohmann_json-3.12.0-r1" [label="portage://dev-cpp/nlohmann_json-3.12.0-r1", color=red, width=4,href="../dev-cpp/nlohmann_json-3.12.0-r1.svg"];
+"dev-cpp/nlohmann_json-3.10.2" [label="portage://dev-cpp/nlohmann_json-3.10.2", color=red, width=4,href="../dev-cpp/nlohmann_json-3.10.2.svg"];
+package_dependency14:e -> "dev-cpp/nlohmann_json-3.12.0-r1":w [style=dotted,weight="100"];
+package_dependency14:e -> "dev-cpp/nlohmann_json-3.10.2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-db/sqlite-9999" [label="portage://dev-db/sqlite-9999", color=red, width=4,href="../dev-db/sqlite-9999.svg"];
+"dev-db/sqlite-3.51.0" [label="portage://dev-db/sqlite-3.51.0", color=red, width=4,href="../dev-db/sqlite-3.51.0.svg"];
+"dev-db/sqlite-3.50.4" [label="portage://dev-db/sqlite-3.50.4", color=red, width=4,href="../dev-db/sqlite-3.50.4.svg"];
+package_dependency15:e -> "dev-db/sqlite-9999":w [style=dotted,weight="100"];
+package_dependency15:e -> "dev-db/sqlite-3.51.0":w [style=dotted,weight="100"];
+package_dependency15:e -> "dev-db/sqlite-3.50.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/boost-1.89.0" [label="portage://dev-libs/boost-1.89.0", color=red, width=4,href="../dev-libs/boost-1.89.0.svg"];
+"dev-libs/boost-1.88.0-r1" [label="portage://dev-libs/boost-1.88.0-r1", color=red, width=4,href="../dev-libs/boost-1.88.0-r1.svg"];
+package_dependency16:e -> "dev-libs/boost-1.89.0":w [style=dotted,weight="100"];
+package_dependency16:e -> "dev-libs/boost-1.88.0-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/half-1.12.0-r1" [label="portage://dev-libs/half-1.12.0-r1", color=red, width=4,href="../dev-libs/half-1.12.0-r1.svg"];
+package_dependency17:e -> "dev-libs/half-1.12.0-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/rocm-comgr-7.1.0" [label="portage://dev-libs/rocm-comgr-7.1.0", color=red, width=4,href="../dev-libs/rocm-comgr-7.1.0.svg"];
+"dev-libs/rocm-comgr-7.0.2" [label="portage://dev-libs/rocm-comgr-7.0.2", color=red, width=4,href="../dev-libs/rocm-comgr-7.0.2.svg"];
+"dev-libs/rocm-comgr-6.4.3" [label="portage://dev-libs/rocm-comgr-6.4.3", color=red, width=4,href="../dev-libs/rocm-comgr-6.4.3.svg"];
+"dev-libs/rocm-comgr-6.3.3" [label="portage://dev-libs/rocm-comgr-6.3.3", color=red, width=4,href="../dev-libs/rocm-comgr-6.3.3.svg"];
+package_dependency18:e -> "dev-libs/rocm-comgr-7.1.0":w [style=dotted,weight="100"];
+package_dependency18:e -> "dev-libs/rocm-comgr-7.0.2":w [style=dotted,weight="100"];
+package_dependency18:e -> "dev-libs/rocm-comgr-6.4.3":w [style=dotted,weight="100"];
+package_dependency18:e -> "dev-libs/rocm-comgr-6.3.3":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-util/hip-7.1.0-r1" [label="portage://dev-util/hip-7.1.0-r1", color=red, width=4,href="../dev-util/hip-7.1.0-r1.svg"];
+"dev-util/hip-7.0.2-r1" [label="portage://dev-util/hip-7.0.2-r1", color=red, width=4,href="../dev-util/hip-7.0.2-r1.svg"];
+"dev-util/hip-6.4.3-r2" [label="portage://dev-util/hip-6.4.3-r2", color=red, width=4,href="../dev-util/hip-6.4.3-r2.svg"];
+"dev-util/hip-6.3.3-r2" [label="portage://dev-util/hip-6.3.3-r2", color=red, width=4,href="../dev-util/hip-6.3.3-r2.svg"];
+package_dependency19:e -> "dev-util/hip-7.1.0-r1":w [style=dotted,weight="100"];
+package_dependency19:e -> "dev-util/hip-7.0.2-r1":w [style=dotted,weight="100"];
+package_dependency19:e -> "dev-util/hip-6.4.3-r2":w [style=dotted,weight="100"];
+package_dependency19:e -> "dev-util/hip-6.3.3-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sci-libs/rocRAND-7.1.0" [label="portage://sci-libs/rocRAND-7.1.0", color=red, width=4,href="../sci-libs/rocRAND-7.1.0.svg"];
+"sci-libs/rocRAND-7.0.2" [label="portage://sci-libs/rocRAND-7.0.2", color=red, width=4,href="../sci-libs/rocRAND-7.0.2.svg"];
+"sci-libs/rocRAND-6.4.3" [label="portage://sci-libs/rocRAND-6.4.3", color=red, width=4,href="../sci-libs/rocRAND-6.4.3.svg"];
+"sci-libs/rocRAND-6.3.3" [label="portage://sci-libs/rocRAND-6.3.3", color=red, width=4,href="../sci-libs/rocRAND-6.3.3.svg"];
+package_dependency20:e -> "sci-libs/rocRAND-7.1.0":w [style=dotted,weight="100"];
+package_dependency20:e -> "sci-libs/rocRAND-7.0.2":w [style=dotted,weight="100"];
+package_dependency20:e -> "sci-libs/rocRAND-6.4.3":w [style=dotted,weight="100"];
+package_dependency20:e -> "sci-libs/rocRAND-6.3.3":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sci-libs/composable-kernel-7.1.0" [label="portage://sci-libs/composable-kernel-7.1.0", color=red, width=4,href="../sci-libs/composable-kernel-7.1.0.svg"];
+"sci-libs/composable-kernel-7.0.2" [label="portage://sci-libs/composable-kernel-7.0.2", color=red, width=4,href="../sci-libs/composable-kernel-7.0.2.svg"];
+"sci-libs/composable-kernel-6.4.3" [label="portage://sci-libs/composable-kernel-6.4.3", color=red, width=4,href="../sci-libs/composable-kernel-6.4.3.svg"];
+"sci-libs/composable-kernel-6.3.0" [label="portage://sci-libs/composable-kernel-6.3.0", color=red, width=4,href="../sci-libs/composable-kernel-6.3.0.svg"];
+package_dependency21:e -> "sci-libs/composable-kernel-7.1.0":w [style=dotted,weight="100"];
+package_dependency21:e -> "sci-libs/composable-kernel-7.0.2":w [style=dotted,weight="100"];
+package_dependency21:e -> "sci-libs/composable-kernel-6.4.3":w [style=dotted,weight="100"];
+package_dependency21:e -> "sci-libs/composable-kernel-6.3.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sci-libs/hipBLASLt-7.1.0-r2" [label="portage://sci-libs/hipBLASLt-7.1.0-r2", color=red, width=4,href="../sci-libs/hipBLASLt-7.1.0-r2.svg"];
+"sci-libs/hipBLASLt-7.0.2-r2" [label="portage://sci-libs/hipBLASLt-7.0.2-r2", color=red, width=4,href="../sci-libs/hipBLASLt-7.0.2-r2.svg"];
+"sci-libs/hipBLASLt-6.4.3" [label="portage://sci-libs/hipBLASLt-6.4.3", color=red, width=4,href="../sci-libs/hipBLASLt-6.4.3.svg"];
+"sci-libs/hipBLASLt-6.3.3" [label="portage://sci-libs/hipBLASLt-6.3.3", color=red, width=4,href="../sci-libs/hipBLASLt-6.3.3.svg"];
+package_dependency22:e -> "sci-libs/hipBLASLt-7.1.0-r2":w [style=dotted,weight="100"];
+package_dependency22:e -> "sci-libs/hipBLASLt-7.0.2-r2":w [style=dotted,weight="100"];
+package_dependency22:e -> "sci-libs/hipBLASLt-6.4.3":w [style=dotted,weight="100"];
+package_dependency22:e -> "sci-libs/hipBLASLt-6.3.3":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sci-libs/rocBLAS-9999" [label="portage://sci-libs/rocBLAS-9999", color=red, width=4,href="../sci-libs/rocBLAS-9999.svg"];
+"sci-libs/rocBLAS-7.1.0" [label="portage://sci-libs/rocBLAS-7.1.0", color=red, width=4,href="../sci-libs/rocBLAS-7.1.0.svg"];
+"sci-libs/rocBLAS-7.0.2-r1" [label="portage://sci-libs/rocBLAS-7.0.2-r1", color=red, width=4,href="../sci-libs/rocBLAS-7.0.2-r1.svg"];
+"sci-libs/rocBLAS-6.4.3-r1" [label="portage://sci-libs/rocBLAS-6.4.3-r1", color=red, width=4,href="../sci-libs/rocBLAS-6.4.3-r1.svg"];
+"sci-libs/rocBLAS-6.3.3" [label="portage://sci-libs/rocBLAS-6.3.3", color=red, width=4,href="../sci-libs/rocBLAS-6.3.3.svg"];
+package_dependency23:e -> "sci-libs/rocBLAS-9999":w [style=dotted,weight="100"];
+package_dependency23:e -> "sci-libs/rocBLAS-7.1.0":w [style=dotted,weight="100"];
+package_dependency23:e -> "sci-libs/rocBLAS-7.0.2-r1":w [style=dotted,weight="100"];
+package_dependency23:e -> "sci-libs/rocBLAS-6.4.3-r1":w [style=dotted,weight="100"];
+package_dependency23:e -> "sci-libs/rocBLAS-6.3.3":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-util/roctracer-7.1.0" [label="portage://dev-util/roctracer-7.1.0", color=red, width=4,href="../dev-util/roctracer-7.1.0.svg"];
+"dev-util/roctracer-7.0.2" [label="portage://dev-util/roctracer-7.0.2", color=red, width=4,href="../dev-util/roctracer-7.0.2.svg"];
+"dev-util/roctracer-6.4.3" [label="portage://dev-util/roctracer-6.4.3", color=red, width=4,href="../dev-util/roctracer-6.4.3.svg"];
+"dev-util/roctracer-6.3.3" [label="portage://dev-util/roctracer-6.3.3", color=red, width=4,href="../dev-util/roctracer-6.3.3.svg"];
+package_dependency24:e -> "dev-util/roctracer-7.1.0":w [style=dotted,weight="100"];
+package_dependency24:e -> "dev-util/roctracer-7.0.2":w [style=dotted,weight="100"];
+package_dependency24:e -> "dev-util/roctracer-6.4.3":w [style=dotted,weight="100"];
+package_dependency24:e -> "dev-util/roctracer-6.3.3":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-arch/bzip2-9999" [label="portage://app-arch/bzip2-9999", color=red, width=4,href="../app-arch/bzip2-9999.svg"];
+"app-arch/bzip2-1.0.8-r5" [label="portage://app-arch/bzip2-1.0.8-r5", color=red, width=4,href="../app-arch/bzip2-1.0.8-r5.svg"];
+package_dependency25:e -> "app-arch/bzip2-9999":w [style=dotted,weight="100"];
+package_dependency25:e -> "app-arch/bzip2-1.0.8-r5":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-db/sqlite-9999" [label="portage://dev-db/sqlite-9999", color=red, width=4,href="../dev-db/sqlite-9999.svg"];
+"dev-db/sqlite-3.51.0" [label="portage://dev-db/sqlite-3.51.0", color=red, width=4,href="../dev-db/sqlite-3.51.0.svg"];
+"dev-db/sqlite-3.50.4" [label="portage://dev-db/sqlite-3.50.4", color=red, width=4,href="../dev-db/sqlite-3.50.4.svg"];
+package_dependency26:e -> "dev-db/sqlite-9999":w [style=dotted,weight="100"];
+package_dependency26:e -> "dev-db/sqlite-3.51.0":w [style=dotted,weight="100"];
+package_dependency26:e -> "dev-db/sqlite-3.50.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/boost-1.89.0" [label="portage://dev-libs/boost-1.89.0", color=red, width=4,href="../dev-libs/boost-1.89.0.svg"];
+"dev-libs/boost-1.88.0-r1" [label="portage://dev-libs/boost-1.88.0-r1", color=red, width=4,href="../dev-libs/boost-1.88.0-r1.svg"];
+package_dependency27:e -> "dev-libs/boost-1.89.0":w [style=dotted,weight="100"];
+package_dependency27:e -> "dev-libs/boost-1.88.0-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/rocm-comgr-7.1.0" [label="portage://dev-libs/rocm-comgr-7.1.0", color=red, width=4,href="../dev-libs/rocm-comgr-7.1.0.svg"];
+"dev-libs/rocm-comgr-7.0.2" [label="portage://dev-libs/rocm-comgr-7.0.2", color=red, width=4,href="../dev-libs/rocm-comgr-7.0.2.svg"];
+"dev-libs/rocm-comgr-6.4.3" [label="portage://dev-libs/rocm-comgr-6.4.3", color=red, width=4,href="../dev-libs/rocm-comgr-6.4.3.svg"];
+"dev-libs/rocm-comgr-6.3.3" [label="portage://dev-libs/rocm-comgr-6.3.3", color=red, width=4,href="../dev-libs/rocm-comgr-6.3.3.svg"];
+package_dependency28:e -> "dev-libs/rocm-comgr-7.1.0":w [style=dotted,weight="100"];
+package_dependency28:e -> "dev-libs/rocm-comgr-7.0.2":w [style=dotted,weight="100"];
+package_dependency28:e -> "dev-libs/rocm-comgr-6.4.3":w [style=dotted,weight="100"];
+package_dependency28:e -> "dev-libs/rocm-comgr-6.3.3":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-util/hip-7.1.0-r1" [label="portage://dev-util/hip-7.1.0-r1", color=red, width=4,href="../dev-util/hip-7.1.0-r1.svg"];
+"dev-util/hip-7.0.2-r1" [label="portage://dev-util/hip-7.0.2-r1", color=red, width=4,href="../dev-util/hip-7.0.2-r1.svg"];
+"dev-util/hip-6.4.3-r2" [label="portage://dev-util/hip-6.4.3-r2", color=red, width=4,href="../dev-util/hip-6.4.3-r2.svg"];
+"dev-util/hip-6.3.3-r2" [label="portage://dev-util/hip-6.3.3-r2", color=red, width=4,href="../dev-util/hip-6.3.3-r2.svg"];
+package_dependency29:e -> "dev-util/hip-7.1.0-r1":w [style=dotted,weight="100"];
+package_dependency29:e -> "dev-util/hip-7.0.2-r1":w [style=dotted,weight="100"];
+package_dependency29:e -> "dev-util/hip-6.4.3-r2":w [style=dotted,weight="100"];
+package_dependency29:e -> "dev-util/hip-6.3.3-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sci-libs/rocRAND-7.1.0" [label="portage://sci-libs/rocRAND-7.1.0", color=red, width=4,href="../sci-libs/rocRAND-7.1.0.svg"];
+"sci-libs/rocRAND-7.0.2" [label="portage://sci-libs/rocRAND-7.0.2", color=red, width=4,href="../sci-libs/rocRAND-7.0.2.svg"];
+"sci-libs/rocRAND-6.4.3" [label="portage://sci-libs/rocRAND-6.4.3", color=red, width=4,href="../sci-libs/rocRAND-6.4.3.svg"];
+"sci-libs/rocRAND-6.3.3" [label="portage://sci-libs/rocRAND-6.3.3", color=red, width=4,href="../sci-libs/rocRAND-6.3.3.svg"];
+package_dependency30:e -> "sci-libs/rocRAND-7.1.0":w [style=dotted,weight="100"];
+package_dependency30:e -> "sci-libs/rocRAND-7.0.2":w [style=dotted,weight="100"];
+package_dependency30:e -> "sci-libs/rocRAND-6.4.3":w [style=dotted,weight="100"];
+package_dependency30:e -> "sci-libs/rocRAND-6.3.3":w [style=dotted,weight="100"];
+}
+}
+}

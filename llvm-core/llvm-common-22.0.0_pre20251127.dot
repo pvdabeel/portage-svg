@@ -1,0 +1,132 @@
+digraph prolog {
+
+newrank=true;
+concentrate=true;
+compound=true;
+
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+graph [labelloc=t, labeljust=l, fontcolor=blue, fontname=Helvetica, fontsize=10, label=<<TABLE BORDER='0' CELLBORDER='1' CELLSPACING='0' CELLPADDING='6'><TR><TD COLSPAN='3'><FONT COLOR='black'><B>navigation</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='7'><FONT COLOR='black'><B>dependency graph</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='4'><FONT COLOR='black'><B>version control</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='3'><FONT COLOR='black'><B>command line</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='1'><FONT COLOR='black'><B>legacy</B></FONT></TD></TR><TR><TD title="repository" href="../index.html">portage</TD><TD title="repository" href="./index.html">llvm-core</TD><TD title="repository" href="./llvm-common.html">llvm-common</TD><TD BORDER='0'></TD><TD title="portage://llvm-core/llvm-common-22.0.0_pre20251127" href="../llvm-core/llvm-common-22.0.0_pre20251127.svg"><u>detail</u></TD><TD title="portage://llvm-core/llvm-common-22.0.0_pre20251127" href="../llvm-core/llvm-common-22.0.0_pre20251127-bdepend.svg">bdepend</TD><TD title="portage://llvm-core/llvm-common-22.0.0_pre20251127" href="../llvm-core/llvm-common-22.0.0_pre20251127-cdepend.svg">cdepend</TD><TD title="portage://llvm-core/llvm-common-22.0.0_pre20251127" href="../llvm-core/llvm-common-22.0.0_pre20251127-depend.svg">depend</TD><TD title="portage://llvm-core/llvm-common-22.0.0_pre20251127" href="../llvm-core/llvm-common-22.0.0_pre20251127-idepend.svg">idepend</TD><TD title="portage://llvm-core/llvm-common-22.0.0_pre20251127" href="../llvm-core/llvm-common-22.0.0_pre20251127-rdepend.svg">rdepend</TD><TD title="portage://llvm-core/llvm-common-22.0.0_pre20251127" href="../llvm-core/llvm-common-22.0.0_pre20251127-pdepend.svg">pdepend</TD><TD BORDER='0'></TD><TD title="portage://llvm-core/llvm-common-22.0.0.9999" href="../llvm-core/llvm-common-22.0.0.9999.svg">&lt;&lt; newest</TD><TD title="portage://llvm-core/llvm-common-22.0.0.9999" href="../llvm-core/llvm-common-22.0.0.9999.svg">&lt; newer</TD><TD title="portage://llvm-core/llvm-common-22.0.0_pre20251120" href="../llvm-core/llvm-common-22.0.0_pre20251120.svg">older &gt;</TD><TD title="portage://llvm-core/llvm-common-15.0.7" href="../llvm-core/llvm-common-15.0.7.svg">oldest &gt;&gt;</TD><TD BORDER='0'></TD><TD title="portage://llvm-core/llvm-common-22.0.0_pre20251127" href="../llvm-core/llvm-common-22.0.0_pre20251127-merge.svg">--merge&nbsp;</TD><TD title="portage://llvm-core/llvm-common-22.0.0_pre20251127" href="../llvm-core/llvm-common-22.0.0_pre20251127-fetchonly.svg">--fetchonly&nbsp;</TD><TD title="portage://llvm-core/llvm-common-22.0.0_pre20251127" href="../llvm-core/llvm-common-22.0.0_pre20251127-info.svg">--info&nbsp;</TD><TD BORDER='0'></TD><TD title="portage://llvm-core/llvm-common-22.0.0_pre20251127" href="../llvm-core/llvm-common-22.0.0_pre20251127-emerge.svg">emerge</TD></TR></TABLE>>];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+fontcolor=gray;
+label=<<i>ebuild</i>>;
+labelloc=t;
+labeljust=c;
+id [label="portage://llvm-core/llvm-common-22.0.0_pre20251127", color=red, width=4, penwidth=2, fontname="Helvetica-Bold", href="../llvm-core/llvm-common-22.0.0_pre20251127.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+fontcolor=gray;
+label=<<i>dependencies</i>>;
+labelloc=t;
+labeljust=c
+subgraph cluster_install {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install</i>>;
+subgraph  {
+use_conditional_group1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>emacs</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>app-editors</TD></TR><TR><TD>emacs</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[23,1],,,23.1]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group1:e -> package_dependency1:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group1:w [weight=20, style="solid",arrowhead="vee"];
+}
+subgraph cluster_install_and_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph  {
+weak_blocker1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">blocking (weak)</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>llvm-core</TD></TR><TR><TD>llvm</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=orange];
+}
+id:e -> weak_blocker1:w [weight=20, color="orange", style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+fontcolor=gray;
+label=<<i>candidates</i>>;
+labelloc=t;
+labeljust=c
+
+subgraph  {
+color=black;
+nodesep=1;
+"app-editors/emacs-31.0.9999" [label="portage://app-editors/emacs-31.0.9999", color=red, width=4,href="../app-editors/emacs-31.0.9999.svg"];
+"app-editors/emacs-30.2.9999" [label="portage://app-editors/emacs-30.2.9999", color=red, width=4,href="../app-editors/emacs-30.2.9999.svg"];
+"app-editors/emacs-30.2" [label="portage://app-editors/emacs-30.2", color=red, width=4,href="../app-editors/emacs-30.2.svg"];
+"app-editors/emacs-30.1-r3" [label="portage://app-editors/emacs-30.1-r3", color=red, width=4,href="../app-editors/emacs-30.1-r3.svg"];
+"app-editors/emacs-29.4-r5" [label="portage://app-editors/emacs-29.4-r5", color=red, width=4,href="../app-editors/emacs-29.4-r5.svg"];
+"app-editors/emacs-29.4-r4" [label="portage://app-editors/emacs-29.4-r4", color=red, width=4,href="../app-editors/emacs-29.4-r4.svg"];
+"app-editors/emacs-28.2-r19" [label="portage://app-editors/emacs-28.2-r19", color=red, width=4,href="../app-editors/emacs-28.2-r19.svg"];
+"app-editors/emacs-28.2-r18" [label="portage://app-editors/emacs-28.2-r18", color=red, width=4,href="../app-editors/emacs-28.2-r18.svg"];
+"app-editors/emacs-27.2-r22" [label="portage://app-editors/emacs-27.2-r22", color=red, width=4,href="../app-editors/emacs-27.2-r22.svg"];
+"app-editors/emacs-26.3-r24" [label="portage://app-editors/emacs-26.3-r24", color=red, width=4,href="../app-editors/emacs-26.3-r24.svg"];
+package_dependency1:e -> "app-editors/emacs-31.0.9999":w [style=dotted,weight="100"];
+package_dependency1:e -> "app-editors/emacs-30.2.9999":w [style=dotted,weight="100"];
+package_dependency1:e -> "app-editors/emacs-30.2":w [style=dotted,weight="100"];
+package_dependency1:e -> "app-editors/emacs-30.1-r3":w [style=dotted,weight="100"];
+package_dependency1:e -> "app-editors/emacs-29.4-r5":w [style=dotted,weight="100"];
+package_dependency1:e -> "app-editors/emacs-29.4-r4":w [style=dotted,weight="100"];
+package_dependency1:e -> "app-editors/emacs-28.2-r19":w [style=dotted,weight="100"];
+package_dependency1:e -> "app-editors/emacs-28.2-r18":w [style=dotted,weight="100"];
+package_dependency1:e -> "app-editors/emacs-27.2-r22":w [style=dotted,weight="100"];
+package_dependency1:e -> "app-editors/emacs-26.3-r24":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"llvm-core/llvm-22.0.0.9999" [label="portage://llvm-core/llvm-22.0.0.9999", color=red, width=4,href="../llvm-core/llvm-22.0.0.9999.svg"];
+"llvm-core/llvm-22.0.0_pre20251127" [label="portage://llvm-core/llvm-22.0.0_pre20251127", color=red, width=4,href="../llvm-core/llvm-22.0.0_pre20251127.svg"];
+"llvm-core/llvm-22.0.0_pre20251120" [label="portage://llvm-core/llvm-22.0.0_pre20251120", color=red, width=4,href="../llvm-core/llvm-22.0.0_pre20251120.svg"];
+"llvm-core/llvm-22.0.0_pre20251108" [label="portage://llvm-core/llvm-22.0.0_pre20251108", color=red, width=4,href="../llvm-core/llvm-22.0.0_pre20251108.svg"];
+"llvm-core/llvm-21.1.6" [label="portage://llvm-core/llvm-21.1.6", color=red, width=4,href="../llvm-core/llvm-21.1.6.svg"];
+"llvm-core/llvm-21.1.5" [label="portage://llvm-core/llvm-21.1.5", color=red, width=4,href="../llvm-core/llvm-21.1.5.svg"];
+"llvm-core/llvm-20.1.8" [label="portage://llvm-core/llvm-20.1.8", color=red, width=4,href="../llvm-core/llvm-20.1.8.svg"];
+"llvm-core/llvm-19.1.7" [label="portage://llvm-core/llvm-19.1.7", color=red, width=4,href="../llvm-core/llvm-19.1.7.svg"];
+"llvm-core/llvm-18.1.8-r6" [label="portage://llvm-core/llvm-18.1.8-r6", color=red, width=4,href="../llvm-core/llvm-18.1.8-r6.svg"];
+"llvm-core/llvm-17.0.6-r3" [label="portage://llvm-core/llvm-17.0.6-r3", color=red, width=4,href="../llvm-core/llvm-17.0.6-r3.svg"];
+"llvm-core/llvm-16.0.6-r5" [label="portage://llvm-core/llvm-16.0.6-r5", color=red, width=4,href="../llvm-core/llvm-16.0.6-r5.svg"];
+"llvm-core/llvm-15.0.7-r7" [label="portage://llvm-core/llvm-15.0.7-r7", color=red, width=4,href="../llvm-core/llvm-15.0.7-r7.svg"];
+weak_blocker1:e -> "llvm-core/llvm-22.0.0.9999":w [style=dotted,weight="100"];
+weak_blocker1:e -> "llvm-core/llvm-22.0.0_pre20251127":w [style=dotted,weight="100"];
+weak_blocker1:e -> "llvm-core/llvm-22.0.0_pre20251120":w [style=dotted,weight="100"];
+weak_blocker1:e -> "llvm-core/llvm-22.0.0_pre20251108":w [style=dotted,weight="100"];
+weak_blocker1:e -> "llvm-core/llvm-21.1.6":w [style=dotted,weight="100"];
+weak_blocker1:e -> "llvm-core/llvm-21.1.5":w [style=dotted,weight="100"];
+weak_blocker1:e -> "llvm-core/llvm-20.1.8":w [style=dotted,weight="100"];
+weak_blocker1:e -> "llvm-core/llvm-19.1.7":w [style=dotted,weight="100"];
+weak_blocker1:e -> "llvm-core/llvm-18.1.8-r6":w [style=dotted,weight="100"];
+weak_blocker1:e -> "llvm-core/llvm-17.0.6-r3":w [style=dotted,weight="100"];
+weak_blocker1:e -> "llvm-core/llvm-16.0.6-r5":w [style=dotted,weight="100"];
+weak_blocker1:e -> "llvm-core/llvm-15.0.7-r7":w [style=dotted,weight="100"];
+}
+}
+}
