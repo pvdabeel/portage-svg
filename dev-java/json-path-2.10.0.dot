@@ -1,0 +1,397 @@
+digraph prolog {
+
+newrank=true;
+concentrate=true;
+compound=true;
+
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+graph [labelloc=t, labeljust=l, fontcolor=blue, fontname=Helvetica, fontsize=10, label=<<TABLE BORDER='0' CELLBORDER='1' CELLSPACING='0' CELLPADDING='6'><TR><TD COLSPAN='3'><FONT COLOR='black'><B>navigation</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='7'><FONT COLOR='black'><B>dependency graph</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='4'><FONT COLOR='black'><B>version control</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='3'><FONT COLOR='black'><B>command line</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='1'><FONT COLOR='black'><B>legacy</B></FONT></TD></TR><TR><TD title="repository" href="../index.html">portage</TD><TD title="repository" href="./index.html">dev-java</TD><TD title="repository" href="./json-path.html">json-path</TD><TD BORDER='0'></TD><TD title="portage://dev-java/json-path-2.10.0" href="../dev-java/json-path-2.10.0.svg"><u>detail</u></TD><TD title="portage://dev-java/json-path-2.10.0" href="../dev-java/json-path-2.10.0-bdepend.svg">bdepend</TD><TD title="portage://dev-java/json-path-2.10.0" href="../dev-java/json-path-2.10.0-cdepend.svg">cdepend</TD><TD title="portage://dev-java/json-path-2.10.0" href="../dev-java/json-path-2.10.0-depend.svg">depend</TD><TD title="portage://dev-java/json-path-2.10.0" href="../dev-java/json-path-2.10.0-idepend.svg">idepend</TD><TD title="portage://dev-java/json-path-2.10.0" href="../dev-java/json-path-2.10.0-rdepend.svg">rdepend</TD><TD title="portage://dev-java/json-path-2.10.0" href="../dev-java/json-path-2.10.0-pdepend.svg">pdepend</TD><TD BORDER='0'></TD><TD><FONT color="gray">&lt;&lt; newest</FONT></TD><TD><FONT color="gray">&lt; newer</FONT></TD><TD title="portage://dev-java/json-path-2.9.0-r1" href="../dev-java/json-path-2.9.0-r1.svg">older &gt;</TD><TD title="portage://dev-java/json-path-2.9.0-r1" href="../dev-java/json-path-2.9.0-r1.svg">oldest &gt;&gt;</TD><TD BORDER='0'></TD><TD title="portage://dev-java/json-path-2.10.0" href="../dev-java/json-path-2.10.0-merge.svg">--merge&nbsp;</TD><TD title="portage://dev-java/json-path-2.10.0" href="../dev-java/json-path-2.10.0-fetchonly.svg">--fetchonly&nbsp;</TD><TD title="portage://dev-java/json-path-2.10.0" href="../dev-java/json-path-2.10.0-info.svg">--info&nbsp;</TD><TD BORDER='0'></TD><TD title="portage://dev-java/json-path-2.10.0" href="../dev-java/json-path-2.10.0-emerge.svg">emerge</TD></TR></TABLE>>];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+fontcolor=gray;
+label=<<i>ebuild</i>>;
+labelloc=t;
+labeljust=c;
+id [label="portage://dev-java/json-path-2.10.0", color=red, width=4, penwidth=2, fontname="Helvetica-Bold", href="../dev-java/json-path-2.10.0.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+fontcolor=gray;
+label=<<i>dependencies</i>>;
+labelloc=t;
+labeljust=c
+subgraph cluster_install {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install</i>>;
+subgraph  {
+use_conditional_group1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>source</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>zip</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group1:e -> package_dependency1:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group1:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-java</TD></TR><TR><TD>gson</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency2:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-java</TD></TR><TR><TD>jackson-databind</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[2,20,0],,,2.20.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency3:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency4 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-java</TD></TR><TR><TD>java-config</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[2,2,0],,-r3,2.2.0-r3]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency4:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency5 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-java</TD></TR><TR><TD>jettison</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency5:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency6 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-java</TD></TR><TR><TD>json</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency6:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency7 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-java</TD></TR><TR><TD>json-smart</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[2,5,2],,,2.5.2]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency7:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency8 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-java</TD></TR><TR><TD>jsonb-api</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency8:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency9 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-java</TD></TR><TR><TD>jsonp-api</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency9:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency10 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-java</TD></TR><TR><TD>slf4j-api</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency10:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency11 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-java</TD></TR><TR><TD>tapestry-json</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency11:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency12 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>virtual</TD></TR><TR><TD>jdk</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[1,8],,,1.8]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency12:w [weight=20, style="solid",arrowhead="vee"];
+}
+subgraph cluster_install_and_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph  {
+use_conditional_group2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>source</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency13 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>zip</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group2:e -> package_dependency13:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group2:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency14 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-java</TD></TR><TR><TD>gson</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency14:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency15 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-java</TD></TR><TR><TD>jackson-core</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[2,20,0],,,2.20.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency15:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency16 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-java</TD></TR><TR><TD>jackson-databind</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[2,20,0],,,2.20.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency16:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency17 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-java</TD></TR><TR><TD>java-config</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[2,2,0],,-r3,2.2.0-r3]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency17:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency18 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-java</TD></TR><TR><TD>jettison</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency18:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency19 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-java</TD></TR><TR><TD>json</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency19:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency20 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-java</TD></TR><TR><TD>json-smart</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[2,5,2],,,2.5.2]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency20:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency21 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-java</TD></TR><TR><TD>jsonb-api</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency21:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency22 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-java</TD></TR><TR><TD>jsonp-api</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency22:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency23 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-java</TD></TR><TR><TD>slf4j-api</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency23:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency24 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-java</TD></TR><TR><TD>tapestry-json</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency24:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency25 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>virtual</TD></TR><TR><TD>jre</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[1,8],,,1.8]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency25:w [weight=20, style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+fontcolor=gray;
+label=<<i>candidates</i>>;
+labelloc=t;
+labeljust=c
+
+subgraph  {
+color=black;
+nodesep=1;
+"app-arch/zip-3.0-r7" [label="portage://app-arch/zip-3.0-r7", color=red, width=4,href="../app-arch/zip-3.0-r7.svg"];
+package_dependency1:e -> "app-arch/zip-3.0-r7":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-java/gson-2.13.2" [label="portage://dev-java/gson-2.13.2", color=red, width=4,href="../dev-java/gson-2.13.2.svg"];
+package_dependency2:e -> "dev-java/gson-2.13.2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-java/jackson-databind-2.20.0" [label="portage://dev-java/jackson-databind-2.20.0", color=red, width=4,href="../dev-java/jackson-databind-2.20.0.svg"];
+package_dependency3:e -> "dev-java/jackson-databind-2.20.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-java/java-config-9999" [label="portage://dev-java/java-config-9999", color=red, width=4,href="../dev-java/java-config-9999.svg"];
+"dev-java/java-config-2.3.4" [label="portage://dev-java/java-config-2.3.4", color=red, width=4,href="../dev-java/java-config-2.3.4.svg"];
+package_dependency4:e -> "dev-java/java-config-9999":w [style=dotted,weight="100"];
+package_dependency4:e -> "dev-java/java-config-2.3.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-java/jettison-1.5.4" [label="portage://dev-java/jettison-1.5.4", color=red, width=4,href="../dev-java/jettison-1.5.4.svg"];
+package_dependency5:e -> "dev-java/jettison-1.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-java/json-20250517" [label="portage://dev-java/json-20250517", color=red, width=4,href="../dev-java/json-20250517.svg"];
+package_dependency6:e -> "dev-java/json-20250517":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-java/json-smart-2.6.0" [label="portage://dev-java/json-smart-2.6.0", color=red, width=4,href="../dev-java/json-smart-2.6.0.svg"];
+package_dependency7:e -> "dev-java/json-smart-2.6.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-java/jsonb-api-2.0.0" [label="portage://dev-java/jsonb-api-2.0.0", color=red, width=4,href="../dev-java/jsonb-api-2.0.0.svg"];
+package_dependency8:e -> "dev-java/jsonb-api-2.0.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-java/jsonp-api-2.0.2-r1" [label="portage://dev-java/jsonp-api-2.0.2-r1", color=red, width=4,href="../dev-java/jsonp-api-2.0.2-r1.svg"];
+package_dependency9:e -> "dev-java/jsonp-api-2.0.2-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-java/slf4j-api-2.0.3" [label="portage://dev-java/slf4j-api-2.0.3", color=red, width=4,href="../dev-java/slf4j-api-2.0.3.svg"];
+package_dependency10:e -> "dev-java/slf4j-api-2.0.3":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-java/tapestry-json-5.8.7-r1" [label="portage://dev-java/tapestry-json-5.8.7-r1", color=red, width=4,href="../dev-java/tapestry-json-5.8.7-r1.svg"];
+package_dependency11:e -> "dev-java/tapestry-json-5.8.7-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"virtual/jdk-26" [label="portage://virtual/jdk-26", color=red, width=4,href="../virtual/jdk-26.svg"];
+"virtual/jdk-25-r1" [label="portage://virtual/jdk-25-r1", color=red, width=4,href="../virtual/jdk-25-r1.svg"];
+"virtual/jdk-21" [label="portage://virtual/jdk-21", color=red, width=4,href="../virtual/jdk-21.svg"];
+"virtual/jdk-17" [label="portage://virtual/jdk-17", color=red, width=4,href="../virtual/jdk-17.svg"];
+"virtual/jdk-11-r2" [label="portage://virtual/jdk-11-r2", color=red, width=4,href="../virtual/jdk-11-r2.svg"];
+"virtual/jdk-1.8.0-r9" [label="portage://virtual/jdk-1.8.0-r9", color=red, width=4,href="../virtual/jdk-1.8.0-r9.svg"];
+package_dependency12:e -> "virtual/jdk-26":w [style=dotted,weight="100"];
+package_dependency12:e -> "virtual/jdk-25-r1":w [style=dotted,weight="100"];
+package_dependency12:e -> "virtual/jdk-21":w [style=dotted,weight="100"];
+package_dependency12:e -> "virtual/jdk-17":w [style=dotted,weight="100"];
+package_dependency12:e -> "virtual/jdk-11-r2":w [style=dotted,weight="100"];
+package_dependency12:e -> "virtual/jdk-1.8.0-r9":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-arch/zip-3.0-r7" [label="portage://app-arch/zip-3.0-r7", color=red, width=4,href="../app-arch/zip-3.0-r7.svg"];
+package_dependency13:e -> "app-arch/zip-3.0-r7":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-java/gson-2.13.2" [label="portage://dev-java/gson-2.13.2", color=red, width=4,href="../dev-java/gson-2.13.2.svg"];
+package_dependency14:e -> "dev-java/gson-2.13.2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-java/jackson-core-2.20.0" [label="portage://dev-java/jackson-core-2.20.0", color=red, width=4,href="../dev-java/jackson-core-2.20.0.svg"];
+package_dependency15:e -> "dev-java/jackson-core-2.20.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-java/jackson-databind-2.20.0" [label="portage://dev-java/jackson-databind-2.20.0", color=red, width=4,href="../dev-java/jackson-databind-2.20.0.svg"];
+package_dependency16:e -> "dev-java/jackson-databind-2.20.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-java/java-config-9999" [label="portage://dev-java/java-config-9999", color=red, width=4,href="../dev-java/java-config-9999.svg"];
+"dev-java/java-config-2.3.4" [label="portage://dev-java/java-config-2.3.4", color=red, width=4,href="../dev-java/java-config-2.3.4.svg"];
+package_dependency17:e -> "dev-java/java-config-9999":w [style=dotted,weight="100"];
+package_dependency17:e -> "dev-java/java-config-2.3.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-java/jettison-1.5.4" [label="portage://dev-java/jettison-1.5.4", color=red, width=4,href="../dev-java/jettison-1.5.4.svg"];
+package_dependency18:e -> "dev-java/jettison-1.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-java/json-20250517" [label="portage://dev-java/json-20250517", color=red, width=4,href="../dev-java/json-20250517.svg"];
+package_dependency19:e -> "dev-java/json-20250517":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-java/json-smart-2.6.0" [label="portage://dev-java/json-smart-2.6.0", color=red, width=4,href="../dev-java/json-smart-2.6.0.svg"];
+package_dependency20:e -> "dev-java/json-smart-2.6.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-java/jsonb-api-2.0.0" [label="portage://dev-java/jsonb-api-2.0.0", color=red, width=4,href="../dev-java/jsonb-api-2.0.0.svg"];
+package_dependency21:e -> "dev-java/jsonb-api-2.0.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-java/jsonp-api-2.0.2-r1" [label="portage://dev-java/jsonp-api-2.0.2-r1", color=red, width=4,href="../dev-java/jsonp-api-2.0.2-r1.svg"];
+package_dependency22:e -> "dev-java/jsonp-api-2.0.2-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-java/slf4j-api-2.0.3" [label="portage://dev-java/slf4j-api-2.0.3", color=red, width=4,href="../dev-java/slf4j-api-2.0.3.svg"];
+package_dependency23:e -> "dev-java/slf4j-api-2.0.3":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-java/tapestry-json-5.8.7-r1" [label="portage://dev-java/tapestry-json-5.8.7-r1", color=red, width=4,href="../dev-java/tapestry-json-5.8.7-r1.svg"];
+package_dependency24:e -> "dev-java/tapestry-json-5.8.7-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"virtual/jre-26" [label="portage://virtual/jre-26", color=red, width=4,href="../virtual/jre-26.svg"];
+"virtual/jre-25" [label="portage://virtual/jre-25", color=red, width=4,href="../virtual/jre-25.svg"];
+"virtual/jre-21" [label="portage://virtual/jre-21", color=red, width=4,href="../virtual/jre-21.svg"];
+"virtual/jre-17" [label="portage://virtual/jre-17", color=red, width=4,href="../virtual/jre-17.svg"];
+"virtual/jre-11-r2" [label="portage://virtual/jre-11-r2", color=red, width=4,href="../virtual/jre-11-r2.svg"];
+"virtual/jre-1.8.0-r3" [label="portage://virtual/jre-1.8.0-r3", color=red, width=4,href="../virtual/jre-1.8.0-r3.svg"];
+package_dependency25:e -> "virtual/jre-26":w [style=dotted,weight="100"];
+package_dependency25:e -> "virtual/jre-25":w [style=dotted,weight="100"];
+package_dependency25:e -> "virtual/jre-21":w [style=dotted,weight="100"];
+package_dependency25:e -> "virtual/jre-17":w [style=dotted,weight="100"];
+package_dependency25:e -> "virtual/jre-11-r2":w [style=dotted,weight="100"];
+package_dependency25:e -> "virtual/jre-1.8.0-r3":w [style=dotted,weight="100"];
+}
+}
+}

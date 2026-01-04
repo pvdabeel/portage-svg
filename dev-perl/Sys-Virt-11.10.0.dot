@@ -1,0 +1,251 @@
+digraph prolog {
+
+newrank=true;
+concentrate=true;
+compound=true;
+
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+graph [labelloc=t, labeljust=l, fontcolor=blue, fontname=Helvetica, fontsize=10, label=<<TABLE BORDER='0' CELLBORDER='1' CELLSPACING='0' CELLPADDING='6'><TR><TD COLSPAN='3'><FONT COLOR='black'><B>navigation</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='7'><FONT COLOR='black'><B>dependency graph</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='4'><FONT COLOR='black'><B>version control</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='3'><FONT COLOR='black'><B>command line</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='1'><FONT COLOR='black'><B>legacy</B></FONT></TD></TR><TR><TD title="repository" href="../index.html">portage</TD><TD title="repository" href="./index.html">dev-perl</TD><TD title="repository" href="./Sys-Virt.html">Sys-Virt</TD><TD BORDER='0'></TD><TD title="portage://dev-perl/Sys-Virt-11.10.0" href="../dev-perl/Sys-Virt-11.10.0.svg"><u>detail</u></TD><TD title="portage://dev-perl/Sys-Virt-11.10.0" href="../dev-perl/Sys-Virt-11.10.0-bdepend.svg">bdepend</TD><TD title="portage://dev-perl/Sys-Virt-11.10.0" href="../dev-perl/Sys-Virt-11.10.0-cdepend.svg">cdepend</TD><TD title="portage://dev-perl/Sys-Virt-11.10.0" href="../dev-perl/Sys-Virt-11.10.0-depend.svg">depend</TD><TD title="portage://dev-perl/Sys-Virt-11.10.0" href="../dev-perl/Sys-Virt-11.10.0-idepend.svg">idepend</TD><TD title="portage://dev-perl/Sys-Virt-11.10.0" href="../dev-perl/Sys-Virt-11.10.0-rdepend.svg">rdepend</TD><TD title="portage://dev-perl/Sys-Virt-11.10.0" href="../dev-perl/Sys-Virt-11.10.0-pdepend.svg">pdepend</TD><TD BORDER='0'></TD><TD><FONT color="gray">&lt;&lt; newest</FONT></TD><TD><FONT color="gray">&lt; newer</FONT></TD><TD title="portage://dev-perl/Sys-Virt-11.8.0" href="../dev-perl/Sys-Virt-11.8.0.svg">older &gt;</TD><TD title="portage://dev-perl/Sys-Virt-11.0.0" href="../dev-perl/Sys-Virt-11.0.0.svg">oldest &gt;&gt;</TD><TD BORDER='0'></TD><TD title="portage://dev-perl/Sys-Virt-11.10.0" href="../dev-perl/Sys-Virt-11.10.0-merge.svg">--merge&nbsp;</TD><TD title="portage://dev-perl/Sys-Virt-11.10.0" href="../dev-perl/Sys-Virt-11.10.0-fetchonly.svg">--fetchonly&nbsp;</TD><TD title="portage://dev-perl/Sys-Virt-11.10.0" href="../dev-perl/Sys-Virt-11.10.0-info.svg">--info&nbsp;</TD><TD BORDER='0'></TD><TD title="portage://dev-perl/Sys-Virt-11.10.0" href="../dev-perl/Sys-Virt-11.10.0-emerge.svg">emerge</TD></TR></TABLE>>];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+fontcolor=gray;
+label=<<i>ebuild</i>>;
+labelloc=t;
+labeljust=c;
+id [label="portage://dev-perl/Sys-Virt-11.10.0", color=red, width=4, penwidth=2, fontname="Helvetica-Bold", href="../dev-perl/Sys-Virt-11.10.0.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+fontcolor=gray;
+label=<<i>dependencies</i>>;
+labelloc=t;
+labeljust=c
+subgraph cluster_install {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install</i>>;
+subgraph  {
+use_conditional_group1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>test</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-perl</TD></TR><TR><TD>CPAN-Changes</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group1:e -> package_dependency1:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-perl</TD></TR><TR><TD>Test-More-UTF8</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group1:e -> package_dependency2:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-perl</TD></TR><TR><TD>Test-Pod</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group1:e -> package_dependency3:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency4 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-perl</TD></TR><TR><TD>Test-Pod-Coverage</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group1:e -> package_dependency4:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency5 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-perl</TD></TR><TR><TD>XML-XPath</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group1:e -> package_dependency5:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group1:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>test</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency6 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>virtual</TD></TR><TR><TD>perl-Test-Simple</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[1],,,1]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group2:e -> package_dependency6:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group2:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency7 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>app-emulation</TD></TR><TR><TD>libvirt</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[11,10,0],,,11.10.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency7:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency8 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>perl</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[5,38,2],,-r3,5.38.2-r3]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency8:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency9 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-perl</TD></TR><TR><TD>Module-Build</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency9:w [weight=20, style="solid",arrowhead="vee"];
+}
+subgraph cluster_install_and_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph  {
+package_dependency10 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>app-emulation</TD></TR><TR><TD>libvirt</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[11,10,0],,,11.10.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency10:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency11 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>perl</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[5,38,2],,-r3,5.38.2-r3]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency11:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency12 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>perl</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency12:w [weight=20, style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+fontcolor=gray;
+label=<<i>candidates</i>>;
+labelloc=t;
+labeljust=c
+
+subgraph  {
+color=black;
+nodesep=1;
+"dev-perl/CPAN-Changes-0.500.5" [label="portage://dev-perl/CPAN-Changes-0.500.5", color=red, width=4,href="../dev-perl/CPAN-Changes-0.500.5.svg"];
+"dev-perl/CPAN-Changes-0.500.3" [label="portage://dev-perl/CPAN-Changes-0.500.3", color=red, width=4,href="../dev-perl/CPAN-Changes-0.500.3.svg"];
+package_dependency1:e -> "dev-perl/CPAN-Changes-0.500.5":w [style=dotted,weight="100"];
+package_dependency1:e -> "dev-perl/CPAN-Changes-0.500.3":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-perl/Test-More-UTF8-0.50.0-r1" [label="portage://dev-perl/Test-More-UTF8-0.50.0-r1", color=red, width=4,href="../dev-perl/Test-More-UTF8-0.50.0-r1.svg"];
+package_dependency2:e -> "dev-perl/Test-More-UTF8-0.50.0-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-perl/Test-Pod-1.520.0" [label="portage://dev-perl/Test-Pod-1.520.0", color=red, width=4,href="../dev-perl/Test-Pod-1.520.0.svg"];
+package_dependency3:e -> "dev-perl/Test-Pod-1.520.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-perl/Test-Pod-Coverage-1.100.0-r1" [label="portage://dev-perl/Test-Pod-Coverage-1.100.0-r1", color=red, width=4,href="../dev-perl/Test-Pod-Coverage-1.100.0-r1.svg"];
+package_dependency4:e -> "dev-perl/Test-Pod-Coverage-1.100.0-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-perl/XML-XPath-1.480.0" [label="portage://dev-perl/XML-XPath-1.480.0", color=red, width=4,href="../dev-perl/XML-XPath-1.480.0.svg"];
+package_dependency5:e -> "dev-perl/XML-XPath-1.480.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"virtual/perl-Test-Simple-1.302.210" [label="portage://virtual/perl-Test-Simple-1.302.210", color=red, width=4,href="../virtual/perl-Test-Simple-1.302.210.svg"];
+"virtual/perl-Test-Simple-1.302.208" [label="portage://virtual/perl-Test-Simple-1.302.208", color=red, width=4,href="../virtual/perl-Test-Simple-1.302.208.svg"];
+"virtual/perl-Test-Simple-1.302.199" [label="portage://virtual/perl-Test-Simple-1.302.199", color=red, width=4,href="../virtual/perl-Test-Simple-1.302.199.svg"];
+package_dependency6:e -> "virtual/perl-Test-Simple-1.302.210":w [style=dotted,weight="100"];
+package_dependency6:e -> "virtual/perl-Test-Simple-1.302.208":w [style=dotted,weight="100"];
+package_dependency6:e -> "virtual/perl-Test-Simple-1.302.199":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-emulation/libvirt-9999" [label="portage://app-emulation/libvirt-9999", color=red, width=4,href="../app-emulation/libvirt-9999.svg"];
+"app-emulation/libvirt-11.10.0" [label="portage://app-emulation/libvirt-11.10.0", color=red, width=4,href="../app-emulation/libvirt-11.10.0.svg"];
+package_dependency7:e -> "app-emulation/libvirt-9999":w [style=dotted,weight="100"];
+package_dependency7:e -> "app-emulation/libvirt-11.10.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-lang/perl-5.42.0-r1" [label="portage://dev-lang/perl-5.42.0-r1", color=red, width=4,href="../dev-lang/perl-5.42.0-r1.svg"];
+"dev-lang/perl-5.42.0" [label="portage://dev-lang/perl-5.42.0", color=red, width=4,href="../dev-lang/perl-5.42.0.svg"];
+"dev-lang/perl-5.40.2" [label="portage://dev-lang/perl-5.40.2", color=red, width=4,href="../dev-lang/perl-5.40.2.svg"];
+"dev-lang/perl-5.40.1" [label="portage://dev-lang/perl-5.40.1", color=red, width=4,href="../dev-lang/perl-5.40.1.svg"];
+"dev-lang/perl-5.40.0-r1" [label="portage://dev-lang/perl-5.40.0-r1", color=red, width=4,href="../dev-lang/perl-5.40.0-r1.svg"];
+package_dependency8:e -> "dev-lang/perl-5.42.0-r1":w [style=dotted,weight="100"];
+package_dependency8:e -> "dev-lang/perl-5.42.0":w [style=dotted,weight="100"];
+package_dependency8:e -> "dev-lang/perl-5.40.2":w [style=dotted,weight="100"];
+package_dependency8:e -> "dev-lang/perl-5.40.1":w [style=dotted,weight="100"];
+package_dependency8:e -> "dev-lang/perl-5.40.0-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-perl/Module-Build-0.423.400-r5" [label="portage://dev-perl/Module-Build-0.423.400-r5", color=red, width=4,href="../dev-perl/Module-Build-0.423.400-r5.svg"];
+package_dependency9:e -> "dev-perl/Module-Build-0.423.400-r5":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-emulation/libvirt-9999" [label="portage://app-emulation/libvirt-9999", color=red, width=4,href="../app-emulation/libvirt-9999.svg"];
+"app-emulation/libvirt-11.10.0" [label="portage://app-emulation/libvirt-11.10.0", color=red, width=4,href="../app-emulation/libvirt-11.10.0.svg"];
+package_dependency10:e -> "app-emulation/libvirt-9999":w [style=dotted,weight="100"];
+package_dependency10:e -> "app-emulation/libvirt-11.10.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-lang/perl-5.42.0-r1" [label="portage://dev-lang/perl-5.42.0-r1", color=red, width=4,href="../dev-lang/perl-5.42.0-r1.svg"];
+"dev-lang/perl-5.42.0" [label="portage://dev-lang/perl-5.42.0", color=red, width=4,href="../dev-lang/perl-5.42.0.svg"];
+"dev-lang/perl-5.40.2" [label="portage://dev-lang/perl-5.40.2", color=red, width=4,href="../dev-lang/perl-5.40.2.svg"];
+"dev-lang/perl-5.40.1" [label="portage://dev-lang/perl-5.40.1", color=red, width=4,href="../dev-lang/perl-5.40.1.svg"];
+"dev-lang/perl-5.40.0-r1" [label="portage://dev-lang/perl-5.40.0-r1", color=red, width=4,href="../dev-lang/perl-5.40.0-r1.svg"];
+package_dependency11:e -> "dev-lang/perl-5.42.0-r1":w [style=dotted,weight="100"];
+package_dependency11:e -> "dev-lang/perl-5.42.0":w [style=dotted,weight="100"];
+package_dependency11:e -> "dev-lang/perl-5.40.2":w [style=dotted,weight="100"];
+package_dependency11:e -> "dev-lang/perl-5.40.1":w [style=dotted,weight="100"];
+package_dependency11:e -> "dev-lang/perl-5.40.0-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-lang/perl-5.42.0-r1" [label="portage://dev-lang/perl-5.42.0-r1", color=red, width=4,href="../dev-lang/perl-5.42.0-r1.svg"];
+"dev-lang/perl-5.42.0" [label="portage://dev-lang/perl-5.42.0", color=red, width=4,href="../dev-lang/perl-5.42.0.svg"];
+"dev-lang/perl-5.40.2" [label="portage://dev-lang/perl-5.40.2", color=red, width=4,href="../dev-lang/perl-5.40.2.svg"];
+"dev-lang/perl-5.40.1" [label="portage://dev-lang/perl-5.40.1", color=red, width=4,href="../dev-lang/perl-5.40.1.svg"];
+"dev-lang/perl-5.40.0-r1" [label="portage://dev-lang/perl-5.40.0-r1", color=red, width=4,href="../dev-lang/perl-5.40.0-r1.svg"];
+package_dependency12:e -> "dev-lang/perl-5.42.0-r1":w [style=dotted,weight="100"];
+package_dependency12:e -> "dev-lang/perl-5.42.0":w [style=dotted,weight="100"];
+package_dependency12:e -> "dev-lang/perl-5.40.2":w [style=dotted,weight="100"];
+package_dependency12:e -> "dev-lang/perl-5.40.1":w [style=dotted,weight="100"];
+package_dependency12:e -> "dev-lang/perl-5.40.0-r1":w [style=dotted,weight="100"];
+}
+}
+}

@@ -1,0 +1,292 @@
+digraph prolog {
+
+newrank=true;
+concentrate=true;
+compound=true;
+
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+graph [labelloc=t, labeljust=l, fontcolor=blue, fontname=Helvetica, fontsize=10, label=<<TABLE BORDER='0' CELLBORDER='1' CELLSPACING='0' CELLPADDING='6'><TR><TD COLSPAN='3'><FONT COLOR='black'><B>navigation</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='7'><FONT COLOR='black'><B>dependency graph</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='4'><FONT COLOR='black'><B>version control</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='3'><FONT COLOR='black'><B>command line</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='1'><FONT COLOR='black'><B>legacy</B></FONT></TD></TR><TR><TD title="repository" href="../index.html">portage</TD><TD title="repository" href="./index.html">kde-apps</TD><TD title="repository" href="./kdenetwork-meta.html">kdenetwork-meta</TD><TD BORDER='0'></TD><TD title="portage://kde-apps/kdenetwork-meta-25.12.0" href="../kde-apps/kdenetwork-meta-25.12.0.svg"><u>detail</u></TD><TD title="portage://kde-apps/kdenetwork-meta-25.12.0" href="../kde-apps/kdenetwork-meta-25.12.0-bdepend.svg">bdepend</TD><TD title="portage://kde-apps/kdenetwork-meta-25.12.0" href="../kde-apps/kdenetwork-meta-25.12.0-cdepend.svg">cdepend</TD><TD title="portage://kde-apps/kdenetwork-meta-25.12.0" href="../kde-apps/kdenetwork-meta-25.12.0-depend.svg">depend</TD><TD title="portage://kde-apps/kdenetwork-meta-25.12.0" href="../kde-apps/kdenetwork-meta-25.12.0-idepend.svg">idepend</TD><TD title="portage://kde-apps/kdenetwork-meta-25.12.0" href="../kde-apps/kdenetwork-meta-25.12.0-rdepend.svg">rdepend</TD><TD title="portage://kde-apps/kdenetwork-meta-25.12.0" href="../kde-apps/kdenetwork-meta-25.12.0-pdepend.svg">pdepend</TD><TD BORDER='0'></TD><TD><FONT color="gray">&lt;&lt; newest</FONT></TD><TD><FONT color="gray">&lt; newer</FONT></TD><TD title="portage://kde-apps/kdenetwork-meta-25.08.3" href="../kde-apps/kdenetwork-meta-25.08.3.svg">older &gt;</TD><TD title="portage://kde-apps/kdenetwork-meta-25.08.3" href="../kde-apps/kdenetwork-meta-25.08.3.svg">oldest &gt;&gt;</TD><TD BORDER='0'></TD><TD title="portage://kde-apps/kdenetwork-meta-25.12.0" href="../kde-apps/kdenetwork-meta-25.12.0-merge.svg">--merge&nbsp;</TD><TD title="portage://kde-apps/kdenetwork-meta-25.12.0" href="../kde-apps/kdenetwork-meta-25.12.0-fetchonly.svg">--fetchonly&nbsp;</TD><TD title="portage://kde-apps/kdenetwork-meta-25.12.0" href="../kde-apps/kdenetwork-meta-25.12.0-info.svg">--info&nbsp;</TD><TD BORDER='0'></TD><TD title="portage://kde-apps/kdenetwork-meta-25.12.0" href="../kde-apps/kdenetwork-meta-25.12.0-emerge.svg">emerge</TD></TR></TABLE>>];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+fontcolor=gray;
+label=<<i>ebuild</i>>;
+labelloc=t;
+labeljust=c;
+id [label="portage://kde-apps/kdenetwork-meta-25.12.0", color=red, width=4, penwidth=2, fontname="Helvetica-Bold", href="../kde-apps/kdenetwork-meta-25.12.0.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+fontcolor=gray;
+label=<<i>dependencies</i>>;
+labelloc=t;
+labeljust=c
+subgraph cluster_install {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install</i>>;
+}
+subgraph cluster_install_and_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph  {
+use_conditional_group1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>bittorrent</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>net-libs</TD></TR><TR><TD>libktorrent</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[25,12,0],,,25.12.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group1:e -> package_dependency1:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>net-p2p</TD></TR><TR><TD>ktorrent</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[25,12,0],,,25.12.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group1:e -> package_dependency2:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group1:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>dropbox</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-apps</TD></TR><TR><TD>dolphin-plugins-dropbox</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[25,12,0],,,25.12.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group2:e -> package_dependency3:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group2:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>samba</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency4 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-apps</TD></TR><TR><TD>kdenetwork-filesharing</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[25,12,0],,,25.12.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group3:e -> package_dependency4:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group3:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group4 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>screencast</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency5 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-apps</TD></TR><TR><TD>krfb</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[25,12,0],,,25.12.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group4:e -> package_dependency5:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group4:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group5 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>webengine</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency6 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-apps</TD></TR><TR><TD>kaccounts-integration</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[25,12,0],,,25.12.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group5:e -> package_dependency6:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency7 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-apps</TD></TR><TR><TD>kaccounts-providers</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[25,12,0],,,25.12.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group5:e -> package_dependency7:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency8 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-apps</TD></TR><TR><TD>signon-kwallet-extension</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[25,12,0],,,25.12.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group5:e -> package_dependency8:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency9 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-misc</TD></TR><TR><TD>kio-gdrive</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[25,12,0],,,25.12.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group5:e -> package_dependency9:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency10 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>net-im</TD></TR><TR><TD>neochat</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[25,12,0],,,25.12.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group5:e -> package_dependency10:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group5:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency11 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-apps</TD></TR><TR><TD>kget</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[25,12,0],,,25.12.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency11:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency12 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-apps</TD></TR><TR><TD>krdc</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[25,12,0],,,25.12.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency12:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency13 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-misc</TD></TR><TR><TD>kdeconnect</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[25,12,0],,,25.12.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency13:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency14 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>net-im</TD></TR><TR><TD>tokodon</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[25,12,0],,,25.12.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency14:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency15 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>net-irc</TD></TR><TR><TD>konversation</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[25,12,0],,,25.12.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency15:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency16 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>net-misc</TD></TR><TR><TD>kio-zeroconf</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[25,12,0],,,25.12.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency16:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency17 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>net-news</TD></TR><TR><TD>alligator</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[25,12,0],,,25.12.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency17:w [weight=20, style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+fontcolor=gray;
+label=<<i>candidates</i>>;
+labelloc=t;
+labeljust=c
+
+subgraph  {
+color=black;
+nodesep=1;
+"net-libs/libktorrent-25.12.0" [label="portage://net-libs/libktorrent-25.12.0", color=red, width=4,href="../net-libs/libktorrent-25.12.0.svg"];
+package_dependency1:e -> "net-libs/libktorrent-25.12.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"net-p2p/ktorrent-25.12.0" [label="portage://net-p2p/ktorrent-25.12.0", color=red, width=4,href="../net-p2p/ktorrent-25.12.0.svg"];
+package_dependency2:e -> "net-p2p/ktorrent-25.12.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-apps/dolphin-plugins-dropbox-25.12.0" [label="portage://kde-apps/dolphin-plugins-dropbox-25.12.0", color=red, width=4,href="../kde-apps/dolphin-plugins-dropbox-25.12.0.svg"];
+package_dependency3:e -> "kde-apps/dolphin-plugins-dropbox-25.12.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-apps/kdenetwork-filesharing-25.12.0" [label="portage://kde-apps/kdenetwork-filesharing-25.12.0", color=red, width=4,href="../kde-apps/kdenetwork-filesharing-25.12.0.svg"];
+package_dependency4:e -> "kde-apps/kdenetwork-filesharing-25.12.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-apps/krfb-25.12.0" [label="portage://kde-apps/krfb-25.12.0", color=red, width=4,href="../kde-apps/krfb-25.12.0.svg"];
+package_dependency5:e -> "kde-apps/krfb-25.12.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-apps/kaccounts-integration-25.12.0" [label="portage://kde-apps/kaccounts-integration-25.12.0", color=red, width=4,href="../kde-apps/kaccounts-integration-25.12.0.svg"];
+package_dependency6:e -> "kde-apps/kaccounts-integration-25.12.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-apps/kaccounts-providers-25.12.0" [label="portage://kde-apps/kaccounts-providers-25.12.0", color=red, width=4,href="../kde-apps/kaccounts-providers-25.12.0.svg"];
+package_dependency7:e -> "kde-apps/kaccounts-providers-25.12.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-apps/signon-kwallet-extension-25.12.0" [label="portage://kde-apps/signon-kwallet-extension-25.12.0", color=red, width=4,href="../kde-apps/signon-kwallet-extension-25.12.0.svg"];
+package_dependency8:e -> "kde-apps/signon-kwallet-extension-25.12.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-misc/kio-gdrive-25.12.0" [label="portage://kde-misc/kio-gdrive-25.12.0", color=red, width=4,href="../kde-misc/kio-gdrive-25.12.0.svg"];
+package_dependency9:e -> "kde-misc/kio-gdrive-25.12.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"net-im/neochat-25.12.0" [label="portage://net-im/neochat-25.12.0", color=red, width=4,href="../net-im/neochat-25.12.0.svg"];
+package_dependency10:e -> "net-im/neochat-25.12.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-apps/kget-25.12.0" [label="portage://kde-apps/kget-25.12.0", color=red, width=4,href="../kde-apps/kget-25.12.0.svg"];
+package_dependency11:e -> "kde-apps/kget-25.12.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-apps/krdc-25.12.0" [label="portage://kde-apps/krdc-25.12.0", color=red, width=4,href="../kde-apps/krdc-25.12.0.svg"];
+package_dependency12:e -> "kde-apps/krdc-25.12.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-misc/kdeconnect-25.12.0" [label="portage://kde-misc/kdeconnect-25.12.0", color=red, width=4,href="../kde-misc/kdeconnect-25.12.0.svg"];
+package_dependency13:e -> "kde-misc/kdeconnect-25.12.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"net-im/tokodon-25.12.0" [label="portage://net-im/tokodon-25.12.0", color=red, width=4,href="../net-im/tokodon-25.12.0.svg"];
+package_dependency14:e -> "net-im/tokodon-25.12.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"net-irc/konversation-25.12.0" [label="portage://net-irc/konversation-25.12.0", color=red, width=4,href="../net-irc/konversation-25.12.0.svg"];
+package_dependency15:e -> "net-irc/konversation-25.12.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"net-misc/kio-zeroconf-25.12.0" [label="portage://net-misc/kio-zeroconf-25.12.0", color=red, width=4,href="../net-misc/kio-zeroconf-25.12.0.svg"];
+package_dependency16:e -> "net-misc/kio-zeroconf-25.12.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"net-news/alligator-25.12.0" [label="portage://net-news/alligator-25.12.0", color=red, width=4,href="../net-news/alligator-25.12.0.svg"];
+package_dependency17:e -> "net-news/alligator-25.12.0":w [style=dotted,weight="100"];
+}
+}
+}

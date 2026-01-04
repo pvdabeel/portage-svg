@@ -1,0 +1,1240 @@
+digraph prolog {
+
+newrank=true;
+concentrate=true;
+compound=true;
+
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+graph [labelloc=t, labeljust=l, fontcolor=blue, fontname=Helvetica, fontsize=10, label=<<TABLE BORDER='0' CELLBORDER='1' CELLSPACING='0' CELLPADDING='6'><TR><TD COLSPAN='3'><FONT COLOR='black'><B>navigation</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='7'><FONT COLOR='black'><B>dependency graph</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='4'><FONT COLOR='black'><B>version control</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='3'><FONT COLOR='black'><B>command line</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='1'><FONT COLOR='black'><B>legacy</B></FONT></TD></TR><TR><TD title="repository" href="../index.html">portage</TD><TD title="repository" href="./index.html">www-servers</TD><TD title="repository" href="./nginx.html">nginx</TD><TD BORDER='0'></TD><TD title="portage://www-servers/nginx-1.29.3-r3" href="../www-servers/nginx-1.29.3-r3.svg"><u>detail</u></TD><TD title="portage://www-servers/nginx-1.29.3-r3" href="../www-servers/nginx-1.29.3-r3-bdepend.svg">bdepend</TD><TD title="portage://www-servers/nginx-1.29.3-r3" href="../www-servers/nginx-1.29.3-r3-cdepend.svg">cdepend</TD><TD title="portage://www-servers/nginx-1.29.3-r3" href="../www-servers/nginx-1.29.3-r3-depend.svg">depend</TD><TD title="portage://www-servers/nginx-1.29.3-r3" href="../www-servers/nginx-1.29.3-r3-idepend.svg">idepend</TD><TD title="portage://www-servers/nginx-1.29.3-r3" href="../www-servers/nginx-1.29.3-r3-rdepend.svg">rdepend</TD><TD title="portage://www-servers/nginx-1.29.3-r3" href="../www-servers/nginx-1.29.3-r3-pdepend.svg">pdepend</TD><TD BORDER='0'></TD><TD title="portage://www-servers/nginx-9999" href="../www-servers/nginx-9999.svg">&lt;&lt; newest</TD><TD title="portage://www-servers/nginx-9999" href="../www-servers/nginx-9999.svg">&lt; newer</TD><TD title="portage://www-servers/nginx-1.28.0-r5" href="../www-servers/nginx-1.28.0-r5.svg">older &gt;</TD><TD title="portage://www-servers/nginx-1.26.3-r2" href="../www-servers/nginx-1.26.3-r2.svg">oldest &gt;&gt;</TD><TD BORDER='0'></TD><TD title="portage://www-servers/nginx-1.29.3-r3" href="../www-servers/nginx-1.29.3-r3-merge.svg">--merge&nbsp;</TD><TD title="portage://www-servers/nginx-1.29.3-r3" href="../www-servers/nginx-1.29.3-r3-fetchonly.svg">--fetchonly&nbsp;</TD><TD title="portage://www-servers/nginx-1.29.3-r3" href="../www-servers/nginx-1.29.3-r3-info.svg">--info&nbsp;</TD><TD BORDER='0'></TD><TD title="portage://www-servers/nginx-1.29.3-r3" href="../www-servers/nginx-1.29.3-r3-emerge.svg">emerge</TD></TR></TABLE>>];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+fontcolor=gray;
+label=<<i>ebuild</i>>;
+labelloc=t;
+labeljust=c;
+id [label="portage://www-servers/nginx-1.29.3-r3", color=red, width=4, penwidth=2, fontname="Helvetica-Bold", href="../www-servers/nginx-1.29.3-r3.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+fontcolor=gray;
+label=<<i>dependencies</i>>;
+labelloc=t;
+labeljust=c
+subgraph cluster_install {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install</i>>;
+subgraph  {
+use_conditional_group1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>libatomic</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libatomic_ops</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group1:e -> package_dependency1:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group1:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>nginx_modules_http_geoip</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>geoip</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group2:e -> package_dependency2:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group2:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>nginx_modules_http_gunzip</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>virtual</TD></TR><TR><TD>zlib</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group3:e -> package_dependency3:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group3:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group4 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>nginx_modules_http_gzip</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency4 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>virtual</TD></TR><TR><TD>zlib</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group4:e -> package_dependency4:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group4:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group5 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>nginx_modules_http_image_filter</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency5 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>media-libs</TD></TR><TR><TD>gd</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group5:e -> package_dependency5:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group5:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group6 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>nginx_modules_http_perl</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency6 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>perl</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group6:e -> package_dependency6:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group6:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group7 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>nginx_modules_http_rewrite</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency7 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libpcre2</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group7:e -> package_dependency7:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group7:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group8 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>nginx_modules_http_ssl</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency8 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>openssl</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group8:e -> package_dependency8:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group8:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group9 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>nginx_modules_http_v3</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency9 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>openssl</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[1,1,1],,,1.1.1]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group9:e -> package_dependency9:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group9:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group10 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>nginx_modules_http_xslt</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency10 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libxml2</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group10:e -> package_dependency10:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency11 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libxslt</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group10:e -> package_dependency11:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group10:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group11 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>nginx_modules_mail_ssl</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency12 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>openssl</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group11:e -> package_dependency12:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group11:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group12 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>nginx_modules_stream_geoip</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency13 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>geoip</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group12:e -> package_dependency13:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group12:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group13 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>nginx_modules_stream_ssl</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency14 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>openssl</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group13:e -> package_dependency14:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group13:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group14 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>test</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+use_conditional_group15 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>nginx_modules_http_uwsgi</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency15 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>www-servers</TD></TR><TR><TD>uwsgi</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group15:e -> package_dependency15:w [weight=20, style="dashed",arrowhead="vee"];
+}
+use_conditional_group14:e -> use_conditional_group15:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+use_conditional_group16 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>nginx_modules_http_image_filter</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency16 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-perl</TD></TR><TR><TD>GD</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group16:e -> package_dependency16:w [weight=20, style="dashed",arrowhead="vee"];
+}
+use_conditional_group14:e -> use_conditional_group16:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+use_conditional_group17 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>nginx_modules_http_fastcgi</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency17 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-perl</TD></TR><TR><TD>FCGI</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group17:e -> package_dependency17:w [weight=20, style="dashed",arrowhead="vee"];
+}
+use_conditional_group14:e -> use_conditional_group17:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+use_conditional_group18 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>nginx_modules_stream_ssl</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency18 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-perl</TD></TR><TR><TD>IO-Socket-SSL</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group18:e -> package_dependency18:w [weight=20, style="dashed",arrowhead="vee"];
+}
+use_conditional_group14:e -> use_conditional_group18:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+use_conditional_group19 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>nginx_modules_http_v3</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency19 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-perl</TD></TR><TR><TD>CryptX</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group19:e -> package_dependency19:w [weight=20, style="dashed",arrowhead="vee"];
+}
+use_conditional_group14:e -> use_conditional_group19:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+use_conditional_group20 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>nginx_modules_http_memcached</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency20 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-perl</TD></TR><TR><TD>Cache-Memcached</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group20:e -> package_dependency20:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency21 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-perl</TD></TR><TR><TD>Cache-Memcached-Fast</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group20:e -> package_dependency21:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency22 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>net-misc</TD></TR><TR><TD>memcached</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group20:e -> package_dependency22:w [weight=20, style="dashed",arrowhead="vee"];
+}
+use_conditional_group14:e -> use_conditional_group20:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+use_conditional_group21 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>nginx_modules_http_ssl</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency23 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-perl</TD></TR><TR><TD>IO-Socket-SSL</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group21:e -> package_dependency23:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency24 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-perl</TD></TR><TR><TD>Net-SSLeay</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group21:e -> package_dependency24:w [weight=20, style="dashed",arrowhead="vee"];
+}
+use_conditional_group14:e -> use_conditional_group21:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+use_conditional_group22 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>nginx_modules_mail_ssl</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency25 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-perl</TD></TR><TR><TD>IO-Socket-SSL</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group22:e -> package_dependency25:w [weight=20, style="dashed",arrowhead="vee"];
+}
+use_conditional_group14:e -> use_conditional_group22:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group14:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group23 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>test</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency26 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>perl</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group23:e -> package_dependency26:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group23:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency27 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>acct-group</TD></TR><TR><TD>nginx</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency27:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency28 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>acct-user</TD></TR><TR><TD>nginx</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency28:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency29 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>virtual</TD></TR><TR><TD>libcrypt</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency29:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency30 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>virtual</TD></TR><TR><TD>pkgconfig</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency30:w [weight=20, style="solid",arrowhead="vee"];
+}
+subgraph cluster_install_and_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph  {
+use_conditional_group24 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>libatomic</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency31 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libatomic_ops</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group24:e -> package_dependency31:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group24:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group25 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>nginx_modules_http_geoip</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency32 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>geoip</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group25:e -> package_dependency32:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group25:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group26 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>nginx_modules_http_gunzip</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency33 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>virtual</TD></TR><TR><TD>zlib</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group26:e -> package_dependency33:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group26:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group27 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>nginx_modules_http_gzip</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency34 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>virtual</TD></TR><TR><TD>zlib</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group27:e -> package_dependency34:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group27:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group28 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>nginx_modules_http_image_filter</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency35 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>media-libs</TD></TR><TR><TD>gd</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group28:e -> package_dependency35:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group28:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group29 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>nginx_modules_http_perl</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency36 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>perl</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group29:e -> package_dependency36:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group29:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group30 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>nginx_modules_http_rewrite</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency37 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libpcre2</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group30:e -> package_dependency37:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group30:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group31 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>nginx_modules_http_ssl</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency38 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>openssl</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group31:e -> package_dependency38:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group31:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group32 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>nginx_modules_http_v3</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency39 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>openssl</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[1,1,1],,,1.1.1]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group32:e -> package_dependency39:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group32:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group33 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>nginx_modules_http_xslt</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency40 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libxml2</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group33:e -> package_dependency40:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency41 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libxslt</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group33:e -> package_dependency41:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group33:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group34 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>nginx_modules_mail_ssl</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency42 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>openssl</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group34:e -> package_dependency42:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group34:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group35 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>nginx_modules_stream_geoip</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency43 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>geoip</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group35:e -> package_dependency43:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group35:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group36 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>nginx_modules_stream_ssl</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency44 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>openssl</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group36:e -> package_dependency44:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group36:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group37 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>selinux</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency45 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sec-policy</TD></TR><TR><TD>selinux-nginx</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group37:e -> package_dependency45:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group37:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency46 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>virtual</TD></TR><TR><TD>tmpfiles</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency46:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency47 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>acct-group</TD></TR><TR><TD>nginx</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency47:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency48 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>acct-user</TD></TR><TR><TD>nginx</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency48:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency49 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>app-misc</TD></TR><TR><TD>mime-types</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency49:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency50 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>virtual</TD></TR><TR><TD>libcrypt</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency50:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+weak_blocker1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">blocking (weak)</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>app-vim</TD></TR><TR><TD>nginx-syntax</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=orange];
+}
+id:e -> weak_blocker1:w [weight=20, color="orange", style="solid",arrowhead="odot"];
+subgraph  {
+weak_blocker2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">blocking (weak)</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>www-servers</TD></TR><TR><TD>nginx</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=orange];
+}
+id:e -> weak_blocker2:w [weight=20, color="orange", style="solid",arrowhead="odot"];
+subgraph  {
+weak_blocker3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">blocking (weak)</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>www-servers</TD></TR><TR><TD>nginx</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=orange];
+}
+id:e -> weak_blocker3:w [weight=20, color="orange", style="solid",arrowhead="odot"];
+subgraph  {
+weak_blocker4 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">blocking (weak)</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>www-servers</TD></TR><TR><TD>nginx</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=orange];
+}
+id:e -> weak_blocker4:w [weight=20, color="orange", style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+fontcolor=gray;
+label=<<i>candidates</i>>;
+labelloc=t;
+labeljust=c
+
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/libatomic_ops-7.8.4" [label="portage://dev-libs/libatomic_ops-7.8.4", color=red, width=4,href="../dev-libs/libatomic_ops-7.8.4.svg"];
+"dev-libs/libatomic_ops-7.8.2" [label="portage://dev-libs/libatomic_ops-7.8.2", color=red, width=4,href="../dev-libs/libatomic_ops-7.8.2.svg"];
+package_dependency1:e -> "dev-libs/libatomic_ops-7.8.4":w [style=dotted,weight="100"];
+package_dependency1:e -> "dev-libs/libatomic_ops-7.8.2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/geoip-1.6.12-r1" [label="portage://dev-libs/geoip-1.6.12-r1", color=red, width=4,href="../dev-libs/geoip-1.6.12-r1.svg"];
+"dev-libs/geoip-1.6.12" [label="portage://dev-libs/geoip-1.6.12", color=red, width=4,href="../dev-libs/geoip-1.6.12.svg"];
+package_dependency2:e -> "dev-libs/geoip-1.6.12-r1":w [style=dotted,weight="100"];
+package_dependency2:e -> "dev-libs/geoip-1.6.12":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"virtual/zlib-1.3.1-r1" [label="portage://virtual/zlib-1.3.1-r1", color=red, width=4,href="../virtual/zlib-1.3.1-r1.svg"];
+"virtual/zlib-1.3.1" [label="portage://virtual/zlib-1.3.1", color=red, width=4,href="../virtual/zlib-1.3.1.svg"];
+package_dependency3:e -> "virtual/zlib-1.3.1-r1":w [style=dotted,weight="100"];
+package_dependency3:e -> "virtual/zlib-1.3.1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"virtual/zlib-1.3.1-r1" [label="portage://virtual/zlib-1.3.1-r1", color=red, width=4,href="../virtual/zlib-1.3.1-r1.svg"];
+"virtual/zlib-1.3.1" [label="portage://virtual/zlib-1.3.1", color=red, width=4,href="../virtual/zlib-1.3.1.svg"];
+package_dependency4:e -> "virtual/zlib-1.3.1-r1":w [style=dotted,weight="100"];
+package_dependency4:e -> "virtual/zlib-1.3.1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"media-libs/gd-2.3.3-r4" [label="portage://media-libs/gd-2.3.3-r4", color=red, width=4,href="../media-libs/gd-2.3.3-r4.svg"];
+"media-libs/gd-2.3.3-r3" [label="portage://media-libs/gd-2.3.3-r3", color=red, width=4,href="../media-libs/gd-2.3.3-r3.svg"];
+"media-libs/gd-2.3.2-r3" [label="portage://media-libs/gd-2.3.2-r3", color=red, width=4,href="../media-libs/gd-2.3.2-r3.svg"];
+package_dependency5:e -> "media-libs/gd-2.3.3-r4":w [style=dotted,weight="100"];
+package_dependency5:e -> "media-libs/gd-2.3.3-r3":w [style=dotted,weight="100"];
+package_dependency5:e -> "media-libs/gd-2.3.2-r3":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-lang/perl-5.42.0-r1" [label="portage://dev-lang/perl-5.42.0-r1", color=red, width=4,href="../dev-lang/perl-5.42.0-r1.svg"];
+"dev-lang/perl-5.42.0" [label="portage://dev-lang/perl-5.42.0", color=red, width=4,href="../dev-lang/perl-5.42.0.svg"];
+"dev-lang/perl-5.40.2" [label="portage://dev-lang/perl-5.40.2", color=red, width=4,href="../dev-lang/perl-5.40.2.svg"];
+"dev-lang/perl-5.40.1" [label="portage://dev-lang/perl-5.40.1", color=red, width=4,href="../dev-lang/perl-5.40.1.svg"];
+"dev-lang/perl-5.40.0-r1" [label="portage://dev-lang/perl-5.40.0-r1", color=red, width=4,href="../dev-lang/perl-5.40.0-r1.svg"];
+package_dependency6:e -> "dev-lang/perl-5.42.0-r1":w [style=dotted,weight="100"];
+package_dependency6:e -> "dev-lang/perl-5.42.0":w [style=dotted,weight="100"];
+package_dependency6:e -> "dev-lang/perl-5.40.2":w [style=dotted,weight="100"];
+package_dependency6:e -> "dev-lang/perl-5.40.1":w [style=dotted,weight="100"];
+package_dependency6:e -> "dev-lang/perl-5.40.0-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/libpcre2-10.47" [label="portage://dev-libs/libpcre2-10.47", color=red, width=4,href="../dev-libs/libpcre2-10.47.svg"];
+"dev-libs/libpcre2-10.46" [label="portage://dev-libs/libpcre2-10.46", color=red, width=4,href="../dev-libs/libpcre2-10.46.svg"];
+"dev-libs/libpcre2-10.45" [label="portage://dev-libs/libpcre2-10.45", color=red, width=4,href="../dev-libs/libpcre2-10.45.svg"];
+package_dependency7:e -> "dev-libs/libpcre2-10.47":w [style=dotted,weight="100"];
+package_dependency7:e -> "dev-libs/libpcre2-10.46":w [style=dotted,weight="100"];
+package_dependency7:e -> "dev-libs/libpcre2-10.45":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/openssl-3.6.9999" [label="portage://dev-libs/openssl-3.6.9999", color=red, width=4,href="../dev-libs/openssl-3.6.9999.svg"];
+"dev-libs/openssl-3.6.0" [label="portage://dev-libs/openssl-3.6.0", color=red, width=4,href="../dev-libs/openssl-3.6.0.svg"];
+"dev-libs/openssl-3.5.9999" [label="portage://dev-libs/openssl-3.5.9999", color=red, width=4,href="../dev-libs/openssl-3.5.9999.svg"];
+"dev-libs/openssl-3.5.4" [label="portage://dev-libs/openssl-3.5.4", color=red, width=4,href="../dev-libs/openssl-3.5.4.svg"];
+"dev-libs/openssl-3.4.9999" [label="portage://dev-libs/openssl-3.4.9999", color=red, width=4,href="../dev-libs/openssl-3.4.9999.svg"];
+"dev-libs/openssl-3.4.3" [label="portage://dev-libs/openssl-3.4.3", color=red, width=4,href="../dev-libs/openssl-3.4.3.svg"];
+"dev-libs/openssl-3.3.9999" [label="portage://dev-libs/openssl-3.3.9999", color=red, width=4,href="../dev-libs/openssl-3.3.9999.svg"];
+"dev-libs/openssl-3.3.5" [label="portage://dev-libs/openssl-3.3.5", color=red, width=4,href="../dev-libs/openssl-3.3.5.svg"];
+"dev-libs/openssl-3.2.9999" [label="portage://dev-libs/openssl-3.2.9999", color=red, width=4,href="../dev-libs/openssl-3.2.9999.svg"];
+"dev-libs/openssl-3.2.6" [label="portage://dev-libs/openssl-3.2.6", color=red, width=4,href="../dev-libs/openssl-3.2.6.svg"];
+"dev-libs/openssl-3.0.9999" [label="portage://dev-libs/openssl-3.0.9999", color=red, width=4,href="../dev-libs/openssl-3.0.9999.svg"];
+"dev-libs/openssl-3.0.18" [label="portage://dev-libs/openssl-3.0.18", color=red, width=4,href="../dev-libs/openssl-3.0.18.svg"];
+"dev-libs/openssl-1.1.1w" [label="portage://dev-libs/openssl-1.1.1w", color=red, width=4,href="../dev-libs/openssl-1.1.1w.svg"];
+"dev-libs/openssl-1.0.2u-r1" [label="portage://dev-libs/openssl-1.0.2u-r1", color=red, width=4,href="../dev-libs/openssl-1.0.2u-r1.svg"];
+package_dependency8:e -> "dev-libs/openssl-3.6.9999":w [style=dotted,weight="100"];
+package_dependency8:e -> "dev-libs/openssl-3.6.0":w [style=dotted,weight="100"];
+package_dependency8:e -> "dev-libs/openssl-3.5.9999":w [style=dotted,weight="100"];
+package_dependency8:e -> "dev-libs/openssl-3.5.4":w [style=dotted,weight="100"];
+package_dependency8:e -> "dev-libs/openssl-3.4.9999":w [style=dotted,weight="100"];
+package_dependency8:e -> "dev-libs/openssl-3.4.3":w [style=dotted,weight="100"];
+package_dependency8:e -> "dev-libs/openssl-3.3.9999":w [style=dotted,weight="100"];
+package_dependency8:e -> "dev-libs/openssl-3.3.5":w [style=dotted,weight="100"];
+package_dependency8:e -> "dev-libs/openssl-3.2.9999":w [style=dotted,weight="100"];
+package_dependency8:e -> "dev-libs/openssl-3.2.6":w [style=dotted,weight="100"];
+package_dependency8:e -> "dev-libs/openssl-3.0.9999":w [style=dotted,weight="100"];
+package_dependency8:e -> "dev-libs/openssl-3.0.18":w [style=dotted,weight="100"];
+package_dependency8:e -> "dev-libs/openssl-1.1.1w":w [style=dotted,weight="100"];
+package_dependency8:e -> "dev-libs/openssl-1.0.2u-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/openssl-3.6.9999" [label="portage://dev-libs/openssl-3.6.9999", color=red, width=4,href="../dev-libs/openssl-3.6.9999.svg"];
+"dev-libs/openssl-3.6.0" [label="portage://dev-libs/openssl-3.6.0", color=red, width=4,href="../dev-libs/openssl-3.6.0.svg"];
+"dev-libs/openssl-3.5.9999" [label="portage://dev-libs/openssl-3.5.9999", color=red, width=4,href="../dev-libs/openssl-3.5.9999.svg"];
+"dev-libs/openssl-3.5.4" [label="portage://dev-libs/openssl-3.5.4", color=red, width=4,href="../dev-libs/openssl-3.5.4.svg"];
+"dev-libs/openssl-3.4.9999" [label="portage://dev-libs/openssl-3.4.9999", color=red, width=4,href="../dev-libs/openssl-3.4.9999.svg"];
+"dev-libs/openssl-3.4.3" [label="portage://dev-libs/openssl-3.4.3", color=red, width=4,href="../dev-libs/openssl-3.4.3.svg"];
+"dev-libs/openssl-3.3.9999" [label="portage://dev-libs/openssl-3.3.9999", color=red, width=4,href="../dev-libs/openssl-3.3.9999.svg"];
+"dev-libs/openssl-3.3.5" [label="portage://dev-libs/openssl-3.3.5", color=red, width=4,href="../dev-libs/openssl-3.3.5.svg"];
+"dev-libs/openssl-3.2.9999" [label="portage://dev-libs/openssl-3.2.9999", color=red, width=4,href="../dev-libs/openssl-3.2.9999.svg"];
+"dev-libs/openssl-3.2.6" [label="portage://dev-libs/openssl-3.2.6", color=red, width=4,href="../dev-libs/openssl-3.2.6.svg"];
+"dev-libs/openssl-3.0.9999" [label="portage://dev-libs/openssl-3.0.9999", color=red, width=4,href="../dev-libs/openssl-3.0.9999.svg"];
+"dev-libs/openssl-3.0.18" [label="portage://dev-libs/openssl-3.0.18", color=red, width=4,href="../dev-libs/openssl-3.0.18.svg"];
+"dev-libs/openssl-1.1.1w" [label="portage://dev-libs/openssl-1.1.1w", color=red, width=4,href="../dev-libs/openssl-1.1.1w.svg"];
+package_dependency9:e -> "dev-libs/openssl-3.6.9999":w [style=dotted,weight="100"];
+package_dependency9:e -> "dev-libs/openssl-3.6.0":w [style=dotted,weight="100"];
+package_dependency9:e -> "dev-libs/openssl-3.5.9999":w [style=dotted,weight="100"];
+package_dependency9:e -> "dev-libs/openssl-3.5.4":w [style=dotted,weight="100"];
+package_dependency9:e -> "dev-libs/openssl-3.4.9999":w [style=dotted,weight="100"];
+package_dependency9:e -> "dev-libs/openssl-3.4.3":w [style=dotted,weight="100"];
+package_dependency9:e -> "dev-libs/openssl-3.3.9999":w [style=dotted,weight="100"];
+package_dependency9:e -> "dev-libs/openssl-3.3.5":w [style=dotted,weight="100"];
+package_dependency9:e -> "dev-libs/openssl-3.2.9999":w [style=dotted,weight="100"];
+package_dependency9:e -> "dev-libs/openssl-3.2.6":w [style=dotted,weight="100"];
+package_dependency9:e -> "dev-libs/openssl-3.0.9999":w [style=dotted,weight="100"];
+package_dependency9:e -> "dev-libs/openssl-3.0.18":w [style=dotted,weight="100"];
+package_dependency9:e -> "dev-libs/openssl-1.1.1w":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/libxml2-9999" [label="portage://dev-libs/libxml2-9999", color=red, width=4,href="../dev-libs/libxml2-9999.svg"];
+"dev-libs/libxml2-2.15.1" [label="portage://dev-libs/libxml2-2.15.1", color=red, width=4,href="../dev-libs/libxml2-2.15.1.svg"];
+"dev-libs/libxml2-2.15.0-r1" [label="portage://dev-libs/libxml2-2.15.0-r1", color=red, width=4,href="../dev-libs/libxml2-2.15.0-r1.svg"];
+"dev-libs/libxml2-2.14.6" [label="portage://dev-libs/libxml2-2.14.6", color=red, width=4,href="../dev-libs/libxml2-2.14.6.svg"];
+"dev-libs/libxml2-2.13.9" [label="portage://dev-libs/libxml2-2.13.9", color=red, width=4,href="../dev-libs/libxml2-2.13.9.svg"];
+package_dependency10:e -> "dev-libs/libxml2-9999":w [style=dotted,weight="100"];
+package_dependency10:e -> "dev-libs/libxml2-2.15.1":w [style=dotted,weight="100"];
+package_dependency10:e -> "dev-libs/libxml2-2.15.0-r1":w [style=dotted,weight="100"];
+package_dependency10:e -> "dev-libs/libxml2-2.14.6":w [style=dotted,weight="100"];
+package_dependency10:e -> "dev-libs/libxml2-2.13.9":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/libxslt-9999" [label="portage://dev-libs/libxslt-9999", color=red, width=4,href="../dev-libs/libxslt-9999.svg"];
+"dev-libs/libxslt-1.1.45" [label="portage://dev-libs/libxslt-1.1.45", color=red, width=4,href="../dev-libs/libxslt-1.1.45.svg"];
+"dev-libs/libxslt-1.1.43-r2" [label="portage://dev-libs/libxslt-1.1.43-r2", color=red, width=4,href="../dev-libs/libxslt-1.1.43-r2.svg"];
+"dev-libs/libxslt-1.1.43-r1" [label="portage://dev-libs/libxslt-1.1.43-r1", color=red, width=4,href="../dev-libs/libxslt-1.1.43-r1.svg"];
+package_dependency11:e -> "dev-libs/libxslt-9999":w [style=dotted,weight="100"];
+package_dependency11:e -> "dev-libs/libxslt-1.1.45":w [style=dotted,weight="100"];
+package_dependency11:e -> "dev-libs/libxslt-1.1.43-r2":w [style=dotted,weight="100"];
+package_dependency11:e -> "dev-libs/libxslt-1.1.43-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/openssl-3.6.9999" [label="portage://dev-libs/openssl-3.6.9999", color=red, width=4,href="../dev-libs/openssl-3.6.9999.svg"];
+"dev-libs/openssl-3.6.0" [label="portage://dev-libs/openssl-3.6.0", color=red, width=4,href="../dev-libs/openssl-3.6.0.svg"];
+"dev-libs/openssl-3.5.9999" [label="portage://dev-libs/openssl-3.5.9999", color=red, width=4,href="../dev-libs/openssl-3.5.9999.svg"];
+"dev-libs/openssl-3.5.4" [label="portage://dev-libs/openssl-3.5.4", color=red, width=4,href="../dev-libs/openssl-3.5.4.svg"];
+"dev-libs/openssl-3.4.9999" [label="portage://dev-libs/openssl-3.4.9999", color=red, width=4,href="../dev-libs/openssl-3.4.9999.svg"];
+"dev-libs/openssl-3.4.3" [label="portage://dev-libs/openssl-3.4.3", color=red, width=4,href="../dev-libs/openssl-3.4.3.svg"];
+"dev-libs/openssl-3.3.9999" [label="portage://dev-libs/openssl-3.3.9999", color=red, width=4,href="../dev-libs/openssl-3.3.9999.svg"];
+"dev-libs/openssl-3.3.5" [label="portage://dev-libs/openssl-3.3.5", color=red, width=4,href="../dev-libs/openssl-3.3.5.svg"];
+"dev-libs/openssl-3.2.9999" [label="portage://dev-libs/openssl-3.2.9999", color=red, width=4,href="../dev-libs/openssl-3.2.9999.svg"];
+"dev-libs/openssl-3.2.6" [label="portage://dev-libs/openssl-3.2.6", color=red, width=4,href="../dev-libs/openssl-3.2.6.svg"];
+"dev-libs/openssl-3.0.9999" [label="portage://dev-libs/openssl-3.0.9999", color=red, width=4,href="../dev-libs/openssl-3.0.9999.svg"];
+"dev-libs/openssl-3.0.18" [label="portage://dev-libs/openssl-3.0.18", color=red, width=4,href="../dev-libs/openssl-3.0.18.svg"];
+"dev-libs/openssl-1.1.1w" [label="portage://dev-libs/openssl-1.1.1w", color=red, width=4,href="../dev-libs/openssl-1.1.1w.svg"];
+"dev-libs/openssl-1.0.2u-r1" [label="portage://dev-libs/openssl-1.0.2u-r1", color=red, width=4,href="../dev-libs/openssl-1.0.2u-r1.svg"];
+package_dependency12:e -> "dev-libs/openssl-3.6.9999":w [style=dotted,weight="100"];
+package_dependency12:e -> "dev-libs/openssl-3.6.0":w [style=dotted,weight="100"];
+package_dependency12:e -> "dev-libs/openssl-3.5.9999":w [style=dotted,weight="100"];
+package_dependency12:e -> "dev-libs/openssl-3.5.4":w [style=dotted,weight="100"];
+package_dependency12:e -> "dev-libs/openssl-3.4.9999":w [style=dotted,weight="100"];
+package_dependency12:e -> "dev-libs/openssl-3.4.3":w [style=dotted,weight="100"];
+package_dependency12:e -> "dev-libs/openssl-3.3.9999":w [style=dotted,weight="100"];
+package_dependency12:e -> "dev-libs/openssl-3.3.5":w [style=dotted,weight="100"];
+package_dependency12:e -> "dev-libs/openssl-3.2.9999":w [style=dotted,weight="100"];
+package_dependency12:e -> "dev-libs/openssl-3.2.6":w [style=dotted,weight="100"];
+package_dependency12:e -> "dev-libs/openssl-3.0.9999":w [style=dotted,weight="100"];
+package_dependency12:e -> "dev-libs/openssl-3.0.18":w [style=dotted,weight="100"];
+package_dependency12:e -> "dev-libs/openssl-1.1.1w":w [style=dotted,weight="100"];
+package_dependency12:e -> "dev-libs/openssl-1.0.2u-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/geoip-1.6.12-r1" [label="portage://dev-libs/geoip-1.6.12-r1", color=red, width=4,href="../dev-libs/geoip-1.6.12-r1.svg"];
+"dev-libs/geoip-1.6.12" [label="portage://dev-libs/geoip-1.6.12", color=red, width=4,href="../dev-libs/geoip-1.6.12.svg"];
+package_dependency13:e -> "dev-libs/geoip-1.6.12-r1":w [style=dotted,weight="100"];
+package_dependency13:e -> "dev-libs/geoip-1.6.12":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/openssl-3.6.9999" [label="portage://dev-libs/openssl-3.6.9999", color=red, width=4,href="../dev-libs/openssl-3.6.9999.svg"];
+"dev-libs/openssl-3.6.0" [label="portage://dev-libs/openssl-3.6.0", color=red, width=4,href="../dev-libs/openssl-3.6.0.svg"];
+"dev-libs/openssl-3.5.9999" [label="portage://dev-libs/openssl-3.5.9999", color=red, width=4,href="../dev-libs/openssl-3.5.9999.svg"];
+"dev-libs/openssl-3.5.4" [label="portage://dev-libs/openssl-3.5.4", color=red, width=4,href="../dev-libs/openssl-3.5.4.svg"];
+"dev-libs/openssl-3.4.9999" [label="portage://dev-libs/openssl-3.4.9999", color=red, width=4,href="../dev-libs/openssl-3.4.9999.svg"];
+"dev-libs/openssl-3.4.3" [label="portage://dev-libs/openssl-3.4.3", color=red, width=4,href="../dev-libs/openssl-3.4.3.svg"];
+"dev-libs/openssl-3.3.9999" [label="portage://dev-libs/openssl-3.3.9999", color=red, width=4,href="../dev-libs/openssl-3.3.9999.svg"];
+"dev-libs/openssl-3.3.5" [label="portage://dev-libs/openssl-3.3.5", color=red, width=4,href="../dev-libs/openssl-3.3.5.svg"];
+"dev-libs/openssl-3.2.9999" [label="portage://dev-libs/openssl-3.2.9999", color=red, width=4,href="../dev-libs/openssl-3.2.9999.svg"];
+"dev-libs/openssl-3.2.6" [label="portage://dev-libs/openssl-3.2.6", color=red, width=4,href="../dev-libs/openssl-3.2.6.svg"];
+"dev-libs/openssl-3.0.9999" [label="portage://dev-libs/openssl-3.0.9999", color=red, width=4,href="../dev-libs/openssl-3.0.9999.svg"];
+"dev-libs/openssl-3.0.18" [label="portage://dev-libs/openssl-3.0.18", color=red, width=4,href="../dev-libs/openssl-3.0.18.svg"];
+"dev-libs/openssl-1.1.1w" [label="portage://dev-libs/openssl-1.1.1w", color=red, width=4,href="../dev-libs/openssl-1.1.1w.svg"];
+"dev-libs/openssl-1.0.2u-r1" [label="portage://dev-libs/openssl-1.0.2u-r1", color=red, width=4,href="../dev-libs/openssl-1.0.2u-r1.svg"];
+package_dependency14:e -> "dev-libs/openssl-3.6.9999":w [style=dotted,weight="100"];
+package_dependency14:e -> "dev-libs/openssl-3.6.0":w [style=dotted,weight="100"];
+package_dependency14:e -> "dev-libs/openssl-3.5.9999":w [style=dotted,weight="100"];
+package_dependency14:e -> "dev-libs/openssl-3.5.4":w [style=dotted,weight="100"];
+package_dependency14:e -> "dev-libs/openssl-3.4.9999":w [style=dotted,weight="100"];
+package_dependency14:e -> "dev-libs/openssl-3.4.3":w [style=dotted,weight="100"];
+package_dependency14:e -> "dev-libs/openssl-3.3.9999":w [style=dotted,weight="100"];
+package_dependency14:e -> "dev-libs/openssl-3.3.5":w [style=dotted,weight="100"];
+package_dependency14:e -> "dev-libs/openssl-3.2.9999":w [style=dotted,weight="100"];
+package_dependency14:e -> "dev-libs/openssl-3.2.6":w [style=dotted,weight="100"];
+package_dependency14:e -> "dev-libs/openssl-3.0.9999":w [style=dotted,weight="100"];
+package_dependency14:e -> "dev-libs/openssl-3.0.18":w [style=dotted,weight="100"];
+package_dependency14:e -> "dev-libs/openssl-1.1.1w":w [style=dotted,weight="100"];
+package_dependency14:e -> "dev-libs/openssl-1.0.2u-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"www-servers/uwsgi-2.0.27-r1" [label="portage://www-servers/uwsgi-2.0.27-r1", color=red, width=4,href="../www-servers/uwsgi-2.0.27-r1.svg"];
+"www-servers/uwsgi-2.0.23-r1" [label="portage://www-servers/uwsgi-2.0.23-r1", color=red, width=4,href="../www-servers/uwsgi-2.0.23-r1.svg"];
+package_dependency15:e -> "www-servers/uwsgi-2.0.27-r1":w [style=dotted,weight="100"];
+package_dependency15:e -> "www-servers/uwsgi-2.0.23-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-perl/GD-2.830.0-r1" [label="portage://dev-perl/GD-2.830.0-r1", color=red, width=4,href="../dev-perl/GD-2.830.0-r1.svg"];
+package_dependency16:e -> "dev-perl/GD-2.830.0-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-perl/FCGI-0.820.0" [label="portage://dev-perl/FCGI-0.820.0", color=red, width=4,href="../dev-perl/FCGI-0.820.0.svg"];
+package_dependency17:e -> "dev-perl/FCGI-0.820.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-perl/IO-Socket-SSL-2.95.0" [label="portage://dev-perl/IO-Socket-SSL-2.95.0", color=red, width=4,href="../dev-perl/IO-Socket-SSL-2.95.0.svg"];
+"dev-perl/IO-Socket-SSL-2.89.0" [label="portage://dev-perl/IO-Socket-SSL-2.89.0", color=red, width=4,href="../dev-perl/IO-Socket-SSL-2.89.0.svg"];
+package_dependency18:e -> "dev-perl/IO-Socket-SSL-2.95.0":w [style=dotted,weight="100"];
+package_dependency18:e -> "dev-perl/IO-Socket-SSL-2.89.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-perl/CryptX-0.87.0" [label="portage://dev-perl/CryptX-0.87.0", color=red, width=4,href="../dev-perl/CryptX-0.87.0.svg"];
+"dev-perl/CryptX-0.86.0" [label="portage://dev-perl/CryptX-0.86.0", color=red, width=4,href="../dev-perl/CryptX-0.86.0.svg"];
+"dev-perl/CryptX-0.85.0" [label="portage://dev-perl/CryptX-0.85.0", color=red, width=4,href="../dev-perl/CryptX-0.85.0.svg"];
+package_dependency19:e -> "dev-perl/CryptX-0.87.0":w [style=dotted,weight="100"];
+package_dependency19:e -> "dev-perl/CryptX-0.86.0":w [style=dotted,weight="100"];
+package_dependency19:e -> "dev-perl/CryptX-0.85.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-perl/Cache-Memcached-1.300.0-r2" [label="portage://dev-perl/Cache-Memcached-1.300.0-r2", color=red, width=4,href="../dev-perl/Cache-Memcached-1.300.0-r2.svg"];
+package_dependency20:e -> "dev-perl/Cache-Memcached-1.300.0-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-perl/Cache-Memcached-Fast-0.280.0-r2" [label="portage://dev-perl/Cache-Memcached-Fast-0.280.0-r2", color=red, width=4,href="../dev-perl/Cache-Memcached-Fast-0.280.0-r2.svg"];
+package_dependency21:e -> "dev-perl/Cache-Memcached-Fast-0.280.0-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"net-misc/memcached-1.6.39" [label="portage://net-misc/memcached-1.6.39", color=red, width=4,href="../net-misc/memcached-1.6.39.svg"];
+"net-misc/memcached-1.6.38" [label="portage://net-misc/memcached-1.6.38", color=red, width=4,href="../net-misc/memcached-1.6.38.svg"];
+"net-misc/memcached-1.6.31" [label="portage://net-misc/memcached-1.6.31", color=red, width=4,href="../net-misc/memcached-1.6.31.svg"];
+package_dependency22:e -> "net-misc/memcached-1.6.39":w [style=dotted,weight="100"];
+package_dependency22:e -> "net-misc/memcached-1.6.38":w [style=dotted,weight="100"];
+package_dependency22:e -> "net-misc/memcached-1.6.31":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-perl/IO-Socket-SSL-2.95.0" [label="portage://dev-perl/IO-Socket-SSL-2.95.0", color=red, width=4,href="../dev-perl/IO-Socket-SSL-2.95.0.svg"];
+"dev-perl/IO-Socket-SSL-2.89.0" [label="portage://dev-perl/IO-Socket-SSL-2.89.0", color=red, width=4,href="../dev-perl/IO-Socket-SSL-2.89.0.svg"];
+package_dependency23:e -> "dev-perl/IO-Socket-SSL-2.95.0":w [style=dotted,weight="100"];
+package_dependency23:e -> "dev-perl/IO-Socket-SSL-2.89.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-perl/Net-SSLeay-1.940.0-r1" [label="portage://dev-perl/Net-SSLeay-1.940.0-r1", color=red, width=4,href="../dev-perl/Net-SSLeay-1.940.0-r1.svg"];
+package_dependency24:e -> "dev-perl/Net-SSLeay-1.940.0-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-perl/IO-Socket-SSL-2.95.0" [label="portage://dev-perl/IO-Socket-SSL-2.95.0", color=red, width=4,href="../dev-perl/IO-Socket-SSL-2.95.0.svg"];
+"dev-perl/IO-Socket-SSL-2.89.0" [label="portage://dev-perl/IO-Socket-SSL-2.89.0", color=red, width=4,href="../dev-perl/IO-Socket-SSL-2.89.0.svg"];
+package_dependency25:e -> "dev-perl/IO-Socket-SSL-2.95.0":w [style=dotted,weight="100"];
+package_dependency25:e -> "dev-perl/IO-Socket-SSL-2.89.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-lang/perl-5.42.0-r1" [label="portage://dev-lang/perl-5.42.0-r1", color=red, width=4,href="../dev-lang/perl-5.42.0-r1.svg"];
+"dev-lang/perl-5.42.0" [label="portage://dev-lang/perl-5.42.0", color=red, width=4,href="../dev-lang/perl-5.42.0.svg"];
+"dev-lang/perl-5.40.2" [label="portage://dev-lang/perl-5.40.2", color=red, width=4,href="../dev-lang/perl-5.40.2.svg"];
+"dev-lang/perl-5.40.1" [label="portage://dev-lang/perl-5.40.1", color=red, width=4,href="../dev-lang/perl-5.40.1.svg"];
+"dev-lang/perl-5.40.0-r1" [label="portage://dev-lang/perl-5.40.0-r1", color=red, width=4,href="../dev-lang/perl-5.40.0-r1.svg"];
+package_dependency26:e -> "dev-lang/perl-5.42.0-r1":w [style=dotted,weight="100"];
+package_dependency26:e -> "dev-lang/perl-5.42.0":w [style=dotted,weight="100"];
+package_dependency26:e -> "dev-lang/perl-5.40.2":w [style=dotted,weight="100"];
+package_dependency26:e -> "dev-lang/perl-5.40.1":w [style=dotted,weight="100"];
+package_dependency26:e -> "dev-lang/perl-5.40.0-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"acct-group/nginx-0-r2" [label="portage://acct-group/nginx-0-r2", color=red, width=4,href="../acct-group/nginx-0-r2.svg"];
+package_dependency27:e -> "acct-group/nginx-0-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"acct-user/nginx-0-r2" [label="portage://acct-user/nginx-0-r2", color=red, width=4,href="../acct-user/nginx-0-r2.svg"];
+package_dependency28:e -> "acct-user/nginx-0-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"virtual/libcrypt-2-r1" [label="portage://virtual/libcrypt-2-r1", color=red, width=4,href="../virtual/libcrypt-2-r1.svg"];
+"virtual/libcrypt-2" [label="portage://virtual/libcrypt-2", color=red, width=4,href="../virtual/libcrypt-2.svg"];
+"virtual/libcrypt-1-r2" [label="portage://virtual/libcrypt-1-r2", color=red, width=4,href="../virtual/libcrypt-1-r2.svg"];
+package_dependency29:e -> "virtual/libcrypt-2-r1":w [style=dotted,weight="100"];
+package_dependency29:e -> "virtual/libcrypt-2":w [style=dotted,weight="100"];
+package_dependency29:e -> "virtual/libcrypt-1-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"virtual/pkgconfig-3" [label="portage://virtual/pkgconfig-3", color=red, width=4,href="../virtual/pkgconfig-3.svg"];
+package_dependency30:e -> "virtual/pkgconfig-3":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/libatomic_ops-7.8.4" [label="portage://dev-libs/libatomic_ops-7.8.4", color=red, width=4,href="../dev-libs/libatomic_ops-7.8.4.svg"];
+"dev-libs/libatomic_ops-7.8.2" [label="portage://dev-libs/libatomic_ops-7.8.2", color=red, width=4,href="../dev-libs/libatomic_ops-7.8.2.svg"];
+package_dependency31:e -> "dev-libs/libatomic_ops-7.8.4":w [style=dotted,weight="100"];
+package_dependency31:e -> "dev-libs/libatomic_ops-7.8.2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/geoip-1.6.12-r1" [label="portage://dev-libs/geoip-1.6.12-r1", color=red, width=4,href="../dev-libs/geoip-1.6.12-r1.svg"];
+"dev-libs/geoip-1.6.12" [label="portage://dev-libs/geoip-1.6.12", color=red, width=4,href="../dev-libs/geoip-1.6.12.svg"];
+package_dependency32:e -> "dev-libs/geoip-1.6.12-r1":w [style=dotted,weight="100"];
+package_dependency32:e -> "dev-libs/geoip-1.6.12":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"virtual/zlib-1.3.1-r1" [label="portage://virtual/zlib-1.3.1-r1", color=red, width=4,href="../virtual/zlib-1.3.1-r1.svg"];
+"virtual/zlib-1.3.1" [label="portage://virtual/zlib-1.3.1", color=red, width=4,href="../virtual/zlib-1.3.1.svg"];
+package_dependency33:e -> "virtual/zlib-1.3.1-r1":w [style=dotted,weight="100"];
+package_dependency33:e -> "virtual/zlib-1.3.1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"virtual/zlib-1.3.1-r1" [label="portage://virtual/zlib-1.3.1-r1", color=red, width=4,href="../virtual/zlib-1.3.1-r1.svg"];
+"virtual/zlib-1.3.1" [label="portage://virtual/zlib-1.3.1", color=red, width=4,href="../virtual/zlib-1.3.1.svg"];
+package_dependency34:e -> "virtual/zlib-1.3.1-r1":w [style=dotted,weight="100"];
+package_dependency34:e -> "virtual/zlib-1.3.1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"media-libs/gd-2.3.3-r4" [label="portage://media-libs/gd-2.3.3-r4", color=red, width=4,href="../media-libs/gd-2.3.3-r4.svg"];
+"media-libs/gd-2.3.3-r3" [label="portage://media-libs/gd-2.3.3-r3", color=red, width=4,href="../media-libs/gd-2.3.3-r3.svg"];
+"media-libs/gd-2.3.2-r3" [label="portage://media-libs/gd-2.3.2-r3", color=red, width=4,href="../media-libs/gd-2.3.2-r3.svg"];
+package_dependency35:e -> "media-libs/gd-2.3.3-r4":w [style=dotted,weight="100"];
+package_dependency35:e -> "media-libs/gd-2.3.3-r3":w [style=dotted,weight="100"];
+package_dependency35:e -> "media-libs/gd-2.3.2-r3":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-lang/perl-5.42.0-r1" [label="portage://dev-lang/perl-5.42.0-r1", color=red, width=4,href="../dev-lang/perl-5.42.0-r1.svg"];
+"dev-lang/perl-5.42.0" [label="portage://dev-lang/perl-5.42.0", color=red, width=4,href="../dev-lang/perl-5.42.0.svg"];
+"dev-lang/perl-5.40.2" [label="portage://dev-lang/perl-5.40.2", color=red, width=4,href="../dev-lang/perl-5.40.2.svg"];
+"dev-lang/perl-5.40.1" [label="portage://dev-lang/perl-5.40.1", color=red, width=4,href="../dev-lang/perl-5.40.1.svg"];
+"dev-lang/perl-5.40.0-r1" [label="portage://dev-lang/perl-5.40.0-r1", color=red, width=4,href="../dev-lang/perl-5.40.0-r1.svg"];
+package_dependency36:e -> "dev-lang/perl-5.42.0-r1":w [style=dotted,weight="100"];
+package_dependency36:e -> "dev-lang/perl-5.42.0":w [style=dotted,weight="100"];
+package_dependency36:e -> "dev-lang/perl-5.40.2":w [style=dotted,weight="100"];
+package_dependency36:e -> "dev-lang/perl-5.40.1":w [style=dotted,weight="100"];
+package_dependency36:e -> "dev-lang/perl-5.40.0-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/libpcre2-10.47" [label="portage://dev-libs/libpcre2-10.47", color=red, width=4,href="../dev-libs/libpcre2-10.47.svg"];
+"dev-libs/libpcre2-10.46" [label="portage://dev-libs/libpcre2-10.46", color=red, width=4,href="../dev-libs/libpcre2-10.46.svg"];
+"dev-libs/libpcre2-10.45" [label="portage://dev-libs/libpcre2-10.45", color=red, width=4,href="../dev-libs/libpcre2-10.45.svg"];
+package_dependency37:e -> "dev-libs/libpcre2-10.47":w [style=dotted,weight="100"];
+package_dependency37:e -> "dev-libs/libpcre2-10.46":w [style=dotted,weight="100"];
+package_dependency37:e -> "dev-libs/libpcre2-10.45":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/openssl-3.6.9999" [label="portage://dev-libs/openssl-3.6.9999", color=red, width=4,href="../dev-libs/openssl-3.6.9999.svg"];
+"dev-libs/openssl-3.6.0" [label="portage://dev-libs/openssl-3.6.0", color=red, width=4,href="../dev-libs/openssl-3.6.0.svg"];
+"dev-libs/openssl-3.5.9999" [label="portage://dev-libs/openssl-3.5.9999", color=red, width=4,href="../dev-libs/openssl-3.5.9999.svg"];
+"dev-libs/openssl-3.5.4" [label="portage://dev-libs/openssl-3.5.4", color=red, width=4,href="../dev-libs/openssl-3.5.4.svg"];
+"dev-libs/openssl-3.4.9999" [label="portage://dev-libs/openssl-3.4.9999", color=red, width=4,href="../dev-libs/openssl-3.4.9999.svg"];
+"dev-libs/openssl-3.4.3" [label="portage://dev-libs/openssl-3.4.3", color=red, width=4,href="../dev-libs/openssl-3.4.3.svg"];
+"dev-libs/openssl-3.3.9999" [label="portage://dev-libs/openssl-3.3.9999", color=red, width=4,href="../dev-libs/openssl-3.3.9999.svg"];
+"dev-libs/openssl-3.3.5" [label="portage://dev-libs/openssl-3.3.5", color=red, width=4,href="../dev-libs/openssl-3.3.5.svg"];
+"dev-libs/openssl-3.2.9999" [label="portage://dev-libs/openssl-3.2.9999", color=red, width=4,href="../dev-libs/openssl-3.2.9999.svg"];
+"dev-libs/openssl-3.2.6" [label="portage://dev-libs/openssl-3.2.6", color=red, width=4,href="../dev-libs/openssl-3.2.6.svg"];
+"dev-libs/openssl-3.0.9999" [label="portage://dev-libs/openssl-3.0.9999", color=red, width=4,href="../dev-libs/openssl-3.0.9999.svg"];
+"dev-libs/openssl-3.0.18" [label="portage://dev-libs/openssl-3.0.18", color=red, width=4,href="../dev-libs/openssl-3.0.18.svg"];
+"dev-libs/openssl-1.1.1w" [label="portage://dev-libs/openssl-1.1.1w", color=red, width=4,href="../dev-libs/openssl-1.1.1w.svg"];
+"dev-libs/openssl-1.0.2u-r1" [label="portage://dev-libs/openssl-1.0.2u-r1", color=red, width=4,href="../dev-libs/openssl-1.0.2u-r1.svg"];
+package_dependency38:e -> "dev-libs/openssl-3.6.9999":w [style=dotted,weight="100"];
+package_dependency38:e -> "dev-libs/openssl-3.6.0":w [style=dotted,weight="100"];
+package_dependency38:e -> "dev-libs/openssl-3.5.9999":w [style=dotted,weight="100"];
+package_dependency38:e -> "dev-libs/openssl-3.5.4":w [style=dotted,weight="100"];
+package_dependency38:e -> "dev-libs/openssl-3.4.9999":w [style=dotted,weight="100"];
+package_dependency38:e -> "dev-libs/openssl-3.4.3":w [style=dotted,weight="100"];
+package_dependency38:e -> "dev-libs/openssl-3.3.9999":w [style=dotted,weight="100"];
+package_dependency38:e -> "dev-libs/openssl-3.3.5":w [style=dotted,weight="100"];
+package_dependency38:e -> "dev-libs/openssl-3.2.9999":w [style=dotted,weight="100"];
+package_dependency38:e -> "dev-libs/openssl-3.2.6":w [style=dotted,weight="100"];
+package_dependency38:e -> "dev-libs/openssl-3.0.9999":w [style=dotted,weight="100"];
+package_dependency38:e -> "dev-libs/openssl-3.0.18":w [style=dotted,weight="100"];
+package_dependency38:e -> "dev-libs/openssl-1.1.1w":w [style=dotted,weight="100"];
+package_dependency38:e -> "dev-libs/openssl-1.0.2u-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/openssl-3.6.9999" [label="portage://dev-libs/openssl-3.6.9999", color=red, width=4,href="../dev-libs/openssl-3.6.9999.svg"];
+"dev-libs/openssl-3.6.0" [label="portage://dev-libs/openssl-3.6.0", color=red, width=4,href="../dev-libs/openssl-3.6.0.svg"];
+"dev-libs/openssl-3.5.9999" [label="portage://dev-libs/openssl-3.5.9999", color=red, width=4,href="../dev-libs/openssl-3.5.9999.svg"];
+"dev-libs/openssl-3.5.4" [label="portage://dev-libs/openssl-3.5.4", color=red, width=4,href="../dev-libs/openssl-3.5.4.svg"];
+"dev-libs/openssl-3.4.9999" [label="portage://dev-libs/openssl-3.4.9999", color=red, width=4,href="../dev-libs/openssl-3.4.9999.svg"];
+"dev-libs/openssl-3.4.3" [label="portage://dev-libs/openssl-3.4.3", color=red, width=4,href="../dev-libs/openssl-3.4.3.svg"];
+"dev-libs/openssl-3.3.9999" [label="portage://dev-libs/openssl-3.3.9999", color=red, width=4,href="../dev-libs/openssl-3.3.9999.svg"];
+"dev-libs/openssl-3.3.5" [label="portage://dev-libs/openssl-3.3.5", color=red, width=4,href="../dev-libs/openssl-3.3.5.svg"];
+"dev-libs/openssl-3.2.9999" [label="portage://dev-libs/openssl-3.2.9999", color=red, width=4,href="../dev-libs/openssl-3.2.9999.svg"];
+"dev-libs/openssl-3.2.6" [label="portage://dev-libs/openssl-3.2.6", color=red, width=4,href="../dev-libs/openssl-3.2.6.svg"];
+"dev-libs/openssl-3.0.9999" [label="portage://dev-libs/openssl-3.0.9999", color=red, width=4,href="../dev-libs/openssl-3.0.9999.svg"];
+"dev-libs/openssl-3.0.18" [label="portage://dev-libs/openssl-3.0.18", color=red, width=4,href="../dev-libs/openssl-3.0.18.svg"];
+"dev-libs/openssl-1.1.1w" [label="portage://dev-libs/openssl-1.1.1w", color=red, width=4,href="../dev-libs/openssl-1.1.1w.svg"];
+package_dependency39:e -> "dev-libs/openssl-3.6.9999":w [style=dotted,weight="100"];
+package_dependency39:e -> "dev-libs/openssl-3.6.0":w [style=dotted,weight="100"];
+package_dependency39:e -> "dev-libs/openssl-3.5.9999":w [style=dotted,weight="100"];
+package_dependency39:e -> "dev-libs/openssl-3.5.4":w [style=dotted,weight="100"];
+package_dependency39:e -> "dev-libs/openssl-3.4.9999":w [style=dotted,weight="100"];
+package_dependency39:e -> "dev-libs/openssl-3.4.3":w [style=dotted,weight="100"];
+package_dependency39:e -> "dev-libs/openssl-3.3.9999":w [style=dotted,weight="100"];
+package_dependency39:e -> "dev-libs/openssl-3.3.5":w [style=dotted,weight="100"];
+package_dependency39:e -> "dev-libs/openssl-3.2.9999":w [style=dotted,weight="100"];
+package_dependency39:e -> "dev-libs/openssl-3.2.6":w [style=dotted,weight="100"];
+package_dependency39:e -> "dev-libs/openssl-3.0.9999":w [style=dotted,weight="100"];
+package_dependency39:e -> "dev-libs/openssl-3.0.18":w [style=dotted,weight="100"];
+package_dependency39:e -> "dev-libs/openssl-1.1.1w":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/libxml2-9999" [label="portage://dev-libs/libxml2-9999", color=red, width=4,href="../dev-libs/libxml2-9999.svg"];
+"dev-libs/libxml2-2.15.1" [label="portage://dev-libs/libxml2-2.15.1", color=red, width=4,href="../dev-libs/libxml2-2.15.1.svg"];
+"dev-libs/libxml2-2.15.0-r1" [label="portage://dev-libs/libxml2-2.15.0-r1", color=red, width=4,href="../dev-libs/libxml2-2.15.0-r1.svg"];
+"dev-libs/libxml2-2.14.6" [label="portage://dev-libs/libxml2-2.14.6", color=red, width=4,href="../dev-libs/libxml2-2.14.6.svg"];
+"dev-libs/libxml2-2.13.9" [label="portage://dev-libs/libxml2-2.13.9", color=red, width=4,href="../dev-libs/libxml2-2.13.9.svg"];
+package_dependency40:e -> "dev-libs/libxml2-9999":w [style=dotted,weight="100"];
+package_dependency40:e -> "dev-libs/libxml2-2.15.1":w [style=dotted,weight="100"];
+package_dependency40:e -> "dev-libs/libxml2-2.15.0-r1":w [style=dotted,weight="100"];
+package_dependency40:e -> "dev-libs/libxml2-2.14.6":w [style=dotted,weight="100"];
+package_dependency40:e -> "dev-libs/libxml2-2.13.9":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/libxslt-9999" [label="portage://dev-libs/libxslt-9999", color=red, width=4,href="../dev-libs/libxslt-9999.svg"];
+"dev-libs/libxslt-1.1.45" [label="portage://dev-libs/libxslt-1.1.45", color=red, width=4,href="../dev-libs/libxslt-1.1.45.svg"];
+"dev-libs/libxslt-1.1.43-r2" [label="portage://dev-libs/libxslt-1.1.43-r2", color=red, width=4,href="../dev-libs/libxslt-1.1.43-r2.svg"];
+"dev-libs/libxslt-1.1.43-r1" [label="portage://dev-libs/libxslt-1.1.43-r1", color=red, width=4,href="../dev-libs/libxslt-1.1.43-r1.svg"];
+package_dependency41:e -> "dev-libs/libxslt-9999":w [style=dotted,weight="100"];
+package_dependency41:e -> "dev-libs/libxslt-1.1.45":w [style=dotted,weight="100"];
+package_dependency41:e -> "dev-libs/libxslt-1.1.43-r2":w [style=dotted,weight="100"];
+package_dependency41:e -> "dev-libs/libxslt-1.1.43-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/openssl-3.6.9999" [label="portage://dev-libs/openssl-3.6.9999", color=red, width=4,href="../dev-libs/openssl-3.6.9999.svg"];
+"dev-libs/openssl-3.6.0" [label="portage://dev-libs/openssl-3.6.0", color=red, width=4,href="../dev-libs/openssl-3.6.0.svg"];
+"dev-libs/openssl-3.5.9999" [label="portage://dev-libs/openssl-3.5.9999", color=red, width=4,href="../dev-libs/openssl-3.5.9999.svg"];
+"dev-libs/openssl-3.5.4" [label="portage://dev-libs/openssl-3.5.4", color=red, width=4,href="../dev-libs/openssl-3.5.4.svg"];
+"dev-libs/openssl-3.4.9999" [label="portage://dev-libs/openssl-3.4.9999", color=red, width=4,href="../dev-libs/openssl-3.4.9999.svg"];
+"dev-libs/openssl-3.4.3" [label="portage://dev-libs/openssl-3.4.3", color=red, width=4,href="../dev-libs/openssl-3.4.3.svg"];
+"dev-libs/openssl-3.3.9999" [label="portage://dev-libs/openssl-3.3.9999", color=red, width=4,href="../dev-libs/openssl-3.3.9999.svg"];
+"dev-libs/openssl-3.3.5" [label="portage://dev-libs/openssl-3.3.5", color=red, width=4,href="../dev-libs/openssl-3.3.5.svg"];
+"dev-libs/openssl-3.2.9999" [label="portage://dev-libs/openssl-3.2.9999", color=red, width=4,href="../dev-libs/openssl-3.2.9999.svg"];
+"dev-libs/openssl-3.2.6" [label="portage://dev-libs/openssl-3.2.6", color=red, width=4,href="../dev-libs/openssl-3.2.6.svg"];
+"dev-libs/openssl-3.0.9999" [label="portage://dev-libs/openssl-3.0.9999", color=red, width=4,href="../dev-libs/openssl-3.0.9999.svg"];
+"dev-libs/openssl-3.0.18" [label="portage://dev-libs/openssl-3.0.18", color=red, width=4,href="../dev-libs/openssl-3.0.18.svg"];
+"dev-libs/openssl-1.1.1w" [label="portage://dev-libs/openssl-1.1.1w", color=red, width=4,href="../dev-libs/openssl-1.1.1w.svg"];
+"dev-libs/openssl-1.0.2u-r1" [label="portage://dev-libs/openssl-1.0.2u-r1", color=red, width=4,href="../dev-libs/openssl-1.0.2u-r1.svg"];
+package_dependency42:e -> "dev-libs/openssl-3.6.9999":w [style=dotted,weight="100"];
+package_dependency42:e -> "dev-libs/openssl-3.6.0":w [style=dotted,weight="100"];
+package_dependency42:e -> "dev-libs/openssl-3.5.9999":w [style=dotted,weight="100"];
+package_dependency42:e -> "dev-libs/openssl-3.5.4":w [style=dotted,weight="100"];
+package_dependency42:e -> "dev-libs/openssl-3.4.9999":w [style=dotted,weight="100"];
+package_dependency42:e -> "dev-libs/openssl-3.4.3":w [style=dotted,weight="100"];
+package_dependency42:e -> "dev-libs/openssl-3.3.9999":w [style=dotted,weight="100"];
+package_dependency42:e -> "dev-libs/openssl-3.3.5":w [style=dotted,weight="100"];
+package_dependency42:e -> "dev-libs/openssl-3.2.9999":w [style=dotted,weight="100"];
+package_dependency42:e -> "dev-libs/openssl-3.2.6":w [style=dotted,weight="100"];
+package_dependency42:e -> "dev-libs/openssl-3.0.9999":w [style=dotted,weight="100"];
+package_dependency42:e -> "dev-libs/openssl-3.0.18":w [style=dotted,weight="100"];
+package_dependency42:e -> "dev-libs/openssl-1.1.1w":w [style=dotted,weight="100"];
+package_dependency42:e -> "dev-libs/openssl-1.0.2u-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/geoip-1.6.12-r1" [label="portage://dev-libs/geoip-1.6.12-r1", color=red, width=4,href="../dev-libs/geoip-1.6.12-r1.svg"];
+"dev-libs/geoip-1.6.12" [label="portage://dev-libs/geoip-1.6.12", color=red, width=4,href="../dev-libs/geoip-1.6.12.svg"];
+package_dependency43:e -> "dev-libs/geoip-1.6.12-r1":w [style=dotted,weight="100"];
+package_dependency43:e -> "dev-libs/geoip-1.6.12":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/openssl-3.6.9999" [label="portage://dev-libs/openssl-3.6.9999", color=red, width=4,href="../dev-libs/openssl-3.6.9999.svg"];
+"dev-libs/openssl-3.6.0" [label="portage://dev-libs/openssl-3.6.0", color=red, width=4,href="../dev-libs/openssl-3.6.0.svg"];
+"dev-libs/openssl-3.5.9999" [label="portage://dev-libs/openssl-3.5.9999", color=red, width=4,href="../dev-libs/openssl-3.5.9999.svg"];
+"dev-libs/openssl-3.5.4" [label="portage://dev-libs/openssl-3.5.4", color=red, width=4,href="../dev-libs/openssl-3.5.4.svg"];
+"dev-libs/openssl-3.4.9999" [label="portage://dev-libs/openssl-3.4.9999", color=red, width=4,href="../dev-libs/openssl-3.4.9999.svg"];
+"dev-libs/openssl-3.4.3" [label="portage://dev-libs/openssl-3.4.3", color=red, width=4,href="../dev-libs/openssl-3.4.3.svg"];
+"dev-libs/openssl-3.3.9999" [label="portage://dev-libs/openssl-3.3.9999", color=red, width=4,href="../dev-libs/openssl-3.3.9999.svg"];
+"dev-libs/openssl-3.3.5" [label="portage://dev-libs/openssl-3.3.5", color=red, width=4,href="../dev-libs/openssl-3.3.5.svg"];
+"dev-libs/openssl-3.2.9999" [label="portage://dev-libs/openssl-3.2.9999", color=red, width=4,href="../dev-libs/openssl-3.2.9999.svg"];
+"dev-libs/openssl-3.2.6" [label="portage://dev-libs/openssl-3.2.6", color=red, width=4,href="../dev-libs/openssl-3.2.6.svg"];
+"dev-libs/openssl-3.0.9999" [label="portage://dev-libs/openssl-3.0.9999", color=red, width=4,href="../dev-libs/openssl-3.0.9999.svg"];
+"dev-libs/openssl-3.0.18" [label="portage://dev-libs/openssl-3.0.18", color=red, width=4,href="../dev-libs/openssl-3.0.18.svg"];
+"dev-libs/openssl-1.1.1w" [label="portage://dev-libs/openssl-1.1.1w", color=red, width=4,href="../dev-libs/openssl-1.1.1w.svg"];
+"dev-libs/openssl-1.0.2u-r1" [label="portage://dev-libs/openssl-1.0.2u-r1", color=red, width=4,href="../dev-libs/openssl-1.0.2u-r1.svg"];
+package_dependency44:e -> "dev-libs/openssl-3.6.9999":w [style=dotted,weight="100"];
+package_dependency44:e -> "dev-libs/openssl-3.6.0":w [style=dotted,weight="100"];
+package_dependency44:e -> "dev-libs/openssl-3.5.9999":w [style=dotted,weight="100"];
+package_dependency44:e -> "dev-libs/openssl-3.5.4":w [style=dotted,weight="100"];
+package_dependency44:e -> "dev-libs/openssl-3.4.9999":w [style=dotted,weight="100"];
+package_dependency44:e -> "dev-libs/openssl-3.4.3":w [style=dotted,weight="100"];
+package_dependency44:e -> "dev-libs/openssl-3.3.9999":w [style=dotted,weight="100"];
+package_dependency44:e -> "dev-libs/openssl-3.3.5":w [style=dotted,weight="100"];
+package_dependency44:e -> "dev-libs/openssl-3.2.9999":w [style=dotted,weight="100"];
+package_dependency44:e -> "dev-libs/openssl-3.2.6":w [style=dotted,weight="100"];
+package_dependency44:e -> "dev-libs/openssl-3.0.9999":w [style=dotted,weight="100"];
+package_dependency44:e -> "dev-libs/openssl-3.0.18":w [style=dotted,weight="100"];
+package_dependency44:e -> "dev-libs/openssl-1.1.1w":w [style=dotted,weight="100"];
+package_dependency44:e -> "dev-libs/openssl-1.0.2u-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sec-policy/selinux-nginx-9999" [label="portage://sec-policy/selinux-nginx-9999", color=red, width=4,href="../sec-policy/selinux-nginx-9999.svg"];
+"sec-policy/selinux-nginx-2.20250618-r1" [label="portage://sec-policy/selinux-nginx-2.20250618-r1", color=red, width=4,href="../sec-policy/selinux-nginx-2.20250618-r1.svg"];
+"sec-policy/selinux-nginx-2.20250213-r1" [label="portage://sec-policy/selinux-nginx-2.20250213-r1", color=red, width=4,href="../sec-policy/selinux-nginx-2.20250213-r1.svg"];
+package_dependency45:e -> "sec-policy/selinux-nginx-9999":w [style=dotted,weight="100"];
+package_dependency45:e -> "sec-policy/selinux-nginx-2.20250618-r1":w [style=dotted,weight="100"];
+package_dependency45:e -> "sec-policy/selinux-nginx-2.20250213-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"virtual/tmpfiles-0-r5" [label="portage://virtual/tmpfiles-0-r5", color=red, width=4,href="../virtual/tmpfiles-0-r5.svg"];
+package_dependency46:e -> "virtual/tmpfiles-0-r5":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"acct-group/nginx-0-r2" [label="portage://acct-group/nginx-0-r2", color=red, width=4,href="../acct-group/nginx-0-r2.svg"];
+package_dependency47:e -> "acct-group/nginx-0-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"acct-user/nginx-0-r2" [label="portage://acct-user/nginx-0-r2", color=red, width=4,href="../acct-user/nginx-0-r2.svg"];
+package_dependency48:e -> "acct-user/nginx-0-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-misc/mime-types-2.1.54" [label="portage://app-misc/mime-types-2.1.54", color=red, width=4,href="../app-misc/mime-types-2.1.54.svg"];
+package_dependency49:e -> "app-misc/mime-types-2.1.54":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"virtual/libcrypt-2-r1" [label="portage://virtual/libcrypt-2-r1", color=red, width=4,href="../virtual/libcrypt-2-r1.svg"];
+"virtual/libcrypt-2" [label="portage://virtual/libcrypt-2", color=red, width=4,href="../virtual/libcrypt-2.svg"];
+"virtual/libcrypt-1-r2" [label="portage://virtual/libcrypt-1-r2", color=red, width=4,href="../virtual/libcrypt-1-r2.svg"];
+package_dependency50:e -> "virtual/libcrypt-2-r1":w [style=dotted,weight="100"];
+package_dependency50:e -> "virtual/libcrypt-2":w [style=dotted,weight="100"];
+package_dependency50:e -> "virtual/libcrypt-1-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-vim/nginx-syntax-0.3.3" [label="portage://app-vim/nginx-syntax-0.3.3", color=red, width=4,href="../app-vim/nginx-syntax-0.3.3.svg"];
+weak_blocker1:e -> "app-vim/nginx-syntax-0.3.3":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"www-servers/nginx-9999" [label="portage://www-servers/nginx-9999", color=red, width=4,href="../www-servers/nginx-9999.svg"];
+"www-servers/nginx-1.29.3-r3" [label="portage://www-servers/nginx-1.29.3-r3", color=red, width=4,href="../www-servers/nginx-1.29.3-r3.svg"];
+"www-servers/nginx-1.28.0-r5" [label="portage://www-servers/nginx-1.28.0-r5", color=red, width=4,href="../www-servers/nginx-1.28.0-r5.svg"];
+"www-servers/nginx-1.27.5-r1" [label="portage://www-servers/nginx-1.27.5-r1", color=red, width=4,href="../www-servers/nginx-1.27.5-r1.svg"];
+"www-servers/nginx-1.26.3-r2" [label="portage://www-servers/nginx-1.26.3-r2", color=red, width=4,href="../www-servers/nginx-1.26.3-r2.svg"];
+weak_blocker2:e -> "www-servers/nginx-9999":w [style=dotted,weight="100"];
+weak_blocker2:e -> "www-servers/nginx-1.29.3-r3":w [style=dotted,weight="100"];
+weak_blocker2:e -> "www-servers/nginx-1.28.0-r5":w [style=dotted,weight="100"];
+weak_blocker2:e -> "www-servers/nginx-1.27.5-r1":w [style=dotted,weight="100"];
+weak_blocker2:e -> "www-servers/nginx-1.26.3-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"www-servers/nginx-9999" [label="portage://www-servers/nginx-9999", color=red, width=4,href="../www-servers/nginx-9999.svg"];
+"www-servers/nginx-1.29.3-r3" [label="portage://www-servers/nginx-1.29.3-r3", color=red, width=4,href="../www-servers/nginx-1.29.3-r3.svg"];
+"www-servers/nginx-1.28.0-r5" [label="portage://www-servers/nginx-1.28.0-r5", color=red, width=4,href="../www-servers/nginx-1.28.0-r5.svg"];
+"www-servers/nginx-1.27.5-r1" [label="portage://www-servers/nginx-1.27.5-r1", color=red, width=4,href="../www-servers/nginx-1.27.5-r1.svg"];
+"www-servers/nginx-1.26.3-r2" [label="portage://www-servers/nginx-1.26.3-r2", color=red, width=4,href="../www-servers/nginx-1.26.3-r2.svg"];
+weak_blocker3:e -> "www-servers/nginx-9999":w [style=dotted,weight="100"];
+weak_blocker3:e -> "www-servers/nginx-1.29.3-r3":w [style=dotted,weight="100"];
+weak_blocker3:e -> "www-servers/nginx-1.28.0-r5":w [style=dotted,weight="100"];
+weak_blocker3:e -> "www-servers/nginx-1.27.5-r1":w [style=dotted,weight="100"];
+weak_blocker3:e -> "www-servers/nginx-1.26.3-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"www-servers/nginx-9999" [label="portage://www-servers/nginx-9999", color=red, width=4,href="../www-servers/nginx-9999.svg"];
+"www-servers/nginx-1.29.3-r3" [label="portage://www-servers/nginx-1.29.3-r3", color=red, width=4,href="../www-servers/nginx-1.29.3-r3.svg"];
+"www-servers/nginx-1.28.0-r5" [label="portage://www-servers/nginx-1.28.0-r5", color=red, width=4,href="../www-servers/nginx-1.28.0-r5.svg"];
+"www-servers/nginx-1.27.5-r1" [label="portage://www-servers/nginx-1.27.5-r1", color=red, width=4,href="../www-servers/nginx-1.27.5-r1.svg"];
+"www-servers/nginx-1.26.3-r2" [label="portage://www-servers/nginx-1.26.3-r2", color=red, width=4,href="../www-servers/nginx-1.26.3-r2.svg"];
+weak_blocker4:e -> "www-servers/nginx-9999":w [style=dotted,weight="100"];
+weak_blocker4:e -> "www-servers/nginx-1.29.3-r3":w [style=dotted,weight="100"];
+weak_blocker4:e -> "www-servers/nginx-1.28.0-r5":w [style=dotted,weight="100"];
+weak_blocker4:e -> "www-servers/nginx-1.27.5-r1":w [style=dotted,weight="100"];
+weak_blocker4:e -> "www-servers/nginx-1.26.3-r2":w [style=dotted,weight="100"];
+}
+}
+}

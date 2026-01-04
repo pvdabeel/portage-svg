@@ -1,0 +1,216 @@
+digraph prolog {
+
+newrank=true;
+concentrate=true;
+compound=true;
+
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+graph [labelloc=t, labeljust=l, fontcolor=blue, fontname=Helvetica, fontsize=10, label=<<TABLE BORDER='0' CELLBORDER='1' CELLSPACING='0' CELLPADDING='6'><TR><TD COLSPAN='3'><FONT COLOR='black'><B>navigation</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='7'><FONT COLOR='black'><B>dependency graph</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='4'><FONT COLOR='black'><B>version control</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='3'><FONT COLOR='black'><B>command line</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='1'><FONT COLOR='black'><B>legacy</B></FONT></TD></TR><TR><TD title="repository" href="../index.html">portage</TD><TD title="repository" href="./index.html">net-misc</TD><TD title="repository" href="./unison.html">unison</TD><TD BORDER='0'></TD><TD title="portage://net-misc/unison-2.53.8" href="../net-misc/unison-2.53.8.svg"><u>detail</u></TD><TD title="portage://net-misc/unison-2.53.8" href="../net-misc/unison-2.53.8-bdepend.svg">bdepend</TD><TD title="portage://net-misc/unison-2.53.8" href="../net-misc/unison-2.53.8-cdepend.svg">cdepend</TD><TD title="portage://net-misc/unison-2.53.8" href="../net-misc/unison-2.53.8-depend.svg">depend</TD><TD title="portage://net-misc/unison-2.53.8" href="../net-misc/unison-2.53.8-idepend.svg">idepend</TD><TD title="portage://net-misc/unison-2.53.8" href="../net-misc/unison-2.53.8-rdepend.svg">rdepend</TD><TD title="portage://net-misc/unison-2.53.8" href="../net-misc/unison-2.53.8-pdepend.svg">pdepend</TD><TD BORDER='0'></TD><TD><FONT color="gray">&lt;&lt; newest</FONT></TD><TD><FONT color="gray">&lt; newer</FONT></TD><TD title="portage://net-misc/unison-2.53.7-r1" href="../net-misc/unison-2.53.7-r1.svg">older &gt;</TD><TD title="portage://net-misc/unison-2.53.7-r1" href="../net-misc/unison-2.53.7-r1.svg">oldest &gt;&gt;</TD><TD BORDER='0'></TD><TD title="portage://net-misc/unison-2.53.8" href="../net-misc/unison-2.53.8-merge.svg">--merge&nbsp;</TD><TD title="portage://net-misc/unison-2.53.8" href="../net-misc/unison-2.53.8-fetchonly.svg">--fetchonly&nbsp;</TD><TD title="portage://net-misc/unison-2.53.8" href="../net-misc/unison-2.53.8-info.svg">--info&nbsp;</TD><TD BORDER='0'></TD><TD title="portage://net-misc/unison-2.53.8" href="../net-misc/unison-2.53.8-emerge.svg">emerge</TD></TR></TABLE>>];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+fontcolor=gray;
+label=<<i>ebuild</i>>;
+labelloc=t;
+labeljust=c;
+id [label="portage://net-misc/unison-2.53.8", color=red, width=4, penwidth=2, fontname="Helvetica-Bold", href="../net-misc/unison-2.53.8.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+fontcolor=gray;
+label=<<i>dependencies</i>>;
+labelloc=t;
+labeljust=c
+subgraph cluster_install {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install</i>>;
+subgraph  {
+use_conditional_group1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>doc</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>app-text</TD></TR><TR><TD>dvipsk</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group1:e -> package_dependency1:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>app-text</TD></TR><TR><TD>ghostscript-gpl</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group1:e -> package_dependency2:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-texlive</TD></TR><TR><TD>texlive-latex</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group1:e -> package_dependency3:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group1:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>gui</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency4 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-ml</TD></TR><TR><TD>lablgtk</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group2:e -> package_dependency4:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group2:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency5 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>ocaml</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency5:w [weight=20, style="solid",arrowhead="vee"];
+}
+subgraph cluster_install_and_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph  {
+use_conditional_group3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>gui</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency6 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-ml</TD></TR><TR><TD>lablgtk</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group3:e -> package_dependency6:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+any_of_group1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD CELLPADDING="10">any_of_group</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency7 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>net-misc</TD></TR><TR><TD>ssh-askpass-fullscreen</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+any_of_group1:e -> package_dependency7:w [weight=20, style="dotted",arrowhead="oinv"];
+subgraph  {
+package_dependency8 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>net-misc</TD></TR><TR><TD>x11-ssh-askpass</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+any_of_group1:e -> package_dependency8:w [weight=20, style="dotted",arrowhead="oinv"];
+}
+use_conditional_group3:e -> any_of_group1:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group3:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency9 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>app-eselect</TD></TR><TR><TD>eselect-unison</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[0,4],,,0.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency9:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency10 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>ocaml</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency10:w [weight=20, style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+fontcolor=gray;
+label=<<i>candidates</i>>;
+labelloc=t;
+labeljust=c
+
+subgraph  {
+color=black;
+nodesep=1;
+"app-text/dvipsk-2024.03.11_p70015" [label="portage://app-text/dvipsk-2024.03.11_p70015", color=red, width=4,href="../app-text/dvipsk-2024.03.11_p70015.svg"];
+"app-text/dvipsk-2023.03.11_p66203" [label="portage://app-text/dvipsk-2023.03.11_p66203", color=red, width=4,href="../app-text/dvipsk-2023.03.11_p66203.svg"];
+package_dependency1:e -> "app-text/dvipsk-2024.03.11_p70015":w [style=dotted,weight="100"];
+package_dependency1:e -> "app-text/dvipsk-2023.03.11_p66203":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-text/ghostscript-gpl-10.06.0" [label="portage://app-text/ghostscript-gpl-10.06.0", color=red, width=4,href="../app-text/ghostscript-gpl-10.06.0.svg"];
+"app-text/ghostscript-gpl-10.05.1" [label="portage://app-text/ghostscript-gpl-10.05.1", color=red, width=4,href="../app-text/ghostscript-gpl-10.05.1.svg"];
+package_dependency2:e -> "app-text/ghostscript-gpl-10.06.0":w [style=dotted,weight="100"];
+package_dependency2:e -> "app-text/ghostscript-gpl-10.05.1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-texlive/texlive-latex-2024_p71912" [label="portage://dev-texlive/texlive-latex-2024_p71912", color=red, width=4,href="../dev-texlive/texlive-latex-2024_p71912.svg"];
+"dev-texlive/texlive-latex-2023_p69131-r1" [label="portage://dev-texlive/texlive-latex-2023_p69131-r1", color=red, width=4,href="../dev-texlive/texlive-latex-2023_p69131-r1.svg"];
+package_dependency3:e -> "dev-texlive/texlive-latex-2024_p71912":w [style=dotted,weight="100"];
+package_dependency3:e -> "dev-texlive/texlive-latex-2023_p69131-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-ml/lablgtk-3.1.5-r2" [label="portage://dev-ml/lablgtk-3.1.5-r2", color=red, width=4,href="../dev-ml/lablgtk-3.1.5-r2.svg"];
+package_dependency4:e -> "dev-ml/lablgtk-3.1.5-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-lang/ocaml-5.4.0" [label="portage://dev-lang/ocaml-5.4.0", color=red, width=4,href="../dev-lang/ocaml-5.4.0.svg"];
+"dev-lang/ocaml-5.3.0-r1" [label="portage://dev-lang/ocaml-5.3.0-r1", color=red, width=4,href="../dev-lang/ocaml-5.3.0-r1.svg"];
+"dev-lang/ocaml-4.14.2" [label="portage://dev-lang/ocaml-4.14.2", color=red, width=4,href="../dev-lang/ocaml-4.14.2.svg"];
+package_dependency5:e -> "dev-lang/ocaml-5.4.0":w [style=dotted,weight="100"];
+package_dependency5:e -> "dev-lang/ocaml-5.3.0-r1":w [style=dotted,weight="100"];
+package_dependency5:e -> "dev-lang/ocaml-4.14.2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-ml/lablgtk-3.1.5-r2" [label="portage://dev-ml/lablgtk-3.1.5-r2", color=red, width=4,href="../dev-ml/lablgtk-3.1.5-r2.svg"];
+package_dependency6:e -> "dev-ml/lablgtk-3.1.5-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"net-misc/ssh-askpass-fullscreen-1.2" [label="portage://net-misc/ssh-askpass-fullscreen-1.2", color=red, width=4,href="../net-misc/ssh-askpass-fullscreen-1.2.svg"];
+package_dependency7:e -> "net-misc/ssh-askpass-fullscreen-1.2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"net-misc/x11-ssh-askpass-1.2.4.1-r2" [label="portage://net-misc/x11-ssh-askpass-1.2.4.1-r2", color=red, width=4,href="../net-misc/x11-ssh-askpass-1.2.4.1-r2.svg"];
+package_dependency8:e -> "net-misc/x11-ssh-askpass-1.2.4.1-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-eselect/eselect-unison-0.4" [label="portage://app-eselect/eselect-unison-0.4", color=red, width=4,href="../app-eselect/eselect-unison-0.4.svg"];
+package_dependency9:e -> "app-eselect/eselect-unison-0.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-lang/ocaml-5.4.0" [label="portage://dev-lang/ocaml-5.4.0", color=red, width=4,href="../dev-lang/ocaml-5.4.0.svg"];
+"dev-lang/ocaml-5.3.0-r1" [label="portage://dev-lang/ocaml-5.3.0-r1", color=red, width=4,href="../dev-lang/ocaml-5.3.0-r1.svg"];
+"dev-lang/ocaml-4.14.2" [label="portage://dev-lang/ocaml-4.14.2", color=red, width=4,href="../dev-lang/ocaml-4.14.2.svg"];
+package_dependency10:e -> "dev-lang/ocaml-5.4.0":w [style=dotted,weight="100"];
+package_dependency10:e -> "dev-lang/ocaml-5.3.0-r1":w [style=dotted,weight="100"];
+package_dependency10:e -> "dev-lang/ocaml-4.14.2":w [style=dotted,weight="100"];
+}
+}
+}

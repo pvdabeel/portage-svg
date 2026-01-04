@@ -1,0 +1,346 @@
+digraph prolog {
+
+newrank=true;
+concentrate=true;
+compound=true;
+
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+graph [labelloc=t, labeljust=l, fontcolor=blue, fontname=Helvetica, fontsize=10, label=<<TABLE BORDER='0' CELLBORDER='1' CELLSPACING='0' CELLPADDING='6'><TR><TD COLSPAN='3'><FONT COLOR='black'><B>navigation</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='7'><FONT COLOR='black'><B>dependency graph</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='4'><FONT COLOR='black'><B>version control</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='3'><FONT COLOR='black'><B>command line</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='1'><FONT COLOR='black'><B>legacy</B></FONT></TD></TR><TR><TD title="repository" href="../index.html">portage</TD><TD title="repository" href="./index.html">sys-block</TD><TD title="repository" href="./libfabric.html">libfabric</TD><TD BORDER='0'></TD><TD title="portage://sys-block/libfabric-1.11.2-r3" href="../sys-block/libfabric-1.11.2-r3.svg"><u>detail</u></TD><TD title="portage://sys-block/libfabric-1.11.2-r3" href="../sys-block/libfabric-1.11.2-r3-bdepend.svg">bdepend</TD><TD title="portage://sys-block/libfabric-1.11.2-r3" href="../sys-block/libfabric-1.11.2-r3-cdepend.svg">cdepend</TD><TD title="portage://sys-block/libfabric-1.11.2-r3" href="../sys-block/libfabric-1.11.2-r3-depend.svg">depend</TD><TD title="portage://sys-block/libfabric-1.11.2-r3" href="../sys-block/libfabric-1.11.2-r3-idepend.svg">idepend</TD><TD title="portage://sys-block/libfabric-1.11.2-r3" href="../sys-block/libfabric-1.11.2-r3-rdepend.svg">rdepend</TD><TD title="portage://sys-block/libfabric-1.11.2-r3" href="../sys-block/libfabric-1.11.2-r3-pdepend.svg">pdepend</TD><TD BORDER='0'></TD><TD title="portage://sys-block/libfabric-2.3.1" href="../sys-block/libfabric-2.3.1.svg">&lt;&lt; newest</TD><TD title="portage://sys-block/libfabric-2.3.1" href="../sys-block/libfabric-2.3.1.svg">&lt; newer</TD><TD><FONT color="gray">older &gt;</FONT></TD><TD><FONT color="gray">oldest &gt;&gt;</FONT></TD><TD BORDER='0'></TD><TD title="portage://sys-block/libfabric-1.11.2-r3" href="../sys-block/libfabric-1.11.2-r3-merge.svg">--merge&nbsp;</TD><TD title="portage://sys-block/libfabric-1.11.2-r3" href="../sys-block/libfabric-1.11.2-r3-fetchonly.svg">--fetchonly&nbsp;</TD><TD title="portage://sys-block/libfabric-1.11.2-r3" href="../sys-block/libfabric-1.11.2-r3-info.svg">--info&nbsp;</TD><TD BORDER='0'></TD><TD title="portage://sys-block/libfabric-1.11.2-r3" href="../sys-block/libfabric-1.11.2-r3-emerge.svg">emerge</TD></TR></TABLE>>];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+fontcolor=gray;
+label=<<i>ebuild</i>>;
+labelloc=t;
+labeljust=c;
+id [label="portage://sys-block/libfabric-1.11.2-r3", color=red, width=4, penwidth=2, fontname="Helvetica-Bold", href="../sys-block/libfabric-1.11.2-r3.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+fontcolor=gray;
+label=<<i>dependencies</i>>;
+labelloc=t;
+labeljust=c
+subgraph cluster_install {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install</i>>;
+subgraph  {
+any_of_group1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD CELLPADDING="10">any_of_group</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-build</TD></TR><TR><TD>autoconf</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[2,72],,-r1,2.72-r1]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+any_of_group1:e -> package_dependency1:w [weight=20, style="dotted",arrowhead="oinv"];
+}
+id:e -> any_of_group1:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+any_of_group2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD CELLPADDING="10">any_of_group</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-build</TD></TR><TR><TD>automake</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[1,18],,,1.18]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+any_of_group2:e -> package_dependency2:w [weight=20, style="dotted",arrowhead="oinv"];
+subgraph  {
+package_dependency3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-build</TD></TR><TR><TD>automake</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[1,17],,-r1,1.17-r1]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+any_of_group2:e -> package_dependency3:w [weight=20, style="dotted",arrowhead="oinv"];
+}
+id:e -> any_of_group2:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>rocm</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency4 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>rocr-runtime</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group1:e -> package_dependency4:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group1:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>usnic</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency5 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libnl</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group2:e -> package_dependency5:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group2:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>verbs</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency6 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>sys-cluster</TD></TR><TR><TD>rdma-core</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group3:e -> package_dependency6:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group3:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency7 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>app-portage</TD></TR><TR><TD>elt-patches</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[20250306],,,20250306]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency7:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency8 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-build</TD></TR><TR><TD>libtool</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[2,4,7],,-r3,2.4.7-r3]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency8:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency9 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>sys-devel</TD></TR><TR><TD>gnuconfig</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency9:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency10 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>virtual</TD></TR><TR><TD>pkgconfig</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency10:w [weight=20, style="solid",arrowhead="vee"];
+}
+subgraph cluster_install_and_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph  {
+use_conditional_group4 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>cuda</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency11 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-util</TD></TR><TR><TD>nvidia-cuda-toolkit</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group4:e -> package_dependency11:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group4:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group5 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>rocm</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency12 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>rocr-runtime</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group5:e -> package_dependency12:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group5:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group6 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>usnic</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency13 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>libnl</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group6:e -> package_dependency13:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group6:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group7 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>verbs</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency14 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-cluster</TD></TR><TR><TD>rdma-core</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group7:e -> package_dependency14:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group7:w [weight=20, style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+fontcolor=gray;
+label=<<i>candidates</i>>;
+labelloc=t;
+labeljust=c
+
+subgraph  {
+color=black;
+nodesep=1;
+"dev-build/autoconf-9999" [label="portage://dev-build/autoconf-9999", color=red, width=4,href="../dev-build/autoconf-9999.svg"];
+"dev-build/autoconf-2.72-r5" [label="portage://dev-build/autoconf-2.72-r5", color=red, width=4,href="../dev-build/autoconf-2.72-r5.svg"];
+"dev-build/autoconf-2.72-r4" [label="portage://dev-build/autoconf-2.72-r4", color=red, width=4,href="../dev-build/autoconf-2.72-r4.svg"];
+"dev-build/autoconf-2.72-r1" [label="portage://dev-build/autoconf-2.72-r1", color=red, width=4,href="../dev-build/autoconf-2.72-r1.svg"];
+package_dependency1:e -> "dev-build/autoconf-9999":w [style=dotted,weight="100"];
+package_dependency1:e -> "dev-build/autoconf-2.72-r5":w [style=dotted,weight="100"];
+package_dependency1:e -> "dev-build/autoconf-2.72-r4":w [style=dotted,weight="100"];
+package_dependency1:e -> "dev-build/autoconf-2.72-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-build/automake-9999" [label="portage://dev-build/automake-9999", color=red, width=4,href="../dev-build/automake-9999.svg"];
+"dev-build/automake-1.18.1" [label="portage://dev-build/automake-1.18.1", color=red, width=4,href="../dev-build/automake-1.18.1.svg"];
+package_dependency2:e -> "dev-build/automake-9999":w [style=dotted,weight="100"];
+package_dependency2:e -> "dev-build/automake-1.18.1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-build/automake-9999" [label="portage://dev-build/automake-9999", color=red, width=4,href="../dev-build/automake-9999.svg"];
+"dev-build/automake-1.18.1" [label="portage://dev-build/automake-1.18.1", color=red, width=4,href="../dev-build/automake-1.18.1.svg"];
+"dev-build/automake-1.17-r2" [label="portage://dev-build/automake-1.17-r2", color=red, width=4,href="../dev-build/automake-1.17-r2.svg"];
+package_dependency3:e -> "dev-build/automake-9999":w [style=dotted,weight="100"];
+package_dependency3:e -> "dev-build/automake-1.18.1":w [style=dotted,weight="100"];
+package_dependency3:e -> "dev-build/automake-1.17-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/rocr-runtime-7.1.0" [label="portage://dev-libs/rocr-runtime-7.1.0", color=red, width=4,href="../dev-libs/rocr-runtime-7.1.0.svg"];
+"dev-libs/rocr-runtime-7.0.2" [label="portage://dev-libs/rocr-runtime-7.0.2", color=red, width=4,href="../dev-libs/rocr-runtime-7.0.2.svg"];
+"dev-libs/rocr-runtime-6.4.3" [label="portage://dev-libs/rocr-runtime-6.4.3", color=red, width=4,href="../dev-libs/rocr-runtime-6.4.3.svg"];
+"dev-libs/rocr-runtime-6.3.3" [label="portage://dev-libs/rocr-runtime-6.3.3", color=red, width=4,href="../dev-libs/rocr-runtime-6.3.3.svg"];
+package_dependency4:e -> "dev-libs/rocr-runtime-7.1.0":w [style=dotted,weight="100"];
+package_dependency4:e -> "dev-libs/rocr-runtime-7.0.2":w [style=dotted,weight="100"];
+package_dependency4:e -> "dev-libs/rocr-runtime-6.4.3":w [style=dotted,weight="100"];
+package_dependency4:e -> "dev-libs/rocr-runtime-6.3.3":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/libnl-9999" [label="portage://dev-libs/libnl-9999", color=red, width=4,href="../dev-libs/libnl-9999.svg"];
+"dev-libs/libnl-3.11.0" [label="portage://dev-libs/libnl-3.11.0", color=red, width=4,href="../dev-libs/libnl-3.11.0.svg"];
+"dev-libs/libnl-3.10.0" [label="portage://dev-libs/libnl-3.10.0", color=red, width=4,href="../dev-libs/libnl-3.10.0.svg"];
+package_dependency5:e -> "dev-libs/libnl-9999":w [style=dotted,weight="100"];
+package_dependency5:e -> "dev-libs/libnl-3.11.0":w [style=dotted,weight="100"];
+package_dependency5:e -> "dev-libs/libnl-3.10.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-cluster/rdma-core-9999" [label="portage://sys-cluster/rdma-core-9999", color=red, width=4,href="../sys-cluster/rdma-core-9999.svg"];
+"sys-cluster/rdma-core-59.0" [label="portage://sys-cluster/rdma-core-59.0", color=red, width=4,href="../sys-cluster/rdma-core-59.0.svg"];
+"sys-cluster/rdma-core-58.0" [label="portage://sys-cluster/rdma-core-58.0", color=red, width=4,href="../sys-cluster/rdma-core-58.0.svg"];
+"sys-cluster/rdma-core-57.0" [label="portage://sys-cluster/rdma-core-57.0", color=red, width=4,href="../sys-cluster/rdma-core-57.0.svg"];
+"sys-cluster/rdma-core-53.1" [label="portage://sys-cluster/rdma-core-53.1", color=red, width=4,href="../sys-cluster/rdma-core-53.1.svg"];
+package_dependency6:e -> "sys-cluster/rdma-core-9999":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-cluster/rdma-core-59.0":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-cluster/rdma-core-58.0":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-cluster/rdma-core-57.0":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-cluster/rdma-core-53.1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-portage/elt-patches-99999999" [label="portage://app-portage/elt-patches-99999999", color=red, width=4,href="../app-portage/elt-patches-99999999.svg"];
+"app-portage/elt-patches-20250718" [label="portage://app-portage/elt-patches-20250718", color=red, width=4,href="../app-portage/elt-patches-20250718.svg"];
+"app-portage/elt-patches-20250306" [label="portage://app-portage/elt-patches-20250306", color=red, width=4,href="../app-portage/elt-patches-20250306.svg"];
+package_dependency7:e -> "app-portage/elt-patches-99999999":w [style=dotted,weight="100"];
+package_dependency7:e -> "app-portage/elt-patches-20250718":w [style=dotted,weight="100"];
+package_dependency7:e -> "app-portage/elt-patches-20250306":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-build/libtool-9999" [label="portage://dev-build/libtool-9999", color=red, width=4,href="../dev-build/libtool-9999.svg"];
+"dev-build/libtool-2.6.0" [label="portage://dev-build/libtool-2.6.0", color=red, width=4,href="../dev-build/libtool-2.6.0.svg"];
+"dev-build/libtool-2.5.4" [label="portage://dev-build/libtool-2.5.4", color=red, width=4,href="../dev-build/libtool-2.5.4.svg"];
+package_dependency8:e -> "dev-build/libtool-9999":w [style=dotted,weight="100"];
+package_dependency8:e -> "dev-build/libtool-2.6.0":w [style=dotted,weight="100"];
+package_dependency8:e -> "dev-build/libtool-2.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-devel/gnuconfig-99999999" [label="portage://sys-devel/gnuconfig-99999999", color=red, width=4,href="../sys-devel/gnuconfig-99999999.svg"];
+"sys-devel/gnuconfig-20250710" [label="portage://sys-devel/gnuconfig-20250710", color=red, width=4,href="../sys-devel/gnuconfig-20250710.svg"];
+"sys-devel/gnuconfig-20240728" [label="portage://sys-devel/gnuconfig-20240728", color=red, width=4,href="../sys-devel/gnuconfig-20240728.svg"];
+package_dependency9:e -> "sys-devel/gnuconfig-99999999":w [style=dotted,weight="100"];
+package_dependency9:e -> "sys-devel/gnuconfig-20250710":w [style=dotted,weight="100"];
+package_dependency9:e -> "sys-devel/gnuconfig-20240728":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"virtual/pkgconfig-3" [label="portage://virtual/pkgconfig-3", color=red, width=4,href="../virtual/pkgconfig-3.svg"];
+package_dependency10:e -> "virtual/pkgconfig-3":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-util/nvidia-cuda-toolkit-12.9.1-r1" [label="portage://dev-util/nvidia-cuda-toolkit-12.9.1-r1", color=red, width=4,href="../dev-util/nvidia-cuda-toolkit-12.9.1-r1.svg"];
+"dev-util/nvidia-cuda-toolkit-12.8.1-r1" [label="portage://dev-util/nvidia-cuda-toolkit-12.8.1-r1", color=red, width=4,href="../dev-util/nvidia-cuda-toolkit-12.8.1-r1.svg"];
+"dev-util/nvidia-cuda-toolkit-12.6.3-r1" [label="portage://dev-util/nvidia-cuda-toolkit-12.6.3-r1", color=red, width=4,href="../dev-util/nvidia-cuda-toolkit-12.6.3-r1.svg"];
+"dev-util/nvidia-cuda-toolkit-12.5.1" [label="portage://dev-util/nvidia-cuda-toolkit-12.5.1", color=red, width=4,href="../dev-util/nvidia-cuda-toolkit-12.5.1.svg"];
+"dev-util/nvidia-cuda-toolkit-12.4.1" [label="portage://dev-util/nvidia-cuda-toolkit-12.4.1", color=red, width=4,href="../dev-util/nvidia-cuda-toolkit-12.4.1.svg"];
+"dev-util/nvidia-cuda-toolkit-12.3.2" [label="portage://dev-util/nvidia-cuda-toolkit-12.3.2", color=red, width=4,href="../dev-util/nvidia-cuda-toolkit-12.3.2.svg"];
+"dev-util/nvidia-cuda-toolkit-11.8.0-r4" [label="portage://dev-util/nvidia-cuda-toolkit-11.8.0-r4", color=red, width=4,href="../dev-util/nvidia-cuda-toolkit-11.8.0-r4.svg"];
+package_dependency11:e -> "dev-util/nvidia-cuda-toolkit-12.9.1-r1":w [style=dotted,weight="100"];
+package_dependency11:e -> "dev-util/nvidia-cuda-toolkit-12.8.1-r1":w [style=dotted,weight="100"];
+package_dependency11:e -> "dev-util/nvidia-cuda-toolkit-12.6.3-r1":w [style=dotted,weight="100"];
+package_dependency11:e -> "dev-util/nvidia-cuda-toolkit-12.5.1":w [style=dotted,weight="100"];
+package_dependency11:e -> "dev-util/nvidia-cuda-toolkit-12.4.1":w [style=dotted,weight="100"];
+package_dependency11:e -> "dev-util/nvidia-cuda-toolkit-12.3.2":w [style=dotted,weight="100"];
+package_dependency11:e -> "dev-util/nvidia-cuda-toolkit-11.8.0-r4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/rocr-runtime-7.1.0" [label="portage://dev-libs/rocr-runtime-7.1.0", color=red, width=4,href="../dev-libs/rocr-runtime-7.1.0.svg"];
+"dev-libs/rocr-runtime-7.0.2" [label="portage://dev-libs/rocr-runtime-7.0.2", color=red, width=4,href="../dev-libs/rocr-runtime-7.0.2.svg"];
+"dev-libs/rocr-runtime-6.4.3" [label="portage://dev-libs/rocr-runtime-6.4.3", color=red, width=4,href="../dev-libs/rocr-runtime-6.4.3.svg"];
+"dev-libs/rocr-runtime-6.3.3" [label="portage://dev-libs/rocr-runtime-6.3.3", color=red, width=4,href="../dev-libs/rocr-runtime-6.3.3.svg"];
+package_dependency12:e -> "dev-libs/rocr-runtime-7.1.0":w [style=dotted,weight="100"];
+package_dependency12:e -> "dev-libs/rocr-runtime-7.0.2":w [style=dotted,weight="100"];
+package_dependency12:e -> "dev-libs/rocr-runtime-6.4.3":w [style=dotted,weight="100"];
+package_dependency12:e -> "dev-libs/rocr-runtime-6.3.3":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/libnl-9999" [label="portage://dev-libs/libnl-9999", color=red, width=4,href="../dev-libs/libnl-9999.svg"];
+"dev-libs/libnl-3.11.0" [label="portage://dev-libs/libnl-3.11.0", color=red, width=4,href="../dev-libs/libnl-3.11.0.svg"];
+"dev-libs/libnl-3.10.0" [label="portage://dev-libs/libnl-3.10.0", color=red, width=4,href="../dev-libs/libnl-3.10.0.svg"];
+package_dependency13:e -> "dev-libs/libnl-9999":w [style=dotted,weight="100"];
+package_dependency13:e -> "dev-libs/libnl-3.11.0":w [style=dotted,weight="100"];
+package_dependency13:e -> "dev-libs/libnl-3.10.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-cluster/rdma-core-9999" [label="portage://sys-cluster/rdma-core-9999", color=red, width=4,href="../sys-cluster/rdma-core-9999.svg"];
+"sys-cluster/rdma-core-59.0" [label="portage://sys-cluster/rdma-core-59.0", color=red, width=4,href="../sys-cluster/rdma-core-59.0.svg"];
+"sys-cluster/rdma-core-58.0" [label="portage://sys-cluster/rdma-core-58.0", color=red, width=4,href="../sys-cluster/rdma-core-58.0.svg"];
+"sys-cluster/rdma-core-57.0" [label="portage://sys-cluster/rdma-core-57.0", color=red, width=4,href="../sys-cluster/rdma-core-57.0.svg"];
+"sys-cluster/rdma-core-53.1" [label="portage://sys-cluster/rdma-core-53.1", color=red, width=4,href="../sys-cluster/rdma-core-53.1.svg"];
+package_dependency14:e -> "sys-cluster/rdma-core-9999":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-cluster/rdma-core-59.0":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-cluster/rdma-core-58.0":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-cluster/rdma-core-57.0":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-cluster/rdma-core-53.1":w [style=dotted,weight="100"];
+}
+}
+}

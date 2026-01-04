@@ -1,0 +1,791 @@
+digraph prolog {
+
+newrank=true;
+concentrate=true;
+compound=true;
+
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+graph [labelloc=t, labeljust=l, fontcolor=blue, fontname=Helvetica, fontsize=10, label=<<TABLE BORDER='0' CELLBORDER='1' CELLSPACING='0' CELLPADDING='6'><TR><TD COLSPAN='3'><FONT COLOR='black'><B>navigation</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='7'><FONT COLOR='black'><B>dependency graph</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='4'><FONT COLOR='black'><B>version control</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='3'><FONT COLOR='black'><B>command line</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='1'><FONT COLOR='black'><B>legacy</B></FONT></TD></TR><TR><TD title="repository" href="../index.html">portage</TD><TD title="repository" href="./index.html">sys-apps</TD><TD title="repository" href="./shadow.html">shadow</TD><TD BORDER='0'></TD><TD title="portage://sys-apps/shadow-4.14.8-r2" href="../sys-apps/shadow-4.14.8-r2.svg"><u>detail</u></TD><TD title="portage://sys-apps/shadow-4.14.8-r2" href="../sys-apps/shadow-4.14.8-r2-bdepend.svg">bdepend</TD><TD title="portage://sys-apps/shadow-4.14.8-r2" href="../sys-apps/shadow-4.14.8-r2-cdepend.svg">cdepend</TD><TD title="portage://sys-apps/shadow-4.14.8-r2" href="../sys-apps/shadow-4.14.8-r2-depend.svg">depend</TD><TD title="portage://sys-apps/shadow-4.14.8-r2" href="../sys-apps/shadow-4.14.8-r2-idepend.svg">idepend</TD><TD title="portage://sys-apps/shadow-4.14.8-r2" href="../sys-apps/shadow-4.14.8-r2-rdepend.svg">rdepend</TD><TD title="portage://sys-apps/shadow-4.14.8-r2" href="../sys-apps/shadow-4.14.8-r2-pdepend.svg">pdepend</TD><TD BORDER='0'></TD><TD title="portage://sys-apps/shadow-4.19.0_rc1" href="../sys-apps/shadow-4.19.0_rc1.svg">&lt;&lt; newest</TD><TD title="portage://sys-apps/shadow-4.19.0_rc1" href="../sys-apps/shadow-4.19.0_rc1.svg">&lt; newer</TD><TD title="portage://sys-apps/shadow-4.14.8-r1" href="../sys-apps/shadow-4.14.8-r1.svg">older &gt;</TD><TD title="portage://sys-apps/shadow-4.14.8" href="../sys-apps/shadow-4.14.8.svg">oldest &gt;&gt;</TD><TD BORDER='0'></TD><TD title="portage://sys-apps/shadow-4.14.8-r2" href="../sys-apps/shadow-4.14.8-r2-merge.svg">--merge&nbsp;</TD><TD title="portage://sys-apps/shadow-4.14.8-r2" href="../sys-apps/shadow-4.14.8-r2-fetchonly.svg">--fetchonly&nbsp;</TD><TD title="portage://sys-apps/shadow-4.14.8-r2" href="../sys-apps/shadow-4.14.8-r2-info.svg">--info&nbsp;</TD><TD BORDER='0'></TD><TD title="portage://sys-apps/shadow-4.14.8-r2" href="../sys-apps/shadow-4.14.8-r2-emerge.svg">emerge</TD></TR></TABLE>>];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+fontcolor=gray;
+label=<<i>ebuild</i>>;
+labelloc=t;
+labeljust=c;
+id [label="portage://sys-apps/shadow-4.14.8-r2", color=red, width=4, penwidth=2, fontname="Helvetica-Bold", href="../sys-apps/shadow-4.14.8-r2.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+fontcolor=gray;
+label=<<i>dependencies</i>>;
+labelloc=t;
+labeljust=c
+subgraph cluster_install {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install</i>>;
+subgraph  {
+use_conditional_group1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>acl</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>acl</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group1:e -> package_dependency1:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group1:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>audit</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>sys-process</TD></TR><TR><TD>audit</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[2,6],,,2.6]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group2:e -> package_dependency2:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group2:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>cracklib</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>cracklib</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[2,7],,-r3,2.7-r3]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group3:e -> package_dependency3:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group3:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group4 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>nls</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency4 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>virtual</TD></TR><TR><TD>libintl</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group4:e -> package_dependency4:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group4:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group5 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>pam</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency5 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>pam</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group5:e -> package_dependency5:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group5:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group6 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>selinux</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency6 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>libselinux</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[1,28],,,1.28]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group6:e -> package_dependency6:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency7 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>libsemanage</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group6:e -> package_dependency7:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group6:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group7 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>skey</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency8 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>sys-auth</TD></TR><TR><TD>skey</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group7:e -> package_dependency8:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group7:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group8 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>systemd</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency9 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>systemd</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group8:e -> package_dependency9:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group8:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group9 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>verify-sig</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+any_of_group1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD CELLPADDING="10">any_of_group</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency10 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>app-alternatives</TD></TR><TR><TD>gpg</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+any_of_group1:e -> package_dependency10:w [weight=20, style="dotted",arrowhead="oinv"];
+subgraph  {
+package_dependency11 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>app-crypt</TD></TR><TR><TD>gnupg</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+any_of_group1:e -> package_dependency11:w [weight=20, style="dotted",arrowhead="oinv"];
+}
+use_conditional_group9:e -> any_of_group1:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency12 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>app-portage</TD></TR><TR><TD>gemato</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[20],,,20]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group9:e -> package_dependency12:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group9:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group10 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>verify-sig</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency13 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>sec-keys</TD></TR><TR><TD>openpgp-keys-alejandro-colomar</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group10:e -> package_dependency13:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group10:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group11 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>xattr</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency14 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>attr</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group11:e -> package_dependency14:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group11:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency15 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>acct-group</TD></TR><TR><TD>shadow</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency15:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency16 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>xz-utils</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency16:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency17 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>app-portage</TD></TR><TR><TD>elt-patches</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[20250306],,,20250306]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency17:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency18 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>sys-devel</TD></TR><TR><TD>gettext</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency18:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency19 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>sys-kernel</TD></TR><TR><TD>linux-headers</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[4,14],,,4.14]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency19:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency20 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>virtual</TD></TR><TR><TD>libcrypt</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency20:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+weak_blocker1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">blocking (weak)</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>glibc</TD></TR>
+                     <TR><TD>smaller</TD></TR><TR><TD>[[2,38],,,2.38]</TD></TR></TABLE>>, shape=none, color=orange];
+}
+id:e -> weak_blocker1:w [weight=20, color="orange", style="solid",arrowhead="vee"];
+}
+subgraph cluster_install_and_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph  {
+use_conditional_group12 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>acl</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency21 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>acl</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group12:e -> package_dependency21:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group12:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group13 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>audit</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency22 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-process</TD></TR><TR><TD>audit</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[2,6],,,2.6]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group13:e -> package_dependency22:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group13:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group14 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>cracklib</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency23 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>cracklib</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[2,7],,-r3,2.7-r3]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group14:e -> package_dependency23:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group14:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group15 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>nls</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency24 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>virtual</TD></TR><TR><TD>libintl</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group15:e -> package_dependency24:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group15:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group16 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>pam</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency25 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-auth</TD></TR><TR><TD>pambase</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[20150213],,,20150213]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group16:e -> package_dependency25:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group16:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group17 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>pam</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency26 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>pam</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group17:e -> package_dependency26:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group17:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group18 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>selinux</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency27 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>libselinux</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[1,28],,,1.28]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group18:e -> package_dependency27:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency28 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>libsemanage</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group18:e -> package_dependency28:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group18:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group19 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>skey</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency29 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-auth</TD></TR><TR><TD>skey</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group19:e -> package_dependency29:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group19:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group20 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>su</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+weak_blocker2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">blocking (weak)</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>util-linux</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=orange];
+}
+use_conditional_group20:e -> weak_blocker2:w [weight=20, color="orange", style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group20:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group21 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>systemd</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency30 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>systemd</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group21:e -> package_dependency30:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group21:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group22 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>xattr</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency31 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>attr</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group22:e -> package_dependency31:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group22:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency32 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>acct-group</TD></TR><TR><TD>shadow</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency32:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency33 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>virtual</TD></TR><TR><TD>libcrypt</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency33:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+weak_blocker3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">blocking (weak)</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>glibc</TD></TR>
+                     <TR><TD>smaller</TD></TR><TR><TD>[[2,38],,,2.38]</TD></TR></TABLE>>, shape=none, color=orange];
+}
+id:e -> weak_blocker3:w [weight=20, color="orange", style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+fontcolor=gray;
+label=<<i>candidates</i>>;
+labelloc=t;
+labeljust=c
+
+subgraph  {
+color=black;
+nodesep=1;
+"sys-apps/acl-2.3.2-r2" [label="portage://sys-apps/acl-2.3.2-r2", color=red, width=4,href="../sys-apps/acl-2.3.2-r2.svg"];
+"sys-apps/acl-2.3.2-r1" [label="portage://sys-apps/acl-2.3.2-r1", color=red, width=4,href="../sys-apps/acl-2.3.2-r1.svg"];
+package_dependency1:e -> "sys-apps/acl-2.3.2-r2":w [style=dotted,weight="100"];
+package_dependency1:e -> "sys-apps/acl-2.3.2-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-process/audit-4.0.2-r1" [label="portage://sys-process/audit-4.0.2-r1", color=red, width=4,href="../sys-process/audit-4.0.2-r1.svg"];
+"sys-process/audit-4.0.1-r1" [label="portage://sys-process/audit-4.0.1-r1", color=red, width=4,href="../sys-process/audit-4.0.1-r1.svg"];
+package_dependency2:e -> "sys-process/audit-4.0.2-r1":w [style=dotted,weight="100"];
+package_dependency2:e -> "sys-process/audit-4.0.1-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-libs/cracklib-2.10.3" [label="portage://sys-libs/cracklib-2.10.3", color=red, width=4,href="../sys-libs/cracklib-2.10.3.svg"];
+"sys-libs/cracklib-2.10.2" [label="portage://sys-libs/cracklib-2.10.2", color=red, width=4,href="../sys-libs/cracklib-2.10.2.svg"];
+package_dependency3:e -> "sys-libs/cracklib-2.10.3":w [style=dotted,weight="100"];
+package_dependency3:e -> "sys-libs/cracklib-2.10.2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"virtual/libintl-0-r2" [label="portage://virtual/libintl-0-r2", color=red, width=4,href="../virtual/libintl-0-r2.svg"];
+package_dependency4:e -> "virtual/libintl-0-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-libs/pam-1.7.1-r2" [label="portage://sys-libs/pam-1.7.1-r2", color=red, width=4,href="../sys-libs/pam-1.7.1-r2.svg"];
+"sys-libs/pam-1.7.1-r1" [label="portage://sys-libs/pam-1.7.1-r1", color=red, width=4,href="../sys-libs/pam-1.7.1-r1.svg"];
+"sys-libs/pam-1.7.0_p20241230-r3" [label="portage://sys-libs/pam-1.7.0_p20241230-r3", color=red, width=4,href="../sys-libs/pam-1.7.0_p20241230-r3.svg"];
+package_dependency5:e -> "sys-libs/pam-1.7.1-r2":w [style=dotted,weight="100"];
+package_dependency5:e -> "sys-libs/pam-1.7.1-r1":w [style=dotted,weight="100"];
+package_dependency5:e -> "sys-libs/pam-1.7.0_p20241230-r3":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-libs/libselinux-9999" [label="portage://sys-libs/libselinux-9999", color=red, width=4,href="../sys-libs/libselinux-9999.svg"];
+"sys-libs/libselinux-3.8.1-r2" [label="portage://sys-libs/libselinux-3.8.1-r2", color=red, width=4,href="../sys-libs/libselinux-3.8.1-r2.svg"];
+package_dependency6:e -> "sys-libs/libselinux-9999":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-libs/libselinux-3.8.1-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-libs/libsemanage-9999" [label="portage://sys-libs/libsemanage-9999", color=red, width=4,href="../sys-libs/libsemanage-9999.svg"];
+"sys-libs/libsemanage-3.8.1" [label="portage://sys-libs/libsemanage-3.8.1", color=red, width=4,href="../sys-libs/libsemanage-3.8.1.svg"];
+package_dependency7:e -> "sys-libs/libsemanage-9999":w [style=dotted,weight="100"];
+package_dependency7:e -> "sys-libs/libsemanage-3.8.1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-auth/skey-1.1.5-r14" [label="portage://sys-auth/skey-1.1.5-r14", color=red, width=4,href="../sys-auth/skey-1.1.5-r14.svg"];
+package_dependency8:e -> "sys-auth/skey-1.1.5-r14":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-apps/systemd-9999" [label="portage://sys-apps/systemd-9999", color=red, width=4,href="../sys-apps/systemd-9999.svg"];
+"sys-apps/systemd-259_rc3" [label="portage://sys-apps/systemd-259_rc3", color=red, width=4,href="../sys-apps/systemd-259_rc3.svg"];
+"sys-apps/systemd-259_rc2" [label="portage://sys-apps/systemd-259_rc2", color=red, width=4,href="../sys-apps/systemd-259_rc2.svg"];
+"sys-apps/systemd-258.3" [label="portage://sys-apps/systemd-258.3", color=red, width=4,href="../sys-apps/systemd-258.3.svg"];
+"sys-apps/systemd-258.2" [label="portage://sys-apps/systemd-258.2", color=red, width=4,href="../sys-apps/systemd-258.2.svg"];
+"sys-apps/systemd-257.10" [label="portage://sys-apps/systemd-257.10", color=red, width=4,href="../sys-apps/systemd-257.10.svg"];
+"sys-apps/systemd-257.9" [label="portage://sys-apps/systemd-257.9", color=red, width=4,href="../sys-apps/systemd-257.9.svg"];
+package_dependency9:e -> "sys-apps/systemd-9999":w [style=dotted,weight="100"];
+package_dependency9:e -> "sys-apps/systemd-259_rc3":w [style=dotted,weight="100"];
+package_dependency9:e -> "sys-apps/systemd-259_rc2":w [style=dotted,weight="100"];
+package_dependency9:e -> "sys-apps/systemd-258.3":w [style=dotted,weight="100"];
+package_dependency9:e -> "sys-apps/systemd-258.2":w [style=dotted,weight="100"];
+package_dependency9:e -> "sys-apps/systemd-257.10":w [style=dotted,weight="100"];
+package_dependency9:e -> "sys-apps/systemd-257.9":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-alternatives/gpg-1-r3" [label="portage://app-alternatives/gpg-1-r3", color=red, width=4,href="../app-alternatives/gpg-1-r3.svg"];
+"app-alternatives/gpg-1-r2" [label="portage://app-alternatives/gpg-1-r2", color=red, width=4,href="../app-alternatives/gpg-1-r2.svg"];
+"app-alternatives/gpg-0-r3" [label="portage://app-alternatives/gpg-0-r3", color=red, width=4,href="../app-alternatives/gpg-0-r3.svg"];
+"app-alternatives/gpg-0-r2" [label="portage://app-alternatives/gpg-0-r2", color=red, width=4,href="../app-alternatives/gpg-0-r2.svg"];
+package_dependency10:e -> "app-alternatives/gpg-1-r3":w [style=dotted,weight="100"];
+package_dependency10:e -> "app-alternatives/gpg-1-r2":w [style=dotted,weight="100"];
+package_dependency10:e -> "app-alternatives/gpg-0-r3":w [style=dotted,weight="100"];
+package_dependency10:e -> "app-alternatives/gpg-0-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-crypt/gnupg-2.5.14" [label="portage://app-crypt/gnupg-2.5.14", color=red, width=4,href="../app-crypt/gnupg-2.5.14.svg"];
+"app-crypt/gnupg-2.5.13-r2" [label="portage://app-crypt/gnupg-2.5.13-r2", color=red, width=4,href="../app-crypt/gnupg-2.5.13-r2.svg"];
+"app-crypt/gnupg-2.5.13-r1" [label="portage://app-crypt/gnupg-2.5.13-r1", color=red, width=4,href="../app-crypt/gnupg-2.5.13-r1.svg"];
+"app-crypt/gnupg-2.5.12-r1" [label="portage://app-crypt/gnupg-2.5.12-r1", color=red, width=4,href="../app-crypt/gnupg-2.5.12-r1.svg"];
+"app-crypt/gnupg-2.4.8-r2" [label="portage://app-crypt/gnupg-2.4.8-r2", color=red, width=4,href="../app-crypt/gnupg-2.4.8-r2.svg"];
+"app-crypt/gnupg-2.4.8-r1" [label="portage://app-crypt/gnupg-2.4.8-r1", color=red, width=4,href="../app-crypt/gnupg-2.4.8-r1.svg"];
+"app-crypt/gnupg-2.2.45-r1" [label="portage://app-crypt/gnupg-2.2.45-r1", color=red, width=4,href="../app-crypt/gnupg-2.2.45-r1.svg"];
+package_dependency11:e -> "app-crypt/gnupg-2.5.14":w [style=dotted,weight="100"];
+package_dependency11:e -> "app-crypt/gnupg-2.5.13-r2":w [style=dotted,weight="100"];
+package_dependency11:e -> "app-crypt/gnupg-2.5.13-r1":w [style=dotted,weight="100"];
+package_dependency11:e -> "app-crypt/gnupg-2.5.12-r1":w [style=dotted,weight="100"];
+package_dependency11:e -> "app-crypt/gnupg-2.4.8-r2":w [style=dotted,weight="100"];
+package_dependency11:e -> "app-crypt/gnupg-2.4.8-r1":w [style=dotted,weight="100"];
+package_dependency11:e -> "app-crypt/gnupg-2.2.45-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-portage/gemato-9999" [label="portage://app-portage/gemato-9999", color=red, width=4,href="../app-portage/gemato-9999.svg"];
+"app-portage/gemato-20.10-r1" [label="portage://app-portage/gemato-20.10-r1", color=red, width=4,href="../app-portage/gemato-20.10-r1.svg"];
+package_dependency12:e -> "app-portage/gemato-9999":w [style=dotted,weight="100"];
+package_dependency12:e -> "app-portage/gemato-20.10-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sec-keys/openpgp-keys-alejandro-colomar-20231031" [label="portage://sec-keys/openpgp-keys-alejandro-colomar-20231031", color=red, width=4,href="../sec-keys/openpgp-keys-alejandro-colomar-20231031.svg"];
+package_dependency13:e -> "sec-keys/openpgp-keys-alejandro-colomar-20231031":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-apps/attr-9999" [label="portage://sys-apps/attr-9999", color=red, width=4,href="../sys-apps/attr-9999.svg"];
+"sys-apps/attr-2.5.2-r1" [label="portage://sys-apps/attr-2.5.2-r1", color=red, width=4,href="../sys-apps/attr-2.5.2-r1.svg"];
+package_dependency14:e -> "sys-apps/attr-9999":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-apps/attr-2.5.2-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"acct-group/shadow-0" [label="portage://acct-group/shadow-0", color=red, width=4,href="../acct-group/shadow-0.svg"];
+package_dependency15:e -> "acct-group/shadow-0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-arch/xz-utils-9999" [label="portage://app-arch/xz-utils-9999", color=red, width=4,href="../app-arch/xz-utils-9999.svg"];
+"app-arch/xz-utils-5.8.1-r1" [label="portage://app-arch/xz-utils-5.8.1-r1", color=red, width=4,href="../app-arch/xz-utils-5.8.1-r1.svg"];
+"app-arch/xz-utils-5.6.4-r2" [label="portage://app-arch/xz-utils-5.6.4-r2", color=red, width=4,href="../app-arch/xz-utils-5.6.4-r2.svg"];
+package_dependency16:e -> "app-arch/xz-utils-9999":w [style=dotted,weight="100"];
+package_dependency16:e -> "app-arch/xz-utils-5.8.1-r1":w [style=dotted,weight="100"];
+package_dependency16:e -> "app-arch/xz-utils-5.6.4-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-portage/elt-patches-99999999" [label="portage://app-portage/elt-patches-99999999", color=red, width=4,href="../app-portage/elt-patches-99999999.svg"];
+"app-portage/elt-patches-20250718" [label="portage://app-portage/elt-patches-20250718", color=red, width=4,href="../app-portage/elt-patches-20250718.svg"];
+"app-portage/elt-patches-20250306" [label="portage://app-portage/elt-patches-20250306", color=red, width=4,href="../app-portage/elt-patches-20250306.svg"];
+package_dependency17:e -> "app-portage/elt-patches-99999999":w [style=dotted,weight="100"];
+package_dependency17:e -> "app-portage/elt-patches-20250718":w [style=dotted,weight="100"];
+package_dependency17:e -> "app-portage/elt-patches-20250306":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-devel/gettext-0.26" [label="portage://sys-devel/gettext-0.26", color=red, width=4,href="../sys-devel/gettext-0.26.svg"];
+"sys-devel/gettext-0.25.1" [label="portage://sys-devel/gettext-0.25.1", color=red, width=4,href="../sys-devel/gettext-0.25.1.svg"];
+"sys-devel/gettext-0.23.2" [label="portage://sys-devel/gettext-0.23.2", color=red, width=4,href="../sys-devel/gettext-0.23.2.svg"];
+"sys-devel/gettext-0.23.1-r1" [label="portage://sys-devel/gettext-0.23.1-r1", color=red, width=4,href="../sys-devel/gettext-0.23.1-r1.svg"];
+"sys-devel/gettext-0.22.5-r2" [label="portage://sys-devel/gettext-0.22.5-r2", color=red, width=4,href="../sys-devel/gettext-0.22.5-r2.svg"];
+"sys-devel/gettext-0.21.1" [label="portage://sys-devel/gettext-0.21.1", color=red, width=4,href="../sys-devel/gettext-0.21.1.svg"];
+package_dependency18:e -> "sys-devel/gettext-0.26":w [style=dotted,weight="100"];
+package_dependency18:e -> "sys-devel/gettext-0.25.1":w [style=dotted,weight="100"];
+package_dependency18:e -> "sys-devel/gettext-0.23.2":w [style=dotted,weight="100"];
+package_dependency18:e -> "sys-devel/gettext-0.23.1-r1":w [style=dotted,weight="100"];
+package_dependency18:e -> "sys-devel/gettext-0.22.5-r2":w [style=dotted,weight="100"];
+package_dependency18:e -> "sys-devel/gettext-0.21.1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-kernel/linux-headers-6.17-r1" [label="portage://sys-kernel/linux-headers-6.17-r1", color=red, width=4,href="../sys-kernel/linux-headers-6.17-r1.svg"];
+"sys-kernel/linux-headers-6.16-r2" [label="portage://sys-kernel/linux-headers-6.16-r2", color=red, width=4,href="../sys-kernel/linux-headers-6.16-r2.svg"];
+"sys-kernel/linux-headers-6.16" [label="portage://sys-kernel/linux-headers-6.16", color=red, width=4,href="../sys-kernel/linux-headers-6.16.svg"];
+"sys-kernel/linux-headers-6.15" [label="portage://sys-kernel/linux-headers-6.15", color=red, width=4,href="../sys-kernel/linux-headers-6.15.svg"];
+"sys-kernel/linux-headers-6.14" [label="portage://sys-kernel/linux-headers-6.14", color=red, width=4,href="../sys-kernel/linux-headers-6.14.svg"];
+"sys-kernel/linux-headers-6.13" [label="portage://sys-kernel/linux-headers-6.13", color=red, width=4,href="../sys-kernel/linux-headers-6.13.svg"];
+"sys-kernel/linux-headers-6.12" [label="portage://sys-kernel/linux-headers-6.12", color=red, width=4,href="../sys-kernel/linux-headers-6.12.svg"];
+"sys-kernel/linux-headers-6.11" [label="portage://sys-kernel/linux-headers-6.11", color=red, width=4,href="../sys-kernel/linux-headers-6.11.svg"];
+"sys-kernel/linux-headers-6.10" [label="portage://sys-kernel/linux-headers-6.10", color=red, width=4,href="../sys-kernel/linux-headers-6.10.svg"];
+"sys-kernel/linux-headers-6.9" [label="portage://sys-kernel/linux-headers-6.9", color=red, width=4,href="../sys-kernel/linux-headers-6.9.svg"];
+"sys-kernel/linux-headers-6.8-r1" [label="portage://sys-kernel/linux-headers-6.8-r1", color=red, width=4,href="../sys-kernel/linux-headers-6.8-r1.svg"];
+"sys-kernel/linux-headers-6.6-r1" [label="portage://sys-kernel/linux-headers-6.6-r1", color=red, width=4,href="../sys-kernel/linux-headers-6.6-r1.svg"];
+"sys-kernel/linux-headers-6.1" [label="portage://sys-kernel/linux-headers-6.1", color=red, width=4,href="../sys-kernel/linux-headers-6.1.svg"];
+"sys-kernel/linux-headers-5.15-r3" [label="portage://sys-kernel/linux-headers-5.15-r3", color=red, width=4,href="../sys-kernel/linux-headers-5.15-r3.svg"];
+"sys-kernel/linux-headers-5.10-r2" [label="portage://sys-kernel/linux-headers-5.10-r2", color=red, width=4,href="../sys-kernel/linux-headers-5.10-r2.svg"];
+"sys-kernel/linux-headers-5.4-r2" [label="portage://sys-kernel/linux-headers-5.4-r2", color=red, width=4,href="../sys-kernel/linux-headers-5.4-r2.svg"];
+"sys-kernel/linux-headers-4.19-r1" [label="portage://sys-kernel/linux-headers-4.19-r1", color=red, width=4,href="../sys-kernel/linux-headers-4.19-r1.svg"];
+"sys-kernel/linux-headers-4.14-r2" [label="portage://sys-kernel/linux-headers-4.14-r2", color=red, width=4,href="../sys-kernel/linux-headers-4.14-r2.svg"];
+package_dependency19:e -> "sys-kernel/linux-headers-6.17-r1":w [style=dotted,weight="100"];
+package_dependency19:e -> "sys-kernel/linux-headers-6.16-r2":w [style=dotted,weight="100"];
+package_dependency19:e -> "sys-kernel/linux-headers-6.16":w [style=dotted,weight="100"];
+package_dependency19:e -> "sys-kernel/linux-headers-6.15":w [style=dotted,weight="100"];
+package_dependency19:e -> "sys-kernel/linux-headers-6.14":w [style=dotted,weight="100"];
+package_dependency19:e -> "sys-kernel/linux-headers-6.13":w [style=dotted,weight="100"];
+package_dependency19:e -> "sys-kernel/linux-headers-6.12":w [style=dotted,weight="100"];
+package_dependency19:e -> "sys-kernel/linux-headers-6.11":w [style=dotted,weight="100"];
+package_dependency19:e -> "sys-kernel/linux-headers-6.10":w [style=dotted,weight="100"];
+package_dependency19:e -> "sys-kernel/linux-headers-6.9":w [style=dotted,weight="100"];
+package_dependency19:e -> "sys-kernel/linux-headers-6.8-r1":w [style=dotted,weight="100"];
+package_dependency19:e -> "sys-kernel/linux-headers-6.6-r1":w [style=dotted,weight="100"];
+package_dependency19:e -> "sys-kernel/linux-headers-6.1":w [style=dotted,weight="100"];
+package_dependency19:e -> "sys-kernel/linux-headers-5.15-r3":w [style=dotted,weight="100"];
+package_dependency19:e -> "sys-kernel/linux-headers-5.10-r2":w [style=dotted,weight="100"];
+package_dependency19:e -> "sys-kernel/linux-headers-5.4-r2":w [style=dotted,weight="100"];
+package_dependency19:e -> "sys-kernel/linux-headers-4.19-r1":w [style=dotted,weight="100"];
+package_dependency19:e -> "sys-kernel/linux-headers-4.14-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"virtual/libcrypt-2-r1" [label="portage://virtual/libcrypt-2-r1", color=red, width=4,href="../virtual/libcrypt-2-r1.svg"];
+"virtual/libcrypt-2" [label="portage://virtual/libcrypt-2", color=red, width=4,href="../virtual/libcrypt-2.svg"];
+"virtual/libcrypt-1-r2" [label="portage://virtual/libcrypt-1-r2", color=red, width=4,href="../virtual/libcrypt-1-r2.svg"];
+package_dependency20:e -> "virtual/libcrypt-2-r1":w [style=dotted,weight="100"];
+package_dependency20:e -> "virtual/libcrypt-2":w [style=dotted,weight="100"];
+package_dependency20:e -> "virtual/libcrypt-1-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-libs/glibc-2.37-r10" [label="portage://sys-libs/glibc-2.37-r10", color=red, width=4,href="../sys-libs/glibc-2.37-r10.svg"];
+"sys-libs/glibc-2.36-r8" [label="portage://sys-libs/glibc-2.36-r8", color=red, width=4,href="../sys-libs/glibc-2.36-r8.svg"];
+"sys-libs/glibc-2.35-r11" [label="portage://sys-libs/glibc-2.35-r11", color=red, width=4,href="../sys-libs/glibc-2.35-r11.svg"];
+"sys-libs/glibc-2.34-r14" [label="portage://sys-libs/glibc-2.34-r14", color=red, width=4,href="../sys-libs/glibc-2.34-r14.svg"];
+"sys-libs/glibc-2.33-r14" [label="portage://sys-libs/glibc-2.33-r14", color=red, width=4,href="../sys-libs/glibc-2.33-r14.svg"];
+"sys-libs/glibc-2.32-r8" [label="portage://sys-libs/glibc-2.32-r8", color=red, width=4,href="../sys-libs/glibc-2.32-r8.svg"];
+"sys-libs/glibc-2.31-r7" [label="portage://sys-libs/glibc-2.31-r7", color=red, width=4,href="../sys-libs/glibc-2.31-r7.svg"];
+"sys-libs/glibc-2.19-r3" [label="portage://sys-libs/glibc-2.19-r3", color=red, width=4,href="../sys-libs/glibc-2.19-r3.svg"];
+weak_blocker1:e -> "sys-libs/glibc-2.37-r10":w [style=dotted,weight="100"];
+weak_blocker1:e -> "sys-libs/glibc-2.36-r8":w [style=dotted,weight="100"];
+weak_blocker1:e -> "sys-libs/glibc-2.35-r11":w [style=dotted,weight="100"];
+weak_blocker1:e -> "sys-libs/glibc-2.34-r14":w [style=dotted,weight="100"];
+weak_blocker1:e -> "sys-libs/glibc-2.33-r14":w [style=dotted,weight="100"];
+weak_blocker1:e -> "sys-libs/glibc-2.32-r8":w [style=dotted,weight="100"];
+weak_blocker1:e -> "sys-libs/glibc-2.31-r7":w [style=dotted,weight="100"];
+weak_blocker1:e -> "sys-libs/glibc-2.19-r3":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-apps/acl-2.3.2-r2" [label="portage://sys-apps/acl-2.3.2-r2", color=red, width=4,href="../sys-apps/acl-2.3.2-r2.svg"];
+"sys-apps/acl-2.3.2-r1" [label="portage://sys-apps/acl-2.3.2-r1", color=red, width=4,href="../sys-apps/acl-2.3.2-r1.svg"];
+package_dependency21:e -> "sys-apps/acl-2.3.2-r2":w [style=dotted,weight="100"];
+package_dependency21:e -> "sys-apps/acl-2.3.2-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-process/audit-4.0.2-r1" [label="portage://sys-process/audit-4.0.2-r1", color=red, width=4,href="../sys-process/audit-4.0.2-r1.svg"];
+"sys-process/audit-4.0.1-r1" [label="portage://sys-process/audit-4.0.1-r1", color=red, width=4,href="../sys-process/audit-4.0.1-r1.svg"];
+package_dependency22:e -> "sys-process/audit-4.0.2-r1":w [style=dotted,weight="100"];
+package_dependency22:e -> "sys-process/audit-4.0.1-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-libs/cracklib-2.10.3" [label="portage://sys-libs/cracklib-2.10.3", color=red, width=4,href="../sys-libs/cracklib-2.10.3.svg"];
+"sys-libs/cracklib-2.10.2" [label="portage://sys-libs/cracklib-2.10.2", color=red, width=4,href="../sys-libs/cracklib-2.10.2.svg"];
+package_dependency23:e -> "sys-libs/cracklib-2.10.3":w [style=dotted,weight="100"];
+package_dependency23:e -> "sys-libs/cracklib-2.10.2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"virtual/libintl-0-r2" [label="portage://virtual/libintl-0-r2", color=red, width=4,href="../virtual/libintl-0-r2.svg"];
+package_dependency24:e -> "virtual/libintl-0-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-auth/pambase-999999999" [label="portage://sys-auth/pambase-999999999", color=red, width=4,href="../sys-auth/pambase-999999999.svg"];
+"sys-auth/pambase-20251104-r1" [label="portage://sys-auth/pambase-20251104-r1", color=red, width=4,href="../sys-auth/pambase-20251104-r1.svg"];
+"sys-auth/pambase-20251104" [label="portage://sys-auth/pambase-20251104", color=red, width=4,href="../sys-auth/pambase-20251104.svg"];
+"sys-auth/pambase-20251013" [label="portage://sys-auth/pambase-20251013", color=red, width=4,href="../sys-auth/pambase-20251013.svg"];
+"sys-auth/pambase-20250906" [label="portage://sys-auth/pambase-20250906", color=red, width=4,href="../sys-auth/pambase-20250906.svg"];
+"sys-auth/pambase-20250826" [label="portage://sys-auth/pambase-20250826", color=red, width=4,href="../sys-auth/pambase-20250826.svg"];
+package_dependency25:e -> "sys-auth/pambase-999999999":w [style=dotted,weight="100"];
+package_dependency25:e -> "sys-auth/pambase-20251104-r1":w [style=dotted,weight="100"];
+package_dependency25:e -> "sys-auth/pambase-20251104":w [style=dotted,weight="100"];
+package_dependency25:e -> "sys-auth/pambase-20251013":w [style=dotted,weight="100"];
+package_dependency25:e -> "sys-auth/pambase-20250906":w [style=dotted,weight="100"];
+package_dependency25:e -> "sys-auth/pambase-20250826":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-libs/pam-1.7.1-r2" [label="portage://sys-libs/pam-1.7.1-r2", color=red, width=4,href="../sys-libs/pam-1.7.1-r2.svg"];
+"sys-libs/pam-1.7.1-r1" [label="portage://sys-libs/pam-1.7.1-r1", color=red, width=4,href="../sys-libs/pam-1.7.1-r1.svg"];
+"sys-libs/pam-1.7.0_p20241230-r3" [label="portage://sys-libs/pam-1.7.0_p20241230-r3", color=red, width=4,href="../sys-libs/pam-1.7.0_p20241230-r3.svg"];
+package_dependency26:e -> "sys-libs/pam-1.7.1-r2":w [style=dotted,weight="100"];
+package_dependency26:e -> "sys-libs/pam-1.7.1-r1":w [style=dotted,weight="100"];
+package_dependency26:e -> "sys-libs/pam-1.7.0_p20241230-r3":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-libs/libselinux-9999" [label="portage://sys-libs/libselinux-9999", color=red, width=4,href="../sys-libs/libselinux-9999.svg"];
+"sys-libs/libselinux-3.8.1-r2" [label="portage://sys-libs/libselinux-3.8.1-r2", color=red, width=4,href="../sys-libs/libselinux-3.8.1-r2.svg"];
+package_dependency27:e -> "sys-libs/libselinux-9999":w [style=dotted,weight="100"];
+package_dependency27:e -> "sys-libs/libselinux-3.8.1-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-libs/libsemanage-9999" [label="portage://sys-libs/libsemanage-9999", color=red, width=4,href="../sys-libs/libsemanage-9999.svg"];
+"sys-libs/libsemanage-3.8.1" [label="portage://sys-libs/libsemanage-3.8.1", color=red, width=4,href="../sys-libs/libsemanage-3.8.1.svg"];
+package_dependency28:e -> "sys-libs/libsemanage-9999":w [style=dotted,weight="100"];
+package_dependency28:e -> "sys-libs/libsemanage-3.8.1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-auth/skey-1.1.5-r14" [label="portage://sys-auth/skey-1.1.5-r14", color=red, width=4,href="../sys-auth/skey-1.1.5-r14.svg"];
+package_dependency29:e -> "sys-auth/skey-1.1.5-r14":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-apps/util-linux-9999" [label="portage://sys-apps/util-linux-9999", color=red, width=4,href="../sys-apps/util-linux-9999.svg"];
+"sys-apps/util-linux-2.41.3" [label="portage://sys-apps/util-linux-2.41.3", color=red, width=4,href="../sys-apps/util-linux-2.41.3.svg"];
+"sys-apps/util-linux-2.41.2" [label="portage://sys-apps/util-linux-2.41.2", color=red, width=4,href="../sys-apps/util-linux-2.41.2.svg"];
+"sys-apps/util-linux-2.41.1-r1" [label="portage://sys-apps/util-linux-2.41.1-r1", color=red, width=4,href="../sys-apps/util-linux-2.41.1-r1.svg"];
+"sys-apps/util-linux-2.40.4" [label="portage://sys-apps/util-linux-2.40.4", color=red, width=4,href="../sys-apps/util-linux-2.40.4.svg"];
+weak_blocker2:e -> "sys-apps/util-linux-9999":w [style=dotted,weight="100"];
+weak_blocker2:e -> "sys-apps/util-linux-2.41.3":w [style=dotted,weight="100"];
+weak_blocker2:e -> "sys-apps/util-linux-2.41.2":w [style=dotted,weight="100"];
+weak_blocker2:e -> "sys-apps/util-linux-2.41.1-r1":w [style=dotted,weight="100"];
+weak_blocker2:e -> "sys-apps/util-linux-2.40.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-apps/systemd-9999" [label="portage://sys-apps/systemd-9999", color=red, width=4,href="../sys-apps/systemd-9999.svg"];
+"sys-apps/systemd-259_rc3" [label="portage://sys-apps/systemd-259_rc3", color=red, width=4,href="../sys-apps/systemd-259_rc3.svg"];
+"sys-apps/systemd-259_rc2" [label="portage://sys-apps/systemd-259_rc2", color=red, width=4,href="../sys-apps/systemd-259_rc2.svg"];
+"sys-apps/systemd-258.3" [label="portage://sys-apps/systemd-258.3", color=red, width=4,href="../sys-apps/systemd-258.3.svg"];
+"sys-apps/systemd-258.2" [label="portage://sys-apps/systemd-258.2", color=red, width=4,href="../sys-apps/systemd-258.2.svg"];
+"sys-apps/systemd-257.10" [label="portage://sys-apps/systemd-257.10", color=red, width=4,href="../sys-apps/systemd-257.10.svg"];
+"sys-apps/systemd-257.9" [label="portage://sys-apps/systemd-257.9", color=red, width=4,href="../sys-apps/systemd-257.9.svg"];
+package_dependency30:e -> "sys-apps/systemd-9999":w [style=dotted,weight="100"];
+package_dependency30:e -> "sys-apps/systemd-259_rc3":w [style=dotted,weight="100"];
+package_dependency30:e -> "sys-apps/systemd-259_rc2":w [style=dotted,weight="100"];
+package_dependency30:e -> "sys-apps/systemd-258.3":w [style=dotted,weight="100"];
+package_dependency30:e -> "sys-apps/systemd-258.2":w [style=dotted,weight="100"];
+package_dependency30:e -> "sys-apps/systemd-257.10":w [style=dotted,weight="100"];
+package_dependency30:e -> "sys-apps/systemd-257.9":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-apps/attr-9999" [label="portage://sys-apps/attr-9999", color=red, width=4,href="../sys-apps/attr-9999.svg"];
+"sys-apps/attr-2.5.2-r1" [label="portage://sys-apps/attr-2.5.2-r1", color=red, width=4,href="../sys-apps/attr-2.5.2-r1.svg"];
+package_dependency31:e -> "sys-apps/attr-9999":w [style=dotted,weight="100"];
+package_dependency31:e -> "sys-apps/attr-2.5.2-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"acct-group/shadow-0" [label="portage://acct-group/shadow-0", color=red, width=4,href="../acct-group/shadow-0.svg"];
+package_dependency32:e -> "acct-group/shadow-0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"virtual/libcrypt-2-r1" [label="portage://virtual/libcrypt-2-r1", color=red, width=4,href="../virtual/libcrypt-2-r1.svg"];
+"virtual/libcrypt-2" [label="portage://virtual/libcrypt-2", color=red, width=4,href="../virtual/libcrypt-2.svg"];
+"virtual/libcrypt-1-r2" [label="portage://virtual/libcrypt-1-r2", color=red, width=4,href="../virtual/libcrypt-1-r2.svg"];
+package_dependency33:e -> "virtual/libcrypt-2-r1":w [style=dotted,weight="100"];
+package_dependency33:e -> "virtual/libcrypt-2":w [style=dotted,weight="100"];
+package_dependency33:e -> "virtual/libcrypt-1-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-libs/glibc-2.37-r10" [label="portage://sys-libs/glibc-2.37-r10", color=red, width=4,href="../sys-libs/glibc-2.37-r10.svg"];
+"sys-libs/glibc-2.36-r8" [label="portage://sys-libs/glibc-2.36-r8", color=red, width=4,href="../sys-libs/glibc-2.36-r8.svg"];
+"sys-libs/glibc-2.35-r11" [label="portage://sys-libs/glibc-2.35-r11", color=red, width=4,href="../sys-libs/glibc-2.35-r11.svg"];
+"sys-libs/glibc-2.34-r14" [label="portage://sys-libs/glibc-2.34-r14", color=red, width=4,href="../sys-libs/glibc-2.34-r14.svg"];
+"sys-libs/glibc-2.33-r14" [label="portage://sys-libs/glibc-2.33-r14", color=red, width=4,href="../sys-libs/glibc-2.33-r14.svg"];
+"sys-libs/glibc-2.32-r8" [label="portage://sys-libs/glibc-2.32-r8", color=red, width=4,href="../sys-libs/glibc-2.32-r8.svg"];
+"sys-libs/glibc-2.31-r7" [label="portage://sys-libs/glibc-2.31-r7", color=red, width=4,href="../sys-libs/glibc-2.31-r7.svg"];
+"sys-libs/glibc-2.19-r3" [label="portage://sys-libs/glibc-2.19-r3", color=red, width=4,href="../sys-libs/glibc-2.19-r3.svg"];
+weak_blocker3:e -> "sys-libs/glibc-2.37-r10":w [style=dotted,weight="100"];
+weak_blocker3:e -> "sys-libs/glibc-2.36-r8":w [style=dotted,weight="100"];
+weak_blocker3:e -> "sys-libs/glibc-2.35-r11":w [style=dotted,weight="100"];
+weak_blocker3:e -> "sys-libs/glibc-2.34-r14":w [style=dotted,weight="100"];
+weak_blocker3:e -> "sys-libs/glibc-2.33-r14":w [style=dotted,weight="100"];
+weak_blocker3:e -> "sys-libs/glibc-2.32-r8":w [style=dotted,weight="100"];
+weak_blocker3:e -> "sys-libs/glibc-2.31-r7":w [style=dotted,weight="100"];
+weak_blocker3:e -> "sys-libs/glibc-2.19-r3":w [style=dotted,weight="100"];
+}
+}
+}

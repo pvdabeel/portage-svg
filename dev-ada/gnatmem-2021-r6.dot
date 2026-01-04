@@ -1,0 +1,971 @@
+digraph prolog {
+
+newrank=true;
+concentrate=true;
+compound=true;
+
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+graph [labelloc=t, labeljust=l, fontcolor=blue, fontname=Helvetica, fontsize=10, label=<<TABLE BORDER='0' CELLBORDER='1' CELLSPACING='0' CELLPADDING='6'><TR><TD COLSPAN='3'><FONT COLOR='black'><B>navigation</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='7'><FONT COLOR='black'><B>dependency graph</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='4'><FONT COLOR='black'><B>version control</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='3'><FONT COLOR='black'><B>command line</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='1'><FONT COLOR='black'><B>legacy</B></FONT></TD></TR><TR><TD title="repository" href="../index.html">portage</TD><TD title="repository" href="./index.html">dev-ada</TD><TD title="repository" href="./gnatmem.html">gnatmem</TD><TD BORDER='0'></TD><TD title="portage://dev-ada/gnatmem-2021-r6" href="../dev-ada/gnatmem-2021-r6.svg"><u>detail</u></TD><TD title="portage://dev-ada/gnatmem-2021-r6" href="../dev-ada/gnatmem-2021-r6-bdepend.svg">bdepend</TD><TD title="portage://dev-ada/gnatmem-2021-r6" href="../dev-ada/gnatmem-2021-r6-cdepend.svg">cdepend</TD><TD title="portage://dev-ada/gnatmem-2021-r6" href="../dev-ada/gnatmem-2021-r6-depend.svg">depend</TD><TD title="portage://dev-ada/gnatmem-2021-r6" href="../dev-ada/gnatmem-2021-r6-idepend.svg">idepend</TD><TD title="portage://dev-ada/gnatmem-2021-r6" href="../dev-ada/gnatmem-2021-r6-rdepend.svg">rdepend</TD><TD title="portage://dev-ada/gnatmem-2021-r6" href="../dev-ada/gnatmem-2021-r6-pdepend.svg">pdepend</TD><TD BORDER='0'></TD><TD><FONT color="gray">&lt;&lt; newest</FONT></TD><TD><FONT color="gray">&lt; newer</FONT></TD><TD><FONT color="gray">older &gt;</FONT></TD><TD><FONT color="gray">oldest &gt;&gt;</FONT></TD><TD BORDER='0'></TD><TD title="portage://dev-ada/gnatmem-2021-r6" href="../dev-ada/gnatmem-2021-r6-merge.svg">--merge&nbsp;</TD><TD title="portage://dev-ada/gnatmem-2021-r6" href="../dev-ada/gnatmem-2021-r6-fetchonly.svg">--fetchonly&nbsp;</TD><TD title="portage://dev-ada/gnatmem-2021-r6" href="../dev-ada/gnatmem-2021-r6-info.svg">--info&nbsp;</TD><TD BORDER='0'></TD><TD title="portage://dev-ada/gnatmem-2021-r6" href="../dev-ada/gnatmem-2021-r6-emerge.svg">emerge</TD></TR></TABLE>>];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+fontcolor=gray;
+label=<<i>ebuild</i>>;
+labelloc=t;
+labeljust=c;
+id [label="portage://dev-ada/gnatmem-2021-r6", color=red, width=4, penwidth=2, fontname="Helvetica-Bold", href="../dev-ada/gnatmem-2021-r6.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+fontcolor=gray;
+label=<<i>dependencies</i>>;
+labelloc=t;
+labeljust=c
+subgraph cluster_install {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install</i>>;
+subgraph  {
+any_of_group1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD CELLPADDING="10">any_of_group</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-build</TD></TR><TR><TD>autoconf</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[2,72],,-r1,2.72-r1]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+any_of_group1:e -> package_dependency1:w [weight=20, style="dotted",arrowhead="oinv"];
+}
+id:e -> any_of_group1:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+any_of_group2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD CELLPADDING="10">any_of_group</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-build</TD></TR><TR><TD>automake</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[1,18],,,1.18]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+any_of_group2:e -> package_dependency2:w [weight=20, style="dotted",arrowhead="oinv"];
+subgraph  {
+package_dependency3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-build</TD></TR><TR><TD>automake</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[1,17],,-r1,1.17-r1]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+any_of_group2:e -> package_dependency3:w [weight=20, style="dotted",arrowhead="oinv"];
+}
+id:e -> any_of_group2:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>ada_target_gcc_12</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency4 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>sys-devel</TD></TR><TR><TD>gcc</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group1:e -> package_dependency4:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group1:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>ada_target_gcc_13</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency5 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>sys-devel</TD></TR><TR><TD>gcc</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group2:e -> package_dependency5:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group2:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>ada_target_gcc_14</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency6 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>sys-devel</TD></TR><TR><TD>gcc</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group3:e -> package_dependency6:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group3:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group4 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>ada_target_gcc_15</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency7 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>sys-devel</TD></TR><TR><TD>gcc</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group4:e -> package_dependency7:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group4:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+use_conditional_group5 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>ada_target_gcc_16</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency8 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>sys-devel</TD></TR><TR><TD>gcc</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group5:e -> package_dependency8:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group5:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency9 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>app-portage</TD></TR><TR><TD>elt-patches</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[20250306],,,20250306]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency9:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency10 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-ada</TD></TR><TR><TD>gprbuild</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency10:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency11 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-build</TD></TR><TR><TD>libtool</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[2,4,7],,-r3,2.4.7-r3]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency11:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency12 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>sys-devel</TD></TR><TR><TD>gnuconfig</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency12:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency13 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>binutils-libs</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency13:w [weight=20, style="solid",arrowhead="vee"];
+}
+subgraph cluster_install_and_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph  {
+use_conditional_group6 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>ada_target_gcc_12</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency14 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-devel</TD></TR><TR><TD>gcc</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group6:e -> package_dependency14:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group6:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group7 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>ada_target_gcc_13</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency15 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-devel</TD></TR><TR><TD>gcc</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group7:e -> package_dependency15:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group7:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group8 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>ada_target_gcc_14</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency16 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-devel</TD></TR><TR><TD>gcc</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group8:e -> package_dependency16:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group8:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group9 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>ada_target_gcc_15</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency17 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-devel</TD></TR><TR><TD>gcc</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group9:e -> package_dependency17:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group9:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group10 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>ada_target_gcc_16</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency18 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-devel</TD></TR><TR><TD>gcc</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group10:e -> package_dependency18:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group10:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency19 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-libs</TD></TR><TR><TD>binutils-libs</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency19:w [weight=20, style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+fontcolor=gray;
+label=<<i>candidates</i>>;
+labelloc=t;
+labeljust=c
+
+subgraph  {
+color=black;
+nodesep=1;
+"dev-build/autoconf-9999" [label="portage://dev-build/autoconf-9999", color=red, width=4,href="../dev-build/autoconf-9999.svg"];
+"dev-build/autoconf-2.72-r5" [label="portage://dev-build/autoconf-2.72-r5", color=red, width=4,href="../dev-build/autoconf-2.72-r5.svg"];
+"dev-build/autoconf-2.72-r4" [label="portage://dev-build/autoconf-2.72-r4", color=red, width=4,href="../dev-build/autoconf-2.72-r4.svg"];
+"dev-build/autoconf-2.72-r1" [label="portage://dev-build/autoconf-2.72-r1", color=red, width=4,href="../dev-build/autoconf-2.72-r1.svg"];
+package_dependency1:e -> "dev-build/autoconf-9999":w [style=dotted,weight="100"];
+package_dependency1:e -> "dev-build/autoconf-2.72-r5":w [style=dotted,weight="100"];
+package_dependency1:e -> "dev-build/autoconf-2.72-r4":w [style=dotted,weight="100"];
+package_dependency1:e -> "dev-build/autoconf-2.72-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-build/automake-9999" [label="portage://dev-build/automake-9999", color=red, width=4,href="../dev-build/automake-9999.svg"];
+"dev-build/automake-1.18.1" [label="portage://dev-build/automake-1.18.1", color=red, width=4,href="../dev-build/automake-1.18.1.svg"];
+package_dependency2:e -> "dev-build/automake-9999":w [style=dotted,weight="100"];
+package_dependency2:e -> "dev-build/automake-1.18.1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-build/automake-9999" [label="portage://dev-build/automake-9999", color=red, width=4,href="../dev-build/automake-9999.svg"];
+"dev-build/automake-1.18.1" [label="portage://dev-build/automake-1.18.1", color=red, width=4,href="../dev-build/automake-1.18.1.svg"];
+"dev-build/automake-1.17-r2" [label="portage://dev-build/automake-1.17-r2", color=red, width=4,href="../dev-build/automake-1.17-r2.svg"];
+package_dependency3:e -> "dev-build/automake-9999":w [style=dotted,weight="100"];
+package_dependency3:e -> "dev-build/automake-1.18.1":w [style=dotted,weight="100"];
+package_dependency3:e -> "dev-build/automake-1.17-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-devel/gcc-16.0.9999" [label="portage://sys-devel/gcc-16.0.9999", color=red, width=4,href="../sys-devel/gcc-16.0.9999.svg"];
+"sys-devel/gcc-16.0.0_p20251214" [label="portage://sys-devel/gcc-16.0.0_p20251214", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251214.svg"];
+"sys-devel/gcc-16.0.0_p20251207" [label="portage://sys-devel/gcc-16.0.0_p20251207", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251207.svg"];
+"sys-devel/gcc-16.0.0_p20251130" [label="portage://sys-devel/gcc-16.0.0_p20251130", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251130.svg"];
+"sys-devel/gcc-16.0.0_p20251123" [label="portage://sys-devel/gcc-16.0.0_p20251123", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251123.svg"];
+"sys-devel/gcc-15.3.9999" [label="portage://sys-devel/gcc-15.3.9999", color=red, width=4,href="../sys-devel/gcc-15.3.9999.svg"];
+"sys-devel/gcc-15.2.1_p20251213" [label="portage://sys-devel/gcc-15.2.1_p20251213", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251213.svg"];
+"sys-devel/gcc-15.2.1_p20251206" [label="portage://sys-devel/gcc-15.2.1_p20251206", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251206.svg"];
+"sys-devel/gcc-15.2.1_p20251129" [label="portage://sys-devel/gcc-15.2.1_p20251129", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251129.svg"];
+"sys-devel/gcc-15.2.1_p20251122" [label="portage://sys-devel/gcc-15.2.1_p20251122", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251122.svg"];
+"sys-devel/gcc-15.2.1_p20251115" [label="portage://sys-devel/gcc-15.2.1_p20251115", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251115.svg"];
+"sys-devel/gcc-15.2.1_p20251108-r1" [label="portage://sys-devel/gcc-15.2.1_p20251108-r1", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251108-r1.svg"];
+"sys-devel/gcc-14.4.9999" [label="portage://sys-devel/gcc-14.4.9999", color=red, width=4,href="../sys-devel/gcc-14.4.9999.svg"];
+"sys-devel/gcc-14.3.1_p20251212" [label="portage://sys-devel/gcc-14.3.1_p20251212", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20251212.svg"];
+"sys-devel/gcc-14.3.1_p20251205" [label="portage://sys-devel/gcc-14.3.1_p20251205", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20251205.svg"];
+"sys-devel/gcc-14.3.1_p20251017" [label="portage://sys-devel/gcc-14.3.1_p20251017", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20251017.svg"];
+"sys-devel/gcc-14.3.1_p20250801" [label="portage://sys-devel/gcc-14.3.1_p20250801", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20250801.svg"];
+"sys-devel/gcc-13.5.9999" [label="portage://sys-devel/gcc-13.5.9999", color=red, width=4,href="../sys-devel/gcc-13.5.9999.svg"];
+"sys-devel/gcc-13.4.1_p20251211" [label="portage://sys-devel/gcc-13.4.1_p20251211", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20251211.svg"];
+"sys-devel/gcc-13.4.1_p20251204" [label="portage://sys-devel/gcc-13.4.1_p20251204", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20251204.svg"];
+"sys-devel/gcc-13.4.1_p20251016" [label="portage://sys-devel/gcc-13.4.1_p20251016", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20251016.svg"];
+"sys-devel/gcc-13.4.1_p20250807" [label="portage://sys-devel/gcc-13.4.1_p20250807", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20250807.svg"];
+"sys-devel/gcc-13.2.0" [label="portage://sys-devel/gcc-13.2.0", color=red, width=4,href="../sys-devel/gcc-13.2.0.svg"];
+"sys-devel/gcc-12.5.0" [label="portage://sys-devel/gcc-12.5.0", color=red, width=4,href="../sys-devel/gcc-12.5.0.svg"];
+"sys-devel/gcc-11.5.0" [label="portage://sys-devel/gcc-11.5.0", color=red, width=4,href="../sys-devel/gcc-11.5.0.svg"];
+"sys-devel/gcc-10.5.0" [label="portage://sys-devel/gcc-10.5.0", color=red, width=4,href="../sys-devel/gcc-10.5.0.svg"];
+"sys-devel/gcc-9.5.0" [label="portage://sys-devel/gcc-9.5.0", color=red, width=4,href="../sys-devel/gcc-9.5.0.svg"];
+"sys-devel/gcc-8.5.0-r2" [label="portage://sys-devel/gcc-8.5.0-r2", color=red, width=4,href="../sys-devel/gcc-8.5.0-r2.svg"];
+package_dependency4:e -> "sys-devel/gcc-16.0.9999":w [style=dotted,weight="100"];
+package_dependency4:e -> "sys-devel/gcc-16.0.0_p20251214":w [style=dotted,weight="100"];
+package_dependency4:e -> "sys-devel/gcc-16.0.0_p20251207":w [style=dotted,weight="100"];
+package_dependency4:e -> "sys-devel/gcc-16.0.0_p20251130":w [style=dotted,weight="100"];
+package_dependency4:e -> "sys-devel/gcc-16.0.0_p20251123":w [style=dotted,weight="100"];
+package_dependency4:e -> "sys-devel/gcc-15.3.9999":w [style=dotted,weight="100"];
+package_dependency4:e -> "sys-devel/gcc-15.2.1_p20251213":w [style=dotted,weight="100"];
+package_dependency4:e -> "sys-devel/gcc-15.2.1_p20251206":w [style=dotted,weight="100"];
+package_dependency4:e -> "sys-devel/gcc-15.2.1_p20251129":w [style=dotted,weight="100"];
+package_dependency4:e -> "sys-devel/gcc-15.2.1_p20251122":w [style=dotted,weight="100"];
+package_dependency4:e -> "sys-devel/gcc-15.2.1_p20251115":w [style=dotted,weight="100"];
+package_dependency4:e -> "sys-devel/gcc-15.2.1_p20251108-r1":w [style=dotted,weight="100"];
+package_dependency4:e -> "sys-devel/gcc-14.4.9999":w [style=dotted,weight="100"];
+package_dependency4:e -> "sys-devel/gcc-14.3.1_p20251212":w [style=dotted,weight="100"];
+package_dependency4:e -> "sys-devel/gcc-14.3.1_p20251205":w [style=dotted,weight="100"];
+package_dependency4:e -> "sys-devel/gcc-14.3.1_p20251017":w [style=dotted,weight="100"];
+package_dependency4:e -> "sys-devel/gcc-14.3.1_p20250801":w [style=dotted,weight="100"];
+package_dependency4:e -> "sys-devel/gcc-13.5.9999":w [style=dotted,weight="100"];
+package_dependency4:e -> "sys-devel/gcc-13.4.1_p20251211":w [style=dotted,weight="100"];
+package_dependency4:e -> "sys-devel/gcc-13.4.1_p20251204":w [style=dotted,weight="100"];
+package_dependency4:e -> "sys-devel/gcc-13.4.1_p20251016":w [style=dotted,weight="100"];
+package_dependency4:e -> "sys-devel/gcc-13.4.1_p20250807":w [style=dotted,weight="100"];
+package_dependency4:e -> "sys-devel/gcc-13.2.0":w [style=dotted,weight="100"];
+package_dependency4:e -> "sys-devel/gcc-12.5.0":w [style=dotted,weight="100"];
+package_dependency4:e -> "sys-devel/gcc-11.5.0":w [style=dotted,weight="100"];
+package_dependency4:e -> "sys-devel/gcc-10.5.0":w [style=dotted,weight="100"];
+package_dependency4:e -> "sys-devel/gcc-9.5.0":w [style=dotted,weight="100"];
+package_dependency4:e -> "sys-devel/gcc-8.5.0-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-devel/gcc-16.0.9999" [label="portage://sys-devel/gcc-16.0.9999", color=red, width=4,href="../sys-devel/gcc-16.0.9999.svg"];
+"sys-devel/gcc-16.0.0_p20251214" [label="portage://sys-devel/gcc-16.0.0_p20251214", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251214.svg"];
+"sys-devel/gcc-16.0.0_p20251207" [label="portage://sys-devel/gcc-16.0.0_p20251207", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251207.svg"];
+"sys-devel/gcc-16.0.0_p20251130" [label="portage://sys-devel/gcc-16.0.0_p20251130", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251130.svg"];
+"sys-devel/gcc-16.0.0_p20251123" [label="portage://sys-devel/gcc-16.0.0_p20251123", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251123.svg"];
+"sys-devel/gcc-15.3.9999" [label="portage://sys-devel/gcc-15.3.9999", color=red, width=4,href="../sys-devel/gcc-15.3.9999.svg"];
+"sys-devel/gcc-15.2.1_p20251213" [label="portage://sys-devel/gcc-15.2.1_p20251213", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251213.svg"];
+"sys-devel/gcc-15.2.1_p20251206" [label="portage://sys-devel/gcc-15.2.1_p20251206", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251206.svg"];
+"sys-devel/gcc-15.2.1_p20251129" [label="portage://sys-devel/gcc-15.2.1_p20251129", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251129.svg"];
+"sys-devel/gcc-15.2.1_p20251122" [label="portage://sys-devel/gcc-15.2.1_p20251122", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251122.svg"];
+"sys-devel/gcc-15.2.1_p20251115" [label="portage://sys-devel/gcc-15.2.1_p20251115", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251115.svg"];
+"sys-devel/gcc-15.2.1_p20251108-r1" [label="portage://sys-devel/gcc-15.2.1_p20251108-r1", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251108-r1.svg"];
+"sys-devel/gcc-14.4.9999" [label="portage://sys-devel/gcc-14.4.9999", color=red, width=4,href="../sys-devel/gcc-14.4.9999.svg"];
+"sys-devel/gcc-14.3.1_p20251212" [label="portage://sys-devel/gcc-14.3.1_p20251212", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20251212.svg"];
+"sys-devel/gcc-14.3.1_p20251205" [label="portage://sys-devel/gcc-14.3.1_p20251205", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20251205.svg"];
+"sys-devel/gcc-14.3.1_p20251017" [label="portage://sys-devel/gcc-14.3.1_p20251017", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20251017.svg"];
+"sys-devel/gcc-14.3.1_p20250801" [label="portage://sys-devel/gcc-14.3.1_p20250801", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20250801.svg"];
+"sys-devel/gcc-13.5.9999" [label="portage://sys-devel/gcc-13.5.9999", color=red, width=4,href="../sys-devel/gcc-13.5.9999.svg"];
+"sys-devel/gcc-13.4.1_p20251211" [label="portage://sys-devel/gcc-13.4.1_p20251211", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20251211.svg"];
+"sys-devel/gcc-13.4.1_p20251204" [label="portage://sys-devel/gcc-13.4.1_p20251204", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20251204.svg"];
+"sys-devel/gcc-13.4.1_p20251016" [label="portage://sys-devel/gcc-13.4.1_p20251016", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20251016.svg"];
+"sys-devel/gcc-13.4.1_p20250807" [label="portage://sys-devel/gcc-13.4.1_p20250807", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20250807.svg"];
+"sys-devel/gcc-13.2.0" [label="portage://sys-devel/gcc-13.2.0", color=red, width=4,href="../sys-devel/gcc-13.2.0.svg"];
+"sys-devel/gcc-12.5.0" [label="portage://sys-devel/gcc-12.5.0", color=red, width=4,href="../sys-devel/gcc-12.5.0.svg"];
+"sys-devel/gcc-11.5.0" [label="portage://sys-devel/gcc-11.5.0", color=red, width=4,href="../sys-devel/gcc-11.5.0.svg"];
+"sys-devel/gcc-10.5.0" [label="portage://sys-devel/gcc-10.5.0", color=red, width=4,href="../sys-devel/gcc-10.5.0.svg"];
+"sys-devel/gcc-9.5.0" [label="portage://sys-devel/gcc-9.5.0", color=red, width=4,href="../sys-devel/gcc-9.5.0.svg"];
+"sys-devel/gcc-8.5.0-r2" [label="portage://sys-devel/gcc-8.5.0-r2", color=red, width=4,href="../sys-devel/gcc-8.5.0-r2.svg"];
+package_dependency5:e -> "sys-devel/gcc-16.0.9999":w [style=dotted,weight="100"];
+package_dependency5:e -> "sys-devel/gcc-16.0.0_p20251214":w [style=dotted,weight="100"];
+package_dependency5:e -> "sys-devel/gcc-16.0.0_p20251207":w [style=dotted,weight="100"];
+package_dependency5:e -> "sys-devel/gcc-16.0.0_p20251130":w [style=dotted,weight="100"];
+package_dependency5:e -> "sys-devel/gcc-16.0.0_p20251123":w [style=dotted,weight="100"];
+package_dependency5:e -> "sys-devel/gcc-15.3.9999":w [style=dotted,weight="100"];
+package_dependency5:e -> "sys-devel/gcc-15.2.1_p20251213":w [style=dotted,weight="100"];
+package_dependency5:e -> "sys-devel/gcc-15.2.1_p20251206":w [style=dotted,weight="100"];
+package_dependency5:e -> "sys-devel/gcc-15.2.1_p20251129":w [style=dotted,weight="100"];
+package_dependency5:e -> "sys-devel/gcc-15.2.1_p20251122":w [style=dotted,weight="100"];
+package_dependency5:e -> "sys-devel/gcc-15.2.1_p20251115":w [style=dotted,weight="100"];
+package_dependency5:e -> "sys-devel/gcc-15.2.1_p20251108-r1":w [style=dotted,weight="100"];
+package_dependency5:e -> "sys-devel/gcc-14.4.9999":w [style=dotted,weight="100"];
+package_dependency5:e -> "sys-devel/gcc-14.3.1_p20251212":w [style=dotted,weight="100"];
+package_dependency5:e -> "sys-devel/gcc-14.3.1_p20251205":w [style=dotted,weight="100"];
+package_dependency5:e -> "sys-devel/gcc-14.3.1_p20251017":w [style=dotted,weight="100"];
+package_dependency5:e -> "sys-devel/gcc-14.3.1_p20250801":w [style=dotted,weight="100"];
+package_dependency5:e -> "sys-devel/gcc-13.5.9999":w [style=dotted,weight="100"];
+package_dependency5:e -> "sys-devel/gcc-13.4.1_p20251211":w [style=dotted,weight="100"];
+package_dependency5:e -> "sys-devel/gcc-13.4.1_p20251204":w [style=dotted,weight="100"];
+package_dependency5:e -> "sys-devel/gcc-13.4.1_p20251016":w [style=dotted,weight="100"];
+package_dependency5:e -> "sys-devel/gcc-13.4.1_p20250807":w [style=dotted,weight="100"];
+package_dependency5:e -> "sys-devel/gcc-13.2.0":w [style=dotted,weight="100"];
+package_dependency5:e -> "sys-devel/gcc-12.5.0":w [style=dotted,weight="100"];
+package_dependency5:e -> "sys-devel/gcc-11.5.0":w [style=dotted,weight="100"];
+package_dependency5:e -> "sys-devel/gcc-10.5.0":w [style=dotted,weight="100"];
+package_dependency5:e -> "sys-devel/gcc-9.5.0":w [style=dotted,weight="100"];
+package_dependency5:e -> "sys-devel/gcc-8.5.0-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-devel/gcc-16.0.9999" [label="portage://sys-devel/gcc-16.0.9999", color=red, width=4,href="../sys-devel/gcc-16.0.9999.svg"];
+"sys-devel/gcc-16.0.0_p20251214" [label="portage://sys-devel/gcc-16.0.0_p20251214", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251214.svg"];
+"sys-devel/gcc-16.0.0_p20251207" [label="portage://sys-devel/gcc-16.0.0_p20251207", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251207.svg"];
+"sys-devel/gcc-16.0.0_p20251130" [label="portage://sys-devel/gcc-16.0.0_p20251130", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251130.svg"];
+"sys-devel/gcc-16.0.0_p20251123" [label="portage://sys-devel/gcc-16.0.0_p20251123", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251123.svg"];
+"sys-devel/gcc-15.3.9999" [label="portage://sys-devel/gcc-15.3.9999", color=red, width=4,href="../sys-devel/gcc-15.3.9999.svg"];
+"sys-devel/gcc-15.2.1_p20251213" [label="portage://sys-devel/gcc-15.2.1_p20251213", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251213.svg"];
+"sys-devel/gcc-15.2.1_p20251206" [label="portage://sys-devel/gcc-15.2.1_p20251206", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251206.svg"];
+"sys-devel/gcc-15.2.1_p20251129" [label="portage://sys-devel/gcc-15.2.1_p20251129", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251129.svg"];
+"sys-devel/gcc-15.2.1_p20251122" [label="portage://sys-devel/gcc-15.2.1_p20251122", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251122.svg"];
+"sys-devel/gcc-15.2.1_p20251115" [label="portage://sys-devel/gcc-15.2.1_p20251115", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251115.svg"];
+"sys-devel/gcc-15.2.1_p20251108-r1" [label="portage://sys-devel/gcc-15.2.1_p20251108-r1", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251108-r1.svg"];
+"sys-devel/gcc-14.4.9999" [label="portage://sys-devel/gcc-14.4.9999", color=red, width=4,href="../sys-devel/gcc-14.4.9999.svg"];
+"sys-devel/gcc-14.3.1_p20251212" [label="portage://sys-devel/gcc-14.3.1_p20251212", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20251212.svg"];
+"sys-devel/gcc-14.3.1_p20251205" [label="portage://sys-devel/gcc-14.3.1_p20251205", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20251205.svg"];
+"sys-devel/gcc-14.3.1_p20251017" [label="portage://sys-devel/gcc-14.3.1_p20251017", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20251017.svg"];
+"sys-devel/gcc-14.3.1_p20250801" [label="portage://sys-devel/gcc-14.3.1_p20250801", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20250801.svg"];
+"sys-devel/gcc-13.5.9999" [label="portage://sys-devel/gcc-13.5.9999", color=red, width=4,href="../sys-devel/gcc-13.5.9999.svg"];
+"sys-devel/gcc-13.4.1_p20251211" [label="portage://sys-devel/gcc-13.4.1_p20251211", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20251211.svg"];
+"sys-devel/gcc-13.4.1_p20251204" [label="portage://sys-devel/gcc-13.4.1_p20251204", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20251204.svg"];
+"sys-devel/gcc-13.4.1_p20251016" [label="portage://sys-devel/gcc-13.4.1_p20251016", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20251016.svg"];
+"sys-devel/gcc-13.4.1_p20250807" [label="portage://sys-devel/gcc-13.4.1_p20250807", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20250807.svg"];
+"sys-devel/gcc-13.2.0" [label="portage://sys-devel/gcc-13.2.0", color=red, width=4,href="../sys-devel/gcc-13.2.0.svg"];
+"sys-devel/gcc-12.5.0" [label="portage://sys-devel/gcc-12.5.0", color=red, width=4,href="../sys-devel/gcc-12.5.0.svg"];
+"sys-devel/gcc-11.5.0" [label="portage://sys-devel/gcc-11.5.0", color=red, width=4,href="../sys-devel/gcc-11.5.0.svg"];
+"sys-devel/gcc-10.5.0" [label="portage://sys-devel/gcc-10.5.0", color=red, width=4,href="../sys-devel/gcc-10.5.0.svg"];
+"sys-devel/gcc-9.5.0" [label="portage://sys-devel/gcc-9.5.0", color=red, width=4,href="../sys-devel/gcc-9.5.0.svg"];
+"sys-devel/gcc-8.5.0-r2" [label="portage://sys-devel/gcc-8.5.0-r2", color=red, width=4,href="../sys-devel/gcc-8.5.0-r2.svg"];
+package_dependency6:e -> "sys-devel/gcc-16.0.9999":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-devel/gcc-16.0.0_p20251214":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-devel/gcc-16.0.0_p20251207":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-devel/gcc-16.0.0_p20251130":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-devel/gcc-16.0.0_p20251123":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-devel/gcc-15.3.9999":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-devel/gcc-15.2.1_p20251213":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-devel/gcc-15.2.1_p20251206":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-devel/gcc-15.2.1_p20251129":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-devel/gcc-15.2.1_p20251122":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-devel/gcc-15.2.1_p20251115":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-devel/gcc-15.2.1_p20251108-r1":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-devel/gcc-14.4.9999":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-devel/gcc-14.3.1_p20251212":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-devel/gcc-14.3.1_p20251205":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-devel/gcc-14.3.1_p20251017":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-devel/gcc-14.3.1_p20250801":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-devel/gcc-13.5.9999":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-devel/gcc-13.4.1_p20251211":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-devel/gcc-13.4.1_p20251204":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-devel/gcc-13.4.1_p20251016":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-devel/gcc-13.4.1_p20250807":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-devel/gcc-13.2.0":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-devel/gcc-12.5.0":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-devel/gcc-11.5.0":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-devel/gcc-10.5.0":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-devel/gcc-9.5.0":w [style=dotted,weight="100"];
+package_dependency6:e -> "sys-devel/gcc-8.5.0-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-devel/gcc-16.0.9999" [label="portage://sys-devel/gcc-16.0.9999", color=red, width=4,href="../sys-devel/gcc-16.0.9999.svg"];
+"sys-devel/gcc-16.0.0_p20251214" [label="portage://sys-devel/gcc-16.0.0_p20251214", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251214.svg"];
+"sys-devel/gcc-16.0.0_p20251207" [label="portage://sys-devel/gcc-16.0.0_p20251207", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251207.svg"];
+"sys-devel/gcc-16.0.0_p20251130" [label="portage://sys-devel/gcc-16.0.0_p20251130", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251130.svg"];
+"sys-devel/gcc-16.0.0_p20251123" [label="portage://sys-devel/gcc-16.0.0_p20251123", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251123.svg"];
+"sys-devel/gcc-15.3.9999" [label="portage://sys-devel/gcc-15.3.9999", color=red, width=4,href="../sys-devel/gcc-15.3.9999.svg"];
+"sys-devel/gcc-15.2.1_p20251213" [label="portage://sys-devel/gcc-15.2.1_p20251213", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251213.svg"];
+"sys-devel/gcc-15.2.1_p20251206" [label="portage://sys-devel/gcc-15.2.1_p20251206", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251206.svg"];
+"sys-devel/gcc-15.2.1_p20251129" [label="portage://sys-devel/gcc-15.2.1_p20251129", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251129.svg"];
+"sys-devel/gcc-15.2.1_p20251122" [label="portage://sys-devel/gcc-15.2.1_p20251122", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251122.svg"];
+"sys-devel/gcc-15.2.1_p20251115" [label="portage://sys-devel/gcc-15.2.1_p20251115", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251115.svg"];
+"sys-devel/gcc-15.2.1_p20251108-r1" [label="portage://sys-devel/gcc-15.2.1_p20251108-r1", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251108-r1.svg"];
+"sys-devel/gcc-14.4.9999" [label="portage://sys-devel/gcc-14.4.9999", color=red, width=4,href="../sys-devel/gcc-14.4.9999.svg"];
+"sys-devel/gcc-14.3.1_p20251212" [label="portage://sys-devel/gcc-14.3.1_p20251212", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20251212.svg"];
+"sys-devel/gcc-14.3.1_p20251205" [label="portage://sys-devel/gcc-14.3.1_p20251205", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20251205.svg"];
+"sys-devel/gcc-14.3.1_p20251017" [label="portage://sys-devel/gcc-14.3.1_p20251017", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20251017.svg"];
+"sys-devel/gcc-14.3.1_p20250801" [label="portage://sys-devel/gcc-14.3.1_p20250801", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20250801.svg"];
+"sys-devel/gcc-13.5.9999" [label="portage://sys-devel/gcc-13.5.9999", color=red, width=4,href="../sys-devel/gcc-13.5.9999.svg"];
+"sys-devel/gcc-13.4.1_p20251211" [label="portage://sys-devel/gcc-13.4.1_p20251211", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20251211.svg"];
+"sys-devel/gcc-13.4.1_p20251204" [label="portage://sys-devel/gcc-13.4.1_p20251204", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20251204.svg"];
+"sys-devel/gcc-13.4.1_p20251016" [label="portage://sys-devel/gcc-13.4.1_p20251016", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20251016.svg"];
+"sys-devel/gcc-13.4.1_p20250807" [label="portage://sys-devel/gcc-13.4.1_p20250807", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20250807.svg"];
+"sys-devel/gcc-13.2.0" [label="portage://sys-devel/gcc-13.2.0", color=red, width=4,href="../sys-devel/gcc-13.2.0.svg"];
+"sys-devel/gcc-12.5.0" [label="portage://sys-devel/gcc-12.5.0", color=red, width=4,href="../sys-devel/gcc-12.5.0.svg"];
+"sys-devel/gcc-11.5.0" [label="portage://sys-devel/gcc-11.5.0", color=red, width=4,href="../sys-devel/gcc-11.5.0.svg"];
+"sys-devel/gcc-10.5.0" [label="portage://sys-devel/gcc-10.5.0", color=red, width=4,href="../sys-devel/gcc-10.5.0.svg"];
+"sys-devel/gcc-9.5.0" [label="portage://sys-devel/gcc-9.5.0", color=red, width=4,href="../sys-devel/gcc-9.5.0.svg"];
+"sys-devel/gcc-8.5.0-r2" [label="portage://sys-devel/gcc-8.5.0-r2", color=red, width=4,href="../sys-devel/gcc-8.5.0-r2.svg"];
+package_dependency7:e -> "sys-devel/gcc-16.0.9999":w [style=dotted,weight="100"];
+package_dependency7:e -> "sys-devel/gcc-16.0.0_p20251214":w [style=dotted,weight="100"];
+package_dependency7:e -> "sys-devel/gcc-16.0.0_p20251207":w [style=dotted,weight="100"];
+package_dependency7:e -> "sys-devel/gcc-16.0.0_p20251130":w [style=dotted,weight="100"];
+package_dependency7:e -> "sys-devel/gcc-16.0.0_p20251123":w [style=dotted,weight="100"];
+package_dependency7:e -> "sys-devel/gcc-15.3.9999":w [style=dotted,weight="100"];
+package_dependency7:e -> "sys-devel/gcc-15.2.1_p20251213":w [style=dotted,weight="100"];
+package_dependency7:e -> "sys-devel/gcc-15.2.1_p20251206":w [style=dotted,weight="100"];
+package_dependency7:e -> "sys-devel/gcc-15.2.1_p20251129":w [style=dotted,weight="100"];
+package_dependency7:e -> "sys-devel/gcc-15.2.1_p20251122":w [style=dotted,weight="100"];
+package_dependency7:e -> "sys-devel/gcc-15.2.1_p20251115":w [style=dotted,weight="100"];
+package_dependency7:e -> "sys-devel/gcc-15.2.1_p20251108-r1":w [style=dotted,weight="100"];
+package_dependency7:e -> "sys-devel/gcc-14.4.9999":w [style=dotted,weight="100"];
+package_dependency7:e -> "sys-devel/gcc-14.3.1_p20251212":w [style=dotted,weight="100"];
+package_dependency7:e -> "sys-devel/gcc-14.3.1_p20251205":w [style=dotted,weight="100"];
+package_dependency7:e -> "sys-devel/gcc-14.3.1_p20251017":w [style=dotted,weight="100"];
+package_dependency7:e -> "sys-devel/gcc-14.3.1_p20250801":w [style=dotted,weight="100"];
+package_dependency7:e -> "sys-devel/gcc-13.5.9999":w [style=dotted,weight="100"];
+package_dependency7:e -> "sys-devel/gcc-13.4.1_p20251211":w [style=dotted,weight="100"];
+package_dependency7:e -> "sys-devel/gcc-13.4.1_p20251204":w [style=dotted,weight="100"];
+package_dependency7:e -> "sys-devel/gcc-13.4.1_p20251016":w [style=dotted,weight="100"];
+package_dependency7:e -> "sys-devel/gcc-13.4.1_p20250807":w [style=dotted,weight="100"];
+package_dependency7:e -> "sys-devel/gcc-13.2.0":w [style=dotted,weight="100"];
+package_dependency7:e -> "sys-devel/gcc-12.5.0":w [style=dotted,weight="100"];
+package_dependency7:e -> "sys-devel/gcc-11.5.0":w [style=dotted,weight="100"];
+package_dependency7:e -> "sys-devel/gcc-10.5.0":w [style=dotted,weight="100"];
+package_dependency7:e -> "sys-devel/gcc-9.5.0":w [style=dotted,weight="100"];
+package_dependency7:e -> "sys-devel/gcc-8.5.0-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-devel/gcc-16.0.9999" [label="portage://sys-devel/gcc-16.0.9999", color=red, width=4,href="../sys-devel/gcc-16.0.9999.svg"];
+"sys-devel/gcc-16.0.0_p20251214" [label="portage://sys-devel/gcc-16.0.0_p20251214", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251214.svg"];
+"sys-devel/gcc-16.0.0_p20251207" [label="portage://sys-devel/gcc-16.0.0_p20251207", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251207.svg"];
+"sys-devel/gcc-16.0.0_p20251130" [label="portage://sys-devel/gcc-16.0.0_p20251130", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251130.svg"];
+"sys-devel/gcc-16.0.0_p20251123" [label="portage://sys-devel/gcc-16.0.0_p20251123", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251123.svg"];
+"sys-devel/gcc-15.3.9999" [label="portage://sys-devel/gcc-15.3.9999", color=red, width=4,href="../sys-devel/gcc-15.3.9999.svg"];
+"sys-devel/gcc-15.2.1_p20251213" [label="portage://sys-devel/gcc-15.2.1_p20251213", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251213.svg"];
+"sys-devel/gcc-15.2.1_p20251206" [label="portage://sys-devel/gcc-15.2.1_p20251206", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251206.svg"];
+"sys-devel/gcc-15.2.1_p20251129" [label="portage://sys-devel/gcc-15.2.1_p20251129", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251129.svg"];
+"sys-devel/gcc-15.2.1_p20251122" [label="portage://sys-devel/gcc-15.2.1_p20251122", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251122.svg"];
+"sys-devel/gcc-15.2.1_p20251115" [label="portage://sys-devel/gcc-15.2.1_p20251115", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251115.svg"];
+"sys-devel/gcc-15.2.1_p20251108-r1" [label="portage://sys-devel/gcc-15.2.1_p20251108-r1", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251108-r1.svg"];
+"sys-devel/gcc-14.4.9999" [label="portage://sys-devel/gcc-14.4.9999", color=red, width=4,href="../sys-devel/gcc-14.4.9999.svg"];
+"sys-devel/gcc-14.3.1_p20251212" [label="portage://sys-devel/gcc-14.3.1_p20251212", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20251212.svg"];
+"sys-devel/gcc-14.3.1_p20251205" [label="portage://sys-devel/gcc-14.3.1_p20251205", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20251205.svg"];
+"sys-devel/gcc-14.3.1_p20251017" [label="portage://sys-devel/gcc-14.3.1_p20251017", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20251017.svg"];
+"sys-devel/gcc-14.3.1_p20250801" [label="portage://sys-devel/gcc-14.3.1_p20250801", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20250801.svg"];
+"sys-devel/gcc-13.5.9999" [label="portage://sys-devel/gcc-13.5.9999", color=red, width=4,href="../sys-devel/gcc-13.5.9999.svg"];
+"sys-devel/gcc-13.4.1_p20251211" [label="portage://sys-devel/gcc-13.4.1_p20251211", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20251211.svg"];
+"sys-devel/gcc-13.4.1_p20251204" [label="portage://sys-devel/gcc-13.4.1_p20251204", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20251204.svg"];
+"sys-devel/gcc-13.4.1_p20251016" [label="portage://sys-devel/gcc-13.4.1_p20251016", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20251016.svg"];
+"sys-devel/gcc-13.4.1_p20250807" [label="portage://sys-devel/gcc-13.4.1_p20250807", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20250807.svg"];
+"sys-devel/gcc-13.2.0" [label="portage://sys-devel/gcc-13.2.0", color=red, width=4,href="../sys-devel/gcc-13.2.0.svg"];
+"sys-devel/gcc-12.5.0" [label="portage://sys-devel/gcc-12.5.0", color=red, width=4,href="../sys-devel/gcc-12.5.0.svg"];
+"sys-devel/gcc-11.5.0" [label="portage://sys-devel/gcc-11.5.0", color=red, width=4,href="../sys-devel/gcc-11.5.0.svg"];
+"sys-devel/gcc-10.5.0" [label="portage://sys-devel/gcc-10.5.0", color=red, width=4,href="../sys-devel/gcc-10.5.0.svg"];
+"sys-devel/gcc-9.5.0" [label="portage://sys-devel/gcc-9.5.0", color=red, width=4,href="../sys-devel/gcc-9.5.0.svg"];
+"sys-devel/gcc-8.5.0-r2" [label="portage://sys-devel/gcc-8.5.0-r2", color=red, width=4,href="../sys-devel/gcc-8.5.0-r2.svg"];
+package_dependency8:e -> "sys-devel/gcc-16.0.9999":w [style=dotted,weight="100"];
+package_dependency8:e -> "sys-devel/gcc-16.0.0_p20251214":w [style=dotted,weight="100"];
+package_dependency8:e -> "sys-devel/gcc-16.0.0_p20251207":w [style=dotted,weight="100"];
+package_dependency8:e -> "sys-devel/gcc-16.0.0_p20251130":w [style=dotted,weight="100"];
+package_dependency8:e -> "sys-devel/gcc-16.0.0_p20251123":w [style=dotted,weight="100"];
+package_dependency8:e -> "sys-devel/gcc-15.3.9999":w [style=dotted,weight="100"];
+package_dependency8:e -> "sys-devel/gcc-15.2.1_p20251213":w [style=dotted,weight="100"];
+package_dependency8:e -> "sys-devel/gcc-15.2.1_p20251206":w [style=dotted,weight="100"];
+package_dependency8:e -> "sys-devel/gcc-15.2.1_p20251129":w [style=dotted,weight="100"];
+package_dependency8:e -> "sys-devel/gcc-15.2.1_p20251122":w [style=dotted,weight="100"];
+package_dependency8:e -> "sys-devel/gcc-15.2.1_p20251115":w [style=dotted,weight="100"];
+package_dependency8:e -> "sys-devel/gcc-15.2.1_p20251108-r1":w [style=dotted,weight="100"];
+package_dependency8:e -> "sys-devel/gcc-14.4.9999":w [style=dotted,weight="100"];
+package_dependency8:e -> "sys-devel/gcc-14.3.1_p20251212":w [style=dotted,weight="100"];
+package_dependency8:e -> "sys-devel/gcc-14.3.1_p20251205":w [style=dotted,weight="100"];
+package_dependency8:e -> "sys-devel/gcc-14.3.1_p20251017":w [style=dotted,weight="100"];
+package_dependency8:e -> "sys-devel/gcc-14.3.1_p20250801":w [style=dotted,weight="100"];
+package_dependency8:e -> "sys-devel/gcc-13.5.9999":w [style=dotted,weight="100"];
+package_dependency8:e -> "sys-devel/gcc-13.4.1_p20251211":w [style=dotted,weight="100"];
+package_dependency8:e -> "sys-devel/gcc-13.4.1_p20251204":w [style=dotted,weight="100"];
+package_dependency8:e -> "sys-devel/gcc-13.4.1_p20251016":w [style=dotted,weight="100"];
+package_dependency8:e -> "sys-devel/gcc-13.4.1_p20250807":w [style=dotted,weight="100"];
+package_dependency8:e -> "sys-devel/gcc-13.2.0":w [style=dotted,weight="100"];
+package_dependency8:e -> "sys-devel/gcc-12.5.0":w [style=dotted,weight="100"];
+package_dependency8:e -> "sys-devel/gcc-11.5.0":w [style=dotted,weight="100"];
+package_dependency8:e -> "sys-devel/gcc-10.5.0":w [style=dotted,weight="100"];
+package_dependency8:e -> "sys-devel/gcc-9.5.0":w [style=dotted,weight="100"];
+package_dependency8:e -> "sys-devel/gcc-8.5.0-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-portage/elt-patches-99999999" [label="portage://app-portage/elt-patches-99999999", color=red, width=4,href="../app-portage/elt-patches-99999999.svg"];
+"app-portage/elt-patches-20250718" [label="portage://app-portage/elt-patches-20250718", color=red, width=4,href="../app-portage/elt-patches-20250718.svg"];
+"app-portage/elt-patches-20250306" [label="portage://app-portage/elt-patches-20250306", color=red, width=4,href="../app-portage/elt-patches-20250306.svg"];
+package_dependency9:e -> "app-portage/elt-patches-99999999":w [style=dotted,weight="100"];
+package_dependency9:e -> "app-portage/elt-patches-20250718":w [style=dotted,weight="100"];
+package_dependency9:e -> "app-portage/elt-patches-20250306":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-ada/gprbuild-26.0.0" [label="portage://dev-ada/gprbuild-26.0.0", color=red, width=4,href="../dev-ada/gprbuild-26.0.0.svg"];
+"dev-ada/gprbuild-25.0.0-r5" [label="portage://dev-ada/gprbuild-25.0.0-r5", color=red, width=4,href="../dev-ada/gprbuild-25.0.0-r5.svg"];
+package_dependency10:e -> "dev-ada/gprbuild-26.0.0":w [style=dotted,weight="100"];
+package_dependency10:e -> "dev-ada/gprbuild-25.0.0-r5":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-build/libtool-9999" [label="portage://dev-build/libtool-9999", color=red, width=4,href="../dev-build/libtool-9999.svg"];
+"dev-build/libtool-2.6.0" [label="portage://dev-build/libtool-2.6.0", color=red, width=4,href="../dev-build/libtool-2.6.0.svg"];
+"dev-build/libtool-2.5.4" [label="portage://dev-build/libtool-2.5.4", color=red, width=4,href="../dev-build/libtool-2.5.4.svg"];
+package_dependency11:e -> "dev-build/libtool-9999":w [style=dotted,weight="100"];
+package_dependency11:e -> "dev-build/libtool-2.6.0":w [style=dotted,weight="100"];
+package_dependency11:e -> "dev-build/libtool-2.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-devel/gnuconfig-99999999" [label="portage://sys-devel/gnuconfig-99999999", color=red, width=4,href="../sys-devel/gnuconfig-99999999.svg"];
+"sys-devel/gnuconfig-20250710" [label="portage://sys-devel/gnuconfig-20250710", color=red, width=4,href="../sys-devel/gnuconfig-20250710.svg"];
+"sys-devel/gnuconfig-20240728" [label="portage://sys-devel/gnuconfig-20240728", color=red, width=4,href="../sys-devel/gnuconfig-20240728.svg"];
+package_dependency12:e -> "sys-devel/gnuconfig-99999999":w [style=dotted,weight="100"];
+package_dependency12:e -> "sys-devel/gnuconfig-20250710":w [style=dotted,weight="100"];
+package_dependency12:e -> "sys-devel/gnuconfig-20240728":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-libs/binutils-libs-9999" [label="portage://sys-libs/binutils-libs-9999", color=red, width=4,href="../sys-libs/binutils-libs-9999.svg"];
+"sys-libs/binutils-libs-2.45.1" [label="portage://sys-libs/binutils-libs-2.45.1", color=red, width=4,href="../sys-libs/binutils-libs-2.45.1.svg"];
+"sys-libs/binutils-libs-2.45-r1" [label="portage://sys-libs/binutils-libs-2.45-r1", color=red, width=4,href="../sys-libs/binutils-libs-2.45-r1.svg"];
+"sys-libs/binutils-libs-2.45" [label="portage://sys-libs/binutils-libs-2.45", color=red, width=4,href="../sys-libs/binutils-libs-2.45.svg"];
+"sys-libs/binutils-libs-2.44-r2" [label="portage://sys-libs/binutils-libs-2.44-r2", color=red, width=4,href="../sys-libs/binutils-libs-2.44-r2.svg"];
+"sys-libs/binutils-libs-2.43-r3" [label="portage://sys-libs/binutils-libs-2.43-r3", color=red, width=4,href="../sys-libs/binutils-libs-2.43-r3.svg"];
+"sys-libs/binutils-libs-2.42-r2" [label="portage://sys-libs/binutils-libs-2.42-r2", color=red, width=4,href="../sys-libs/binutils-libs-2.42-r2.svg"];
+"sys-libs/binutils-libs-2.41-r5" [label="portage://sys-libs/binutils-libs-2.41-r5", color=red, width=4,href="../sys-libs/binutils-libs-2.41-r5.svg"];
+"sys-libs/binutils-libs-2.40-r7" [label="portage://sys-libs/binutils-libs-2.40-r7", color=red, width=4,href="../sys-libs/binutils-libs-2.40-r7.svg"];
+"sys-libs/binutils-libs-2.39-r5" [label="portage://sys-libs/binutils-libs-2.39-r5", color=red, width=4,href="../sys-libs/binutils-libs-2.39-r5.svg"];
+"sys-libs/binutils-libs-2.38-r2" [label="portage://sys-libs/binutils-libs-2.38-r2", color=red, width=4,href="../sys-libs/binutils-libs-2.38-r2.svg"];
+"sys-libs/binutils-libs-2.37_p1-r2" [label="portage://sys-libs/binutils-libs-2.37_p1-r2", color=red, width=4,href="../sys-libs/binutils-libs-2.37_p1-r2.svg"];
+"sys-libs/binutils-libs-2.36.1-r2" [label="portage://sys-libs/binutils-libs-2.36.1-r2", color=red, width=4,href="../sys-libs/binutils-libs-2.36.1-r2.svg"];
+"sys-libs/binutils-libs-2.35.2" [label="portage://sys-libs/binutils-libs-2.35.2", color=red, width=4,href="../sys-libs/binutils-libs-2.35.2.svg"];
+"sys-libs/binutils-libs-2.34-r2" [label="portage://sys-libs/binutils-libs-2.34-r2", color=red, width=4,href="../sys-libs/binutils-libs-2.34-r2.svg"];
+package_dependency13:e -> "sys-libs/binutils-libs-9999":w [style=dotted,weight="100"];
+package_dependency13:e -> "sys-libs/binutils-libs-2.45.1":w [style=dotted,weight="100"];
+package_dependency13:e -> "sys-libs/binutils-libs-2.45-r1":w [style=dotted,weight="100"];
+package_dependency13:e -> "sys-libs/binutils-libs-2.45":w [style=dotted,weight="100"];
+package_dependency13:e -> "sys-libs/binutils-libs-2.44-r2":w [style=dotted,weight="100"];
+package_dependency13:e -> "sys-libs/binutils-libs-2.43-r3":w [style=dotted,weight="100"];
+package_dependency13:e -> "sys-libs/binutils-libs-2.42-r2":w [style=dotted,weight="100"];
+package_dependency13:e -> "sys-libs/binutils-libs-2.41-r5":w [style=dotted,weight="100"];
+package_dependency13:e -> "sys-libs/binutils-libs-2.40-r7":w [style=dotted,weight="100"];
+package_dependency13:e -> "sys-libs/binutils-libs-2.39-r5":w [style=dotted,weight="100"];
+package_dependency13:e -> "sys-libs/binutils-libs-2.38-r2":w [style=dotted,weight="100"];
+package_dependency13:e -> "sys-libs/binutils-libs-2.37_p1-r2":w [style=dotted,weight="100"];
+package_dependency13:e -> "sys-libs/binutils-libs-2.36.1-r2":w [style=dotted,weight="100"];
+package_dependency13:e -> "sys-libs/binutils-libs-2.35.2":w [style=dotted,weight="100"];
+package_dependency13:e -> "sys-libs/binutils-libs-2.34-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-devel/gcc-16.0.9999" [label="portage://sys-devel/gcc-16.0.9999", color=red, width=4,href="../sys-devel/gcc-16.0.9999.svg"];
+"sys-devel/gcc-16.0.0_p20251214" [label="portage://sys-devel/gcc-16.0.0_p20251214", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251214.svg"];
+"sys-devel/gcc-16.0.0_p20251207" [label="portage://sys-devel/gcc-16.0.0_p20251207", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251207.svg"];
+"sys-devel/gcc-16.0.0_p20251130" [label="portage://sys-devel/gcc-16.0.0_p20251130", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251130.svg"];
+"sys-devel/gcc-16.0.0_p20251123" [label="portage://sys-devel/gcc-16.0.0_p20251123", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251123.svg"];
+"sys-devel/gcc-15.3.9999" [label="portage://sys-devel/gcc-15.3.9999", color=red, width=4,href="../sys-devel/gcc-15.3.9999.svg"];
+"sys-devel/gcc-15.2.1_p20251213" [label="portage://sys-devel/gcc-15.2.1_p20251213", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251213.svg"];
+"sys-devel/gcc-15.2.1_p20251206" [label="portage://sys-devel/gcc-15.2.1_p20251206", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251206.svg"];
+"sys-devel/gcc-15.2.1_p20251129" [label="portage://sys-devel/gcc-15.2.1_p20251129", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251129.svg"];
+"sys-devel/gcc-15.2.1_p20251122" [label="portage://sys-devel/gcc-15.2.1_p20251122", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251122.svg"];
+"sys-devel/gcc-15.2.1_p20251115" [label="portage://sys-devel/gcc-15.2.1_p20251115", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251115.svg"];
+"sys-devel/gcc-15.2.1_p20251108-r1" [label="portage://sys-devel/gcc-15.2.1_p20251108-r1", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251108-r1.svg"];
+"sys-devel/gcc-14.4.9999" [label="portage://sys-devel/gcc-14.4.9999", color=red, width=4,href="../sys-devel/gcc-14.4.9999.svg"];
+"sys-devel/gcc-14.3.1_p20251212" [label="portage://sys-devel/gcc-14.3.1_p20251212", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20251212.svg"];
+"sys-devel/gcc-14.3.1_p20251205" [label="portage://sys-devel/gcc-14.3.1_p20251205", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20251205.svg"];
+"sys-devel/gcc-14.3.1_p20251017" [label="portage://sys-devel/gcc-14.3.1_p20251017", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20251017.svg"];
+"sys-devel/gcc-14.3.1_p20250801" [label="portage://sys-devel/gcc-14.3.1_p20250801", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20250801.svg"];
+"sys-devel/gcc-13.5.9999" [label="portage://sys-devel/gcc-13.5.9999", color=red, width=4,href="../sys-devel/gcc-13.5.9999.svg"];
+"sys-devel/gcc-13.4.1_p20251211" [label="portage://sys-devel/gcc-13.4.1_p20251211", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20251211.svg"];
+"sys-devel/gcc-13.4.1_p20251204" [label="portage://sys-devel/gcc-13.4.1_p20251204", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20251204.svg"];
+"sys-devel/gcc-13.4.1_p20251016" [label="portage://sys-devel/gcc-13.4.1_p20251016", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20251016.svg"];
+"sys-devel/gcc-13.4.1_p20250807" [label="portage://sys-devel/gcc-13.4.1_p20250807", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20250807.svg"];
+"sys-devel/gcc-13.2.0" [label="portage://sys-devel/gcc-13.2.0", color=red, width=4,href="../sys-devel/gcc-13.2.0.svg"];
+"sys-devel/gcc-12.5.0" [label="portage://sys-devel/gcc-12.5.0", color=red, width=4,href="../sys-devel/gcc-12.5.0.svg"];
+"sys-devel/gcc-11.5.0" [label="portage://sys-devel/gcc-11.5.0", color=red, width=4,href="../sys-devel/gcc-11.5.0.svg"];
+"sys-devel/gcc-10.5.0" [label="portage://sys-devel/gcc-10.5.0", color=red, width=4,href="../sys-devel/gcc-10.5.0.svg"];
+"sys-devel/gcc-9.5.0" [label="portage://sys-devel/gcc-9.5.0", color=red, width=4,href="../sys-devel/gcc-9.5.0.svg"];
+"sys-devel/gcc-8.5.0-r2" [label="portage://sys-devel/gcc-8.5.0-r2", color=red, width=4,href="../sys-devel/gcc-8.5.0-r2.svg"];
+package_dependency14:e -> "sys-devel/gcc-16.0.9999":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-devel/gcc-16.0.0_p20251214":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-devel/gcc-16.0.0_p20251207":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-devel/gcc-16.0.0_p20251130":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-devel/gcc-16.0.0_p20251123":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-devel/gcc-15.3.9999":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-devel/gcc-15.2.1_p20251213":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-devel/gcc-15.2.1_p20251206":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-devel/gcc-15.2.1_p20251129":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-devel/gcc-15.2.1_p20251122":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-devel/gcc-15.2.1_p20251115":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-devel/gcc-15.2.1_p20251108-r1":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-devel/gcc-14.4.9999":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-devel/gcc-14.3.1_p20251212":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-devel/gcc-14.3.1_p20251205":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-devel/gcc-14.3.1_p20251017":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-devel/gcc-14.3.1_p20250801":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-devel/gcc-13.5.9999":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-devel/gcc-13.4.1_p20251211":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-devel/gcc-13.4.1_p20251204":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-devel/gcc-13.4.1_p20251016":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-devel/gcc-13.4.1_p20250807":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-devel/gcc-13.2.0":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-devel/gcc-12.5.0":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-devel/gcc-11.5.0":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-devel/gcc-10.5.0":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-devel/gcc-9.5.0":w [style=dotted,weight="100"];
+package_dependency14:e -> "sys-devel/gcc-8.5.0-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-devel/gcc-16.0.9999" [label="portage://sys-devel/gcc-16.0.9999", color=red, width=4,href="../sys-devel/gcc-16.0.9999.svg"];
+"sys-devel/gcc-16.0.0_p20251214" [label="portage://sys-devel/gcc-16.0.0_p20251214", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251214.svg"];
+"sys-devel/gcc-16.0.0_p20251207" [label="portage://sys-devel/gcc-16.0.0_p20251207", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251207.svg"];
+"sys-devel/gcc-16.0.0_p20251130" [label="portage://sys-devel/gcc-16.0.0_p20251130", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251130.svg"];
+"sys-devel/gcc-16.0.0_p20251123" [label="portage://sys-devel/gcc-16.0.0_p20251123", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251123.svg"];
+"sys-devel/gcc-15.3.9999" [label="portage://sys-devel/gcc-15.3.9999", color=red, width=4,href="../sys-devel/gcc-15.3.9999.svg"];
+"sys-devel/gcc-15.2.1_p20251213" [label="portage://sys-devel/gcc-15.2.1_p20251213", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251213.svg"];
+"sys-devel/gcc-15.2.1_p20251206" [label="portage://sys-devel/gcc-15.2.1_p20251206", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251206.svg"];
+"sys-devel/gcc-15.2.1_p20251129" [label="portage://sys-devel/gcc-15.2.1_p20251129", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251129.svg"];
+"sys-devel/gcc-15.2.1_p20251122" [label="portage://sys-devel/gcc-15.2.1_p20251122", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251122.svg"];
+"sys-devel/gcc-15.2.1_p20251115" [label="portage://sys-devel/gcc-15.2.1_p20251115", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251115.svg"];
+"sys-devel/gcc-15.2.1_p20251108-r1" [label="portage://sys-devel/gcc-15.2.1_p20251108-r1", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251108-r1.svg"];
+"sys-devel/gcc-14.4.9999" [label="portage://sys-devel/gcc-14.4.9999", color=red, width=4,href="../sys-devel/gcc-14.4.9999.svg"];
+"sys-devel/gcc-14.3.1_p20251212" [label="portage://sys-devel/gcc-14.3.1_p20251212", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20251212.svg"];
+"sys-devel/gcc-14.3.1_p20251205" [label="portage://sys-devel/gcc-14.3.1_p20251205", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20251205.svg"];
+"sys-devel/gcc-14.3.1_p20251017" [label="portage://sys-devel/gcc-14.3.1_p20251017", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20251017.svg"];
+"sys-devel/gcc-14.3.1_p20250801" [label="portage://sys-devel/gcc-14.3.1_p20250801", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20250801.svg"];
+"sys-devel/gcc-13.5.9999" [label="portage://sys-devel/gcc-13.5.9999", color=red, width=4,href="../sys-devel/gcc-13.5.9999.svg"];
+"sys-devel/gcc-13.4.1_p20251211" [label="portage://sys-devel/gcc-13.4.1_p20251211", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20251211.svg"];
+"sys-devel/gcc-13.4.1_p20251204" [label="portage://sys-devel/gcc-13.4.1_p20251204", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20251204.svg"];
+"sys-devel/gcc-13.4.1_p20251016" [label="portage://sys-devel/gcc-13.4.1_p20251016", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20251016.svg"];
+"sys-devel/gcc-13.4.1_p20250807" [label="portage://sys-devel/gcc-13.4.1_p20250807", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20250807.svg"];
+"sys-devel/gcc-13.2.0" [label="portage://sys-devel/gcc-13.2.0", color=red, width=4,href="../sys-devel/gcc-13.2.0.svg"];
+"sys-devel/gcc-12.5.0" [label="portage://sys-devel/gcc-12.5.0", color=red, width=4,href="../sys-devel/gcc-12.5.0.svg"];
+"sys-devel/gcc-11.5.0" [label="portage://sys-devel/gcc-11.5.0", color=red, width=4,href="../sys-devel/gcc-11.5.0.svg"];
+"sys-devel/gcc-10.5.0" [label="portage://sys-devel/gcc-10.5.0", color=red, width=4,href="../sys-devel/gcc-10.5.0.svg"];
+"sys-devel/gcc-9.5.0" [label="portage://sys-devel/gcc-9.5.0", color=red, width=4,href="../sys-devel/gcc-9.5.0.svg"];
+"sys-devel/gcc-8.5.0-r2" [label="portage://sys-devel/gcc-8.5.0-r2", color=red, width=4,href="../sys-devel/gcc-8.5.0-r2.svg"];
+package_dependency15:e -> "sys-devel/gcc-16.0.9999":w [style=dotted,weight="100"];
+package_dependency15:e -> "sys-devel/gcc-16.0.0_p20251214":w [style=dotted,weight="100"];
+package_dependency15:e -> "sys-devel/gcc-16.0.0_p20251207":w [style=dotted,weight="100"];
+package_dependency15:e -> "sys-devel/gcc-16.0.0_p20251130":w [style=dotted,weight="100"];
+package_dependency15:e -> "sys-devel/gcc-16.0.0_p20251123":w [style=dotted,weight="100"];
+package_dependency15:e -> "sys-devel/gcc-15.3.9999":w [style=dotted,weight="100"];
+package_dependency15:e -> "sys-devel/gcc-15.2.1_p20251213":w [style=dotted,weight="100"];
+package_dependency15:e -> "sys-devel/gcc-15.2.1_p20251206":w [style=dotted,weight="100"];
+package_dependency15:e -> "sys-devel/gcc-15.2.1_p20251129":w [style=dotted,weight="100"];
+package_dependency15:e -> "sys-devel/gcc-15.2.1_p20251122":w [style=dotted,weight="100"];
+package_dependency15:e -> "sys-devel/gcc-15.2.1_p20251115":w [style=dotted,weight="100"];
+package_dependency15:e -> "sys-devel/gcc-15.2.1_p20251108-r1":w [style=dotted,weight="100"];
+package_dependency15:e -> "sys-devel/gcc-14.4.9999":w [style=dotted,weight="100"];
+package_dependency15:e -> "sys-devel/gcc-14.3.1_p20251212":w [style=dotted,weight="100"];
+package_dependency15:e -> "sys-devel/gcc-14.3.1_p20251205":w [style=dotted,weight="100"];
+package_dependency15:e -> "sys-devel/gcc-14.3.1_p20251017":w [style=dotted,weight="100"];
+package_dependency15:e -> "sys-devel/gcc-14.3.1_p20250801":w [style=dotted,weight="100"];
+package_dependency15:e -> "sys-devel/gcc-13.5.9999":w [style=dotted,weight="100"];
+package_dependency15:e -> "sys-devel/gcc-13.4.1_p20251211":w [style=dotted,weight="100"];
+package_dependency15:e -> "sys-devel/gcc-13.4.1_p20251204":w [style=dotted,weight="100"];
+package_dependency15:e -> "sys-devel/gcc-13.4.1_p20251016":w [style=dotted,weight="100"];
+package_dependency15:e -> "sys-devel/gcc-13.4.1_p20250807":w [style=dotted,weight="100"];
+package_dependency15:e -> "sys-devel/gcc-13.2.0":w [style=dotted,weight="100"];
+package_dependency15:e -> "sys-devel/gcc-12.5.0":w [style=dotted,weight="100"];
+package_dependency15:e -> "sys-devel/gcc-11.5.0":w [style=dotted,weight="100"];
+package_dependency15:e -> "sys-devel/gcc-10.5.0":w [style=dotted,weight="100"];
+package_dependency15:e -> "sys-devel/gcc-9.5.0":w [style=dotted,weight="100"];
+package_dependency15:e -> "sys-devel/gcc-8.5.0-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-devel/gcc-16.0.9999" [label="portage://sys-devel/gcc-16.0.9999", color=red, width=4,href="../sys-devel/gcc-16.0.9999.svg"];
+"sys-devel/gcc-16.0.0_p20251214" [label="portage://sys-devel/gcc-16.0.0_p20251214", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251214.svg"];
+"sys-devel/gcc-16.0.0_p20251207" [label="portage://sys-devel/gcc-16.0.0_p20251207", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251207.svg"];
+"sys-devel/gcc-16.0.0_p20251130" [label="portage://sys-devel/gcc-16.0.0_p20251130", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251130.svg"];
+"sys-devel/gcc-16.0.0_p20251123" [label="portage://sys-devel/gcc-16.0.0_p20251123", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251123.svg"];
+"sys-devel/gcc-15.3.9999" [label="portage://sys-devel/gcc-15.3.9999", color=red, width=4,href="../sys-devel/gcc-15.3.9999.svg"];
+"sys-devel/gcc-15.2.1_p20251213" [label="portage://sys-devel/gcc-15.2.1_p20251213", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251213.svg"];
+"sys-devel/gcc-15.2.1_p20251206" [label="portage://sys-devel/gcc-15.2.1_p20251206", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251206.svg"];
+"sys-devel/gcc-15.2.1_p20251129" [label="portage://sys-devel/gcc-15.2.1_p20251129", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251129.svg"];
+"sys-devel/gcc-15.2.1_p20251122" [label="portage://sys-devel/gcc-15.2.1_p20251122", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251122.svg"];
+"sys-devel/gcc-15.2.1_p20251115" [label="portage://sys-devel/gcc-15.2.1_p20251115", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251115.svg"];
+"sys-devel/gcc-15.2.1_p20251108-r1" [label="portage://sys-devel/gcc-15.2.1_p20251108-r1", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251108-r1.svg"];
+"sys-devel/gcc-14.4.9999" [label="portage://sys-devel/gcc-14.4.9999", color=red, width=4,href="../sys-devel/gcc-14.4.9999.svg"];
+"sys-devel/gcc-14.3.1_p20251212" [label="portage://sys-devel/gcc-14.3.1_p20251212", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20251212.svg"];
+"sys-devel/gcc-14.3.1_p20251205" [label="portage://sys-devel/gcc-14.3.1_p20251205", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20251205.svg"];
+"sys-devel/gcc-14.3.1_p20251017" [label="portage://sys-devel/gcc-14.3.1_p20251017", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20251017.svg"];
+"sys-devel/gcc-14.3.1_p20250801" [label="portage://sys-devel/gcc-14.3.1_p20250801", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20250801.svg"];
+"sys-devel/gcc-13.5.9999" [label="portage://sys-devel/gcc-13.5.9999", color=red, width=4,href="../sys-devel/gcc-13.5.9999.svg"];
+"sys-devel/gcc-13.4.1_p20251211" [label="portage://sys-devel/gcc-13.4.1_p20251211", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20251211.svg"];
+"sys-devel/gcc-13.4.1_p20251204" [label="portage://sys-devel/gcc-13.4.1_p20251204", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20251204.svg"];
+"sys-devel/gcc-13.4.1_p20251016" [label="portage://sys-devel/gcc-13.4.1_p20251016", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20251016.svg"];
+"sys-devel/gcc-13.4.1_p20250807" [label="portage://sys-devel/gcc-13.4.1_p20250807", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20250807.svg"];
+"sys-devel/gcc-13.2.0" [label="portage://sys-devel/gcc-13.2.0", color=red, width=4,href="../sys-devel/gcc-13.2.0.svg"];
+"sys-devel/gcc-12.5.0" [label="portage://sys-devel/gcc-12.5.0", color=red, width=4,href="../sys-devel/gcc-12.5.0.svg"];
+"sys-devel/gcc-11.5.0" [label="portage://sys-devel/gcc-11.5.0", color=red, width=4,href="../sys-devel/gcc-11.5.0.svg"];
+"sys-devel/gcc-10.5.0" [label="portage://sys-devel/gcc-10.5.0", color=red, width=4,href="../sys-devel/gcc-10.5.0.svg"];
+"sys-devel/gcc-9.5.0" [label="portage://sys-devel/gcc-9.5.0", color=red, width=4,href="../sys-devel/gcc-9.5.0.svg"];
+"sys-devel/gcc-8.5.0-r2" [label="portage://sys-devel/gcc-8.5.0-r2", color=red, width=4,href="../sys-devel/gcc-8.5.0-r2.svg"];
+package_dependency16:e -> "sys-devel/gcc-16.0.9999":w [style=dotted,weight="100"];
+package_dependency16:e -> "sys-devel/gcc-16.0.0_p20251214":w [style=dotted,weight="100"];
+package_dependency16:e -> "sys-devel/gcc-16.0.0_p20251207":w [style=dotted,weight="100"];
+package_dependency16:e -> "sys-devel/gcc-16.0.0_p20251130":w [style=dotted,weight="100"];
+package_dependency16:e -> "sys-devel/gcc-16.0.0_p20251123":w [style=dotted,weight="100"];
+package_dependency16:e -> "sys-devel/gcc-15.3.9999":w [style=dotted,weight="100"];
+package_dependency16:e -> "sys-devel/gcc-15.2.1_p20251213":w [style=dotted,weight="100"];
+package_dependency16:e -> "sys-devel/gcc-15.2.1_p20251206":w [style=dotted,weight="100"];
+package_dependency16:e -> "sys-devel/gcc-15.2.1_p20251129":w [style=dotted,weight="100"];
+package_dependency16:e -> "sys-devel/gcc-15.2.1_p20251122":w [style=dotted,weight="100"];
+package_dependency16:e -> "sys-devel/gcc-15.2.1_p20251115":w [style=dotted,weight="100"];
+package_dependency16:e -> "sys-devel/gcc-15.2.1_p20251108-r1":w [style=dotted,weight="100"];
+package_dependency16:e -> "sys-devel/gcc-14.4.9999":w [style=dotted,weight="100"];
+package_dependency16:e -> "sys-devel/gcc-14.3.1_p20251212":w [style=dotted,weight="100"];
+package_dependency16:e -> "sys-devel/gcc-14.3.1_p20251205":w [style=dotted,weight="100"];
+package_dependency16:e -> "sys-devel/gcc-14.3.1_p20251017":w [style=dotted,weight="100"];
+package_dependency16:e -> "sys-devel/gcc-14.3.1_p20250801":w [style=dotted,weight="100"];
+package_dependency16:e -> "sys-devel/gcc-13.5.9999":w [style=dotted,weight="100"];
+package_dependency16:e -> "sys-devel/gcc-13.4.1_p20251211":w [style=dotted,weight="100"];
+package_dependency16:e -> "sys-devel/gcc-13.4.1_p20251204":w [style=dotted,weight="100"];
+package_dependency16:e -> "sys-devel/gcc-13.4.1_p20251016":w [style=dotted,weight="100"];
+package_dependency16:e -> "sys-devel/gcc-13.4.1_p20250807":w [style=dotted,weight="100"];
+package_dependency16:e -> "sys-devel/gcc-13.2.0":w [style=dotted,weight="100"];
+package_dependency16:e -> "sys-devel/gcc-12.5.0":w [style=dotted,weight="100"];
+package_dependency16:e -> "sys-devel/gcc-11.5.0":w [style=dotted,weight="100"];
+package_dependency16:e -> "sys-devel/gcc-10.5.0":w [style=dotted,weight="100"];
+package_dependency16:e -> "sys-devel/gcc-9.5.0":w [style=dotted,weight="100"];
+package_dependency16:e -> "sys-devel/gcc-8.5.0-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-devel/gcc-16.0.9999" [label="portage://sys-devel/gcc-16.0.9999", color=red, width=4,href="../sys-devel/gcc-16.0.9999.svg"];
+"sys-devel/gcc-16.0.0_p20251214" [label="portage://sys-devel/gcc-16.0.0_p20251214", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251214.svg"];
+"sys-devel/gcc-16.0.0_p20251207" [label="portage://sys-devel/gcc-16.0.0_p20251207", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251207.svg"];
+"sys-devel/gcc-16.0.0_p20251130" [label="portage://sys-devel/gcc-16.0.0_p20251130", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251130.svg"];
+"sys-devel/gcc-16.0.0_p20251123" [label="portage://sys-devel/gcc-16.0.0_p20251123", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251123.svg"];
+"sys-devel/gcc-15.3.9999" [label="portage://sys-devel/gcc-15.3.9999", color=red, width=4,href="../sys-devel/gcc-15.3.9999.svg"];
+"sys-devel/gcc-15.2.1_p20251213" [label="portage://sys-devel/gcc-15.2.1_p20251213", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251213.svg"];
+"sys-devel/gcc-15.2.1_p20251206" [label="portage://sys-devel/gcc-15.2.1_p20251206", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251206.svg"];
+"sys-devel/gcc-15.2.1_p20251129" [label="portage://sys-devel/gcc-15.2.1_p20251129", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251129.svg"];
+"sys-devel/gcc-15.2.1_p20251122" [label="portage://sys-devel/gcc-15.2.1_p20251122", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251122.svg"];
+"sys-devel/gcc-15.2.1_p20251115" [label="portage://sys-devel/gcc-15.2.1_p20251115", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251115.svg"];
+"sys-devel/gcc-15.2.1_p20251108-r1" [label="portage://sys-devel/gcc-15.2.1_p20251108-r1", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251108-r1.svg"];
+"sys-devel/gcc-14.4.9999" [label="portage://sys-devel/gcc-14.4.9999", color=red, width=4,href="../sys-devel/gcc-14.4.9999.svg"];
+"sys-devel/gcc-14.3.1_p20251212" [label="portage://sys-devel/gcc-14.3.1_p20251212", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20251212.svg"];
+"sys-devel/gcc-14.3.1_p20251205" [label="portage://sys-devel/gcc-14.3.1_p20251205", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20251205.svg"];
+"sys-devel/gcc-14.3.1_p20251017" [label="portage://sys-devel/gcc-14.3.1_p20251017", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20251017.svg"];
+"sys-devel/gcc-14.3.1_p20250801" [label="portage://sys-devel/gcc-14.3.1_p20250801", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20250801.svg"];
+"sys-devel/gcc-13.5.9999" [label="portage://sys-devel/gcc-13.5.9999", color=red, width=4,href="../sys-devel/gcc-13.5.9999.svg"];
+"sys-devel/gcc-13.4.1_p20251211" [label="portage://sys-devel/gcc-13.4.1_p20251211", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20251211.svg"];
+"sys-devel/gcc-13.4.1_p20251204" [label="portage://sys-devel/gcc-13.4.1_p20251204", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20251204.svg"];
+"sys-devel/gcc-13.4.1_p20251016" [label="portage://sys-devel/gcc-13.4.1_p20251016", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20251016.svg"];
+"sys-devel/gcc-13.4.1_p20250807" [label="portage://sys-devel/gcc-13.4.1_p20250807", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20250807.svg"];
+"sys-devel/gcc-13.2.0" [label="portage://sys-devel/gcc-13.2.0", color=red, width=4,href="../sys-devel/gcc-13.2.0.svg"];
+"sys-devel/gcc-12.5.0" [label="portage://sys-devel/gcc-12.5.0", color=red, width=4,href="../sys-devel/gcc-12.5.0.svg"];
+"sys-devel/gcc-11.5.0" [label="portage://sys-devel/gcc-11.5.0", color=red, width=4,href="../sys-devel/gcc-11.5.0.svg"];
+"sys-devel/gcc-10.5.0" [label="portage://sys-devel/gcc-10.5.0", color=red, width=4,href="../sys-devel/gcc-10.5.0.svg"];
+"sys-devel/gcc-9.5.0" [label="portage://sys-devel/gcc-9.5.0", color=red, width=4,href="../sys-devel/gcc-9.5.0.svg"];
+"sys-devel/gcc-8.5.0-r2" [label="portage://sys-devel/gcc-8.5.0-r2", color=red, width=4,href="../sys-devel/gcc-8.5.0-r2.svg"];
+package_dependency17:e -> "sys-devel/gcc-16.0.9999":w [style=dotted,weight="100"];
+package_dependency17:e -> "sys-devel/gcc-16.0.0_p20251214":w [style=dotted,weight="100"];
+package_dependency17:e -> "sys-devel/gcc-16.0.0_p20251207":w [style=dotted,weight="100"];
+package_dependency17:e -> "sys-devel/gcc-16.0.0_p20251130":w [style=dotted,weight="100"];
+package_dependency17:e -> "sys-devel/gcc-16.0.0_p20251123":w [style=dotted,weight="100"];
+package_dependency17:e -> "sys-devel/gcc-15.3.9999":w [style=dotted,weight="100"];
+package_dependency17:e -> "sys-devel/gcc-15.2.1_p20251213":w [style=dotted,weight="100"];
+package_dependency17:e -> "sys-devel/gcc-15.2.1_p20251206":w [style=dotted,weight="100"];
+package_dependency17:e -> "sys-devel/gcc-15.2.1_p20251129":w [style=dotted,weight="100"];
+package_dependency17:e -> "sys-devel/gcc-15.2.1_p20251122":w [style=dotted,weight="100"];
+package_dependency17:e -> "sys-devel/gcc-15.2.1_p20251115":w [style=dotted,weight="100"];
+package_dependency17:e -> "sys-devel/gcc-15.2.1_p20251108-r1":w [style=dotted,weight="100"];
+package_dependency17:e -> "sys-devel/gcc-14.4.9999":w [style=dotted,weight="100"];
+package_dependency17:e -> "sys-devel/gcc-14.3.1_p20251212":w [style=dotted,weight="100"];
+package_dependency17:e -> "sys-devel/gcc-14.3.1_p20251205":w [style=dotted,weight="100"];
+package_dependency17:e -> "sys-devel/gcc-14.3.1_p20251017":w [style=dotted,weight="100"];
+package_dependency17:e -> "sys-devel/gcc-14.3.1_p20250801":w [style=dotted,weight="100"];
+package_dependency17:e -> "sys-devel/gcc-13.5.9999":w [style=dotted,weight="100"];
+package_dependency17:e -> "sys-devel/gcc-13.4.1_p20251211":w [style=dotted,weight="100"];
+package_dependency17:e -> "sys-devel/gcc-13.4.1_p20251204":w [style=dotted,weight="100"];
+package_dependency17:e -> "sys-devel/gcc-13.4.1_p20251016":w [style=dotted,weight="100"];
+package_dependency17:e -> "sys-devel/gcc-13.4.1_p20250807":w [style=dotted,weight="100"];
+package_dependency17:e -> "sys-devel/gcc-13.2.0":w [style=dotted,weight="100"];
+package_dependency17:e -> "sys-devel/gcc-12.5.0":w [style=dotted,weight="100"];
+package_dependency17:e -> "sys-devel/gcc-11.5.0":w [style=dotted,weight="100"];
+package_dependency17:e -> "sys-devel/gcc-10.5.0":w [style=dotted,weight="100"];
+package_dependency17:e -> "sys-devel/gcc-9.5.0":w [style=dotted,weight="100"];
+package_dependency17:e -> "sys-devel/gcc-8.5.0-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-devel/gcc-16.0.9999" [label="portage://sys-devel/gcc-16.0.9999", color=red, width=4,href="../sys-devel/gcc-16.0.9999.svg"];
+"sys-devel/gcc-16.0.0_p20251214" [label="portage://sys-devel/gcc-16.0.0_p20251214", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251214.svg"];
+"sys-devel/gcc-16.0.0_p20251207" [label="portage://sys-devel/gcc-16.0.0_p20251207", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251207.svg"];
+"sys-devel/gcc-16.0.0_p20251130" [label="portage://sys-devel/gcc-16.0.0_p20251130", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251130.svg"];
+"sys-devel/gcc-16.0.0_p20251123" [label="portage://sys-devel/gcc-16.0.0_p20251123", color=red, width=4,href="../sys-devel/gcc-16.0.0_p20251123.svg"];
+"sys-devel/gcc-15.3.9999" [label="portage://sys-devel/gcc-15.3.9999", color=red, width=4,href="../sys-devel/gcc-15.3.9999.svg"];
+"sys-devel/gcc-15.2.1_p20251213" [label="portage://sys-devel/gcc-15.2.1_p20251213", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251213.svg"];
+"sys-devel/gcc-15.2.1_p20251206" [label="portage://sys-devel/gcc-15.2.1_p20251206", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251206.svg"];
+"sys-devel/gcc-15.2.1_p20251129" [label="portage://sys-devel/gcc-15.2.1_p20251129", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251129.svg"];
+"sys-devel/gcc-15.2.1_p20251122" [label="portage://sys-devel/gcc-15.2.1_p20251122", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251122.svg"];
+"sys-devel/gcc-15.2.1_p20251115" [label="portage://sys-devel/gcc-15.2.1_p20251115", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251115.svg"];
+"sys-devel/gcc-15.2.1_p20251108-r1" [label="portage://sys-devel/gcc-15.2.1_p20251108-r1", color=red, width=4,href="../sys-devel/gcc-15.2.1_p20251108-r1.svg"];
+"sys-devel/gcc-14.4.9999" [label="portage://sys-devel/gcc-14.4.9999", color=red, width=4,href="../sys-devel/gcc-14.4.9999.svg"];
+"sys-devel/gcc-14.3.1_p20251212" [label="portage://sys-devel/gcc-14.3.1_p20251212", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20251212.svg"];
+"sys-devel/gcc-14.3.1_p20251205" [label="portage://sys-devel/gcc-14.3.1_p20251205", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20251205.svg"];
+"sys-devel/gcc-14.3.1_p20251017" [label="portage://sys-devel/gcc-14.3.1_p20251017", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20251017.svg"];
+"sys-devel/gcc-14.3.1_p20250801" [label="portage://sys-devel/gcc-14.3.1_p20250801", color=red, width=4,href="../sys-devel/gcc-14.3.1_p20250801.svg"];
+"sys-devel/gcc-13.5.9999" [label="portage://sys-devel/gcc-13.5.9999", color=red, width=4,href="../sys-devel/gcc-13.5.9999.svg"];
+"sys-devel/gcc-13.4.1_p20251211" [label="portage://sys-devel/gcc-13.4.1_p20251211", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20251211.svg"];
+"sys-devel/gcc-13.4.1_p20251204" [label="portage://sys-devel/gcc-13.4.1_p20251204", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20251204.svg"];
+"sys-devel/gcc-13.4.1_p20251016" [label="portage://sys-devel/gcc-13.4.1_p20251016", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20251016.svg"];
+"sys-devel/gcc-13.4.1_p20250807" [label="portage://sys-devel/gcc-13.4.1_p20250807", color=red, width=4,href="../sys-devel/gcc-13.4.1_p20250807.svg"];
+"sys-devel/gcc-13.2.0" [label="portage://sys-devel/gcc-13.2.0", color=red, width=4,href="../sys-devel/gcc-13.2.0.svg"];
+"sys-devel/gcc-12.5.0" [label="portage://sys-devel/gcc-12.5.0", color=red, width=4,href="../sys-devel/gcc-12.5.0.svg"];
+"sys-devel/gcc-11.5.0" [label="portage://sys-devel/gcc-11.5.0", color=red, width=4,href="../sys-devel/gcc-11.5.0.svg"];
+"sys-devel/gcc-10.5.0" [label="portage://sys-devel/gcc-10.5.0", color=red, width=4,href="../sys-devel/gcc-10.5.0.svg"];
+"sys-devel/gcc-9.5.0" [label="portage://sys-devel/gcc-9.5.0", color=red, width=4,href="../sys-devel/gcc-9.5.0.svg"];
+"sys-devel/gcc-8.5.0-r2" [label="portage://sys-devel/gcc-8.5.0-r2", color=red, width=4,href="../sys-devel/gcc-8.5.0-r2.svg"];
+package_dependency18:e -> "sys-devel/gcc-16.0.9999":w [style=dotted,weight="100"];
+package_dependency18:e -> "sys-devel/gcc-16.0.0_p20251214":w [style=dotted,weight="100"];
+package_dependency18:e -> "sys-devel/gcc-16.0.0_p20251207":w [style=dotted,weight="100"];
+package_dependency18:e -> "sys-devel/gcc-16.0.0_p20251130":w [style=dotted,weight="100"];
+package_dependency18:e -> "sys-devel/gcc-16.0.0_p20251123":w [style=dotted,weight="100"];
+package_dependency18:e -> "sys-devel/gcc-15.3.9999":w [style=dotted,weight="100"];
+package_dependency18:e -> "sys-devel/gcc-15.2.1_p20251213":w [style=dotted,weight="100"];
+package_dependency18:e -> "sys-devel/gcc-15.2.1_p20251206":w [style=dotted,weight="100"];
+package_dependency18:e -> "sys-devel/gcc-15.2.1_p20251129":w [style=dotted,weight="100"];
+package_dependency18:e -> "sys-devel/gcc-15.2.1_p20251122":w [style=dotted,weight="100"];
+package_dependency18:e -> "sys-devel/gcc-15.2.1_p20251115":w [style=dotted,weight="100"];
+package_dependency18:e -> "sys-devel/gcc-15.2.1_p20251108-r1":w [style=dotted,weight="100"];
+package_dependency18:e -> "sys-devel/gcc-14.4.9999":w [style=dotted,weight="100"];
+package_dependency18:e -> "sys-devel/gcc-14.3.1_p20251212":w [style=dotted,weight="100"];
+package_dependency18:e -> "sys-devel/gcc-14.3.1_p20251205":w [style=dotted,weight="100"];
+package_dependency18:e -> "sys-devel/gcc-14.3.1_p20251017":w [style=dotted,weight="100"];
+package_dependency18:e -> "sys-devel/gcc-14.3.1_p20250801":w [style=dotted,weight="100"];
+package_dependency18:e -> "sys-devel/gcc-13.5.9999":w [style=dotted,weight="100"];
+package_dependency18:e -> "sys-devel/gcc-13.4.1_p20251211":w [style=dotted,weight="100"];
+package_dependency18:e -> "sys-devel/gcc-13.4.1_p20251204":w [style=dotted,weight="100"];
+package_dependency18:e -> "sys-devel/gcc-13.4.1_p20251016":w [style=dotted,weight="100"];
+package_dependency18:e -> "sys-devel/gcc-13.4.1_p20250807":w [style=dotted,weight="100"];
+package_dependency18:e -> "sys-devel/gcc-13.2.0":w [style=dotted,weight="100"];
+package_dependency18:e -> "sys-devel/gcc-12.5.0":w [style=dotted,weight="100"];
+package_dependency18:e -> "sys-devel/gcc-11.5.0":w [style=dotted,weight="100"];
+package_dependency18:e -> "sys-devel/gcc-10.5.0":w [style=dotted,weight="100"];
+package_dependency18:e -> "sys-devel/gcc-9.5.0":w [style=dotted,weight="100"];
+package_dependency18:e -> "sys-devel/gcc-8.5.0-r2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-libs/binutils-libs-9999" [label="portage://sys-libs/binutils-libs-9999", color=red, width=4,href="../sys-libs/binutils-libs-9999.svg"];
+"sys-libs/binutils-libs-2.45.1" [label="portage://sys-libs/binutils-libs-2.45.1", color=red, width=4,href="../sys-libs/binutils-libs-2.45.1.svg"];
+"sys-libs/binutils-libs-2.45-r1" [label="portage://sys-libs/binutils-libs-2.45-r1", color=red, width=4,href="../sys-libs/binutils-libs-2.45-r1.svg"];
+"sys-libs/binutils-libs-2.45" [label="portage://sys-libs/binutils-libs-2.45", color=red, width=4,href="../sys-libs/binutils-libs-2.45.svg"];
+"sys-libs/binutils-libs-2.44-r2" [label="portage://sys-libs/binutils-libs-2.44-r2", color=red, width=4,href="../sys-libs/binutils-libs-2.44-r2.svg"];
+"sys-libs/binutils-libs-2.43-r3" [label="portage://sys-libs/binutils-libs-2.43-r3", color=red, width=4,href="../sys-libs/binutils-libs-2.43-r3.svg"];
+"sys-libs/binutils-libs-2.42-r2" [label="portage://sys-libs/binutils-libs-2.42-r2", color=red, width=4,href="../sys-libs/binutils-libs-2.42-r2.svg"];
+"sys-libs/binutils-libs-2.41-r5" [label="portage://sys-libs/binutils-libs-2.41-r5", color=red, width=4,href="../sys-libs/binutils-libs-2.41-r5.svg"];
+"sys-libs/binutils-libs-2.40-r7" [label="portage://sys-libs/binutils-libs-2.40-r7", color=red, width=4,href="../sys-libs/binutils-libs-2.40-r7.svg"];
+"sys-libs/binutils-libs-2.39-r5" [label="portage://sys-libs/binutils-libs-2.39-r5", color=red, width=4,href="../sys-libs/binutils-libs-2.39-r5.svg"];
+"sys-libs/binutils-libs-2.38-r2" [label="portage://sys-libs/binutils-libs-2.38-r2", color=red, width=4,href="../sys-libs/binutils-libs-2.38-r2.svg"];
+"sys-libs/binutils-libs-2.37_p1-r2" [label="portage://sys-libs/binutils-libs-2.37_p1-r2", color=red, width=4,href="../sys-libs/binutils-libs-2.37_p1-r2.svg"];
+"sys-libs/binutils-libs-2.36.1-r2" [label="portage://sys-libs/binutils-libs-2.36.1-r2", color=red, width=4,href="../sys-libs/binutils-libs-2.36.1-r2.svg"];
+"sys-libs/binutils-libs-2.35.2" [label="portage://sys-libs/binutils-libs-2.35.2", color=red, width=4,href="../sys-libs/binutils-libs-2.35.2.svg"];
+"sys-libs/binutils-libs-2.34-r2" [label="portage://sys-libs/binutils-libs-2.34-r2", color=red, width=4,href="../sys-libs/binutils-libs-2.34-r2.svg"];
+package_dependency19:e -> "sys-libs/binutils-libs-9999":w [style=dotted,weight="100"];
+package_dependency19:e -> "sys-libs/binutils-libs-2.45.1":w [style=dotted,weight="100"];
+package_dependency19:e -> "sys-libs/binutils-libs-2.45-r1":w [style=dotted,weight="100"];
+package_dependency19:e -> "sys-libs/binutils-libs-2.45":w [style=dotted,weight="100"];
+package_dependency19:e -> "sys-libs/binutils-libs-2.44-r2":w [style=dotted,weight="100"];
+package_dependency19:e -> "sys-libs/binutils-libs-2.43-r3":w [style=dotted,weight="100"];
+package_dependency19:e -> "sys-libs/binutils-libs-2.42-r2":w [style=dotted,weight="100"];
+package_dependency19:e -> "sys-libs/binutils-libs-2.41-r5":w [style=dotted,weight="100"];
+package_dependency19:e -> "sys-libs/binutils-libs-2.40-r7":w [style=dotted,weight="100"];
+package_dependency19:e -> "sys-libs/binutils-libs-2.39-r5":w [style=dotted,weight="100"];
+package_dependency19:e -> "sys-libs/binutils-libs-2.38-r2":w [style=dotted,weight="100"];
+package_dependency19:e -> "sys-libs/binutils-libs-2.37_p1-r2":w [style=dotted,weight="100"];
+package_dependency19:e -> "sys-libs/binutils-libs-2.36.1-r2":w [style=dotted,weight="100"];
+package_dependency19:e -> "sys-libs/binutils-libs-2.35.2":w [style=dotted,weight="100"];
+package_dependency19:e -> "sys-libs/binutils-libs-2.34-r2":w [style=dotted,weight="100"];
+}
+}
+}

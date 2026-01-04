@@ -1,0 +1,282 @@
+digraph prolog {
+
+newrank=true;
+concentrate=true;
+compound=true;
+
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+graph [labelloc=t, labeljust=l, fontcolor=blue, fontname=Helvetica, fontsize=10, label=<<TABLE BORDER='0' CELLBORDER='1' CELLSPACING='0' CELLPADDING='6'><TR><TD COLSPAN='3'><FONT COLOR='black'><B>navigation</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='7'><FONT COLOR='black'><B>dependency graph</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='4'><FONT COLOR='black'><B>version control</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='3'><FONT COLOR='black'><B>command line</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='1'><FONT COLOR='black'><B>legacy</B></FONT></TD></TR><TR><TD title="repository" href="../index.html">portage</TD><TD title="repository" href="./index.html">kde-apps</TD><TD title="repository" href="./kdegraphics-meta.html">kdegraphics-meta</TD><TD BORDER='0'></TD><TD title="portage://kde-apps/kdegraphics-meta-25.12.0" href="../kde-apps/kdegraphics-meta-25.12.0.svg"><u>detail</u></TD><TD title="portage://kde-apps/kdegraphics-meta-25.12.0" href="../kde-apps/kdegraphics-meta-25.12.0-bdepend.svg">bdepend</TD><TD title="portage://kde-apps/kdegraphics-meta-25.12.0" href="../kde-apps/kdegraphics-meta-25.12.0-cdepend.svg">cdepend</TD><TD title="portage://kde-apps/kdegraphics-meta-25.12.0" href="../kde-apps/kdegraphics-meta-25.12.0-depend.svg">depend</TD><TD title="portage://kde-apps/kdegraphics-meta-25.12.0" href="../kde-apps/kdegraphics-meta-25.12.0-idepend.svg">idepend</TD><TD title="portage://kde-apps/kdegraphics-meta-25.12.0" href="../kde-apps/kdegraphics-meta-25.12.0-rdepend.svg">rdepend</TD><TD title="portage://kde-apps/kdegraphics-meta-25.12.0" href="../kde-apps/kdegraphics-meta-25.12.0-pdepend.svg">pdepend</TD><TD BORDER='0'></TD><TD><FONT color="gray">&lt;&lt; newest</FONT></TD><TD><FONT color="gray">&lt; newer</FONT></TD><TD title="portage://kde-apps/kdegraphics-meta-25.08.3" href="../kde-apps/kdegraphics-meta-25.08.3.svg">older &gt;</TD><TD title="portage://kde-apps/kdegraphics-meta-25.08.3" href="../kde-apps/kdegraphics-meta-25.08.3.svg">oldest &gt;&gt;</TD><TD BORDER='0'></TD><TD title="portage://kde-apps/kdegraphics-meta-25.12.0" href="../kde-apps/kdegraphics-meta-25.12.0-merge.svg">--merge&nbsp;</TD><TD title="portage://kde-apps/kdegraphics-meta-25.12.0" href="../kde-apps/kdegraphics-meta-25.12.0-fetchonly.svg">--fetchonly&nbsp;</TD><TD title="portage://kde-apps/kdegraphics-meta-25.12.0" href="../kde-apps/kdegraphics-meta-25.12.0-info.svg">--info&nbsp;</TD><TD BORDER='0'></TD><TD title="portage://kde-apps/kdegraphics-meta-25.12.0" href="../kde-apps/kdegraphics-meta-25.12.0-emerge.svg">emerge</TD></TR></TABLE>>];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+fontcolor=gray;
+label=<<i>ebuild</i>>;
+labelloc=t;
+labeljust=c;
+id [label="portage://kde-apps/kdegraphics-meta-25.12.0", color=red, width=4, penwidth=2, fontname="Helvetica-Bold", href="../kde-apps/kdegraphics-meta-25.12.0.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+fontcolor=gray;
+label=<<i>dependencies</i>>;
+labelloc=t;
+labeljust=c
+subgraph cluster_install {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install</i>>;
+}
+subgraph cluster_install_and_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph  {
+use_conditional_group1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>color-management</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-misc</TD></TR><TR><TD>colord-kde</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[25,12,0],,,25.12.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group1:e -> package_dependency1:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group1:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>scanner</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-apps</TD></TR><TR><TD>libksane</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[25,12,0],,,25.12.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group2:e -> package_dependency2:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-misc</TD></TR><TR><TD>skanlite</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[25,12,0],,,25.12.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group2:e -> package_dependency3:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+use_conditional_group3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>webengine</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency4 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>media-gfx</TD></TR><TR><TD>skanpage</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[25,12,0],,,25.12.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group3:e -> package_dependency4:w [weight=20, style="dashed",arrowhead="vee"];
+}
+use_conditional_group2:e -> use_conditional_group3:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group2:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency5 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-apps</TD></TR><TR><TD>gwenview</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[25,12,0],,,25.12.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency5:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency6 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-apps</TD></TR><TR><TD>kamera</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[25,12,0],,,25.12.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency6:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency7 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-apps</TD></TR><TR><TD>kcolorchooser</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[25,12,0],,,25.12.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency7:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency8 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-apps</TD></TR><TR><TD>kdegraphics-mobipocket</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[25,12,0],,,25.12.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency8:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency9 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-apps</TD></TR><TR><TD>kolourpaint</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[25,12,0],,,25.12.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency9:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency10 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-apps</TD></TR><TR><TD>kruler</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[25,12,0],,,25.12.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency10:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency11 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-apps</TD></TR><TR><TD>libkdcraw</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[25,12,0],,,25.12.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency11:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency12 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-apps</TD></TR><TR><TD>libkexiv2</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[25,12,0],,,25.12.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency12:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency13 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-apps</TD></TR><TR><TD>okular</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[25,12,0],,,25.12.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency13:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency14 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-apps</TD></TR><TR><TD>svgpart</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[25,12,0],,,25.12.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency14:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency15 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-apps</TD></TR><TR><TD>thumbnailers</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[25,12,0],,,25.12.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency15:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency16 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>media-gfx</TD></TR><TR><TD>kgraphviewer</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[25,12,0],,,25.12.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency16:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency17 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>media-gfx</TD></TR><TR><TD>qrca</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[25,12,0],,,25.12.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency17:w [weight=20, style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+fontcolor=gray;
+label=<<i>candidates</i>>;
+labelloc=t;
+labeljust=c
+
+subgraph  {
+color=black;
+nodesep=1;
+"kde-misc/colord-kde-25.12.0" [label="portage://kde-misc/colord-kde-25.12.0", color=red, width=4,href="../kde-misc/colord-kde-25.12.0.svg"];
+package_dependency1:e -> "kde-misc/colord-kde-25.12.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-apps/libksane-25.12.0" [label="portage://kde-apps/libksane-25.12.0", color=red, width=4,href="../kde-apps/libksane-25.12.0.svg"];
+package_dependency2:e -> "kde-apps/libksane-25.12.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-misc/skanlite-25.12.0" [label="portage://kde-misc/skanlite-25.12.0", color=red, width=4,href="../kde-misc/skanlite-25.12.0.svg"];
+package_dependency3:e -> "kde-misc/skanlite-25.12.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"media-gfx/skanpage-25.12.0" [label="portage://media-gfx/skanpage-25.12.0", color=red, width=4,href="../media-gfx/skanpage-25.12.0.svg"];
+package_dependency4:e -> "media-gfx/skanpage-25.12.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-apps/gwenview-25.12.0" [label="portage://kde-apps/gwenview-25.12.0", color=red, width=4,href="../kde-apps/gwenview-25.12.0.svg"];
+package_dependency5:e -> "kde-apps/gwenview-25.12.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-apps/kamera-25.12.0" [label="portage://kde-apps/kamera-25.12.0", color=red, width=4,href="../kde-apps/kamera-25.12.0.svg"];
+package_dependency6:e -> "kde-apps/kamera-25.12.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-apps/kcolorchooser-25.12.0" [label="portage://kde-apps/kcolorchooser-25.12.0", color=red, width=4,href="../kde-apps/kcolorchooser-25.12.0.svg"];
+package_dependency7:e -> "kde-apps/kcolorchooser-25.12.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-apps/kdegraphics-mobipocket-25.12.0" [label="portage://kde-apps/kdegraphics-mobipocket-25.12.0", color=red, width=4,href="../kde-apps/kdegraphics-mobipocket-25.12.0.svg"];
+package_dependency8:e -> "kde-apps/kdegraphics-mobipocket-25.12.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-apps/kolourpaint-25.12.0" [label="portage://kde-apps/kolourpaint-25.12.0", color=red, width=4,href="../kde-apps/kolourpaint-25.12.0.svg"];
+package_dependency9:e -> "kde-apps/kolourpaint-25.12.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-apps/kruler-25.12.0" [label="portage://kde-apps/kruler-25.12.0", color=red, width=4,href="../kde-apps/kruler-25.12.0.svg"];
+package_dependency10:e -> "kde-apps/kruler-25.12.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-apps/libkdcraw-25.12.0" [label="portage://kde-apps/libkdcraw-25.12.0", color=red, width=4,href="../kde-apps/libkdcraw-25.12.0.svg"];
+package_dependency11:e -> "kde-apps/libkdcraw-25.12.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-apps/libkexiv2-25.12.0" [label="portage://kde-apps/libkexiv2-25.12.0", color=red, width=4,href="../kde-apps/libkexiv2-25.12.0.svg"];
+package_dependency12:e -> "kde-apps/libkexiv2-25.12.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-apps/okular-25.12.0" [label="portage://kde-apps/okular-25.12.0", color=red, width=4,href="../kde-apps/okular-25.12.0.svg"];
+package_dependency13:e -> "kde-apps/okular-25.12.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-apps/svgpart-25.12.0" [label="portage://kde-apps/svgpart-25.12.0", color=red, width=4,href="../kde-apps/svgpart-25.12.0.svg"];
+package_dependency14:e -> "kde-apps/svgpart-25.12.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-apps/thumbnailers-25.12.0" [label="portage://kde-apps/thumbnailers-25.12.0", color=red, width=4,href="../kde-apps/thumbnailers-25.12.0.svg"];
+package_dependency15:e -> "kde-apps/thumbnailers-25.12.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"media-gfx/kgraphviewer-25.12.0" [label="portage://media-gfx/kgraphviewer-25.12.0", color=red, width=4,href="../media-gfx/kgraphviewer-25.12.0.svg"];
+package_dependency16:e -> "media-gfx/kgraphviewer-25.12.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"media-gfx/qrca-25.12.0" [label="portage://media-gfx/qrca-25.12.0", color=red, width=4,href="../media-gfx/qrca-25.12.0.svg"];
+package_dependency17:e -> "media-gfx/qrca-25.12.0":w [style=dotted,weight="100"];
+}
+}
+}

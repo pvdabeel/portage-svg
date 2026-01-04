@@ -1,0 +1,163 @@
+digraph prolog {
+
+newrank=true;
+concentrate=true;
+compound=true;
+
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+graph [labelloc=t, labeljust=l, fontcolor=blue, fontname=Helvetica, fontsize=10, label=<<TABLE BORDER='0' CELLBORDER='1' CELLSPACING='0' CELLPADDING='6'><TR><TD COLSPAN='3'><FONT COLOR='black'><B>navigation</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='7'><FONT COLOR='black'><B>dependency graph</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='4'><FONT COLOR='black'><B>version control</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='3'><FONT COLOR='black'><B>command line</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='1'><FONT COLOR='black'><B>legacy</B></FONT></TD></TR><TR><TD title="repository" href="../index.html">portage</TD><TD title="repository" href="./index.html">dev-dotnet</TD><TD title="repository" href="./dotnet-sdk-bin.html">dotnet-sdk-bin</TD><TD BORDER='0'></TD><TD title="portage://dev-dotnet/dotnet-sdk-bin-10.0.101" href="../dev-dotnet/dotnet-sdk-bin-10.0.101.svg"><u>detail</u></TD><TD title="portage://dev-dotnet/dotnet-sdk-bin-10.0.101" href="../dev-dotnet/dotnet-sdk-bin-10.0.101-bdepend.svg">bdepend</TD><TD title="portage://dev-dotnet/dotnet-sdk-bin-10.0.101" href="../dev-dotnet/dotnet-sdk-bin-10.0.101-cdepend.svg">cdepend</TD><TD title="portage://dev-dotnet/dotnet-sdk-bin-10.0.101" href="../dev-dotnet/dotnet-sdk-bin-10.0.101-depend.svg">depend</TD><TD title="portage://dev-dotnet/dotnet-sdk-bin-10.0.101" href="../dev-dotnet/dotnet-sdk-bin-10.0.101-idepend.svg">idepend</TD><TD title="portage://dev-dotnet/dotnet-sdk-bin-10.0.101" href="../dev-dotnet/dotnet-sdk-bin-10.0.101-rdepend.svg">rdepend</TD><TD title="portage://dev-dotnet/dotnet-sdk-bin-10.0.101" href="../dev-dotnet/dotnet-sdk-bin-10.0.101-pdepend.svg">pdepend</TD><TD BORDER='0'></TD><TD><FONT color="gray">&lt;&lt; newest</FONT></TD><TD><FONT color="gray">&lt; newer</FONT></TD><TD title="portage://dev-dotnet/dotnet-sdk-bin-10.0.100" href="../dev-dotnet/dotnet-sdk-bin-10.0.100.svg">older &gt;</TD><TD title="portage://dev-dotnet/dotnet-sdk-bin-6.0.417-r5" href="../dev-dotnet/dotnet-sdk-bin-6.0.417-r5.svg">oldest &gt;&gt;</TD><TD BORDER='0'></TD><TD title="portage://dev-dotnet/dotnet-sdk-bin-10.0.101" href="../dev-dotnet/dotnet-sdk-bin-10.0.101-merge.svg">--merge&nbsp;</TD><TD title="portage://dev-dotnet/dotnet-sdk-bin-10.0.101" href="../dev-dotnet/dotnet-sdk-bin-10.0.101-fetchonly.svg">--fetchonly&nbsp;</TD><TD title="portage://dev-dotnet/dotnet-sdk-bin-10.0.101" href="../dev-dotnet/dotnet-sdk-bin-10.0.101-info.svg">--info&nbsp;</TD><TD BORDER='0'></TD><TD title="portage://dev-dotnet/dotnet-sdk-bin-10.0.101" href="../dev-dotnet/dotnet-sdk-bin-10.0.101-emerge.svg">emerge</TD></TR></TABLE>>];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+fontcolor=gray;
+label=<<i>ebuild</i>>;
+labelloc=t;
+labeljust=c;
+id [label="portage://dev-dotnet/dotnet-sdk-bin-10.0.101", color=red, width=4, penwidth=2, fontname="Helvetica-Bold", href="../dev-dotnet/dotnet-sdk-bin-10.0.101.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+fontcolor=gray;
+label=<<i>dependencies</i>>;
+labelloc=t;
+labeljust=c
+subgraph cluster_install {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install</i>>;
+subgraph  {
+package_dependency1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-util</TD></TR><TR><TD>patchelf</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency1:w [weight=20, style="solid",arrowhead="vee"];
+}
+subgraph cluster_install_and_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph  {
+any_of_group1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD CELLPADDING="10">any_of_group</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-util</TD></TR><TR><TD>lttng-ust-compat</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+any_of_group1:e -> package_dependency2:w [weight=20, style="dotted",arrowhead="oinv"];
+subgraph  {
+package_dependency3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-util</TD></TR><TR><TD>lttng-ust</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+any_of_group1:e -> package_dependency3:w [weight=20, style="dotted",arrowhead="oinv"];
+}
+id:e -> any_of_group1:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency4 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>app-eselect</TD></TR><TR><TD>eselect-dotnet</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency4:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency5 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>app-crypt</TD></TR><TR><TD>mit-krb5</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency5:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency6 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>icu</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency6:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency7 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>virtual</TD></TR><TR><TD>zlib</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency7:w [weight=20, style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+fontcolor=gray;
+label=<<i>candidates</i>>;
+labelloc=t;
+labeljust=c
+
+subgraph  {
+color=black;
+nodesep=1;
+"dev-util/patchelf-0.18.0" [label="portage://dev-util/patchelf-0.18.0", color=red, width=4,href="../dev-util/patchelf-0.18.0.svg"];
+"dev-util/patchelf-0.17.2-r1" [label="portage://dev-util/patchelf-0.17.2-r1", color=red, width=4,href="../dev-util/patchelf-0.17.2-r1.svg"];
+package_dependency1:e -> "dev-util/patchelf-0.18.0":w [style=dotted,weight="100"];
+package_dependency1:e -> "dev-util/patchelf-0.17.2-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-util/lttng-ust-compat-2.12.10" [label="portage://dev-util/lttng-ust-compat-2.12.10", color=red, width=4,href="../dev-util/lttng-ust-compat-2.12.10.svg"];
+package_dependency2:e -> "dev-util/lttng-ust-compat-2.12.10":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-util/lttng-ust-2.14.0" [label="portage://dev-util/lttng-ust-2.14.0", color=red, width=4,href="../dev-util/lttng-ust-2.14.0.svg"];
+"dev-util/lttng-ust-2.13.9" [label="portage://dev-util/lttng-ust-2.13.9", color=red, width=4,href="../dev-util/lttng-ust-2.13.9.svg"];
+"dev-util/lttng-ust-2.12.10" [label="portage://dev-util/lttng-ust-2.12.10", color=red, width=4,href="../dev-util/lttng-ust-2.12.10.svg"];
+package_dependency3:e -> "dev-util/lttng-ust-2.14.0":w [style=dotted,weight="100"];
+package_dependency3:e -> "dev-util/lttng-ust-2.13.9":w [style=dotted,weight="100"];
+package_dependency3:e -> "dev-util/lttng-ust-2.12.10":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-eselect/eselect-dotnet-1.0.1" [label="portage://app-eselect/eselect-dotnet-1.0.1", color=red, width=4,href="../app-eselect/eselect-dotnet-1.0.1.svg"];
+package_dependency4:e -> "app-eselect/eselect-dotnet-1.0.1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-crypt/mit-krb5-1.22.1" [label="portage://app-crypt/mit-krb5-1.22.1", color=red, width=4,href="../app-crypt/mit-krb5-1.22.1.svg"];
+"app-crypt/mit-krb5-1.21.3-r1" [label="portage://app-crypt/mit-krb5-1.21.3-r1", color=red, width=4,href="../app-crypt/mit-krb5-1.21.3-r1.svg"];
+"app-crypt/mit-krb5-1.21.3" [label="portage://app-crypt/mit-krb5-1.21.3", color=red, width=4,href="../app-crypt/mit-krb5-1.21.3.svg"];
+package_dependency5:e -> "app-crypt/mit-krb5-1.22.1":w [style=dotted,weight="100"];
+package_dependency5:e -> "app-crypt/mit-krb5-1.21.3-r1":w [style=dotted,weight="100"];
+package_dependency5:e -> "app-crypt/mit-krb5-1.21.3":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/icu-77.1" [label="portage://dev-libs/icu-77.1", color=red, width=4,href="../dev-libs/icu-77.1.svg"];
+package_dependency6:e -> "dev-libs/icu-77.1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"virtual/zlib-1.3.1-r1" [label="portage://virtual/zlib-1.3.1-r1", color=red, width=4,href="../virtual/zlib-1.3.1-r1.svg"];
+"virtual/zlib-1.3.1" [label="portage://virtual/zlib-1.3.1", color=red, width=4,href="../virtual/zlib-1.3.1.svg"];
+package_dependency7:e -> "virtual/zlib-1.3.1-r1":w [style=dotted,weight="100"];
+package_dependency7:e -> "virtual/zlib-1.3.1":w [style=dotted,weight="100"];
+}
+}
+}

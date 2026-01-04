@@ -1,0 +1,1408 @@
+digraph prolog {
+
+newrank=true;
+concentrate=true;
+compound=true;
+
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+graph [labelloc=t, labeljust=l, fontcolor=blue, fontname=Helvetica, fontsize=10, label=<<TABLE BORDER='0' CELLBORDER='1' CELLSPACING='0' CELLPADDING='6'><TR><TD COLSPAN='3'><FONT COLOR='black'><B>navigation</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='7'><FONT COLOR='black'><B>dependency graph</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='4'><FONT COLOR='black'><B>version control</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='3'><FONT COLOR='black'><B>command line</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='1'><FONT COLOR='black'><B>legacy</B></FONT></TD></TR><TR><TD title="repository" href="../index.html">portage</TD><TD title="repository" href="./index.html">kde-plasma</TD><TD title="repository" href="./plasma-meta.html">plasma-meta</TD><TD BORDER='0'></TD><TD title="portage://kde-plasma/plasma-meta-6.5.4" href="../kde-plasma/plasma-meta-6.5.4.svg"><u>detail</u></TD><TD title="portage://kde-plasma/plasma-meta-6.5.4" href="../kde-plasma/plasma-meta-6.5.4-bdepend.svg">bdepend</TD><TD title="portage://kde-plasma/plasma-meta-6.5.4" href="../kde-plasma/plasma-meta-6.5.4-cdepend.svg">cdepend</TD><TD title="portage://kde-plasma/plasma-meta-6.5.4" href="../kde-plasma/plasma-meta-6.5.4-depend.svg">depend</TD><TD title="portage://kde-plasma/plasma-meta-6.5.4" href="../kde-plasma/plasma-meta-6.5.4-idepend.svg">idepend</TD><TD title="portage://kde-plasma/plasma-meta-6.5.4" href="../kde-plasma/plasma-meta-6.5.4-rdepend.svg">rdepend</TD><TD title="portage://kde-plasma/plasma-meta-6.5.4" href="../kde-plasma/plasma-meta-6.5.4-pdepend.svg">pdepend</TD><TD BORDER='0'></TD><TD><FONT color="gray">&lt;&lt; newest</FONT></TD><TD><FONT color="gray">&lt; newer</FONT></TD><TD title="portage://kde-plasma/plasma-meta-6.4.5-r2" href="../kde-plasma/plasma-meta-6.4.5-r2.svg">older &gt;</TD><TD title="portage://kde-plasma/plasma-meta-6.4.5-r2" href="../kde-plasma/plasma-meta-6.4.5-r2.svg">oldest &gt;&gt;</TD><TD BORDER='0'></TD><TD title="portage://kde-plasma/plasma-meta-6.5.4" href="../kde-plasma/plasma-meta-6.5.4-merge.svg">--merge&nbsp;</TD><TD title="portage://kde-plasma/plasma-meta-6.5.4" href="../kde-plasma/plasma-meta-6.5.4-fetchonly.svg">--fetchonly&nbsp;</TD><TD title="portage://kde-plasma/plasma-meta-6.5.4" href="../kde-plasma/plasma-meta-6.5.4-info.svg">--info&nbsp;</TD><TD BORDER='0'></TD><TD title="portage://kde-plasma/plasma-meta-6.5.4" href="../kde-plasma/plasma-meta-6.5.4-emerge.svg">emerge</TD></TR></TABLE>>];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+fontcolor=gray;
+label=<<i>ebuild</i>>;
+labelloc=t;
+labeljust=c;
+id [label="portage://kde-plasma/plasma-meta-6.5.4", color=red, width=4, penwidth=2, fontname="Helvetica-Bold", href="../kde-plasma/plasma-meta-6.5.4.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+fontcolor=gray;
+label=<<i>dependencies</i>>;
+labelloc=t;
+labeljust=c
+subgraph cluster_install {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install</i>>;
+}
+subgraph cluster_install_and_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph  {
+use_conditional_group1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>negative</TD></TR><TR><TD>unsupported</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+weak_blocker1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">blocking (weak)</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>gui-apps</TD></TR><TR><TD>qt6ct</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=orange];
+}
+use_conditional_group1:e -> weak_blocker1:w [weight=20, color="orange", style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group1:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>X</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>kgamma</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group2:e -> package_dependency1:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>kwin-x11</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group2:e -> package_dependency2:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+use_conditional_group3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>wacom</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>wacomtablet</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group3:e -> package_dependency3:w [weight=20, style="dashed",arrowhead="vee"];
+}
+use_conditional_group2:e -> use_conditional_group3:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group2:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group4 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>accessibility</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency4 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>app-accessibility</TD></TR><TR><TD>orca</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group4:e -> package_dependency4:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group4:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group5 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>bluetooth</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency5 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>bluedevil</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group5:e -> package_dependency5:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group5:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group6 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>browser-integration</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency6 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>plasma-browser-integration</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group6:e -> package_dependency6:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group6:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group7 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>crash-handler</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+use_conditional_group8 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>negative</TD></TR><TR><TD>systemd</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency7 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>drkonqi-legacy</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,3,80],,_p20250417,6.3.80_p20250417]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group8:e -> package_dependency7:w [weight=20, style="dashed",arrowhead="vee"];
+}
+use_conditional_group7:e -> use_conditional_group8:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+use_conditional_group9 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>systemd</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency8 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>drkonqi</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group9:e -> package_dependency8:w [weight=20, style="dashed",arrowhead="vee"];
+}
+use_conditional_group7:e -> use_conditional_group9:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group7:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group10 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>crypt</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency9 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>plasma-vault</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group10:e -> package_dependency9:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group10:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group11 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>cups</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency10 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>print-manager</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group11:e -> package_dependency10:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency11 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>net-print</TD></TR><TR><TD>cups-meta</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group11:e -> package_dependency11:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group11:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group12 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>discover</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency12 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>discover</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group12:e -> package_dependency12:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group12:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group13 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>display-manager</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+use_conditional_group14 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>sddm</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency13 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>sddm-kcm</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group14:e -> package_dependency13:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency14 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>x11-misc</TD></TR><TR><TD>sddm</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[0,21,0],,_p20240302,0.21.0_p20240302]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group14:e -> package_dependency14:w [weight=20, style="dashed",arrowhead="vee"];
+}
+use_conditional_group13:e -> use_conditional_group14:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+use_conditional_group15 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>negative</TD></TR><TR><TD>sddm</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency15 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>x11-misc</TD></TR><TR><TD>lightdm</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group15:e -> package_dependency15:w [weight=20, style="dashed",arrowhead="vee"];
+}
+use_conditional_group13:e -> use_conditional_group15:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group13:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group16 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>elogind</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency16 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-auth</TD></TR><TR><TD>elogind</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group16:e -> package_dependency16:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group16:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group17 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>flatpak</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency17 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>flatpak-kcm</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group17:e -> package_dependency17:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group17:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group18 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>grub</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency18 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>breeze-grub</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group18:e -> package_dependency18:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group18:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group19 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>gtk</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency19 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>breeze-gtk</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group19:e -> package_dependency19:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency20 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>kde-gtk-config</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group19:e -> package_dependency20:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency21 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>xdg-desktop-portal-gtk</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group19:e -> package_dependency21:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency22 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>x11-misc</TD></TR><TR><TD>appmenu-gtk-module</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group19:e -> package_dependency22:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group19:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group20 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>kwallet</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency23 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>kwallet-pam</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group20:e -> package_dependency23:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group20:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group21 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>networkmanager</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency24 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>plasma-nm</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group21:e -> package_dependency24:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency25 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>net-misc</TD></TR><TR><TD>networkmanager</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group21:e -> package_dependency25:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group21:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group22 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>oxygen-theme</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency26 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-frameworks</TD></TR><TR><TD>oxygen-icons</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,0,0],,,6.0.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group22:e -> package_dependency26:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency27 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>oxygen</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group22:e -> package_dependency27:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency28 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>oxygen-sounds</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group22:e -> package_dependency28:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+use_conditional_group23 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>qt5</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency29 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>oxygen</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,0],,,6.5.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group23:e -> package_dependency29:w [weight=20, style="dashed",arrowhead="vee"];
+}
+use_conditional_group22:e -> use_conditional_group23:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group22:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group24 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>plymouth</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency30 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>breeze-plymouth</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group24:e -> package_dependency30:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency31 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>plymouth-kcm</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group24:e -> package_dependency31:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group24:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group25 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>pulseaudio</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency32 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>plasma-pa</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group25:e -> package_dependency32:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group25:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group26 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>qt5</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency33 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>breeze</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,0],,,6.5.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group26:e -> package_dependency33:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency34 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>kwayland-integration</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group26:e -> package_dependency34:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency35 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>plasma-integration</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,0],,,6.5.0]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group26:e -> package_dependency35:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group26:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group27 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>rdp</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency36 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>krdp</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group27:e -> package_dependency36:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group27:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group28 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>sdk</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency37 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>plasma-sdk</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group28:e -> package_dependency37:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group28:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group29 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>smart</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency38 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>plasma-disks</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group29:e -> package_dependency38:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group29:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group30 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>systemd</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency39 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>systemd</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[257],,,257]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group30:e -> package_dependency39:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+use_conditional_group31 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>firewall</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency40 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>plasma-firewall</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group31:e -> package_dependency40:w [weight=20, style="dashed",arrowhead="vee"];
+}
+use_conditional_group30:e -> use_conditional_group31:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group30:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group32 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>thunderbolt</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency41 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>plasma-thunderbolt</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group32:e -> package_dependency41:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group32:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group33 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>wacom</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency42 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>plasma-desktop</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group33:e -> package_dependency42:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group33:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group34 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>wallpapers</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency43 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>plasma-workspace-wallpapers</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group34:e -> package_dependency43:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group34:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+use_conditional_group35 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>webengine</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency44 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-apps</TD></TR><TR><TD>khelpcenter</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group35:e -> package_dependency44:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group35:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency45 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>aurorae</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency45:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency46 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>breeze</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency46:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency47 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>kactivitymanagerd</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency47:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency48 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>kde-cli-tools</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency48:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency49 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>kde-cli-tools-common</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency49:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency50 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>kdecoration</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency50:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency51 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>kdeplasma-addons</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency51:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency52 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>kdesu-gui</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency52:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency53 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>keditfiletype</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency53:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency54 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>kglobalacceld</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency54:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency55 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>kinfocenter</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency55:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency56 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>kmenuedit</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency56:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency57 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>knighttime</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency57:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency58 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>kpipewire</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency58:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency59 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>kscreen</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency59:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency60 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>kscreenlocker</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency60:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency61 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>ksshaskpass</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency61:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency62 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>ksystemstats</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency62:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency63 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>kwayland</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency63:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency64 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>kwin</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency64:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency65 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>kwrited</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency65:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency66 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>layer-shell-qt</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency66:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency67 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>libkscreen</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency67:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency68 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>libksysguard</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency68:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency69 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>libplasma</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency69:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency70 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>milou</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency70:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency71 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>ocean-sound-theme</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency71:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency72 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>plasma-activities</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency72:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency73 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>plasma-activities-stats</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency73:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency74 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>plasma-desktop</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency74:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency75 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>plasma-integration</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency75:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency76 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>plasma-login-sessions</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency76:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency77 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>plasma-systemmonitor</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency77:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency78 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>plasma-welcome</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency78:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency79 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>plasma-workspace</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency79:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency80 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>plasma5support</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency80:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency81 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>polkit-kde-agent</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency81:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency82 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>powerdevil</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency82:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency83 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>qqc2-breeze-style</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency83:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency84 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>spectacle</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency84:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency85 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>spectacle</TD></TR>
+                     <TR><TD>smaller</TD></TR><TR><TD>[[15],,,15]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency85:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency86 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>systemsettings</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency86:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency87 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>xdg-desktop-portal-kde</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[6,5,4],,,6.5.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency87:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency88 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>dbus</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency88:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency89 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-auth</TD></TR><TR><TD>polkit</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency89:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency90 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-fs</TD></TR><TR><TD>udisks</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency90:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+weak_blocker2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">blocking (weak)</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>khotkeys</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=orange];
+}
+id:e -> weak_blocker2:w [weight=20, color="orange", style="solid",arrowhead="odot"];
+subgraph  {
+weak_blocker3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">blocking (weak)</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>kde-plasma</TD></TR><TR><TD>plasma-meta</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=orange];
+}
+id:e -> weak_blocker3:w [weight=20, color="orange", style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+fontcolor=gray;
+label=<<i>candidates</i>>;
+labelloc=t;
+labeljust=c
+
+subgraph  {
+color=black;
+nodesep=1;
+"gui-apps/qt6ct-0.11" [label="portage://gui-apps/qt6ct-0.11", color=red, width=4,href="../gui-apps/qt6ct-0.11.svg"];
+weak_blocker1:e -> "gui-apps/qt6ct-0.11":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/kgamma-6.5.4" [label="portage://kde-plasma/kgamma-6.5.4", color=red, width=4,href="../kde-plasma/kgamma-6.5.4.svg"];
+package_dependency1:e -> "kde-plasma/kgamma-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/kwin-x11-6.5.4" [label="portage://kde-plasma/kwin-x11-6.5.4", color=red, width=4,href="../kde-plasma/kwin-x11-6.5.4.svg"];
+package_dependency2:e -> "kde-plasma/kwin-x11-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/wacomtablet-6.5.4" [label="portage://kde-plasma/wacomtablet-6.5.4", color=red, width=4,href="../kde-plasma/wacomtablet-6.5.4.svg"];
+package_dependency3:e -> "kde-plasma/wacomtablet-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-accessibility/orca-47.5" [label="portage://app-accessibility/orca-47.5", color=red, width=4,href="../app-accessibility/orca-47.5.svg"];
+"app-accessibility/orca-47.4" [label="portage://app-accessibility/orca-47.4", color=red, width=4,href="../app-accessibility/orca-47.4.svg"];
+"app-accessibility/orca-46.2-r1" [label="portage://app-accessibility/orca-46.2-r1", color=red, width=4,href="../app-accessibility/orca-46.2-r1.svg"];
+package_dependency4:e -> "app-accessibility/orca-47.5":w [style=dotted,weight="100"];
+package_dependency4:e -> "app-accessibility/orca-47.4":w [style=dotted,weight="100"];
+package_dependency4:e -> "app-accessibility/orca-46.2-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/bluedevil-6.5.4" [label="portage://kde-plasma/bluedevil-6.5.4", color=red, width=4,href="../kde-plasma/bluedevil-6.5.4.svg"];
+package_dependency5:e -> "kde-plasma/bluedevil-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/plasma-browser-integration-6.5.4" [label="portage://kde-plasma/plasma-browser-integration-6.5.4", color=red, width=4,href="../kde-plasma/plasma-browser-integration-6.5.4.svg"];
+package_dependency6:e -> "kde-plasma/plasma-browser-integration-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/drkonqi-legacy-6.3.80_p20250417" [label="portage://kde-plasma/drkonqi-legacy-6.3.80_p20250417", color=red, width=4,href="../kde-plasma/drkonqi-legacy-6.3.80_p20250417.svg"];
+package_dependency7:e -> "kde-plasma/drkonqi-legacy-6.3.80_p20250417":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/drkonqi-6.5.4" [label="portage://kde-plasma/drkonqi-6.5.4", color=red, width=4,href="../kde-plasma/drkonqi-6.5.4.svg"];
+package_dependency8:e -> "kde-plasma/drkonqi-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/plasma-vault-6.5.4" [label="portage://kde-plasma/plasma-vault-6.5.4", color=red, width=4,href="../kde-plasma/plasma-vault-6.5.4.svg"];
+package_dependency9:e -> "kde-plasma/plasma-vault-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/print-manager-6.5.4" [label="portage://kde-plasma/print-manager-6.5.4", color=red, width=4,href="../kde-plasma/print-manager-6.5.4.svg"];
+package_dependency10:e -> "kde-plasma/print-manager-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"net-print/cups-meta-1" [label="portage://net-print/cups-meta-1", color=red, width=4,href="../net-print/cups-meta-1.svg"];
+package_dependency11:e -> "net-print/cups-meta-1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/discover-6.5.4" [label="portage://kde-plasma/discover-6.5.4", color=red, width=4,href="../kde-plasma/discover-6.5.4.svg"];
+package_dependency12:e -> "kde-plasma/discover-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/sddm-kcm-6.5.4" [label="portage://kde-plasma/sddm-kcm-6.5.4", color=red, width=4,href="../kde-plasma/sddm-kcm-6.5.4.svg"];
+package_dependency13:e -> "kde-plasma/sddm-kcm-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"x11-misc/sddm-0.21.0_p20250502-r1" [label="portage://x11-misc/sddm-0.21.0_p20250502-r1", color=red, width=4,href="../x11-misc/sddm-0.21.0_p20250502-r1.svg"];
+"x11-misc/sddm-0.21.0_p20240723-r10" [label="portage://x11-misc/sddm-0.21.0_p20240723-r10", color=red, width=4,href="../x11-misc/sddm-0.21.0_p20240723-r10.svg"];
+package_dependency14:e -> "x11-misc/sddm-0.21.0_p20250502-r1":w [style=dotted,weight="100"];
+package_dependency14:e -> "x11-misc/sddm-0.21.0_p20240723-r10":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"x11-misc/lightdm-1.32.0-r5" [label="portage://x11-misc/lightdm-1.32.0-r5", color=red, width=4,href="../x11-misc/lightdm-1.32.0-r5.svg"];
+package_dependency15:e -> "x11-misc/lightdm-1.32.0-r5":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-auth/elogind-255.22-r1" [label="portage://sys-auth/elogind-255.22-r1", color=red, width=4,href="../sys-auth/elogind-255.22-r1.svg"];
+"sys-auth/elogind-255.22" [label="portage://sys-auth/elogind-255.22", color=red, width=4,href="../sys-auth/elogind-255.22.svg"];
+"sys-auth/elogind-255.17-r1" [label="portage://sys-auth/elogind-255.17-r1", color=red, width=4,href="../sys-auth/elogind-255.17-r1.svg"];
+"sys-auth/elogind-252.9-r3" [label="portage://sys-auth/elogind-252.9-r3", color=red, width=4,href="../sys-auth/elogind-252.9-r3.svg"];
+package_dependency16:e -> "sys-auth/elogind-255.22-r1":w [style=dotted,weight="100"];
+package_dependency16:e -> "sys-auth/elogind-255.22":w [style=dotted,weight="100"];
+package_dependency16:e -> "sys-auth/elogind-255.17-r1":w [style=dotted,weight="100"];
+package_dependency16:e -> "sys-auth/elogind-252.9-r3":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/flatpak-kcm-6.5.4" [label="portage://kde-plasma/flatpak-kcm-6.5.4", color=red, width=4,href="../kde-plasma/flatpak-kcm-6.5.4.svg"];
+package_dependency17:e -> "kde-plasma/flatpak-kcm-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/breeze-grub-6.5.4" [label="portage://kde-plasma/breeze-grub-6.5.4", color=red, width=4,href="../kde-plasma/breeze-grub-6.5.4.svg"];
+package_dependency18:e -> "kde-plasma/breeze-grub-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/breeze-gtk-6.5.4" [label="portage://kde-plasma/breeze-gtk-6.5.4", color=red, width=4,href="../kde-plasma/breeze-gtk-6.5.4.svg"];
+package_dependency19:e -> "kde-plasma/breeze-gtk-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/kde-gtk-config-6.5.4" [label="portage://kde-plasma/kde-gtk-config-6.5.4", color=red, width=4,href="../kde-plasma/kde-gtk-config-6.5.4.svg"];
+package_dependency20:e -> "kde-plasma/kde-gtk-config-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-apps/xdg-desktop-portal-gtk-1.15.3" [label="portage://sys-apps/xdg-desktop-portal-gtk-1.15.3", color=red, width=4,href="../sys-apps/xdg-desktop-portal-gtk-1.15.3.svg"];
+"sys-apps/xdg-desktop-portal-gtk-1.15.2" [label="portage://sys-apps/xdg-desktop-portal-gtk-1.15.2", color=red, width=4,href="../sys-apps/xdg-desktop-portal-gtk-1.15.2.svg"];
+"sys-apps/xdg-desktop-portal-gtk-1.14.1" [label="portage://sys-apps/xdg-desktop-portal-gtk-1.14.1", color=red, width=4,href="../sys-apps/xdg-desktop-portal-gtk-1.14.1.svg"];
+package_dependency21:e -> "sys-apps/xdg-desktop-portal-gtk-1.15.3":w [style=dotted,weight="100"];
+package_dependency21:e -> "sys-apps/xdg-desktop-portal-gtk-1.15.2":w [style=dotted,weight="100"];
+package_dependency21:e -> "sys-apps/xdg-desktop-portal-gtk-1.14.1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"x11-misc/appmenu-gtk-module-25.04" [label="portage://x11-misc/appmenu-gtk-module-25.04", color=red, width=4,href="../x11-misc/appmenu-gtk-module-25.04.svg"];
+package_dependency22:e -> "x11-misc/appmenu-gtk-module-25.04":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/kwallet-pam-6.5.4" [label="portage://kde-plasma/kwallet-pam-6.5.4", color=red, width=4,href="../kde-plasma/kwallet-pam-6.5.4.svg"];
+package_dependency23:e -> "kde-plasma/kwallet-pam-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/plasma-nm-6.5.4" [label="portage://kde-plasma/plasma-nm-6.5.4", color=red, width=4,href="../kde-plasma/plasma-nm-6.5.4.svg"];
+package_dependency24:e -> "kde-plasma/plasma-nm-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"net-misc/networkmanager-1.54.1" [label="portage://net-misc/networkmanager-1.54.1", color=red, width=4,href="../net-misc/networkmanager-1.54.1.svg"];
+"net-misc/networkmanager-1.52.1" [label="portage://net-misc/networkmanager-1.52.1", color=red, width=4,href="../net-misc/networkmanager-1.52.1.svg"];
+"net-misc/networkmanager-1.52.0" [label="portage://net-misc/networkmanager-1.52.0", color=red, width=4,href="../net-misc/networkmanager-1.52.0.svg"];
+"net-misc/networkmanager-1.48.16" [label="portage://net-misc/networkmanager-1.48.16", color=red, width=4,href="../net-misc/networkmanager-1.48.16.svg"];
+package_dependency25:e -> "net-misc/networkmanager-1.54.1":w [style=dotted,weight="100"];
+package_dependency25:e -> "net-misc/networkmanager-1.52.1":w [style=dotted,weight="100"];
+package_dependency25:e -> "net-misc/networkmanager-1.52.0":w [style=dotted,weight="100"];
+package_dependency25:e -> "net-misc/networkmanager-1.48.16":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-frameworks/oxygen-icons-6.1.0" [label="portage://kde-frameworks/oxygen-icons-6.1.0", color=red, width=4,href="../kde-frameworks/oxygen-icons-6.1.0.svg"];
+package_dependency26:e -> "kde-frameworks/oxygen-icons-6.1.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/oxygen-6.5.4" [label="portage://kde-plasma/oxygen-6.5.4", color=red, width=4,href="../kde-plasma/oxygen-6.5.4.svg"];
+package_dependency27:e -> "kde-plasma/oxygen-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/oxygen-sounds-6.5.4" [label="portage://kde-plasma/oxygen-sounds-6.5.4", color=red, width=4,href="../kde-plasma/oxygen-sounds-6.5.4.svg"];
+package_dependency28:e -> "kde-plasma/oxygen-sounds-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/oxygen-6.5.4" [label="portage://kde-plasma/oxygen-6.5.4", color=red, width=4,href="../kde-plasma/oxygen-6.5.4.svg"];
+"kde-plasma/oxygen-6.5.0" [label="portage://kde-plasma/oxygen-6.5.0", color=red, width=4,href="../kde-plasma/oxygen-6.5.0.svg"];
+package_dependency29:e -> "kde-plasma/oxygen-6.5.4":w [style=dotted,weight="100"];
+package_dependency29:e -> "kde-plasma/oxygen-6.5.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/breeze-plymouth-6.5.4" [label="portage://kde-plasma/breeze-plymouth-6.5.4", color=red, width=4,href="../kde-plasma/breeze-plymouth-6.5.4.svg"];
+package_dependency30:e -> "kde-plasma/breeze-plymouth-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/plymouth-kcm-6.5.4" [label="portage://kde-plasma/plymouth-kcm-6.5.4", color=red, width=4,href="../kde-plasma/plymouth-kcm-6.5.4.svg"];
+package_dependency31:e -> "kde-plasma/plymouth-kcm-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/plasma-pa-6.5.4" [label="portage://kde-plasma/plasma-pa-6.5.4", color=red, width=4,href="../kde-plasma/plasma-pa-6.5.4.svg"];
+package_dependency32:e -> "kde-plasma/plasma-pa-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/breeze-6.5.4" [label="portage://kde-plasma/breeze-6.5.4", color=red, width=4,href="../kde-plasma/breeze-6.5.4.svg"];
+"kde-plasma/breeze-6.5.0" [label="portage://kde-plasma/breeze-6.5.0", color=red, width=4,href="../kde-plasma/breeze-6.5.0.svg"];
+package_dependency33:e -> "kde-plasma/breeze-6.5.4":w [style=dotted,weight="100"];
+package_dependency33:e -> "kde-plasma/breeze-6.5.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/kwayland-integration-6.5.4" [label="portage://kde-plasma/kwayland-integration-6.5.4", color=red, width=4,href="../kde-plasma/kwayland-integration-6.5.4.svg"];
+package_dependency34:e -> "kde-plasma/kwayland-integration-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/plasma-integration-6.5.4" [label="portage://kde-plasma/plasma-integration-6.5.4", color=red, width=4,href="../kde-plasma/plasma-integration-6.5.4.svg"];
+"kde-plasma/plasma-integration-6.5.0" [label="portage://kde-plasma/plasma-integration-6.5.0", color=red, width=4,href="../kde-plasma/plasma-integration-6.5.0.svg"];
+package_dependency35:e -> "kde-plasma/plasma-integration-6.5.4":w [style=dotted,weight="100"];
+package_dependency35:e -> "kde-plasma/plasma-integration-6.5.0":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/krdp-6.5.4" [label="portage://kde-plasma/krdp-6.5.4", color=red, width=4,href="../kde-plasma/krdp-6.5.4.svg"];
+package_dependency36:e -> "kde-plasma/krdp-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/plasma-sdk-6.5.4" [label="portage://kde-plasma/plasma-sdk-6.5.4", color=red, width=4,href="../kde-plasma/plasma-sdk-6.5.4.svg"];
+package_dependency37:e -> "kde-plasma/plasma-sdk-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/plasma-disks-6.5.4" [label="portage://kde-plasma/plasma-disks-6.5.4", color=red, width=4,href="../kde-plasma/plasma-disks-6.5.4.svg"];
+package_dependency38:e -> "kde-plasma/plasma-disks-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-apps/systemd-9999" [label="portage://sys-apps/systemd-9999", color=red, width=4,href="../sys-apps/systemd-9999.svg"];
+"sys-apps/systemd-259_rc3" [label="portage://sys-apps/systemd-259_rc3", color=red, width=4,href="../sys-apps/systemd-259_rc3.svg"];
+"sys-apps/systemd-259_rc2" [label="portage://sys-apps/systemd-259_rc2", color=red, width=4,href="../sys-apps/systemd-259_rc2.svg"];
+"sys-apps/systemd-258.3" [label="portage://sys-apps/systemd-258.3", color=red, width=4,href="../sys-apps/systemd-258.3.svg"];
+"sys-apps/systemd-258.2" [label="portage://sys-apps/systemd-258.2", color=red, width=4,href="../sys-apps/systemd-258.2.svg"];
+"sys-apps/systemd-257.10" [label="portage://sys-apps/systemd-257.10", color=red, width=4,href="../sys-apps/systemd-257.10.svg"];
+"sys-apps/systemd-257.9" [label="portage://sys-apps/systemd-257.9", color=red, width=4,href="../sys-apps/systemd-257.9.svg"];
+package_dependency39:e -> "sys-apps/systemd-9999":w [style=dotted,weight="100"];
+package_dependency39:e -> "sys-apps/systemd-259_rc3":w [style=dotted,weight="100"];
+package_dependency39:e -> "sys-apps/systemd-259_rc2":w [style=dotted,weight="100"];
+package_dependency39:e -> "sys-apps/systemd-258.3":w [style=dotted,weight="100"];
+package_dependency39:e -> "sys-apps/systemd-258.2":w [style=dotted,weight="100"];
+package_dependency39:e -> "sys-apps/systemd-257.10":w [style=dotted,weight="100"];
+package_dependency39:e -> "sys-apps/systemd-257.9":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/plasma-firewall-6.5.4" [label="portage://kde-plasma/plasma-firewall-6.5.4", color=red, width=4,href="../kde-plasma/plasma-firewall-6.5.4.svg"];
+package_dependency40:e -> "kde-plasma/plasma-firewall-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/plasma-thunderbolt-6.5.4" [label="portage://kde-plasma/plasma-thunderbolt-6.5.4", color=red, width=4,href="../kde-plasma/plasma-thunderbolt-6.5.4.svg"];
+package_dependency41:e -> "kde-plasma/plasma-thunderbolt-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/plasma-desktop-6.5.4" [label="portage://kde-plasma/plasma-desktop-6.5.4", color=red, width=4,href="../kde-plasma/plasma-desktop-6.5.4.svg"];
+package_dependency42:e -> "kde-plasma/plasma-desktop-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/plasma-workspace-wallpapers-6.5.4" [label="portage://kde-plasma/plasma-workspace-wallpapers-6.5.4", color=red, width=4,href="../kde-plasma/plasma-workspace-wallpapers-6.5.4.svg"];
+package_dependency43:e -> "kde-plasma/plasma-workspace-wallpapers-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-apps/khelpcenter-25.12.0" [label="portage://kde-apps/khelpcenter-25.12.0", color=red, width=4,href="../kde-apps/khelpcenter-25.12.0.svg"];
+"kde-apps/khelpcenter-25.08.3" [label="portage://kde-apps/khelpcenter-25.08.3", color=red, width=4,href="../kde-apps/khelpcenter-25.08.3.svg"];
+package_dependency44:e -> "kde-apps/khelpcenter-25.12.0":w [style=dotted,weight="100"];
+package_dependency44:e -> "kde-apps/khelpcenter-25.08.3":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/aurorae-6.5.4" [label="portage://kde-plasma/aurorae-6.5.4", color=red, width=4,href="../kde-plasma/aurorae-6.5.4.svg"];
+package_dependency45:e -> "kde-plasma/aurorae-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/breeze-6.5.4" [label="portage://kde-plasma/breeze-6.5.4", color=red, width=4,href="../kde-plasma/breeze-6.5.4.svg"];
+package_dependency46:e -> "kde-plasma/breeze-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/kactivitymanagerd-6.5.4" [label="portage://kde-plasma/kactivitymanagerd-6.5.4", color=red, width=4,href="../kde-plasma/kactivitymanagerd-6.5.4.svg"];
+package_dependency47:e -> "kde-plasma/kactivitymanagerd-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/kde-cli-tools-6.5.4" [label="portage://kde-plasma/kde-cli-tools-6.5.4", color=red, width=4,href="../kde-plasma/kde-cli-tools-6.5.4.svg"];
+package_dependency48:e -> "kde-plasma/kde-cli-tools-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/kde-cli-tools-common-6.5.4" [label="portage://kde-plasma/kde-cli-tools-common-6.5.4", color=red, width=4,href="../kde-plasma/kde-cli-tools-common-6.5.4.svg"];
+package_dependency49:e -> "kde-plasma/kde-cli-tools-common-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/kdecoration-6.5.4" [label="portage://kde-plasma/kdecoration-6.5.4", color=red, width=4,href="../kde-plasma/kdecoration-6.5.4.svg"];
+package_dependency50:e -> "kde-plasma/kdecoration-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/kdeplasma-addons-6.5.4" [label="portage://kde-plasma/kdeplasma-addons-6.5.4", color=red, width=4,href="../kde-plasma/kdeplasma-addons-6.5.4.svg"];
+package_dependency51:e -> "kde-plasma/kdeplasma-addons-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/kdesu-gui-6.5.4" [label="portage://kde-plasma/kdesu-gui-6.5.4", color=red, width=4,href="../kde-plasma/kdesu-gui-6.5.4.svg"];
+package_dependency52:e -> "kde-plasma/kdesu-gui-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/keditfiletype-6.5.4" [label="portage://kde-plasma/keditfiletype-6.5.4", color=red, width=4,href="../kde-plasma/keditfiletype-6.5.4.svg"];
+package_dependency53:e -> "kde-plasma/keditfiletype-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/kglobalacceld-6.5.4" [label="portage://kde-plasma/kglobalacceld-6.5.4", color=red, width=4,href="../kde-plasma/kglobalacceld-6.5.4.svg"];
+package_dependency54:e -> "kde-plasma/kglobalacceld-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/kinfocenter-6.5.4" [label="portage://kde-plasma/kinfocenter-6.5.4", color=red, width=4,href="../kde-plasma/kinfocenter-6.5.4.svg"];
+package_dependency55:e -> "kde-plasma/kinfocenter-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/kmenuedit-6.5.4" [label="portage://kde-plasma/kmenuedit-6.5.4", color=red, width=4,href="../kde-plasma/kmenuedit-6.5.4.svg"];
+package_dependency56:e -> "kde-plasma/kmenuedit-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/knighttime-6.5.4" [label="portage://kde-plasma/knighttime-6.5.4", color=red, width=4,href="../kde-plasma/knighttime-6.5.4.svg"];
+package_dependency57:e -> "kde-plasma/knighttime-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/kpipewire-6.5.4" [label="portage://kde-plasma/kpipewire-6.5.4", color=red, width=4,href="../kde-plasma/kpipewire-6.5.4.svg"];
+package_dependency58:e -> "kde-plasma/kpipewire-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/kscreen-6.5.4" [label="portage://kde-plasma/kscreen-6.5.4", color=red, width=4,href="../kde-plasma/kscreen-6.5.4.svg"];
+package_dependency59:e -> "kde-plasma/kscreen-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/kscreenlocker-6.5.4" [label="portage://kde-plasma/kscreenlocker-6.5.4", color=red, width=4,href="../kde-plasma/kscreenlocker-6.5.4.svg"];
+package_dependency60:e -> "kde-plasma/kscreenlocker-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/ksshaskpass-6.5.4" [label="portage://kde-plasma/ksshaskpass-6.5.4", color=red, width=4,href="../kde-plasma/ksshaskpass-6.5.4.svg"];
+package_dependency61:e -> "kde-plasma/ksshaskpass-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/ksystemstats-6.5.4" [label="portage://kde-plasma/ksystemstats-6.5.4", color=red, width=4,href="../kde-plasma/ksystemstats-6.5.4.svg"];
+package_dependency62:e -> "kde-plasma/ksystemstats-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/kwayland-6.5.4" [label="portage://kde-plasma/kwayland-6.5.4", color=red, width=4,href="../kde-plasma/kwayland-6.5.4.svg"];
+package_dependency63:e -> "kde-plasma/kwayland-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/kwin-6.5.4-r1" [label="portage://kde-plasma/kwin-6.5.4-r1", color=red, width=4,href="../kde-plasma/kwin-6.5.4-r1.svg"];
+"kde-plasma/kwin-6.5.4" [label="portage://kde-plasma/kwin-6.5.4", color=red, width=4,href="../kde-plasma/kwin-6.5.4.svg"];
+package_dependency64:e -> "kde-plasma/kwin-6.5.4-r1":w [style=dotted,weight="100"];
+package_dependency64:e -> "kde-plasma/kwin-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/kwrited-6.5.4" [label="portage://kde-plasma/kwrited-6.5.4", color=red, width=4,href="../kde-plasma/kwrited-6.5.4.svg"];
+package_dependency65:e -> "kde-plasma/kwrited-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/layer-shell-qt-6.5.4" [label="portage://kde-plasma/layer-shell-qt-6.5.4", color=red, width=4,href="../kde-plasma/layer-shell-qt-6.5.4.svg"];
+package_dependency66:e -> "kde-plasma/layer-shell-qt-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/libkscreen-6.5.4" [label="portage://kde-plasma/libkscreen-6.5.4", color=red, width=4,href="../kde-plasma/libkscreen-6.5.4.svg"];
+package_dependency67:e -> "kde-plasma/libkscreen-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/libksysguard-6.5.4" [label="portage://kde-plasma/libksysguard-6.5.4", color=red, width=4,href="../kde-plasma/libksysguard-6.5.4.svg"];
+package_dependency68:e -> "kde-plasma/libksysguard-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/libplasma-6.5.4" [label="portage://kde-plasma/libplasma-6.5.4", color=red, width=4,href="../kde-plasma/libplasma-6.5.4.svg"];
+package_dependency69:e -> "kde-plasma/libplasma-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/milou-6.5.4" [label="portage://kde-plasma/milou-6.5.4", color=red, width=4,href="../kde-plasma/milou-6.5.4.svg"];
+package_dependency70:e -> "kde-plasma/milou-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/ocean-sound-theme-6.5.4" [label="portage://kde-plasma/ocean-sound-theme-6.5.4", color=red, width=4,href="../kde-plasma/ocean-sound-theme-6.5.4.svg"];
+package_dependency71:e -> "kde-plasma/ocean-sound-theme-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/plasma-activities-6.5.4" [label="portage://kde-plasma/plasma-activities-6.5.4", color=red, width=4,href="../kde-plasma/plasma-activities-6.5.4.svg"];
+package_dependency72:e -> "kde-plasma/plasma-activities-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/plasma-activities-stats-6.5.4" [label="portage://kde-plasma/plasma-activities-stats-6.5.4", color=red, width=4,href="../kde-plasma/plasma-activities-stats-6.5.4.svg"];
+package_dependency73:e -> "kde-plasma/plasma-activities-stats-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/plasma-desktop-6.5.4" [label="portage://kde-plasma/plasma-desktop-6.5.4", color=red, width=4,href="../kde-plasma/plasma-desktop-6.5.4.svg"];
+package_dependency74:e -> "kde-plasma/plasma-desktop-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/plasma-integration-6.5.4" [label="portage://kde-plasma/plasma-integration-6.5.4", color=red, width=4,href="../kde-plasma/plasma-integration-6.5.4.svg"];
+package_dependency75:e -> "kde-plasma/plasma-integration-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/plasma-login-sessions-6.5.4" [label="portage://kde-plasma/plasma-login-sessions-6.5.4", color=red, width=4,href="../kde-plasma/plasma-login-sessions-6.5.4.svg"];
+package_dependency76:e -> "kde-plasma/plasma-login-sessions-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/plasma-systemmonitor-6.5.4" [label="portage://kde-plasma/plasma-systemmonitor-6.5.4", color=red, width=4,href="../kde-plasma/plasma-systemmonitor-6.5.4.svg"];
+package_dependency77:e -> "kde-plasma/plasma-systemmonitor-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/plasma-welcome-6.5.4" [label="portage://kde-plasma/plasma-welcome-6.5.4", color=red, width=4,href="../kde-plasma/plasma-welcome-6.5.4.svg"];
+package_dependency78:e -> "kde-plasma/plasma-welcome-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/plasma-workspace-6.5.4" [label="portage://kde-plasma/plasma-workspace-6.5.4", color=red, width=4,href="../kde-plasma/plasma-workspace-6.5.4.svg"];
+package_dependency79:e -> "kde-plasma/plasma-workspace-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/plasma5support-6.5.4" [label="portage://kde-plasma/plasma5support-6.5.4", color=red, width=4,href="../kde-plasma/plasma5support-6.5.4.svg"];
+package_dependency80:e -> "kde-plasma/plasma5support-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/polkit-kde-agent-6.5.4" [label="portage://kde-plasma/polkit-kde-agent-6.5.4", color=red, width=4,href="../kde-plasma/polkit-kde-agent-6.5.4.svg"];
+package_dependency81:e -> "kde-plasma/polkit-kde-agent-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/powerdevil-6.5.4" [label="portage://kde-plasma/powerdevil-6.5.4", color=red, width=4,href="../kde-plasma/powerdevil-6.5.4.svg"];
+package_dependency82:e -> "kde-plasma/powerdevil-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/qqc2-breeze-style-6.5.4" [label="portage://kde-plasma/qqc2-breeze-style-6.5.4", color=red, width=4,href="../kde-plasma/qqc2-breeze-style-6.5.4.svg"];
+package_dependency83:e -> "kde-plasma/qqc2-breeze-style-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/spectacle-6.5.4" [label="portage://kde-plasma/spectacle-6.5.4", color=red, width=4,href="../kde-plasma/spectacle-6.5.4.svg"];
+package_dependency84:e -> "kde-plasma/spectacle-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/spectacle-6.5.4" [label="portage://kde-plasma/spectacle-6.5.4", color=red, width=4,href="../kde-plasma/spectacle-6.5.4.svg"];
+"kde-plasma/spectacle-6.4.5" [label="portage://kde-plasma/spectacle-6.4.5", color=red, width=4,href="../kde-plasma/spectacle-6.4.5.svg"];
+package_dependency85:e -> "kde-plasma/spectacle-6.5.4":w [style=dotted,weight="100"];
+package_dependency85:e -> "kde-plasma/spectacle-6.4.5":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/systemsettings-6.5.4" [label="portage://kde-plasma/systemsettings-6.5.4", color=red, width=4,href="../kde-plasma/systemsettings-6.5.4.svg"];
+package_dependency86:e -> "kde-plasma/systemsettings-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/xdg-desktop-portal-kde-6.5.4" [label="portage://kde-plasma/xdg-desktop-portal-kde-6.5.4", color=red, width=4,href="../kde-plasma/xdg-desktop-portal-kde-6.5.4.svg"];
+package_dependency87:e -> "kde-plasma/xdg-desktop-portal-kde-6.5.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-apps/dbus-1.16.2" [label="portage://sys-apps/dbus-1.16.2", color=red, width=4,href="../sys-apps/dbus-1.16.2.svg"];
+package_dependency88:e -> "sys-apps/dbus-1.16.2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-auth/polkit-9999" [label="portage://sys-auth/polkit-9999", color=red, width=4,href="../sys-auth/polkit-9999.svg"];
+"sys-auth/polkit-126-r2" [label="portage://sys-auth/polkit-126-r2", color=red, width=4,href="../sys-auth/polkit-126-r2.svg"];
+"sys-auth/polkit-126-r1" [label="portage://sys-auth/polkit-126-r1", color=red, width=4,href="../sys-auth/polkit-126-r1.svg"];
+"sys-auth/polkit-123-r1" [label="portage://sys-auth/polkit-123-r1", color=red, width=4,href="../sys-auth/polkit-123-r1.svg"];
+package_dependency89:e -> "sys-auth/polkit-9999":w [style=dotted,weight="100"];
+package_dependency89:e -> "sys-auth/polkit-126-r2":w [style=dotted,weight="100"];
+package_dependency89:e -> "sys-auth/polkit-126-r1":w [style=dotted,weight="100"];
+package_dependency89:e -> "sys-auth/polkit-123-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-fs/udisks-2.11.0" [label="portage://sys-fs/udisks-2.11.0", color=red, width=4,href="../sys-fs/udisks-2.11.0.svg"];
+"sys-fs/udisks-2.10.2" [label="portage://sys-fs/udisks-2.10.2", color=red, width=4,href="../sys-fs/udisks-2.10.2.svg"];
+package_dependency90:e -> "sys-fs/udisks-2.11.0":w [style=dotted,weight="100"];
+package_dependency90:e -> "sys-fs/udisks-2.10.2":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+}
+subgraph  {
+color=black;
+nodesep=1;
+"kde-plasma/plasma-meta-6.5.4" [label="portage://kde-plasma/plasma-meta-6.5.4", color=red, width=4,href="../kde-plasma/plasma-meta-6.5.4.svg"];
+"kde-plasma/plasma-meta-6.4.5-r2" [label="portage://kde-plasma/plasma-meta-6.4.5-r2", color=red, width=4,href="../kde-plasma/plasma-meta-6.4.5-r2.svg"];
+weak_blocker3:e -> "kde-plasma/plasma-meta-6.5.4":w [style=dotted,weight="100"];
+weak_blocker3:e -> "kde-plasma/plasma-meta-6.4.5-r2":w [style=dotted,weight="100"];
+}
+}
+}

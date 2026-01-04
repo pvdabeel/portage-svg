@@ -1,0 +1,131 @@
+digraph prolog {
+
+newrank=true;
+concentrate=true;
+compound=true;
+
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+graph [labelloc=t, labeljust=l, fontcolor=blue, fontname=Helvetica, fontsize=10, label=<<TABLE BORDER='0' CELLBORDER='1' CELLSPACING='0' CELLPADDING='6'><TR><TD COLSPAN='3'><FONT COLOR='black'><B>navigation</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='7'><FONT COLOR='black'><B>dependency graph</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='4'><FONT COLOR='black'><B>version control</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='3'><FONT COLOR='black'><B>command line</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='1'><FONT COLOR='black'><B>legacy</B></FONT></TD></TR><TR><TD title="repository" href="../index.html">portage</TD><TD title="repository" href="./index.html">app-emacs</TD><TD title="repository" href="./corfu.html">corfu</TD><TD BORDER='0'></TD><TD title="portage://app-emacs/corfu-2.6" href="../app-emacs/corfu-2.6.svg"><u>detail</u></TD><TD title="portage://app-emacs/corfu-2.6" href="../app-emacs/corfu-2.6-bdepend.svg">bdepend</TD><TD title="portage://app-emacs/corfu-2.6" href="../app-emacs/corfu-2.6-cdepend.svg">cdepend</TD><TD title="portage://app-emacs/corfu-2.6" href="../app-emacs/corfu-2.6-depend.svg">depend</TD><TD title="portage://app-emacs/corfu-2.6" href="../app-emacs/corfu-2.6-idepend.svg">idepend</TD><TD title="portage://app-emacs/corfu-2.6" href="../app-emacs/corfu-2.6-rdepend.svg">rdepend</TD><TD title="portage://app-emacs/corfu-2.6" href="../app-emacs/corfu-2.6-pdepend.svg">pdepend</TD><TD BORDER='0'></TD><TD title="portage://app-emacs/corfu-9999" href="../app-emacs/corfu-9999.svg">&lt;&lt; newest</TD><TD title="portage://app-emacs/corfu-9999" href="../app-emacs/corfu-9999.svg">&lt; newer</TD><TD title="portage://app-emacs/corfu-2.5" href="../app-emacs/corfu-2.5.svg">older &gt;</TD><TD title="portage://app-emacs/corfu-2.4" href="../app-emacs/corfu-2.4.svg">oldest &gt;&gt;</TD><TD BORDER='0'></TD><TD title="portage://app-emacs/corfu-2.6" href="../app-emacs/corfu-2.6-merge.svg">--merge&nbsp;</TD><TD title="portage://app-emacs/corfu-2.6" href="../app-emacs/corfu-2.6-fetchonly.svg">--fetchonly&nbsp;</TD><TD title="portage://app-emacs/corfu-2.6" href="../app-emacs/corfu-2.6-info.svg">--info&nbsp;</TD><TD BORDER='0'></TD><TD title="portage://app-emacs/corfu-2.6" href="../app-emacs/corfu-2.6-emerge.svg">emerge</TD></TR></TABLE>>];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+fontcolor=gray;
+label=<<i>ebuild</i>>;
+labelloc=t;
+labeljust=c;
+id [label="portage://app-emacs/corfu-2.6", color=red, width=4, penwidth=2, fontname="Helvetica-Bold", href="../app-emacs/corfu-2.6.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+fontcolor=gray;
+label=<<i>dependencies</i>>;
+labelloc=t;
+labeljust=c
+subgraph cluster_install {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install</i>>;
+subgraph  {
+package_dependency1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>app-editors</TD></TR><TR><TD>emacs</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[29,1],,,29.1]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency1:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>app-emacs</TD></TR><TR><TD>compat</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency2:w [weight=20, style="solid",arrowhead="vee"];
+}
+subgraph cluster_install_and_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph  {
+package_dependency3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>app-editors</TD></TR><TR><TD>emacs</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[29,1],,,29.1]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency3:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency4 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>app-emacs</TD></TR><TR><TD>compat</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency4:w [weight=20, style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+fontcolor=gray;
+label=<<i>candidates</i>>;
+labelloc=t;
+labeljust=c
+
+subgraph  {
+color=black;
+nodesep=1;
+"app-editors/emacs-31.0.9999" [label="portage://app-editors/emacs-31.0.9999", color=red, width=4,href="../app-editors/emacs-31.0.9999.svg"];
+"app-editors/emacs-30.2.9999" [label="portage://app-editors/emacs-30.2.9999", color=red, width=4,href="../app-editors/emacs-30.2.9999.svg"];
+"app-editors/emacs-30.2" [label="portage://app-editors/emacs-30.2", color=red, width=4,href="../app-editors/emacs-30.2.svg"];
+"app-editors/emacs-30.1-r3" [label="portage://app-editors/emacs-30.1-r3", color=red, width=4,href="../app-editors/emacs-30.1-r3.svg"];
+"app-editors/emacs-29.4-r5" [label="portage://app-editors/emacs-29.4-r5", color=red, width=4,href="../app-editors/emacs-29.4-r5.svg"];
+"app-editors/emacs-29.4-r4" [label="portage://app-editors/emacs-29.4-r4", color=red, width=4,href="../app-editors/emacs-29.4-r4.svg"];
+package_dependency1:e -> "app-editors/emacs-31.0.9999":w [style=dotted,weight="100"];
+package_dependency1:e -> "app-editors/emacs-30.2.9999":w [style=dotted,weight="100"];
+package_dependency1:e -> "app-editors/emacs-30.2":w [style=dotted,weight="100"];
+package_dependency1:e -> "app-editors/emacs-30.1-r3":w [style=dotted,weight="100"];
+package_dependency1:e -> "app-editors/emacs-29.4-r5":w [style=dotted,weight="100"];
+package_dependency1:e -> "app-editors/emacs-29.4-r4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-emacs/compat-30.1.0.1" [label="portage://app-emacs/compat-30.1.0.1", color=red, width=4,href="../app-emacs/compat-30.1.0.1.svg"];
+package_dependency2:e -> "app-emacs/compat-30.1.0.1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-editors/emacs-31.0.9999" [label="portage://app-editors/emacs-31.0.9999", color=red, width=4,href="../app-editors/emacs-31.0.9999.svg"];
+"app-editors/emacs-30.2.9999" [label="portage://app-editors/emacs-30.2.9999", color=red, width=4,href="../app-editors/emacs-30.2.9999.svg"];
+"app-editors/emacs-30.2" [label="portage://app-editors/emacs-30.2", color=red, width=4,href="../app-editors/emacs-30.2.svg"];
+"app-editors/emacs-30.1-r3" [label="portage://app-editors/emacs-30.1-r3", color=red, width=4,href="../app-editors/emacs-30.1-r3.svg"];
+"app-editors/emacs-29.4-r5" [label="portage://app-editors/emacs-29.4-r5", color=red, width=4,href="../app-editors/emacs-29.4-r5.svg"];
+"app-editors/emacs-29.4-r4" [label="portage://app-editors/emacs-29.4-r4", color=red, width=4,href="../app-editors/emacs-29.4-r4.svg"];
+package_dependency3:e -> "app-editors/emacs-31.0.9999":w [style=dotted,weight="100"];
+package_dependency3:e -> "app-editors/emacs-30.2.9999":w [style=dotted,weight="100"];
+package_dependency3:e -> "app-editors/emacs-30.2":w [style=dotted,weight="100"];
+package_dependency3:e -> "app-editors/emacs-30.1-r3":w [style=dotted,weight="100"];
+package_dependency3:e -> "app-editors/emacs-29.4-r5":w [style=dotted,weight="100"];
+package_dependency3:e -> "app-editors/emacs-29.4-r4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-emacs/compat-30.1.0.1" [label="portage://app-emacs/compat-30.1.0.1", color=red, width=4,href="../app-emacs/compat-30.1.0.1.svg"];
+package_dependency4:e -> "app-emacs/compat-30.1.0.1":w [style=dotted,weight="100"];
+}
+}
+}

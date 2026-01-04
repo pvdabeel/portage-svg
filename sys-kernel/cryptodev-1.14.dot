@@ -1,0 +1,235 @@
+digraph prolog {
+
+newrank=true;
+concentrate=true;
+compound=true;
+
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+graph [labelloc=t, labeljust=l, fontcolor=blue, fontname=Helvetica, fontsize=10, label=<<TABLE BORDER='0' CELLBORDER='1' CELLSPACING='0' CELLPADDING='6'><TR><TD COLSPAN='3'><FONT COLOR='black'><B>navigation</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='7'><FONT COLOR='black'><B>dependency graph</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='4'><FONT COLOR='black'><B>version control</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='3'><FONT COLOR='black'><B>command line</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='1'><FONT COLOR='black'><B>legacy</B></FONT></TD></TR><TR><TD title="repository" href="../index.html">portage</TD><TD title="repository" href="./index.html">sys-kernel</TD><TD title="repository" href="./cryptodev.html">cryptodev</TD><TD BORDER='0'></TD><TD title="portage://sys-kernel/cryptodev-1.14" href="../sys-kernel/cryptodev-1.14.svg"><u>detail</u></TD><TD title="portage://sys-kernel/cryptodev-1.14" href="../sys-kernel/cryptodev-1.14-bdepend.svg">bdepend</TD><TD title="portage://sys-kernel/cryptodev-1.14" href="../sys-kernel/cryptodev-1.14-cdepend.svg">cdepend</TD><TD title="portage://sys-kernel/cryptodev-1.14" href="../sys-kernel/cryptodev-1.14-depend.svg">depend</TD><TD title="portage://sys-kernel/cryptodev-1.14" href="../sys-kernel/cryptodev-1.14-idepend.svg">idepend</TD><TD title="portage://sys-kernel/cryptodev-1.14" href="../sys-kernel/cryptodev-1.14-rdepend.svg">rdepend</TD><TD title="portage://sys-kernel/cryptodev-1.14" href="../sys-kernel/cryptodev-1.14-pdepend.svg">pdepend</TD><TD BORDER='0'></TD><TD title="portage://sys-kernel/cryptodev-9999" href="../sys-kernel/cryptodev-9999.svg">&lt;&lt; newest</TD><TD title="portage://sys-kernel/cryptodev-9999" href="../sys-kernel/cryptodev-9999.svg">&lt; newer</TD><TD title="portage://sys-kernel/cryptodev-1.13-r1" href="../sys-kernel/cryptodev-1.13-r1.svg">older &gt;</TD><TD title="portage://sys-kernel/cryptodev-1.12" href="../sys-kernel/cryptodev-1.12.svg">oldest &gt;&gt;</TD><TD BORDER='0'></TD><TD title="portage://sys-kernel/cryptodev-1.14" href="../sys-kernel/cryptodev-1.14-merge.svg">--merge&nbsp;</TD><TD title="portage://sys-kernel/cryptodev-1.14" href="../sys-kernel/cryptodev-1.14-fetchonly.svg">--fetchonly&nbsp;</TD><TD title="portage://sys-kernel/cryptodev-1.14" href="../sys-kernel/cryptodev-1.14-info.svg">--info&nbsp;</TD><TD BORDER='0'></TD><TD title="portage://sys-kernel/cryptodev-1.14" href="../sys-kernel/cryptodev-1.14-emerge.svg">emerge</TD></TR></TABLE>>];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+fontcolor=gray;
+label=<<i>ebuild</i>>;
+labelloc=t;
+labeljust=c;
+id [label="portage://sys-kernel/cryptodev-1.14", color=red, width=4, penwidth=2, fontname="Helvetica-Bold", href="../sys-kernel/cryptodev-1.14.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+fontcolor=gray;
+label=<<i>dependencies</i>>;
+labelloc=t;
+labeljust=c
+subgraph cluster_install {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install</i>>;
+subgraph  {
+use_conditional_group1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>modules-sign</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-libs</TD></TR><TR><TD>openssl</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group1:e -> package_dependency1:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>virtual</TD></TR><TR><TD>pkgconfig</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group1:e -> package_dependency2:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group1:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-util</TD></TR><TR><TD>pahole</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency3:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency4 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>virtual</TD></TR><TR><TD>linux-sources</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency4:w [weight=20, style="solid",arrowhead="vee"];
+}
+subgraph cluster_install_and_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install and run</i>>;
+subgraph  {
+package_dependency5 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>kmod</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency5:w [weight=20, style="solid",arrowhead="odotvee"];
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+subgraph  {
+use_conditional_group2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>dist-kernel</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency6 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>virtual</TD></TR><TR><TD>dist-kernel</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group2:e -> package_dependency6:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group2:w [weight=20, style="solid",arrowhead="odot"];
+subgraph  {
+package_dependency7 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">run</TD></TR><TR><TD>sys-apps</TD></TR><TR><TD>kmod</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency7:w [weight=20, style="solid",arrowhead="odot"];
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+fontcolor=gray;
+label=<<i>candidates</i>>;
+labelloc=t;
+labeljust=c
+
+subgraph  {
+color=black;
+nodesep=1;
+"dev-libs/openssl-3.6.9999" [label="portage://dev-libs/openssl-3.6.9999", color=red, width=4,href="../dev-libs/openssl-3.6.9999.svg"];
+"dev-libs/openssl-3.6.0" [label="portage://dev-libs/openssl-3.6.0", color=red, width=4,href="../dev-libs/openssl-3.6.0.svg"];
+"dev-libs/openssl-3.5.9999" [label="portage://dev-libs/openssl-3.5.9999", color=red, width=4,href="../dev-libs/openssl-3.5.9999.svg"];
+"dev-libs/openssl-3.5.4" [label="portage://dev-libs/openssl-3.5.4", color=red, width=4,href="../dev-libs/openssl-3.5.4.svg"];
+"dev-libs/openssl-3.4.9999" [label="portage://dev-libs/openssl-3.4.9999", color=red, width=4,href="../dev-libs/openssl-3.4.9999.svg"];
+"dev-libs/openssl-3.4.3" [label="portage://dev-libs/openssl-3.4.3", color=red, width=4,href="../dev-libs/openssl-3.4.3.svg"];
+"dev-libs/openssl-3.3.9999" [label="portage://dev-libs/openssl-3.3.9999", color=red, width=4,href="../dev-libs/openssl-3.3.9999.svg"];
+"dev-libs/openssl-3.3.5" [label="portage://dev-libs/openssl-3.3.5", color=red, width=4,href="../dev-libs/openssl-3.3.5.svg"];
+"dev-libs/openssl-3.2.9999" [label="portage://dev-libs/openssl-3.2.9999", color=red, width=4,href="../dev-libs/openssl-3.2.9999.svg"];
+"dev-libs/openssl-3.2.6" [label="portage://dev-libs/openssl-3.2.6", color=red, width=4,href="../dev-libs/openssl-3.2.6.svg"];
+"dev-libs/openssl-3.0.9999" [label="portage://dev-libs/openssl-3.0.9999", color=red, width=4,href="../dev-libs/openssl-3.0.9999.svg"];
+"dev-libs/openssl-3.0.18" [label="portage://dev-libs/openssl-3.0.18", color=red, width=4,href="../dev-libs/openssl-3.0.18.svg"];
+"dev-libs/openssl-1.1.1w" [label="portage://dev-libs/openssl-1.1.1w", color=red, width=4,href="../dev-libs/openssl-1.1.1w.svg"];
+"dev-libs/openssl-1.0.2u-r1" [label="portage://dev-libs/openssl-1.0.2u-r1", color=red, width=4,href="../dev-libs/openssl-1.0.2u-r1.svg"];
+package_dependency1:e -> "dev-libs/openssl-3.6.9999":w [style=dotted,weight="100"];
+package_dependency1:e -> "dev-libs/openssl-3.6.0":w [style=dotted,weight="100"];
+package_dependency1:e -> "dev-libs/openssl-3.5.9999":w [style=dotted,weight="100"];
+package_dependency1:e -> "dev-libs/openssl-3.5.4":w [style=dotted,weight="100"];
+package_dependency1:e -> "dev-libs/openssl-3.4.9999":w [style=dotted,weight="100"];
+package_dependency1:e -> "dev-libs/openssl-3.4.3":w [style=dotted,weight="100"];
+package_dependency1:e -> "dev-libs/openssl-3.3.9999":w [style=dotted,weight="100"];
+package_dependency1:e -> "dev-libs/openssl-3.3.5":w [style=dotted,weight="100"];
+package_dependency1:e -> "dev-libs/openssl-3.2.9999":w [style=dotted,weight="100"];
+package_dependency1:e -> "dev-libs/openssl-3.2.6":w [style=dotted,weight="100"];
+package_dependency1:e -> "dev-libs/openssl-3.0.9999":w [style=dotted,weight="100"];
+package_dependency1:e -> "dev-libs/openssl-3.0.18":w [style=dotted,weight="100"];
+package_dependency1:e -> "dev-libs/openssl-1.1.1w":w [style=dotted,weight="100"];
+package_dependency1:e -> "dev-libs/openssl-1.0.2u-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"virtual/pkgconfig-3" [label="portage://virtual/pkgconfig-3", color=red, width=4,href="../virtual/pkgconfig-3.svg"];
+package_dependency2:e -> "virtual/pkgconfig-3":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-util/pahole-9999" [label="portage://dev-util/pahole-9999", color=red, width=4,href="../dev-util/pahole-9999.svg"];
+"dev-util/pahole-1.30" [label="portage://dev-util/pahole-1.30", color=red, width=4,href="../dev-util/pahole-1.30.svg"];
+"dev-util/pahole-1.29" [label="portage://dev-util/pahole-1.29", color=red, width=4,href="../dev-util/pahole-1.29.svg"];
+"dev-util/pahole-1.27-r1" [label="portage://dev-util/pahole-1.27-r1", color=red, width=4,href="../dev-util/pahole-1.27-r1.svg"];
+package_dependency3:e -> "dev-util/pahole-9999":w [style=dotted,weight="100"];
+package_dependency3:e -> "dev-util/pahole-1.30":w [style=dotted,weight="100"];
+package_dependency3:e -> "dev-util/pahole-1.29":w [style=dotted,weight="100"];
+package_dependency3:e -> "dev-util/pahole-1.27-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"virtual/linux-sources-3-r8" [label="portage://virtual/linux-sources-3-r8", color=red, width=4,href="../virtual/linux-sources-3-r8.svg"];
+package_dependency4:e -> "virtual/linux-sources-3-r8":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-apps/kmod-9999" [label="portage://sys-apps/kmod-9999", color=red, width=4,href="../sys-apps/kmod-9999.svg"];
+"sys-apps/kmod-34.2" [label="portage://sys-apps/kmod-34.2", color=red, width=4,href="../sys-apps/kmod-34.2.svg"];
+"sys-apps/kmod-33" [label="portage://sys-apps/kmod-33", color=red, width=4,href="../sys-apps/kmod-33.svg"];
+package_dependency5:e -> "sys-apps/kmod-9999":w [style=dotted,weight="100"];
+package_dependency5:e -> "sys-apps/kmod-34.2":w [style=dotted,weight="100"];
+package_dependency5:e -> "sys-apps/kmod-33":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"virtual/dist-kernel-6.18.1" [label="portage://virtual/dist-kernel-6.18.1", color=red, width=4,href="../virtual/dist-kernel-6.18.1.svg"];
+"virtual/dist-kernel-6.17.12" [label="portage://virtual/dist-kernel-6.17.12", color=red, width=4,href="../virtual/dist-kernel-6.17.12.svg"];
+"virtual/dist-kernel-6.17.11" [label="portage://virtual/dist-kernel-6.17.11", color=red, width=4,href="../virtual/dist-kernel-6.17.11.svg"];
+"virtual/dist-kernel-6.17.10" [label="portage://virtual/dist-kernel-6.17.10", color=red, width=4,href="../virtual/dist-kernel-6.17.10.svg"];
+"virtual/dist-kernel-6.17.9" [label="portage://virtual/dist-kernel-6.17.9", color=red, width=4,href="../virtual/dist-kernel-6.17.9.svg"];
+"virtual/dist-kernel-6.12.62" [label="portage://virtual/dist-kernel-6.12.62", color=red, width=4,href="../virtual/dist-kernel-6.12.62.svg"];
+"virtual/dist-kernel-6.12.61" [label="portage://virtual/dist-kernel-6.12.61", color=red, width=4,href="../virtual/dist-kernel-6.12.61.svg"];
+"virtual/dist-kernel-6.12.60" [label="portage://virtual/dist-kernel-6.12.60", color=red, width=4,href="../virtual/dist-kernel-6.12.60.svg"];
+"virtual/dist-kernel-6.12.59" [label="portage://virtual/dist-kernel-6.12.59", color=red, width=4,href="../virtual/dist-kernel-6.12.59.svg"];
+"virtual/dist-kernel-6.12.58" [label="portage://virtual/dist-kernel-6.12.58", color=red, width=4,href="../virtual/dist-kernel-6.12.58.svg"];
+"virtual/dist-kernel-6.6.119" [label="portage://virtual/dist-kernel-6.6.119", color=red, width=4,href="../virtual/dist-kernel-6.6.119.svg"];
+"virtual/dist-kernel-6.6.118" [label="portage://virtual/dist-kernel-6.6.118", color=red, width=4,href="../virtual/dist-kernel-6.6.118.svg"];
+"virtual/dist-kernel-6.6.117" [label="portage://virtual/dist-kernel-6.6.117", color=red, width=4,href="../virtual/dist-kernel-6.6.117.svg"];
+"virtual/dist-kernel-6.6.116" [label="portage://virtual/dist-kernel-6.6.116", color=red, width=4,href="../virtual/dist-kernel-6.6.116.svg"];
+"virtual/dist-kernel-6.1.159" [label="portage://virtual/dist-kernel-6.1.159", color=red, width=4,href="../virtual/dist-kernel-6.1.159.svg"];
+"virtual/dist-kernel-6.1.158" [label="portage://virtual/dist-kernel-6.1.158", color=red, width=4,href="../virtual/dist-kernel-6.1.158.svg"];
+"virtual/dist-kernel-5.15.197" [label="portage://virtual/dist-kernel-5.15.197", color=red, width=4,href="../virtual/dist-kernel-5.15.197.svg"];
+"virtual/dist-kernel-5.15.196" [label="portage://virtual/dist-kernel-5.15.196", color=red, width=4,href="../virtual/dist-kernel-5.15.196.svg"];
+"virtual/dist-kernel-5.10.247" [label="portage://virtual/dist-kernel-5.10.247", color=red, width=4,href="../virtual/dist-kernel-5.10.247.svg"];
+"virtual/dist-kernel-5.10.246" [label="portage://virtual/dist-kernel-5.10.246", color=red, width=4,href="../virtual/dist-kernel-5.10.246.svg"];
+package_dependency6:e -> "virtual/dist-kernel-6.18.1":w [style=dotted,weight="100"];
+package_dependency6:e -> "virtual/dist-kernel-6.17.12":w [style=dotted,weight="100"];
+package_dependency6:e -> "virtual/dist-kernel-6.17.11":w [style=dotted,weight="100"];
+package_dependency6:e -> "virtual/dist-kernel-6.17.10":w [style=dotted,weight="100"];
+package_dependency6:e -> "virtual/dist-kernel-6.17.9":w [style=dotted,weight="100"];
+package_dependency6:e -> "virtual/dist-kernel-6.12.62":w [style=dotted,weight="100"];
+package_dependency6:e -> "virtual/dist-kernel-6.12.61":w [style=dotted,weight="100"];
+package_dependency6:e -> "virtual/dist-kernel-6.12.60":w [style=dotted,weight="100"];
+package_dependency6:e -> "virtual/dist-kernel-6.12.59":w [style=dotted,weight="100"];
+package_dependency6:e -> "virtual/dist-kernel-6.12.58":w [style=dotted,weight="100"];
+package_dependency6:e -> "virtual/dist-kernel-6.6.119":w [style=dotted,weight="100"];
+package_dependency6:e -> "virtual/dist-kernel-6.6.118":w [style=dotted,weight="100"];
+package_dependency6:e -> "virtual/dist-kernel-6.6.117":w [style=dotted,weight="100"];
+package_dependency6:e -> "virtual/dist-kernel-6.6.116":w [style=dotted,weight="100"];
+package_dependency6:e -> "virtual/dist-kernel-6.1.159":w [style=dotted,weight="100"];
+package_dependency6:e -> "virtual/dist-kernel-6.1.158":w [style=dotted,weight="100"];
+package_dependency6:e -> "virtual/dist-kernel-5.15.197":w [style=dotted,weight="100"];
+package_dependency6:e -> "virtual/dist-kernel-5.15.196":w [style=dotted,weight="100"];
+package_dependency6:e -> "virtual/dist-kernel-5.10.247":w [style=dotted,weight="100"];
+package_dependency6:e -> "virtual/dist-kernel-5.10.246":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"sys-apps/kmod-9999" [label="portage://sys-apps/kmod-9999", color=red, width=4,href="../sys-apps/kmod-9999.svg"];
+"sys-apps/kmod-34.2" [label="portage://sys-apps/kmod-34.2", color=red, width=4,href="../sys-apps/kmod-34.2.svg"];
+"sys-apps/kmod-33" [label="portage://sys-apps/kmod-33", color=red, width=4,href="../sys-apps/kmod-33.svg"];
+package_dependency7:e -> "sys-apps/kmod-9999":w [style=dotted,weight="100"];
+package_dependency7:e -> "sys-apps/kmod-34.2":w [style=dotted,weight="100"];
+package_dependency7:e -> "sys-apps/kmod-33":w [style=dotted,weight="100"];
+}
+}
+}

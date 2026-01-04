@@ -1,0 +1,98 @@
+digraph prolog {
+
+newrank=true;
+concentrate=true;
+compound=true;
+
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+graph [labelloc=t, labeljust=l, fontcolor=blue, fontname=Helvetica, fontsize=10, label=<<TABLE BORDER='0' CELLBORDER='1' CELLSPACING='0' CELLPADDING='6'><TR><TD COLSPAN='3'><FONT COLOR='black'><B>navigation</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='7'><FONT COLOR='black'><B>dependency graph</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='4'><FONT COLOR='black'><B>version control</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='3'><FONT COLOR='black'><B>command line</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='1'><FONT COLOR='black'><B>legacy</B></FONT></TD></TR><TR><TD title="repository" href="../index.html">portage</TD><TD title="repository" href="./index.html">sec-keys</TD><TD title="repository" href="./openpgp-keys-knot-resolver.html">openpgp-keys-knot-resolver</TD><TD BORDER='0'></TD><TD title="portage://sec-keys/openpgp-keys-knot-resolver-20251203" href="../sec-keys/openpgp-keys-knot-resolver-20251203.svg"><u>detail</u></TD><TD title="portage://sec-keys/openpgp-keys-knot-resolver-20251203" href="../sec-keys/openpgp-keys-knot-resolver-20251203-bdepend.svg">bdepend</TD><TD title="portage://sec-keys/openpgp-keys-knot-resolver-20251203" href="../sec-keys/openpgp-keys-knot-resolver-20251203-cdepend.svg">cdepend</TD><TD title="portage://sec-keys/openpgp-keys-knot-resolver-20251203" href="../sec-keys/openpgp-keys-knot-resolver-20251203-depend.svg">depend</TD><TD title="portage://sec-keys/openpgp-keys-knot-resolver-20251203" href="../sec-keys/openpgp-keys-knot-resolver-20251203-idepend.svg">idepend</TD><TD title="portage://sec-keys/openpgp-keys-knot-resolver-20251203" href="../sec-keys/openpgp-keys-knot-resolver-20251203-rdepend.svg">rdepend</TD><TD title="portage://sec-keys/openpgp-keys-knot-resolver-20251203" href="../sec-keys/openpgp-keys-knot-resolver-20251203-pdepend.svg">pdepend</TD><TD BORDER='0'></TD><TD><FONT color="gray">&lt;&lt; newest</FONT></TD><TD><FONT color="gray">&lt; newer</FONT></TD><TD title="portage://sec-keys/openpgp-keys-knot-resolver-20240304" href="../sec-keys/openpgp-keys-knot-resolver-20240304.svg">older &gt;</TD><TD title="portage://sec-keys/openpgp-keys-knot-resolver-20240304" href="../sec-keys/openpgp-keys-knot-resolver-20240304.svg">oldest &gt;&gt;</TD><TD BORDER='0'></TD><TD title="portage://sec-keys/openpgp-keys-knot-resolver-20251203" href="../sec-keys/openpgp-keys-knot-resolver-20251203-merge.svg">--merge&nbsp;</TD><TD title="portage://sec-keys/openpgp-keys-knot-resolver-20251203" href="../sec-keys/openpgp-keys-knot-resolver-20251203-fetchonly.svg">--fetchonly&nbsp;</TD><TD title="portage://sec-keys/openpgp-keys-knot-resolver-20251203" href="../sec-keys/openpgp-keys-knot-resolver-20251203-info.svg">--info&nbsp;</TD><TD BORDER='0'></TD><TD title="portage://sec-keys/openpgp-keys-knot-resolver-20251203" href="../sec-keys/openpgp-keys-knot-resolver-20251203-emerge.svg">emerge</TD></TR></TABLE>>];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+fontcolor=gray;
+label=<<i>ebuild</i>>;
+labelloc=t;
+labeljust=c;
+id [label="portage://sec-keys/openpgp-keys-knot-resolver-20251203", color=red, width=4, penwidth=2, fontname="Helvetica-Bold", href="../sec-keys/openpgp-keys-knot-resolver-20251203.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+fontcolor=gray;
+label=<<i>dependencies</i>>;
+labelloc=t;
+labeljust=c
+subgraph cluster_install {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install</i>>;
+subgraph  {
+use_conditional_group1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>test</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>app-crypt</TD></TR><TR><TD>pgpdump</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group1:e -> package_dependency1:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group1:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>app-alternatives</TD></TR><TR><TD>gpg</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency2:w [weight=20, style="solid",arrowhead="vee"];
+}
+subgraph cluster_install_and_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+fontcolor=gray;
+label=<<i>candidates</i>>;
+labelloc=t;
+labeljust=c
+
+subgraph  {
+color=black;
+nodesep=1;
+"app-crypt/pgpdump-0.36" [label="portage://app-crypt/pgpdump-0.36", color=red, width=4,href="../app-crypt/pgpdump-0.36.svg"];
+package_dependency1:e -> "app-crypt/pgpdump-0.36":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-alternatives/gpg-1-r3" [label="portage://app-alternatives/gpg-1-r3", color=red, width=4,href="../app-alternatives/gpg-1-r3.svg"];
+"app-alternatives/gpg-1-r2" [label="portage://app-alternatives/gpg-1-r2", color=red, width=4,href="../app-alternatives/gpg-1-r2.svg"];
+"app-alternatives/gpg-0-r3" [label="portage://app-alternatives/gpg-0-r3", color=red, width=4,href="../app-alternatives/gpg-0-r3.svg"];
+"app-alternatives/gpg-0-r2" [label="portage://app-alternatives/gpg-0-r2", color=red, width=4,href="../app-alternatives/gpg-0-r2.svg"];
+package_dependency2:e -> "app-alternatives/gpg-1-r3":w [style=dotted,weight="100"];
+package_dependency2:e -> "app-alternatives/gpg-1-r2":w [style=dotted,weight="100"];
+package_dependency2:e -> "app-alternatives/gpg-0-r3":w [style=dotted,weight="100"];
+package_dependency2:e -> "app-alternatives/gpg-0-r2":w [style=dotted,weight="100"];
+}
+}
+}

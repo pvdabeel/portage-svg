@@ -1,0 +1,212 @@
+digraph prolog {
+
+newrank=true;
+concentrate=true;
+compound=true;
+
+graph [rankdir=LR,fontname=Helvetica,fontsize=10,ranksep=1.5];
+edge  [arrowhead=vee];
+node  [fontname=Helvetica,fontsize=10];
+
+graph [labelloc=t, labeljust=l, fontcolor=blue, fontname=Helvetica, fontsize=10, label=<<TABLE BORDER='0' CELLBORDER='1' CELLSPACING='0' CELLPADDING='6'><TR><TD COLSPAN='3'><FONT COLOR='black'><B>navigation</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='7'><FONT COLOR='black'><B>dependency graph</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='4'><FONT COLOR='black'><B>version control</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='3'><FONT COLOR='black'><B>command line</B></FONT></TD><TD BORDER='0' WIDTH='30'></TD><TD COLSPAN='1'><FONT COLOR='black'><B>legacy</B></FONT></TD></TR><TR><TD title="repository" href="../index.html">portage</TD><TD title="repository" href="./index.html">app-misc</TD><TD title="repository" href="./upterm.html">upterm</TD><TD BORDER='0'></TD><TD title="portage://app-misc/upterm-0.20.0" href="../app-misc/upterm-0.20.0.svg"><u>detail</u></TD><TD title="portage://app-misc/upterm-0.20.0" href="../app-misc/upterm-0.20.0-bdepend.svg">bdepend</TD><TD title="portage://app-misc/upterm-0.20.0" href="../app-misc/upterm-0.20.0-cdepend.svg">cdepend</TD><TD title="portage://app-misc/upterm-0.20.0" href="../app-misc/upterm-0.20.0-depend.svg">depend</TD><TD title="portage://app-misc/upterm-0.20.0" href="../app-misc/upterm-0.20.0-idepend.svg">idepend</TD><TD title="portage://app-misc/upterm-0.20.0" href="../app-misc/upterm-0.20.0-rdepend.svg">rdepend</TD><TD title="portage://app-misc/upterm-0.20.0" href="../app-misc/upterm-0.20.0-pdepend.svg">pdepend</TD><TD BORDER='0'></TD><TD><FONT color="gray">&lt;&lt; newest</FONT></TD><TD><FONT color="gray">&lt; newer</FONT></TD><TD title="portage://app-misc/upterm-0.19.0" href="../app-misc/upterm-0.19.0.svg">older &gt;</TD><TD title="portage://app-misc/upterm-0.17.0" href="../app-misc/upterm-0.17.0.svg">oldest &gt;&gt;</TD><TD BORDER='0'></TD><TD title="portage://app-misc/upterm-0.20.0" href="../app-misc/upterm-0.20.0-merge.svg">--merge&nbsp;</TD><TD title="portage://app-misc/upterm-0.20.0" href="../app-misc/upterm-0.20.0-fetchonly.svg">--fetchonly&nbsp;</TD><TD title="portage://app-misc/upterm-0.20.0" href="../app-misc/upterm-0.20.0-info.svg">--info&nbsp;</TD><TD BORDER='0'></TD><TD title="portage://app-misc/upterm-0.20.0" href="../app-misc/upterm-0.20.0-emerge.svg">emerge</TD></TR></TABLE>>];
+
+# **********
+# The ebuild
+# **********
+
+subgraph cluster_leftcol {
+fontcolor=gray;
+label=<<i>ebuild</i>>;
+labelloc=t;
+labeljust=c;
+id [label="portage://app-misc/upterm-0.20.0", color=red, width=4, penwidth=2, fontname="Helvetica-Bold", href="../app-misc/upterm-0.20.0.svg"];
+}
+
+# ****************
+# The dependencies
+# ****************
+
+subgraph cluster_midcol {
+fontcolor=gray;
+label=<<i>dependencies</i>>;
+labelloc=t;
+labeljust=c
+subgraph cluster_install {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install</i>>;
+subgraph  {
+use_conditional_group1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"><TR><TD ROWSPAN="3" CELLPADDING="10">use_conditional</TD></TR>
+          <TR><TD>positive</TD></TR><TR><TD>test</TD></TR></TABLE>>, shape=none, color=red];
+subgraph  {
+package_dependency1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>app-editors</TD></TR><TR><TD>vim</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group1:e -> package_dependency1:w [weight=20, style="dashed",arrowhead="vee"];
+subgraph  {
+package_dependency2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>app-shells</TD></TR><TR><TD>bash</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+use_conditional_group1:e -> package_dependency2:w [weight=20, style="dashed",arrowhead="vee"];
+}
+id:e -> use_conditional_group1:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>app-arch</TD></TR><TR><TD>unzip</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency3:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency4 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>go</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[1,20],,,1.20]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency4:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency5 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>dev-lang</TD></TR><TR><TD>go</TD></TR>
+                     <TR><TD>greaterequal</TD></TR><TR><TD>[[1,25,4],,,1.25.4]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency5:w [weight=20, style="solid",arrowhead="vee"];
+subgraph  {
+package_dependency6 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" WIDTH="220"><TR><TD ROWSPAN="6" CELLPADDING="30">pack_dep</TD></TR>
+                     <TR><TD WIDTH="110">install</TD></TR><TR><TD>virtual</TD></TR><TR><TD>pkgconfig</TD></TR>
+                     <TR><TD>none</TD></TR><TR><TD>[[],,,,]</TD></TR></TABLE>>, shape=none, color=blue];
+}
+id:e -> package_dependency6:w [weight=20, style="solid",arrowhead="vee"];
+}
+subgraph cluster_install_and_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>install and run</i>>;
+}
+subgraph cluster_run {
+fillcolor="#eeeeee";
+style=filled;
+label=<<i>run</i>>;
+}
+}
+
+# **************
+# The candidates
+# **************
+
+subgraph cluster_choices {
+rank=same;
+fontcolor=gray;
+label=<<i>candidates</i>>;
+labelloc=t;
+labeljust=c
+
+subgraph  {
+color=black;
+nodesep=1;
+"app-editors/vim-9999" [label="portage://app-editors/vim-9999", color=red, width=4,href="../app-editors/vim-9999.svg"];
+"app-editors/vim-9.1.1652-r1" [label="portage://app-editors/vim-9.1.1652-r1", color=red, width=4,href="../app-editors/vim-9.1.1652-r1.svg"];
+"app-editors/vim-9.1.1652" [label="portage://app-editors/vim-9.1.1652", color=red, width=4,href="../app-editors/vim-9.1.1652.svg"];
+"app-editors/vim-9.1.1500" [label="portage://app-editors/vim-9.1.1500", color=red, width=4,href="../app-editors/vim-9.1.1500.svg"];
+"app-editors/vim-9.1.1436-r1" [label="portage://app-editors/vim-9.1.1436-r1", color=red, width=4,href="../app-editors/vim-9.1.1436-r1.svg"];
+"app-editors/vim-9.1.1436" [label="portage://app-editors/vim-9.1.1436", color=red, width=4,href="../app-editors/vim-9.1.1436.svg"];
+"app-editors/vim-9.1.0794" [label="portage://app-editors/vim-9.1.0794", color=red, width=4,href="../app-editors/vim-9.1.0794.svg"];
+package_dependency1:e -> "app-editors/vim-9999":w [style=dotted,weight="100"];
+package_dependency1:e -> "app-editors/vim-9.1.1652-r1":w [style=dotted,weight="100"];
+package_dependency1:e -> "app-editors/vim-9.1.1652":w [style=dotted,weight="100"];
+package_dependency1:e -> "app-editors/vim-9.1.1500":w [style=dotted,weight="100"];
+package_dependency1:e -> "app-editors/vim-9.1.1436-r1":w [style=dotted,weight="100"];
+package_dependency1:e -> "app-editors/vim-9.1.1436":w [style=dotted,weight="100"];
+package_dependency1:e -> "app-editors/vim-9.1.0794":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-shells/bash-9999" [label="portage://app-shells/bash-9999", color=red, width=4,href="../app-shells/bash-9999.svg"];
+"app-shells/bash-5.4_alpha_pre20251202" [label="portage://app-shells/bash-5.4_alpha_pre20251202", color=red, width=4,href="../app-shells/bash-5.4_alpha_pre20251202.svg"];
+"app-shells/bash-5.4_alpha_pre20251124" [label="portage://app-shells/bash-5.4_alpha_pre20251124", color=red, width=4,href="../app-shells/bash-5.4_alpha_pre20251124.svg"];
+"app-shells/bash-5.4_alpha_pre20251119" [label="portage://app-shells/bash-5.4_alpha_pre20251119", color=red, width=4,href="../app-shells/bash-5.4_alpha_pre20251119.svg"];
+"app-shells/bash-5.4_alpha_pre20251027" [label="portage://app-shells/bash-5.4_alpha_pre20251027", color=red, width=4,href="../app-shells/bash-5.4_alpha_pre20251027.svg"];
+"app-shells/bash-5.3_p9" [label="portage://app-shells/bash-5.3_p9", color=red, width=4,href="../app-shells/bash-5.3_p9.svg"];
+"app-shells/bash-5.3_p8" [label="portage://app-shells/bash-5.3_p8", color=red, width=4,href="../app-shells/bash-5.3_p8.svg"];
+"app-shells/bash-5.3_p3-r3" [label="portage://app-shells/bash-5.3_p3-r3", color=red, width=4,href="../app-shells/bash-5.3_p3-r3.svg"];
+"app-shells/bash-5.2_p37-r5" [label="portage://app-shells/bash-5.2_p37-r5", color=red, width=4,href="../app-shells/bash-5.2_p37-r5.svg"];
+"app-shells/bash-5.1_p16-r14" [label="portage://app-shells/bash-5.1_p16-r14", color=red, width=4,href="../app-shells/bash-5.1_p16-r14.svg"];
+"app-shells/bash-5.0_p18-r3" [label="portage://app-shells/bash-5.0_p18-r3", color=red, width=4,href="../app-shells/bash-5.0_p18-r3.svg"];
+"app-shells/bash-4.4_p23-r2" [label="portage://app-shells/bash-4.4_p23-r2", color=red, width=4,href="../app-shells/bash-4.4_p23-r2.svg"];
+"app-shells/bash-4.3_p48-r2" [label="portage://app-shells/bash-4.3_p48-r2", color=red, width=4,href="../app-shells/bash-4.3_p48-r2.svg"];
+"app-shells/bash-4.2_p53" [label="portage://app-shells/bash-4.2_p53", color=red, width=4,href="../app-shells/bash-4.2_p53.svg"];
+"app-shells/bash-4.1_p17" [label="portage://app-shells/bash-4.1_p17", color=red, width=4,href="../app-shells/bash-4.1_p17.svg"];
+"app-shells/bash-4.0_p44" [label="portage://app-shells/bash-4.0_p44", color=red, width=4,href="../app-shells/bash-4.0_p44.svg"];
+"app-shells/bash-3.2_p57" [label="portage://app-shells/bash-3.2_p57", color=red, width=4,href="../app-shells/bash-3.2_p57.svg"];
+"app-shells/bash-3.1_p23" [label="portage://app-shells/bash-3.1_p23", color=red, width=4,href="../app-shells/bash-3.1_p23.svg"];
+"app-shells/bash-3.0_p22" [label="portage://app-shells/bash-3.0_p22", color=red, width=4,href="../app-shells/bash-3.0_p22.svg"];
+"app-shells/bash-2.05b_p13" [label="portage://app-shells/bash-2.05b_p13", color=red, width=4,href="../app-shells/bash-2.05b_p13.svg"];
+package_dependency2:e -> "app-shells/bash-9999":w [style=dotted,weight="100"];
+package_dependency2:e -> "app-shells/bash-5.4_alpha_pre20251202":w [style=dotted,weight="100"];
+package_dependency2:e -> "app-shells/bash-5.4_alpha_pre20251124":w [style=dotted,weight="100"];
+package_dependency2:e -> "app-shells/bash-5.4_alpha_pre20251119":w [style=dotted,weight="100"];
+package_dependency2:e -> "app-shells/bash-5.4_alpha_pre20251027":w [style=dotted,weight="100"];
+package_dependency2:e -> "app-shells/bash-5.3_p9":w [style=dotted,weight="100"];
+package_dependency2:e -> "app-shells/bash-5.3_p8":w [style=dotted,weight="100"];
+package_dependency2:e -> "app-shells/bash-5.3_p3-r3":w [style=dotted,weight="100"];
+package_dependency2:e -> "app-shells/bash-5.2_p37-r5":w [style=dotted,weight="100"];
+package_dependency2:e -> "app-shells/bash-5.1_p16-r14":w [style=dotted,weight="100"];
+package_dependency2:e -> "app-shells/bash-5.0_p18-r3":w [style=dotted,weight="100"];
+package_dependency2:e -> "app-shells/bash-4.4_p23-r2":w [style=dotted,weight="100"];
+package_dependency2:e -> "app-shells/bash-4.3_p48-r2":w [style=dotted,weight="100"];
+package_dependency2:e -> "app-shells/bash-4.2_p53":w [style=dotted,weight="100"];
+package_dependency2:e -> "app-shells/bash-4.1_p17":w [style=dotted,weight="100"];
+package_dependency2:e -> "app-shells/bash-4.0_p44":w [style=dotted,weight="100"];
+package_dependency2:e -> "app-shells/bash-3.2_p57":w [style=dotted,weight="100"];
+package_dependency2:e -> "app-shells/bash-3.1_p23":w [style=dotted,weight="100"];
+package_dependency2:e -> "app-shells/bash-3.0_p22":w [style=dotted,weight="100"];
+package_dependency2:e -> "app-shells/bash-2.05b_p13":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"app-arch/unzip-6.0_p29" [label="portage://app-arch/unzip-6.0_p29", color=red, width=4,href="../app-arch/unzip-6.0_p29.svg"];
+"app-arch/unzip-6.0_p27-r1" [label="portage://app-arch/unzip-6.0_p27-r1", color=red, width=4,href="../app-arch/unzip-6.0_p27-r1.svg"];
+package_dependency3:e -> "app-arch/unzip-6.0_p29":w [style=dotted,weight="100"];
+package_dependency3:e -> "app-arch/unzip-6.0_p27-r1":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-lang/go-9999" [label="portage://dev-lang/go-9999", color=red, width=4,href="../dev-lang/go-9999.svg"];
+"dev-lang/go-1.25.5" [label="portage://dev-lang/go-1.25.5", color=red, width=4,href="../dev-lang/go-1.25.5.svg"];
+"dev-lang/go-1.25.4-r1" [label="portage://dev-lang/go-1.25.4-r1", color=red, width=4,href="../dev-lang/go-1.25.4-r1.svg"];
+"dev-lang/go-1.25.4" [label="portage://dev-lang/go-1.25.4", color=red, width=4,href="../dev-lang/go-1.25.4.svg"];
+"dev-lang/go-1.25.3" [label="portage://dev-lang/go-1.25.3", color=red, width=4,href="../dev-lang/go-1.25.3.svg"];
+"dev-lang/go-1.24.11" [label="portage://dev-lang/go-1.24.11", color=red, width=4,href="../dev-lang/go-1.24.11.svg"];
+"dev-lang/go-1.24.10" [label="portage://dev-lang/go-1.24.10", color=red, width=4,href="../dev-lang/go-1.24.10.svg"];
+"dev-lang/go-1.24.9" [label="portage://dev-lang/go-1.24.9", color=red, width=4,href="../dev-lang/go-1.24.9.svg"];
+package_dependency4:e -> "dev-lang/go-9999":w [style=dotted,weight="100"];
+package_dependency4:e -> "dev-lang/go-1.25.5":w [style=dotted,weight="100"];
+package_dependency4:e -> "dev-lang/go-1.25.4-r1":w [style=dotted,weight="100"];
+package_dependency4:e -> "dev-lang/go-1.25.4":w [style=dotted,weight="100"];
+package_dependency4:e -> "dev-lang/go-1.25.3":w [style=dotted,weight="100"];
+package_dependency4:e -> "dev-lang/go-1.24.11":w [style=dotted,weight="100"];
+package_dependency4:e -> "dev-lang/go-1.24.10":w [style=dotted,weight="100"];
+package_dependency4:e -> "dev-lang/go-1.24.9":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"dev-lang/go-9999" [label="portage://dev-lang/go-9999", color=red, width=4,href="../dev-lang/go-9999.svg"];
+"dev-lang/go-1.25.5" [label="portage://dev-lang/go-1.25.5", color=red, width=4,href="../dev-lang/go-1.25.5.svg"];
+"dev-lang/go-1.25.4-r1" [label="portage://dev-lang/go-1.25.4-r1", color=red, width=4,href="../dev-lang/go-1.25.4-r1.svg"];
+"dev-lang/go-1.25.4" [label="portage://dev-lang/go-1.25.4", color=red, width=4,href="../dev-lang/go-1.25.4.svg"];
+package_dependency5:e -> "dev-lang/go-9999":w [style=dotted,weight="100"];
+package_dependency5:e -> "dev-lang/go-1.25.5":w [style=dotted,weight="100"];
+package_dependency5:e -> "dev-lang/go-1.25.4-r1":w [style=dotted,weight="100"];
+package_dependency5:e -> "dev-lang/go-1.25.4":w [style=dotted,weight="100"];
+}
+subgraph  {
+color=black;
+nodesep=1;
+"virtual/pkgconfig-3" [label="portage://virtual/pkgconfig-3", color=red, width=4,href="../virtual/pkgconfig-3.svg"];
+package_dependency6:e -> "virtual/pkgconfig-3":w [style=dotted,weight="100"];
+}
+}
+}
