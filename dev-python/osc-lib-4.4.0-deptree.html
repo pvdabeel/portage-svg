@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>dev-python/osc-lib-4.4.0 &mdash; Dependency Graph</title>
+<link rel="stylesheet" href="../.portage-ng.css">
+</head>
+<body class="page-deptree">
+<div class="header">
+<div class="title-row">
+<h1>dev-python/osc-lib-4.4.0 &mdash; Dependency Graph</h1>
+<button class="theme-btn" id="theme-btn" onclick="toggleTheme()">&#9790;</button>
+</div>
+<p class="subtitle" id="subtitle"></p>
+<div class="nav-rows">
+<div class="nav-bar">
+  <div class="nav-group">
+    <span class="nav-group-label">nav</span>
+    <a class="nav-link" href="../index.html">portage</a>
+    <a class="nav-link" href="./index.html">dev-python</a>
+    <a class="nav-link" href="./osc-lib.html">osc-lib</a>
+  </div>
+  <div class="nav-group">
+    <span class="nav-group-label">version</span>
+    <a class="nav-link disabled">&laquo;</a>
+    <a class="nav-link disabled">&lsaquo;</a>
+    <a class="nav-link" href="../dev-python/osc-lib-4.3.0-deptree.html" title="dev-python/osc-lib-4.3.0">&rsaquo;</a>
+    <a class="nav-link" href="../dev-python/osc-lib-4.2.0-deptree.html" title="dev-python/osc-lib-4.2.0">&raquo;</a>
+  </div>
+</div>
+<div class="nav-bar">
+  <div class="nav-group">
+    <span class="nav-group-label">graphs</span>
+    <a class="nav-link" href="../dev-python/osc-lib-4.4.0-detail.html">detail</a>
+    <a class="nav-link active">deptree</a>
+    <a class="nav-link" href="../dev-python/osc-lib-4.4.0-gantt.html">gantt</a>
+  </div>
+  <div class="nav-group">
+    <span class="nav-group-label">cli</span>
+    <a class="nav-link" href="../dev-python/osc-lib-4.4.0-merge.html">--merge</a>
+    <a class="nav-link" href="../dev-python/osc-lib-4.4.0-fetchonly.html">--fetchonly</a>
+    <a class="nav-link" href="../dev-python/osc-lib-4.4.0-info.html">--info</a>
+  </div>
+  <div class="nav-group">
+    <span class="nav-group-label">legacy</span>
+    <a class="nav-link" href="../dev-python/osc-lib-4.4.0-emerge.html">emerge</a>
+  </div>
+</div>
+</div>
+</div>
+<div class="dep-tabs">
+  <span class="label">Dep type:</span>
+  <button class="dep-tab off" data-type="bdepend" onclick="switchDepType('bdepend')">BDEPEND</button>
+  <button class="dep-tab off" data-type="cdepend" onclick="switchDepType('cdepend')">CDEPEND</button>
+  <button class="dep-tab off" data-type="depend" onclick="switchDepType('depend')">DEPEND</button>
+  <button class="dep-tab off" data-type="idepend" onclick="switchDepType('idepend')">IDEPEND</button>
+  <button class="dep-tab active" data-type="rdepend" onclick="switchDepType('rdepend')">RDEPEND</button>
+  <button class="dep-tab off" data-type="pdepend" onclick="switchDepType('pdepend')">PDEPEND</button>
+  <div class="sep"></div>
+  <button class="action-btn" onclick="expandAll()">expand all</button>
+  <button class="action-btn" onclick="collapseAll()">collapse all</button>
+  <button class="action-btn" onclick="resetView()">reset view</button>
+</div>
+<div class="graph-container" id="graph-container">
+  <svg id="graph-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+  <div class="zoom-controls">
+    <button class="zoom-btn" onclick="zoomIn()">+</button>
+    <span class="zoom-level" id="zoom-level">100%</span>
+    <button class="zoom-btn" onclick="zoomOut()">&minus;</button>
+    <button class="zoom-btn" onclick="resetView()" title="Fit to view">&#8634;</button>
+  </div>
+</div>
+<div class="tooltip" id="tooltip"></div>
+<div class="legend">
+  <div class="legend-item"><div class="legend-swatch" style="background:#fff;border-color:var(--node-root-border);border-width:2px"></div>root package</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#fff;border-color:#ccc;border-left:3px solid var(--node-installed)"></div>installed</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#fff;border-color:#ccc"></div>not installed</div>
+  <div class="legend-item"><svg width="30" height="12"><line x1="0" y1="6" x2="24" y2="6" stroke="var(--edge-normal)" stroke-width="1.5"/><polygon points="24,3 30,6 24,9" fill="var(--edge-normal)"/></svg>dependency</div>
+  <div class="legend-item"><svg width="30" height="12"><line x1="0" y1="6" x2="24" y2="6" stroke="var(--edge-weak)" stroke-width="1.5" stroke-dasharray="4,2"/><polygon points="24,3 30,6 24,9" fill="var(--edge-weak)"/></svg>weak blocker</div>
+  <div class="legend-item"><svg width="30" height="12"><line x1="0" y1="6" x2="24" y2="6" stroke="var(--edge-strong)" stroke-width="1.5" stroke-dasharray="2,2"/><polygon points="24,3 30,6 24,9" fill="var(--edge-strong)"/></svg>strong blocker</div>
+</div>
+<script>
+const treeData = {
+  bdepend: {
+    nodes: [
+      {id:"dev-python/flit-core-3.12.0",cat:"dev-python",name:"flit-core",ver:"3.12.0",slot:"0",installed:true,desc:"Simplified packaging of Python modules (core module)",homepage:"https://pypi.org/project/flit-core/ https://github.com/pypa/flit/",use:["-test"]},
+      {id:"dev-python/wheel-0.46.3",cat:"dev-python",name:"wheel",ver:"0.46.3",slot:"0",installed:true,desc:"A built-package format for Python",homepage:"https://github.com/pypa/wheel/ https://pypi.org/project/wheel/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/platformdirs-4.9.4",cat:"dev-python",name:"platformdirs",ver:"4.9.4",slot:"0",installed:true,desc:"A small Python module for determining appropriate platform-specific dirs",homepage:"https://pypi.org/project/platformdirs/ https://github.com/tox-dev/platformdirs/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/packaging-26.0",cat:"dev-python",name:"packaging",ver:"26.0",slot:"0",installed:true,desc:"Core utilities for Python packages",homepage:"https://github.com/pypa/packaging/ https://pypi.org/project/packaging/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/more-itertools-10.8.0",cat:"dev-python",name:"more-itertools",ver:"10.8.0",slot:"0",installed:true,desc:"More routines for operating on iterables, beyond itertools",homepage:"https://github.com/more-itertools/more-itertools/ https://pypi.org/project/more-itertools/",use:["-doc"]},
+      {id:"dev-python/jaraco-text-4.2.0",cat:"dev-python",name:"jaraco-text",ver:"4.2.0",slot:"0",installed:true,desc:"Text utilities used by other projects by developer jaraco",homepage:"https://github.com/jaraco/jaraco.text/ https://pypi.org/project/jaraco.text/",use:["-test"]},
+      {id:"dev-python/jaraco-functools-4.4.0",cat:"dev-python",name:"jaraco-functools",ver:"4.4.0",slot:"0",installed:true,desc:"Additional functions used by other projects by developer jaraco",homepage:"https://github.com/jaraco/jaraco.functools/ https://pypi.org/project/jaraco.functools/",use:["-test"]},
+      {id:"dev-python/setuptools-82.0.1",cat:"dev-python",name:"setuptools",ver:"82.0.1",slot:"0",installed:false,desc:"Collection of extensions to Distutils",homepage:"https://github.com/pypa/setuptools/ https://pypi.org/project/setuptools/",use:["-test"]},
+      {id:"dev-python/pbr-7.0.3",cat:"dev-python",name:"pbr",ver:"7.0.3",slot:"0",installed:false,desc:"Inject some useful and sensible default behaviors into setuptools",homepage:"https://opendev.org/openstack/pbr/ https://github.com/openstack/pbr/ https://pypi.org/project/pbr/",use:["-test"]},
+      {id:"dev-python/gpep517-19",cat:"dev-python",name:"gpep517",ver:"19",slot:"0",installed:true,desc:"A backend script to aid installing Python packages in Gentoo",homepage:"https://pypi.org/project/gpep517/ https://github.com/projg2/gpep517/",use:["-test"]},
+      {id:"dev-python/osc-lib-4.4.0",cat:"dev-python",name:"osc-lib",ver:"4.4.0",slot:"0",installed:false,desc:"A package of common support modules for writing OSC plugins",homepage:"https://opendev.org/openstack/osc-lib/ https://github.com/openstack/osc-lib/ https://pypi.org/project/osc-lib/",use:["-test"]}
+    ],
+    edges: [
+      {from:"dev-python/flit-core-3.12.0",to:"dev-python/gpep517-19",type:"no"},
+      {from:"dev-python/jaraco-functools-4.4.0",to:"dev-python/flit-core-3.12.0",type:"no"},
+      {from:"dev-python/jaraco-functools-4.4.0",to:"dev-python/gpep517-19",type:"no"},
+      {from:"dev-python/jaraco-text-4.2.0",to:"dev-python/flit-core-3.12.0",type:"no"},
+      {from:"dev-python/jaraco-text-4.2.0",to:"dev-python/gpep517-19",type:"no"},
+      {from:"dev-python/more-itertools-10.8.0",to:"dev-python/flit-core-3.12.0",type:"no"},
+      {from:"dev-python/more-itertools-10.8.0",to:"dev-python/gpep517-19",type:"no"},
+      {from:"dev-python/osc-lib-4.4.0",to:"dev-python/gpep517-19",type:"no"},
+      {from:"dev-python/osc-lib-4.4.0",to:"dev-python/pbr-7.0.3",type:"no"},
+      {from:"dev-python/packaging-26.0",to:"dev-python/flit-core-3.12.0",type:"no"},
+      {from:"dev-python/packaging-26.0",to:"dev-python/gpep517-19",type:"no"},
+      {from:"dev-python/pbr-7.0.3",to:"dev-python/gpep517-19",type:"no"},
+      {from:"dev-python/pbr-7.0.3",to:"dev-python/setuptools-82.0.1",type:"no"},
+      {from:"dev-python/platformdirs-4.9.4",to:"dev-python/flit-core-3.12.0",type:"no"},
+      {from:"dev-python/platformdirs-4.9.4",to:"dev-python/gpep517-19",type:"no"},
+      {from:"dev-python/setuptools-82.0.1",to:"dev-python/gpep517-19",type:"no"},
+      {from:"dev-python/setuptools-82.0.1",to:"dev-python/jaraco-functools-4.4.0",type:"no"},
+      {from:"dev-python/setuptools-82.0.1",to:"dev-python/jaraco-text-4.2.0",type:"no"},
+      {from:"dev-python/setuptools-82.0.1",to:"dev-python/more-itertools-10.8.0",type:"no"},
+      {from:"dev-python/setuptools-82.0.1",to:"dev-python/packaging-26.0",type:"no"},
+      {from:"dev-python/setuptools-82.0.1",to:"dev-python/platformdirs-4.9.4",type:"no"},
+      {from:"dev-python/setuptools-82.0.1",to:"dev-python/wheel-0.46.3",type:"no"},
+      {from:"dev-python/wheel-0.46.3",to:"dev-python/flit-core-3.12.0",type:"no"},
+      {from:"dev-python/wheel-0.46.3",to:"dev-python/gpep517-19",type:"no"}
+    ],
+    root: "dev-python/osc-lib-4.4.0"
+  },
+  cdepend: {
+    nodes: [
+      {id:"dev-python/osc-lib-4.4.0",cat:"dev-python",name:"osc-lib",ver:"4.4.0",slot:"0",installed:false,desc:"A package of common support modules for writing OSC plugins",homepage:"https://opendev.org/openstack/osc-lib/ https://github.com/openstack/osc-lib/ https://pypi.org/project/osc-lib/",use:["-test"]}
+    ],
+    edges: [
+    ],
+    root: "dev-python/osc-lib-4.4.0"
+  },
+  depend: {
+    nodes: [
+      {id:"dev-python/osc-lib-4.4.0",cat:"dev-python",name:"osc-lib",ver:"4.4.0",slot:"0",installed:false,desc:"A package of common support modules for writing OSC plugins",homepage:"https://opendev.org/openstack/osc-lib/ https://github.com/openstack/osc-lib/ https://pypi.org/project/osc-lib/",use:["-test"]}
+    ],
+    edges: [
+    ],
+    root: "dev-python/osc-lib-4.4.0"
+  },
+  idepend: {
+    nodes: [
+      {id:"dev-python/osc-lib-4.4.0",cat:"dev-python",name:"osc-lib",ver:"4.4.0",slot:"0",installed:false,desc:"A package of common support modules for writing OSC plugins",homepage:"https://opendev.org/openstack/osc-lib/ https://github.com/openstack/osc-lib/ https://pypi.org/project/osc-lib/",use:["-test"]}
+    ],
+    edges: [
+    ],
+    root: "dev-python/osc-lib-4.4.0"
+  },
+  rdepend: {
+    nodes: [
+      {id:"dev-python/uc-micro-py-2.0.0",cat:"dev-python",name:"uc-micro-py",ver:"2.0.0",slot:"0",installed:false,desc:"Micro subset of unicode data files for linkify-it-py projects",homepage:"https://github.com/tsutsu3/uc.micro-py/ https://pypi.org/project/uc-micro-py/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/jaraco-context-6.1.1",cat:"dev-python",name:"jaraco-context",ver:"6.1.1",slot:"0",installed:true,desc:"Context managers by jaraco",homepage:"https://github.com/jaraco/jaraco.context/ https://pypi.org/project/jaraco.context/",use:["-test"]},
+      {id:"dev-python/mdurl-0.1.2",cat:"dev-python",name:"mdurl",ver:"0.1.2",slot:"0",installed:false,desc:"Markdown URL utilities",homepage:"https://pypi.org/project/mdurl/ https://github.com/executablebooks/mdurl/",use:["-test"]},
+      {id:"dev-python/linkify-it-py-2.1.0",cat:"dev-python",name:"linkify-it-py",ver:"2.1.0",slot:"0",installed:false,desc:"Links recognition library with full unicode support",homepage:"https://github.com/tsutsu3/linkify-it-py/ https://pypi.org/project/linkify-it-py/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/wheel-0.46.3",cat:"dev-python",name:"wheel",ver:"0.46.3",slot:"0",installed:true,desc:"A built-package format for Python",homepage:"https://github.com/pypa/wheel/ https://pypi.org/project/wheel/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/more-itertools-10.8.0",cat:"dev-python",name:"more-itertools",ver:"10.8.0",slot:"0",installed:true,desc:"More routines for operating on iterables, beyond itertools",homepage:"https://github.com/more-itertools/more-itertools/ https://pypi.org/project/more-itertools/",use:["-doc"]},
+      {id:"dev-python/jaraco-text-4.2.0",cat:"dev-python",name:"jaraco-text",ver:"4.2.0",slot:"0",installed:true,desc:"Text utilities used by other projects by developer jaraco",homepage:"https://github.com/jaraco/jaraco.text/ https://pypi.org/project/jaraco.text/",use:["-test"]},
+      {id:"dev-python/jaraco-functools-4.4.0",cat:"dev-python",name:"jaraco-functools",ver:"4.4.0",slot:"0",installed:true,desc:"Additional functions used by other projects by developer jaraco",homepage:"https://github.com/jaraco/jaraco.functools/ https://pypi.org/project/jaraco.functools/",use:["-test"]},
+      {id:"dev-python/pygments-2.19.2",cat:"dev-python",name:"pygments",ver:"2.19.2",slot:"0",installed:true,desc:"Pygments is a syntax highlighting package written in Python",homepage:"https://pygments.org/ https://github.com/pygments/pygments/ https://pypi.org/project/Pygments/",use:["-test"]},
+      {id:"dev-python/markdown-it-py-4.0.0",cat:"dev-python",name:"markdown-it-py",ver:"4.0.0",slot:"0",installed:false,desc:"Python port of markdown-it, Markdown parser",homepage:"https://pypi.org/project/markdown-it-py/ https://github.com/executablebooks/markdown-it-py/",use:["-test"]},
+      {id:"dev-python/colorama-0.4.6",cat:"dev-python",name:"colorama",ver:"0.4.6",slot:"0",installed:false,desc:"ANSI escape character sequences for colored terminal text & cursor positioning",homepage:"https://pypi.org/project/colorama/ https://github.com/tartley/colorama/",use:["-examples","-test"]},
+      {id:"dev-python/pysocks-1.7.1-r2",cat:"dev-python",name:"pysocks",ver:"1.7.1-r2",slot:"0",installed:true,desc:"SOCKS client module",homepage:"https://github.com/Anorov/PySocks/ https://pypi.org/project/PySocks/",use:[]},
+      {id:"app-misc/ca-certificates-20250419.3.112",cat:"app-misc",name:"ca-certificates",ver:"20250419.3.112",slot:"0",installed:false,desc:"Common CA Certificates PEM files",homepage:"https://packages.debian.org/sid/ca-certificates",use:["-cacert"]},
+      {id:"dev-python/wrapt-2.1.2",cat:"dev-python",name:"wrapt",ver:"2.1.2",slot:"0",installed:false,desc:"Module for decorators, wrappers and monkey patching",homepage:"https://github.com/GrahamDumpleton/wrapt/ https://pypi.org/project/wrapt/",use:["-debug","+native-extensions","-test"]},
+      {id:"dev-python/jsonpointer-3.0.0",cat:"dev-python",name:"jsonpointer",ver:"3.0.0",slot:"0",installed:false,desc:"Identify specific nodes in a JSON document (according to draft 08)",homepage:"https://github.com/stefankoegl/python-json-pointer/ https://pypi.org/project/jsonpointer/",use:[]},
+      {id:"dev-libs/openssl-3.6.9999",cat:"dev-libs",name:"openssl",ver:"3.6.9999",slot:"0",installed:false,desc:"Robust, full-featured Open Source Toolkit for the Transport Layer Security (TLS)",homepage:"https://openssl-library.org/",use:["+asm","-fips","-ktls","+quic","-rfc3779","-sctp","-static-libs","-test","-tls-compression","-vanilla","-weak-ssl-ciphers"]},
+      {id:"dev-python/setuptools-82.0.1",cat:"dev-python",name:"setuptools",ver:"82.0.1",slot:"0",installed:false,desc:"Collection of extensions to Distutils",homepage:"https://github.com/pypa/setuptools/ https://pypi.org/project/setuptools/",use:["-test"]},
+      {id:"dev-libs/libyaml-0.2.5",cat:"dev-libs",name:"libyaml",ver:"0.2.5",slot:"0",installed:true,desc:"YAML 1.1 parser and emitter written in C",homepage:"https://github.com/yaml/libyaml",use:["-doc","-static-libs","-test"]},
+      {id:"dev-python/wcwidth-0.6.0",cat:"dev-python",name:"wcwidth",ver:"0.6.0",slot:"0",installed:false,desc:"Measures number of Terminal column cells of wide-character codes",homepage:"https://pypi.org/project/wcwidth/ https://github.com/jquast/wcwidth/",use:["-test"]},
+      {id:"dev-python/rich-argparse-1.7.2",cat:"dev-python",name:"rich-argparse",ver:"1.7.2",slot:"0",installed:false,desc:"Rich help formatters for argparse and optparse",homepage:"https://github.com/hamdanal/rich-argparse/ https://pypi.org/project/rich-argparse/",use:["-test"]},
+      {id:"dev-python/rich-14.3.3",cat:"dev-python",name:"rich",ver:"14.3.3",slot:"0",installed:false,desc:"Python library for rendering rich text, tables, etc. to the terminal",homepage:"https://github.com/Textualize/rich/ https://pypi.org/project/rich/",use:["-test"]},
+      {id:"dev-python/pyperclip-1.11.0",cat:"dev-python",name:"pyperclip",ver:"1.11.0",slot:"0",installed:false,desc:"A cross-platform clipboard module for Python",homepage:"https://github.com/asweigart/pyperclip/ https://pypi.org/project/pyperclip/",use:["-test"]},
+      {id:"dev-python/urllib3-2.6.3",cat:"dev-python",name:"urllib3",ver:"2.6.3",slot:"0",installed:true,desc:"HTTP library with thread-safe connection pooling, file post, and more",homepage:"https://github.com/urllib3/urllib3/ https://pypi.org/project/urllib3/",use:["-brotli","-http2","-test","-verify-provenance","-zstd"]},
+      {id:"dev-python/idna-3.11",cat:"dev-python",name:"idna",ver:"3.11",slot:"0",installed:true,desc:"Internationalized Domain Names in Applications (IDNA)",homepage:"https://github.com/kjd/idna/ https://pypi.org/project/idna/",use:[]},
+      {id:"dev-python/charset-normalizer-3.4.5",cat:"dev-python",name:"charset-normalizer",ver:"3.4.5",slot:"0",installed:true,desc:"The Real First Universal Charset Detector",homepage:"https://pypi.org/project/charset-normalizer/ https://github.com/jawah/charset_normalizer/",use:["-debug","+native-extensions","-test","-verify-provenance"]},
+      {id:"dev-python/certifi-3024.7.22",cat:"dev-python",name:"certifi",ver:"3024.7.22",slot:"0",installed:true,desc:"A certifi hack to use system trust store on Linux/FreeBSD",homepage:"https://github.com/projg2/certifi-system-store/ https://github.com/tiran/certifi-system-store/ https://pypi.org/project/certifi-system-store/",use:["-test"]},
+      {id:"dev-python/packaging-26.0",cat:"dev-python",name:"packaging",ver:"26.0",slot:"0",installed:true,desc:"Core utilities for Python packages",homepage:"https://github.com/pypa/packaging/ https://pypi.org/project/packaging/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/debtcollector-3.0.0",cat:"dev-python",name:"debtcollector",ver:"3.0.0",slot:"0",installed:false,desc:"Python deprecation patterns and strategies that collect technical debt",homepage:"https://opendev.org/openstack/debtcollector/ https://github.com/openstack/debtcollector/ https://pypi.org/project/debtcollector/",use:["-test"]},
+      {id:"dev-python/netaddr-1.3.0",cat:"dev-python",name:"netaddr",ver:"1.3.0",slot:"0",installed:false,desc:"Network address representation and manipulation library",homepage:"https://github.com/netaddr/netaddr/ https://pypi.org/project/netaddr/ https://netaddr.readthedocs.io/",use:["-doc","-test"]},
+      {id:"dev-python/requestsexceptions-1.4.0-r1",cat:"dev-python",name:"requestsexceptions",ver:"1.4.0-r1",slot:"0",installed:false,desc:"Finds the correct path to exceptions in the requests library",homepage:"https://opendev.org/openstack/requestsexceptions/ https://github.com/openstack/requestsexceptions/ https://pypi.org/project/requestsexceptions/",use:[]},
+      {id:"dev-python/psutil-7.2.2",cat:"dev-python",name:"psutil",ver:"7.2.2",slot:"0",installed:true,desc:"Retrieve information on running processes and system utilization",homepage:"https://github.com/giampaolo/psutil/ https://pypi.org/project/psutil/",use:["-debug","-test"]},
+      {id:"dev-python/platformdirs-4.9.4",cat:"dev-python",name:"platformdirs",ver:"4.9.4",slot:"0",installed:true,desc:"A small Python module for determining appropriate platform-specific dirs",homepage:"https://pypi.org/project/platformdirs/ https://github.com/tox-dev/platformdirs/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/jsonpatch-1.33",cat:"dev-python",name:"jsonpatch",ver:"1.33",slot:"0",installed:false,desc:"Apply JSON-Patches like http://tools.ietf.org/html/draft-pbryan-json-patch-04",homepage:"https://github.com/stefankoegl/python-json-patch/ https://pypi.org/project/jsonpatch/",use:["-test"]},
+      {id:"dev-python/jmespath-1.1.0",cat:"dev-python",name:"jmespath",ver:"1.1.0",slot:"0",installed:false,desc:"JSON Matching Expressions",homepage:"https://github.com/jmespath/jmespath.py/ https://pypi.org/project/jmespath/",use:["-test"]},
+      {id:"dev-python/dogpile-cache-1.5.0",cat:"dev-python",name:"dogpile-cache",ver:"1.5.0",slot:"0",installed:false,desc:"A locking API for expiring values while a single thread generates a new value",homepage:"https://github.com/sqlalchemy/dogpile.cache/ https://pypi.org/project/dogpile.cache/",use:["-test"]},
+      {id:"dev-python/decorator-5.2.1",cat:"dev-python",name:"decorator",ver:"5.2.1",slot:"0",installed:false,desc:"Simplifies the usage of decorators for the average programmer",homepage:"https://github.com/micheles/decorator/ https://pypi.org/project/decorator/",use:[]},
+      {id:"dev-python/cryptography-46.0.5",cat:"dev-python",name:"cryptography",ver:"46.0.5",slot:"0",installed:true,desc:"Library providing cryptographic recipes and primitives",homepage:"https://github.com/pyca/cryptography/ https://pypi.org/project/cryptography/",use:["-debug","-test","-verify-provenance"]},
+      {id:"dev-python/typing-extensions-4.15.0",cat:"dev-python",name:"typing-extensions",ver:"4.15.0",slot:"0",installed:true,desc:"Backported and Experimental Type Hints for Python 3.7+",homepage:"https://pypi.org/project/typing-extensions/ https://github.com/python/typing_extensions/",use:["-test"]},
+      {id:"dev-python/os-service-types-1.8.2",cat:"dev-python",name:"os-service-types",ver:"1.8.2",slot:"0",installed:false,desc:"A library to handle official service types for OpenStack and it's aliases",homepage:"https://opendev.org/openstack/os-service-types/ https://github.com/openstack/os-service-types/ https://pypi.org/project/os-service-types/",use:["-test"]},
+      {id:"dev-python/six-1.17.0",cat:"dev-python",name:"six",ver:"1.17.0",slot:"0",installed:true,desc:"Python 2 and 3 compatibility library",homepage:"https://github.com/benjaminp/six/ https://pypi.org/project/six/",use:["-doc","-test"]},
+      {id:"dev-python/iso8601-2.1.0",cat:"dev-python",name:"iso8601",ver:"2.1.0",slot:"0",installed:false,desc:"Simple module to parse ISO 8601 dates",homepage:"https://github.com/micktwomey/pyiso8601/ https://pypi.org/project/iso8601/",use:["-test"]},
+      {id:"dev-python/pbr-7.0.3",cat:"dev-python",name:"pbr",ver:"7.0.3",slot:"0",installed:false,desc:"Inject some useful and sensible default behaviors into setuptools",homepage:"https://opendev.org/openstack/pbr/ https://github.com/openstack/pbr/ https://pypi.org/project/pbr/",use:["-test"]},
+      {id:"dev-python/pyyaml-6.0.3",cat:"dev-python",name:"pyyaml",ver:"6.0.3",slot:"0",installed:true,desc:"YAML parser and emitter for Python",homepage:"https://pyyaml.org/wiki/PyYAML https://pypi.org/project/PyYAML/ https://github.com/yaml/pyyaml/",use:["-debug","-examples","-test"]},
+      {id:"dev-python/pyparsing-3.3.2",cat:"dev-python",name:"pyparsing",ver:"3.3.2",slot:"0",installed:false,desc:"Easy-to-use Python module for text parsing",homepage:"https://github.com/pyparsing/pyparsing/ https://pypi.org/project/pyparsing/",use:["-examples","-test"]},
+      {id:"dev-python/prettytable-3.17.0",cat:"dev-python",name:"prettytable",ver:"3.17.0",slot:"0",installed:false,desc:"Easily displaying tabular data in a visually appealing ASCII table format",homepage:"https://github.com/prettytable/prettytable/ https://pypi.org/project/prettytable/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/cmd2-3.4.0",cat:"dev-python",name:"cmd2",ver:"3.4.0",slot:"0",installed:false,desc:"Extra features for standard library's cmd module",homepage:"https://github.com/python-cmd2/cmd2/ https://pypi.org/project/cmd2/",use:["-test"]},
+      {id:"dev-python/autopage-0.6.0",cat:"dev-python",name:"autopage",ver:"0.6.0",slot:"0",installed:false,desc:"A library to provide automatic paging for console output",homepage:"https://github.com/zaneb/autopage/ https://pypi.org/project/autopage/",use:["-test"]},
+      {id:"dev-python/stevedore-5.7.0",cat:"dev-python",name:"stevedore",ver:"5.7.0",slot:"0",installed:false,desc:"Manage dynamic plugins for Python applications",homepage:"https://opendev.org/openstack/stevedore/ https://github.com/openstack/stevedore/ https://pypi.org/project/stevedore/",use:["-doc","-test"]},
+      {id:"dev-python/requests-2.32.5-r1",cat:"dev-python",name:"requests",ver:"2.32.5-r1",slot:"0",installed:true,desc:"HTTP library for human beings",homepage:"https://requests.readthedocs.io/ https://github.com/psf/requests/ https://pypi.org/project/requests/",use:["-socks5","-test","+test-rust"]},
+      {id:"dev-python/oslo-utils-10.0.0",cat:"dev-python",name:"oslo-utils",ver:"10.0.0",slot:"0",installed:false,desc:"Oslo Utility library",homepage:"https://opendev.org/openstack/oslo.utils/ https://github.com/openstack/oslo.utils/ https://pypi.org/project/oslo.utils/",use:["-test"]},
+      {id:"dev-python/oslo-i18n-6.7.2",cat:"dev-python",name:"oslo-i18n",ver:"6.7.2",slot:"0",installed:false,desc:"Oslo i18n library",homepage:"https://opendev.org/openstack/oslo.i18n/ https://github.com/openstack/oslo.i18n/ https://pypi.org/project/oslo.i18n/",use:["-test"]},
+      {id:"dev-python/openstacksdk-4.10.0",cat:"dev-python",name:"openstacksdk",ver:"4.10.0",slot:"0",installed:false,desc:"A collection of libraries for building applications to work with OpenStack",homepage:"https://opendev.org/openstack/openstacksdk/ https://github.com/openstack/openstacksdk/ https://pypi.org/project/openstacksdk/",use:["-test"]},
+      {id:"dev-python/keystoneauth1-5.13.1",cat:"dev-python",name:"keystoneauth1",ver:"5.13.1",slot:"0",installed:false,desc:"This package contains tools for authenticating to an OpenStack-based cloud",homepage:"https://opendev.org/openstack/keystoneauth/ https://github.com/openstack/keystoneauth/ https://pypi.org/project/keystoneauth1/",use:["-test"]},
+      {id:"dev-python/cliff-4.13.1",cat:"dev-python",name:"cliff",ver:"4.13.1",slot:"0",installed:false,desc:"Command Line Interface Formulation Framework",homepage:"https://opendev.org/openstack/cliff/ https://github.com/openstack/cliff/ https://pypi.org/project/cliff/",use:["-test"]},
+      {id:"dev-python/osc-lib-4.4.0",cat:"dev-python",name:"osc-lib",ver:"4.4.0",slot:"0",installed:false,desc:"A package of common support modules for writing OSC plugins",homepage:"https://opendev.org/openstack/osc-lib/ https://github.com/openstack/osc-lib/ https://pypi.org/project/osc-lib/",use:["-test"]}
+    ],
+    edges: [
+      {from:"dev-python/certifi-3024.7.22",to:"app-misc/ca-certificates-20250419.3.112",type:"no"},
+      {from:"dev-python/cliff-4.13.1",to:"dev-python/autopage-0.6.0",type:"no"},
+      {from:"dev-python/cliff-4.13.1",to:"dev-python/cmd2-3.4.0",type:"no"},
+      {from:"dev-python/cliff-4.13.1",to:"dev-python/prettytable-3.17.0",type:"no"},
+      {from:"dev-python/cliff-4.13.1",to:"dev-python/pyparsing-3.3.2",type:"no"},
+      {from:"dev-python/cliff-4.13.1",to:"dev-python/pyyaml-6.0.3",type:"no"},
+      {from:"dev-python/cliff-4.13.1",to:"dev-python/stevedore-5.7.0",type:"no"},
+      {from:"dev-python/cmd2-3.4.0",to:"dev-python/pyperclip-1.11.0",type:"no"},
+      {from:"dev-python/cmd2-3.4.0",to:"dev-python/rich-14.3.3",type:"no"},
+      {from:"dev-python/cmd2-3.4.0",to:"dev-python/rich-argparse-1.7.2",type:"no"},
+      {from:"dev-python/cryptography-46.0.5",to:"dev-libs/openssl-3.6.9999",type:"no"},
+      {from:"dev-python/debtcollector-3.0.0",to:"dev-python/wrapt-2.1.2",type:"no"},
+      {from:"dev-python/dogpile-cache-1.5.0",to:"dev-python/decorator-5.2.1",type:"no"},
+      {from:"dev-python/dogpile-cache-1.5.0",to:"dev-python/stevedore-5.7.0",type:"no"},
+      {from:"dev-python/jaraco-functools-4.4.0",to:"dev-python/more-itertools-10.8.0",type:"no"},
+      {from:"dev-python/jaraco-text-4.2.0",to:"dev-python/jaraco-context-6.1.1",type:"no"},
+      {from:"dev-python/jaraco-text-4.2.0",to:"dev-python/jaraco-functools-4.4.0",type:"no"},
+      {from:"dev-python/jsonpatch-1.33",to:"dev-python/jsonpointer-3.0.0",type:"no"},
+      {from:"dev-python/keystoneauth1-5.13.1",to:"dev-python/iso8601-2.1.0",type:"no"},
+      {from:"dev-python/keystoneauth1-5.13.1",to:"dev-python/os-service-types-1.8.2",type:"no"},
+      {from:"dev-python/keystoneauth1-5.13.1",to:"dev-python/pbr-7.0.3",type:"no"},
+      {from:"dev-python/keystoneauth1-5.13.1",to:"dev-python/requests-2.32.5-r1",type:"no"},
+      {from:"dev-python/keystoneauth1-5.13.1",to:"dev-python/six-1.17.0",type:"no"},
+      {from:"dev-python/keystoneauth1-5.13.1",to:"dev-python/stevedore-5.7.0",type:"no"},
+      {from:"dev-python/keystoneauth1-5.13.1",to:"dev-python/typing-extensions-4.15.0",type:"no"},
+      {from:"dev-python/linkify-it-py-2.1.0",to:"dev-python/uc-micro-py-2.0.0",type:"no"},
+      {from:"dev-python/markdown-it-py-4.0.0",to:"dev-python/linkify-it-py-2.1.0",type:"no"},
+      {from:"dev-python/markdown-it-py-4.0.0",to:"dev-python/mdurl-0.1.2",type:"no"},
+      {from:"dev-python/openstacksdk-4.10.0",to:"dev-python/cryptography-46.0.5",type:"no"},
+      {from:"dev-python/openstacksdk-4.10.0",to:"dev-python/decorator-5.2.1",type:"no"},
+      {from:"dev-python/openstacksdk-4.10.0",to:"dev-python/dogpile-cache-1.5.0",type:"no"},
+      {from:"dev-python/openstacksdk-4.10.0",to:"dev-python/iso8601-2.1.0",type:"no"},
+      {from:"dev-python/openstacksdk-4.10.0",to:"dev-python/jmespath-1.1.0",type:"no"},
+      {from:"dev-python/openstacksdk-4.10.0",to:"dev-python/jsonpatch-1.33",type:"no"},
+      {from:"dev-python/openstacksdk-4.10.0",to:"dev-python/keystoneauth1-5.13.1",type:"no"},
+      {from:"dev-python/openstacksdk-4.10.0",to:"dev-python/os-service-types-1.8.2",type:"no"},
+      {from:"dev-python/openstacksdk-4.10.0",to:"dev-python/pbr-7.0.3",type:"no"},
+      {from:"dev-python/openstacksdk-4.10.0",to:"dev-python/platformdirs-4.9.4",type:"no"},
+      {from:"dev-python/openstacksdk-4.10.0",to:"dev-python/psutil-7.2.2",type:"no"},
+      {from:"dev-python/openstacksdk-4.10.0",to:"dev-python/pyyaml-6.0.3",type:"no"},
+      {from:"dev-python/openstacksdk-4.10.0",to:"dev-python/requestsexceptions-1.4.0-r1",type:"no"},
+      {from:"dev-python/os-service-types-1.8.2",to:"dev-python/pbr-7.0.3",type:"no"},
+      {from:"dev-python/os-service-types-1.8.2",to:"dev-python/typing-extensions-4.15.0",type:"no"},
+      {from:"dev-python/osc-lib-4.4.0",to:"dev-python/cliff-4.13.1",type:"no"},
+      {from:"dev-python/osc-lib-4.4.0",to:"dev-python/keystoneauth1-5.13.1",type:"no"},
+      {from:"dev-python/osc-lib-4.4.0",to:"dev-python/openstacksdk-4.10.0",type:"no"},
+      {from:"dev-python/osc-lib-4.4.0",to:"dev-python/oslo-i18n-6.7.2",type:"no"},
+      {from:"dev-python/osc-lib-4.4.0",to:"dev-python/oslo-utils-10.0.0",type:"no"},
+      {from:"dev-python/osc-lib-4.4.0",to:"dev-python/requests-2.32.5-r1",type:"no"},
+      {from:"dev-python/osc-lib-4.4.0",to:"dev-python/stevedore-5.7.0",type:"no"},
+      {from:"dev-python/oslo-i18n-6.7.2",to:"dev-python/pbr-7.0.3",type:"no"},
+      {from:"dev-python/oslo-utils-10.0.0",to:"dev-python/debtcollector-3.0.0",type:"no"},
+      {from:"dev-python/oslo-utils-10.0.0",to:"dev-python/iso8601-2.1.0",type:"no"},
+      {from:"dev-python/oslo-utils-10.0.0",to:"dev-python/netaddr-1.3.0",type:"no"},
+      {from:"dev-python/oslo-utils-10.0.0",to:"dev-python/oslo-i18n-6.7.2",type:"no"},
+      {from:"dev-python/oslo-utils-10.0.0",to:"dev-python/packaging-26.0",type:"no"},
+      {from:"dev-python/oslo-utils-10.0.0",to:"dev-python/pbr-7.0.3",type:"no"},
+      {from:"dev-python/oslo-utils-10.0.0",to:"dev-python/psutil-7.2.2",type:"no"},
+      {from:"dev-python/oslo-utils-10.0.0",to:"dev-python/pyparsing-3.3.2",type:"no"},
+      {from:"dev-python/oslo-utils-10.0.0",to:"dev-python/pyyaml-6.0.3",type:"no"},
+      {from:"dev-python/pbr-7.0.3",to:"dev-python/setuptools-82.0.1",type:"no"},
+      {from:"dev-python/prettytable-3.17.0",to:"dev-python/wcwidth-0.6.0",type:"no"},
+      {from:"dev-python/pyyaml-6.0.3",to:"dev-libs/libyaml-0.2.5",type:"no"},
+      {from:"dev-python/requests-2.32.5-r1",to:"dev-python/certifi-3024.7.22",type:"no"},
+      {from:"dev-python/requests-2.32.5-r1",to:"dev-python/charset-normalizer-3.4.5",type:"no"},
+      {from:"dev-python/requests-2.32.5-r1",to:"dev-python/idna-3.11",type:"no"},
+      {from:"dev-python/requests-2.32.5-r1",to:"dev-python/urllib3-2.6.3",type:"no"},
+      {from:"dev-python/requestsexceptions-1.4.0-r1",to:"dev-python/pbr-7.0.3",type:"no"},
+      {from:"dev-python/rich-14.3.3",to:"dev-python/colorama-0.4.6",type:"no"},
+      {from:"dev-python/rich-14.3.3",to:"dev-python/markdown-it-py-4.0.0",type:"no"},
+      {from:"dev-python/rich-14.3.3",to:"dev-python/pygments-2.19.2",type:"no"},
+      {from:"dev-python/rich-argparse-1.7.2",to:"dev-python/rich-14.3.3",type:"no"},
+      {from:"dev-python/setuptools-82.0.1",to:"dev-python/jaraco-functools-4.4.0",type:"no"},
+      {from:"dev-python/setuptools-82.0.1",to:"dev-python/jaraco-text-4.2.0",type:"no"},
+      {from:"dev-python/setuptools-82.0.1",to:"dev-python/more-itertools-10.8.0",type:"no"},
+      {from:"dev-python/setuptools-82.0.1",to:"dev-python/packaging-26.0",type:"no"},
+      {from:"dev-python/setuptools-82.0.1",to:"dev-python/platformdirs-4.9.4",type:"no"},
+      {from:"dev-python/setuptools-82.0.1",to:"dev-python/wheel-0.46.3",type:"no"},
+      {from:"dev-python/urllib3-2.6.3",to:"dev-python/pysocks-1.7.1-r2",type:"no"},
+      {from:"dev-python/wheel-0.46.3",to:"dev-python/packaging-26.0",type:"no"}
+    ],
+    root: "dev-python/osc-lib-4.4.0"
+  },
+  pdepend: {
+    nodes: [
+      {id:"dev-python/osc-lib-4.4.0",cat:"dev-python",name:"osc-lib",ver:"4.4.0",slot:"0",installed:false,desc:"A package of common support modules for writing OSC plugins",homepage:"https://opendev.org/openstack/osc-lib/ https://github.com/openstack/osc-lib/ https://pypi.org/project/osc-lib/",use:["-test"]}
+    ],
+    edges: [
+    ],
+    root: "dev-python/osc-lib-4.4.0"
+  }
+};
+let currentType = "rdepend";
+let collapsed = new Set();
+let viewBox = {x:0, y:0, w:0, h:0};
+let zoom = 1;
+let isPanning = false, panStart = {x:0,y:0}, vbStart = {x:0,y:0};
+let autoCollapsed = false;
+const CARD_W = 130, CARD_H = 44, LAYER_H = 90, MIN_GAP = 16;
+const AUTO_COLLAPSE_THRESHOLD = 60;
+const svg = document.getElementById("graph-svg");
+const container = document.getElementById("graph-container");
+const tooltip = document.getElementById("tooltip");
+const ns = "http://www.w3.org/2000/svg";
+function getTree() { return treeData[currentType]; }
+function autoCollapseIfLarge() {
+  const tree = getTree();
+  if (!tree || tree.nodes.length <= AUTO_COLLAPSE_THRESHOLD) return;
+  const childMap = {};
+  tree.nodes.forEach(n => childMap[n.id] = []);
+  tree.edges.forEach(e => { if (childMap[e.from]) childMap[e.from].push(e.to); });
+  const directChildren = new Set(childMap[tree.root]||[]);
+  tree.nodes.forEach(n => {
+    if ((childMap[n.id]||[]).length > 0 && n.id !== tree.root && !directChildren.has(n.id)) collapsed.add(n.id);
+  });
+  autoCollapsed = true;
+}
+autoCollapseIfLarge();
+function buildLayout() {
+  const tree = getTree();
+  if (!tree || !tree.nodes.length) return {positions:{},maxX:0,maxY:0,hiddenSet:new Set(),childMap:{},nodeMap:{}};
+  const childMap = {}, nodeMap = {};
+  tree.nodes.forEach(n => { nodeMap[n.id] = n; childMap[n.id] = []; });
+  tree.edges.forEach(e => { if (childMap[e.from]) childMap[e.from].push(e.to); });
+  const hiddenSet = new Set();
+  function markHidden(id) { (childMap[id]||[]).forEach(c => { hiddenSet.add(c); markHidden(c); }); }
+  collapsed.forEach(id => markHidden(id));
+  const layers = {};
+  const visited = new Set();
+  function bfs(startId) {
+    const queue = [{id: startId, depth: 0}];
+    visited.add(startId);
+    while (queue.length) {
+      const {id, depth} = queue.shift();
+      if (!layers[depth]) layers[depth] = [];
+      layers[depth].push(id);
+      (childMap[id]||[]).forEach(c => {
+        if (!visited.has(c) && !hiddenSet.has(c)) { visited.add(c); queue.push({id:c, depth:depth+1}); }
+      });
+    }
+  }
+  bfs(tree.root);
+  const positions = {};
+  const maxDepth = Math.max(0, ...Object.keys(layers).map(Number));
+  const layerWidths = {};
+  for (let d = maxDepth; d >= 0; d--) {
+    const ids = layers[d] || [];
+    layerWidths[d] = ids.length * CARD_W + (ids.length - 1) * MIN_GAP;
+  }
+  const maxW = Math.max(...Object.values(layerWidths), 400);
+  for (let d = maxDepth; d >= 0; d--) {
+    const ids = layers[d] || [];
+    if (ids.length === 0) continue;
+    const totalW = ids.length * CARD_W + (ids.length - 1) * MIN_GAP;
+    const startX = (maxW - totalW) / 2;
+    ids.forEach((id, i) => {
+      positions[id] = {x: startX + i * (CARD_W + MIN_GAP) + CARD_W / 2, y: d * LAYER_H + 30};
+    });
+  }
+  for (let pass = 0; pass < 4; pass++) {
+    for (let d = maxDepth; d >= 0; d--) {
+      const ids = layers[d] || [];
+      ids.forEach(id => {
+        const children = (childMap[id]||[]).filter(c => !hiddenSet.has(c) && positions[c]);
+        if (children.length > 0) {
+          positions[id].x = children.reduce((s, c) => s + positions[c].x, 0) / children.length;
+        }
+      });
+      spreadLayer(ids, positions);
+    }
+    for (let d = 0; d <= maxDepth; d++) {
+      const ids = layers[d] || [];
+      ids.forEach(id => {
+        const children = (childMap[id]||[]).filter(c => !hiddenSet.has(c) && positions[c]);
+        if (children.length > 0) {
+          positions[id].x = children.reduce((s, c) => s + positions[c].x, 0) / children.length;
+        }
+      });
+      spreadLayer(ids, positions);
+    }
+  }
+  let actualMaxX = 0;
+  Object.values(positions).forEach(p => { if (p.x + CARD_W/2 > actualMaxX) actualMaxX = p.x + CARD_W/2; });
+  return {positions, maxX: Math.max(actualMaxX + MIN_GAP, 400), maxY: (maxDepth + 1) * LAYER_H + 40, hiddenSet, childMap, nodeMap};
+}
+function spreadLayer(ids, positions) {
+  if (!ids || ids.length <= 1) return;
+  for (let i = 1; i < ids.length; i++) {
+    const prev = positions[ids[i-1]], curr = positions[ids[i]];
+    const minX = prev.x + CARD_W + MIN_GAP;
+    if (curr.x < minX) curr.x = minX;
+  }
+}
+function precomputeDescendants(childMap) {
+  const counts = {};
+  const memo = {};
+  function dfs(id) {
+    if (memo[id] !== undefined) return memo[id];
+    memo[id] = 0;
+    let c = 0;
+    (childMap[id]||[]).forEach(ch => { c += 1 + dfs(ch); });
+    memo[id] = c;
+    return c;
+  }
+  Object.keys(childMap).forEach(id => { counts[id] = dfs(id); });
+  return counts;
+}
+function render() {
+  const tree = getTree();
+  if (!tree || !tree.nodes.length) { svg.innerHTML = ""; document.getElementById("subtitle").textContent = "No dependencies"; return; }
+  const {positions, maxX, maxY, hiddenSet, childMap, nodeMap} = buildLayout();
+  const descCounts = precomputeDescendants(childMap);
+  const pad = 40;
+  viewBox = {x: -pad, y: -pad, w: maxX + pad * 2, h: maxY + pad * 2};
+  svg.setAttribute("viewBox", `${viewBox.x} ${viewBox.y} ${viewBox.w} ${viewBox.h}`);
+  const parts = [];
+  parts.push("<defs>");
+  ["normal","weak","strong"].forEach(t => {
+    const col = t === "weak" ? "var(--edge-weak)" : t === "strong" ? "var(--edge-strong)" : "var(--edge-normal)";
+    parts.push(`<marker id="arrow-${t}" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="${col}"/></marker>`);
+  });
+  parts.push("</defs><g class=\"edge-layer\">");
+  tree.edges.forEach(e => {
+    if (hiddenSet.has(e.to) || !positions[e.from] || !positions[e.to]) return;
+    const fp = positions[e.from], tp = positions[e.to];
+    const x1 = fp.x, y1 = fp.y + CARD_H / 2, x2 = tp.x, y2 = tp.y - CARD_H / 2;
+    const my = (y1 + y2) / 2;
+    const col = e.type === "weak" ? "var(--edge-weak)" : e.type === "strong" ? "var(--edge-strong)" : "var(--edge-normal)";
+    const mt = e.type === "no" ? "normal" : e.type;
+    let extra = "";
+    if (e.type === "weak") extra = ' stroke-dasharray="5,3"';
+    if (e.type === "strong") extra = ' stroke-dasharray="3,2"';
+    parts.push(`<path d="M${x1},${y1} C${x1},${my} ${x2},${my} ${x2},${y2}" stroke="${col}" stroke-width="1.3" fill="none" marker-end="url(#arrow-${mt})" opacity="0.6"${extra}/>`);
+  });
+  parts.push("</g><g class=\"node-layer\">");
+  tree.nodes.forEach(n => {
+    if (hiddenSet.has(n.id) || !positions[n.id]) return;
+    const pos = positions[n.id], isRoot = n.id === tree.root;
+    const isColl = collapsed.has(n.id);
+    const cc = (childMap[n.id]||[]).length;
+    const dc = descCounts[n.id]||0;
+    const x = pos.x - CARD_W / 2, y = pos.y - CARD_H / 2;
+    const cursor = cc > 0 ? "pointer" : "default";
+    let s = `<g class="node-g" data-id="${n.id}" style="cursor:${cursor}">`;
+    if (n.installed) {
+      s += `<rect x="${x}" y="${y}" width="3" height="${CARD_H}" fill="var(--node-installed)" rx="2"/>`;
+    }
+    const rx = n.installed ? x + 3 : x, rw = n.installed ? CARD_W - 3 : CARD_W;
+    const sc = isRoot ? "var(--node-root-border)" : "var(--node-border)";
+    const sw = isRoot ? 2 : 1.5;
+    const op = isColl ? ' opacity="0.7"' : "";
+    s += `<rect x="${rx}" y="${y}" width="${rw}" height="${CARD_H}" rx="5" ry="5" fill="var(--node-bg)" stroke="${sc}" stroke-width="${sw}"${op}/>`;
+    s += `<text x="${pos.x}" y="${pos.y - 4}" text-anchor="middle" font-size="11" font-weight="600" fill="var(--text)" font-family="Helvetica Neue,Helvetica,sans-serif">${n.name}</text>`;
+    const vt = n.ver + (n.slot !== "0" ? "  :" + n.slot : "");
+    s += `<text x="${pos.x}" y="${pos.y + 10}" text-anchor="middle" font-size="10" fill="var(--text2)" font-family="Helvetica Neue,Helvetica,sans-serif">${vt}</text>`;
+    if (cc > 0) {
+      const fc = isColl ? "var(--rdepend)" : "var(--text2)";
+      const fw = isColl ? "600" : "normal";
+      const txt = isColl ? "+" + dc : "\u25BE";
+      s += `<text x="${pos.x + CARD_W/2 - 6}" y="${pos.y + CARD_H/2 - 3}" text-anchor="end" font-size="9" fill="${fc}" font-weight="${fw}" font-family="Helvetica Neue,Helvetica,sans-serif">${txt}</text>`;
+    }
+    s += "</g>";
+    parts.push(s);
+  });
+  parts.push("</g>");
+  svg.innerHTML = parts.join("");
+  let visN = 0, visE = 0;
+  tree.nodes.forEach(n => { if (!hiddenSet.has(n.id) && positions[n.id]) visN++; });
+  tree.edges.forEach(e => { if (!hiddenSet.has(e.to) && positions[e.from] && positions[e.to]) visE++; });
+  let minY = Infinity, maxYv = -Infinity;
+  for (const p of Object.values(positions)) { if (p.y < minY) minY = p.y; if (p.y > maxYv) maxYv = p.y; }
+  const levels = minY === Infinity ? 0 : Math.round((maxYv - minY) / LAYER_H) + 1;
+  const total = tree.nodes.length;
+  let sub = `${visN} nodes \u00b7 ${visE} edges \u00b7 ${levels} levels`;
+  if (visN < total) sub += ` (${total} total)`;
+  document.getElementById("subtitle").textContent = sub;
+}
+const nodeIndex = {};
+Object.values(treeData).forEach(t => t.nodes.forEach(n => nodeIndex[n.id] = n));
+let lastChildMap = null;
+function getChildMap() {
+  if (lastChildMap && lastChildMap._type === currentType) return lastChildMap;
+  const tree = getTree(), cm = {};
+  tree.nodes.forEach(n => cm[n.id] = []);
+  tree.edges.forEach(e => { if (cm[e.from]) cm[e.from].push(e.to); });
+  cm._type = currentType; lastChildMap = cm; return cm;
+}
+svg.addEventListener("click", ev => {
+  const g = ev.target.closest(".node-g"); if (!g) return;
+  const id = g.dataset.id, cm = getChildMap();
+  if (!(cm[id]||[]).length) return;
+  if (collapsed.has(id)) collapsed.delete(id); else collapsed.add(id);
+  render();
+});
+svg.addEventListener("mouseover", ev => {
+  const g = ev.target.closest(".node-g"); if (!g) return;
+  const n = nodeIndex[g.dataset.id]; if (!n) return;
+  showTooltip(ev, n);
+});
+svg.addEventListener("mousemove", ev => {
+  if (ev.target.closest(".node-g")) moveTooltip(ev); else hideTooltip();
+});
+svg.addEventListener("mouseout", ev => {
+  const g = ev.target.closest(".node-g");
+  if (g && !g.contains(ev.relatedTarget)) hideTooltip();
+});
+function showTooltip(ev, n) {
+  const useHtml = (n.use||[]).map(u => {
+    const on = u.startsWith("+");
+    return `<span class="use-flag ${on?"on":"off"}">${u}</span>`;
+  }).join("");
+  tooltip.innerHTML = `
+    <div class="tt-title">${n.cat}/${n.name}-${n.ver}</div>
+    ${n.desc ? `<div class="tt-desc">${n.desc}</div>` : ""}
+    <div class="tt-row"><span class="tt-label">Slot</span><span class="tt-value">${n.slot}</span></div>
+    <div class="tt-row"><span class="tt-label">Status</span><span class="${n.installed?"tt-installed":"tt-not-installed"}">${n.installed?"Installed":"Not installed"}</span></div>
+    ${n.homepage ? `<div class="tt-row"><span class="tt-label">Home</span><a class="tt-link" href="${n.homepage}" target="_blank">${n.homepage.replace(/https?:\/\//,"").substring(0,40)}...</a></div>` : ""}
+    ${useHtml ? `<div style="margin-top:4px"><span class="tt-label">USE</span><div class="use-flags">${useHtml}</div></div>` : ""}
+  `; tooltip.style.display = "block"; moveTooltip(ev);
+}
+function moveTooltip(ev) {
+  const pad = 12; let x = ev.clientX + pad, y = ev.clientY + pad;
+  const tw = tooltip.offsetWidth, th = tooltip.offsetHeight;
+  if (x + tw > window.innerWidth - pad) x = ev.clientX - tw - pad;
+  if (y + th > window.innerHeight - pad) y = ev.clientY - th - pad;
+  tooltip.style.left = x + "px"; tooltip.style.top = y + "px";
+}
+function hideTooltip() { tooltip.style.display = "none"; }
+function switchDepType(type) {
+  if (!treeData[type]) return;
+  currentType = type; collapsed.clear(); lastChildMap = null;
+  autoCollapseIfLarge();
+  document.querySelectorAll(".dep-tab").forEach(b => {
+    b.classList.toggle("active", b.dataset.type === type);
+    b.classList.toggle("off", b.dataset.type !== type);
+  }); render();
+}
+function expandAll() {
+  const tree = getTree();
+  if (tree && tree.nodes.length > 500 && !confirm("This tree has " + tree.nodes.length + " nodes. Expanding all may be slow. Continue?")) return;
+  collapsed.clear(); render();
+}
+function collapseAll() {
+  const tree = getTree(); if (!tree) return;
+  const cm = getChildMap();
+  tree.nodes.forEach(n => { if ((cm[n.id]||[]).length > 0 && n.id !== tree.root) collapsed.add(n.id); });
+  render();
+}
+function resetView() { zoom = 1; document.getElementById("zoom-level").textContent = "100%"; render(); }
+function zoomIn() { zoom = Math.min(zoom * 1.25, 4); applyZoom(); }
+function zoomOut() { zoom = Math.max(zoom / 1.25, 0.25); applyZoom(); }
+function applyZoom() {
+  const cx = viewBox.x + viewBox.w / 2, cy = viewBox.y + viewBox.h / 2;
+  const nw = viewBox.w / zoom, nh = viewBox.h / zoom;
+  svg.setAttribute("viewBox", `${cx - nw/2} ${cy - nh/2} ${nw} ${nh}`);
+  document.getElementById("zoom-level").textContent = Math.round(zoom * 100) + "%";
+}
+container.addEventListener("mousedown", e => {
+  if (e.target.closest(".node-g")) return;
+  isPanning = true; panStart = {x: e.clientX, y: e.clientY};
+  const vb = svg.getAttribute("viewBox").split(" ").map(Number);
+  vbStart = {x: vb[0], y: vb[1]}; container.style.cursor = "grabbing";
+});
+container.addEventListener("mousemove", e => {
+  if (!isPanning) return;
+  const vb = svg.getAttribute("viewBox").split(" ").map(Number);
+  const scale = vb[2] / container.clientWidth;
+  const dx = (e.clientX - panStart.x) * scale, dy = (e.clientY - panStart.y) * scale;
+  svg.setAttribute("viewBox", `${vbStart.x - dx} ${vbStart.y - dy} ${vb[2]} ${vb[3]}`);
+});
+container.addEventListener("mouseup", () => { isPanning = false; container.style.cursor = ""; });
+container.addEventListener("mouseleave", () => { isPanning = false; container.style.cursor = ""; });
+container.addEventListener("wheel", e => {
+  e.preventDefault();
+  const factor = e.deltaY > 0 ? 0.9 : 1.1;
+  zoom *= factor; zoom = Math.max(0.25, Math.min(4, zoom));
+  const vb = svg.getAttribute("viewBox").split(" ").map(Number);
+  const rect = container.getBoundingClientRect();
+  const mx = (e.clientX - rect.left) / rect.width, my = (e.clientY - rect.top) / rect.height;
+  const nw = vb[2] / factor, nh = vb[3] / factor;
+  const nx = vb[0] + (vb[2] - nw) * mx, ny = vb[1] + (vb[3] - nh) * my;
+  svg.setAttribute("viewBox", `${nx} ${ny} ${nw} ${nh}`);
+  document.getElementById("zoom-level").textContent = Math.round(zoom * 100) + "%";
+}, {passive: false});
+render();
+</script>
+<script>
+function toggleTheme() {
+  const html = document.documentElement;
+  const cur = html.getAttribute("data-theme") || "dark";
+  const next = cur === "dark" ? "light" : "dark";
+  html.setAttribute("data-theme", next);
+  document.getElementById("theme-btn").innerHTML = next === "light" ? "&#9788;" : "&#9790;";
+  localStorage.setItem("deptree-theme", next);
+}
+(function() {
+  const saved = localStorage.getItem("deptree-theme");
+  if (saved) {
+    document.documentElement.setAttribute("data-theme", saved);
+    document.getElementById("theme-btn").innerHTML = saved === "light" ? "&#9788;" : "&#9790;";
+  }
+})();
+</script>
+</body>
+</html>
