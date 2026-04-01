@@ -59,9 +59,7 @@
  └─<span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">step  1</span><span class="fg-bright-black"><span class="pua"></span></span>─┤ <span class="fg-yellow"><span class="pua"></span></span><span class="bg-yellow">useflag</span><span class="fg-yellow"><span class="pua"></span></span><span class="fg-green"> portage://llvm-runtimes/clang-runtime-18.1.8-r1</span><span class="fg-bright-black"> (compiler-rt)</span>
              │ <span class="fg-yellow"><span class="pua"></span></span><span class="bg-yellow">useflag</span><span class="fg-yellow"><span class="pua"></span></span><span class="fg-green"> portage://llvm-runtimes/compiler-rt-18.1.8-r2</span><span class="fg-bright-black"> (clang)</span>
 
- └─<span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">step  2</span><span class="fg-bright-black"><span class="pua"></span></span>─┤ <span class="fg-red"><span class="pua"></span></span><span class="bg-red">verify</span><span class="fg-red"><span class="pua"></span></span><span class="fg-red">  portage://llvm-core/llvm-18.1.8-r6 (assumed running) </span>
-             │ <span class="fg-red"><span class="pua"></span></span><span class="bg-red">verify</span><span class="fg-red"><span class="pua"></span></span><span class="fg-red">  portage://llvm-runtimes/clang-runtime-18.1.8-r1 (assumed running) </span>
-             │ <span class="fg-red"><span class="pua"></span></span><span class="bg-red">verify</span><span class="fg-red"><span class="pua"></span></span><span class="fg-red">  portage://llvm-runtimes/compiler-rt-18.1.8-r2 (assumed installed)</span>
+ └─<span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">step  2</span><span class="fg-bright-black"><span class="pua"></span></span>─┤ <span class="pua"></span>verify<span class="pua"></span>  llvm-core/llvm<span class="fg-bright-black"> (unsatisfied constraints, assumed running)</span>
              │ <span class="fg-cyan">download</span><span class="fg-green">  portage://llvm-runtimes/openmp-22.1.1</span>
              │           <span class="fg-bright-black">└─ file ─┤ </span><span class="fg-magenta">159.29 Mb  	</span> llvm-project-22.1.1.src.tar.xz
              │ <span class="fg-cyan">download</span><span class="fg-green">  portage://llvm-runtimes/compiler-rt-sanitizers-18.1.8-r6</span>
@@ -173,17 +171,47 @@ Total: 41 actions (2 useflags, 13 downloads, 13 installs, 13 runs), grouped into
 <span class="fg-bright-black">  [blocks B] !&lt;sys-devel/gcc-config-2.6 (soft blocker, phase: run, required by: portage://llvm-core/clang-toolchain-symlinks-18)
 </span><span class="fg-bright-black">  [blocks B] !llvm-core/llvm:0 (soft blocker, phase: run, required by: portage://llvm-core/llvm-18.1.8-r6)
 </span>
-<span class="fg-bright-yellow">&gt;&gt;&gt; Cycle breaks (prover)</span>
 
-<span class="fg-bright-black">  portage://llvm-core/llvm-18.1.8-r6:run</span>
-<span class="fg-bright-black">  portage://llvm-runtimes/clang-runtime-18.1.8-r1:run</span>
-<span class="fg-bright-black">  portage://llvm-runtimes/compiler-rt-18.1.8-r2:install</span>
+<span class="fg-red"><span class="pua"></span></span><span class="bg-red">Error</span><span class="fg-red"><span class="pua"></span></span><span class="fg-red"> The proof for your build plan contains domain assumptions. Please verify:
+
+</span>
+<span class="fg-bright-yellow">&gt;&gt;&gt; Domain assumptions</span>
+
+<span class="fg-bright-red"></span><span class="ansi-bold fg-bright-red">- REQUIRED_USE violation: </span>
+  llvm-core/llvm
+  Conflicting USE flags: [debug]
+  Required enabled by:  [abi_x86_64,debug]
+  Required disabled by: [debug]
+  (cannot satisfy both enable and disable for the same flag)
+<span class="fg-bright-black">  required by: portage://llvm-core/clang-18.1.8-r7
+</span>
+
+<span class="fg-bright-yellow">&gt;&gt;&gt; Bug report drafts (Gentoo Bugzilla)</span>
+
+<span class="fg-bright-black">---
+</span><span class="ansi-bold">Summary: </span>portage://llvm-core/clang-18.1.8-r7: unsatisfied_constraints dependency on llvm-core/llvm
+
+<span class="ansi-bold">Affected package: </span><span class="fg-bright-black">portage://llvm-core/clang-18.1.8-r7</span>
+<span class="ansi-bold">Dependency: </span><span class="fg-bright-black">llvm-core/llvm</span>
+<span class="ansi-bold">Phases: </span><span class="fg-bright-black">[run]</span>
+
+<span class="ansi-bold">Unsatisfiable constraint(s):</span>
+<span class="fg-bright-black">  &gt;=llvm-core/llvm-18.1.8-r6</span><span class="fg-white">:18=</span>
+<span class="fg-bright-black">  ~llvm-core/llvm-18.1.8</span><span class="fg-white">:18=</span>
+
+<span class="ansi-bold">Observed:</span>
+<span class="fg-bright-black">  portage-ng reports no available candidate satisfies the above constraint(s).
+  Available versions in repo set (sample, first 8 of 11): [16.0.6-r5,17.0.6-r3,18.1.8-r6,19.1.7,20.1.8,21.1.8,22.1.0-r2,22.1.1]
+</span>
+<span class="ansi-bold">Potential fix (suggestion):</span>
+<span class="fg-bright-black">  Review dependency metadata in portage://llvm-core/clang-18.1.8-r7; constraint set: [constraint(greaterequal,18.1.8-r6,[slot(18),equal]),constraint(tilde,18.1.8,[slot(18),equal])].
+</span>
 
 
 </pre>
 <div class="terminal-stats" role="status">
   <dl>
-    <dt>Wall time</dt><dd>0.176 s</dd>
+    <dt>Wall time</dt><dd>0.154 s</dd>
   </dl>
 </div>
 </div>
