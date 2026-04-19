@@ -24,8 +24,8 @@
     <span class="nav-group-label">version</span>
     <a class="nav-link disabled">&laquo;</a>
     <a class="nav-link disabled">&lsaquo;</a>
-    <a class="nav-link" href="../sys-fs/bcachefs-tools-1.36.1-info.html" title="sys-fs/bcachefs-tools-1.36.1">&rsaquo;</a>
-    <a class="nav-link" href="../sys-fs/bcachefs-tools-1.20.0-info.html" title="sys-fs/bcachefs-tools-1.20.0">&raquo;</a>
+    <a class="nav-link" href="../sys-fs/bcachefs-tools-1.37.4-info.html" title="sys-fs/bcachefs-tools-1.37.4">&rsaquo;</a>
+    <a class="nav-link" href="../sys-fs/bcachefs-tools-1.25.2-info.html" title="sys-fs/bcachefs-tools-1.25.2">&raquo;</a>
   </div>
 </div>
 <div class="nav-bar">
@@ -74,9 +74,15 @@
 <span class="ansi-italic"></span><span class="fg-white ansi-italic">   [not set]</span>
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 <span class="ansi-bold"></span><span class="fg-bright-black ansi-bold">iuse : </span>
-   fuse
-   verify-sig
    debug
+   verify-sig
+   <span class="fg-green">+modules</span>
+   debug
+   dist-kernel
+   modules-compress
+   modules-sign
+   <span class="fg-green">+strip</span>
+   <span class="fg-green">+initramfs</span>
    <span class="fg-green">+llvm_slot_21</span>
    llvm_slot_17
    llvm_slot_18
@@ -101,8 +107,14 @@
    rust
    rust-toolchain
    cargo
+   mount-boot-utils
+   dist-kernel-utils
+   edo
+   linux-info
+   linux-mod-r1
    llvm-utils
-   llvm-r1
+   multilib
+   llvm-r2
    eapi9-pipestatus
    python-utils-r1
    python-any-r1
@@ -159,11 +171,18 @@
    <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">elibc_musl</span><span class="fg-white"></span>
 <span class="fg-bright-black"></span>      &gt;=sys-libs/musl-1.2.5
    virtual/pkgconfig
+   <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">modules</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>      &gt;=sys-kernel/linux-headers-6.16.0
    <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">verify-sig</span><span class="fg-white"></span>
 <span class="fg-bright-black"></span>      &gt;=sec-keys/openpgp-keys-kentoverstreet-20241012
    <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">any</span><span class="fg-bright-black"><span class="pua"></span></span> 
-<span class="fg-bright-black"></span>      &gt;=dev-lang/rust-bin-1.82<span class="fg-white">:*</span>
-<span class="fg-bright-black"></span>      &gt;=dev-lang/rust-1.82<span class="fg-white">:*</span>
+<span class="fg-bright-black"></span>      &gt;=dev-lang/rust-bin-1.85.0<span class="fg-white">:*</span>
+<span class="fg-bright-black"></span>      &gt;=dev-lang/rust-1.85.0<span class="fg-white">:*</span>
+   dev-util/pahole
+   sys-apps/kmod<span class="fg-cyan"> [ tools ]</span>
+   <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">modules-sign</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>      dev-libs/openssl
+<span class="fg-bright-black"></span>      virtual/pkgconfig
    <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">verify-sig</span><span class="fg-white"></span>
 <span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">any</span><span class="fg-bright-black"><span class="pua"></span></span> 
 <span class="fg-bright-black"></span>         app-alternatives/gpg
@@ -181,11 +200,12 @@
    sys-apps/util-linux
    virtual/zlib<span class="fg-white">:=</span>
    virtual/udev
-   <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">fuse</span><span class="fg-white"></span>
-<span class="fg-bright-black"></span>      &gt;=sys-fs/fuse-3.7.0<span class="fg-white">:3=</span>
+   virtual/linux-sources
 
 <span class="ansi-bold"></span><span class="fg-bright-black ansi-bold">idepend : </span>
-<span class="ansi-italic"></span><span class="fg-white ansi-italic">   [not set]</span>
+   sys-apps/kmod<span class="fg-cyan"> [ tools ]</span>
+   <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">initramfs</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>      sys-kernel/installkernel
 
 <span class="ansi-bold"></span><span class="fg-bright-black ansi-bold">rdepend : </span>
    app-arch/lz4<span class="fg-white">:=</span>
@@ -197,8 +217,9 @@
    sys-apps/util-linux
    virtual/zlib<span class="fg-white">:=</span>
    virtual/udev
-   <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">fuse</span><span class="fg-white"></span>
-<span class="fg-bright-black"></span>      &gt;=sys-fs/fuse-3.7.0<span class="fg-white">:3=</span>
+   sys-apps/kmod<span class="fg-cyan"> [ tools ]</span>
+   <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">dist-kernel</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>      virtual/dist-kernel<span class="fg-white">:=</span>
 
 <span class="ansi-bold"></span><span class="fg-bright-black ansi-bold">pdepend : </span>
 <span class="ansi-italic"></span><span class="fg-white ansi-italic">   [not set]</span>

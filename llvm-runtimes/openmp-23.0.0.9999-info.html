@@ -24,7 +24,7 @@
     <span class="nav-group-label">version</span>
     <a class="nav-link disabled">&laquo;</a>
     <a class="nav-link disabled">&lsaquo;</a>
-    <a class="nav-link" href="../llvm-runtimes/openmp-23.0.0_pre20260314-info.html" title="llvm-runtimes/openmp-23.0.0_pre20260314">&rsaquo;</a>
+    <a class="nav-link" href="../llvm-runtimes/openmp-23.0.0_pre20260413-info.html" title="llvm-runtimes/openmp-23.0.0_pre20260413">&rsaquo;</a>
     <a class="nav-link" href="../llvm-runtimes/openmp-16.0.6-info.html" title="llvm-runtimes/openmp-16.0.6">&raquo;</a>
   </div>
 </div>
@@ -54,7 +54,7 @@
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 <span class="ansi-bold"></span><span class="fg-bright-black ansi-bold">description : </span>
-   OpenMP runtime library for LLVM/clang compiler
+   OpenMP runtime libraries for LLVM/clang compiler
 <span class="ansi-bold"></span><span class="fg-bright-black ansi-bold">homepage : </span>
    https://openmp.llvm.org
 <span class="ansi-bold"></span><span class="fg-bright-black ansi-bold">maintainer : </span>
@@ -72,11 +72,16 @@
    23.0.0.9999
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 <span class="ansi-bold"></span><span class="fg-bright-black ansi-bold">iuse : </span>
+   <span class="fg-green">+clang</span>
    <span class="fg-green">+debug</span>
    gdb-plugin
    hwloc
+   offload
    ompt
    test
+   cuda
+   level-zero
+   rocm
    abi_x86_32
    abi_x86_64
    abi_x86_x32
@@ -113,7 +118,7 @@
    multilib-build
    multilib-minimal
    cmake-multilib
-   linux-info
+   crossdev
    git-r3
    llvm.org
    eapi9-pipestatus
@@ -124,6 +129,7 @@
    configure
    install
    prepare
+   pretend
    setup
    test
    unpack
@@ -135,6 +141,19 @@
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 <span class="ansi-bold"></span><span class="fg-bright-black ansi-bold">bdepend : </span>
    dev-lang/perl
+   <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">clang</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>      llvm-core/clang
+   <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">gdb-plugin</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">python_single_target_python3_11</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>         dev-lang/python<span class="fg-white">:3.11</span>
+<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">python_single_target_python3_12</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>         dev-lang/python<span class="fg-white">:3.12</span>
+<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">python_single_target_python3_13</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>         dev-lang/python<span class="fg-white">:3.13</span>
+<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">python_single_target_python3_14</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>         dev-lang/python<span class="fg-white">:3.14</span>
+   <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">offload</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>      virtual/pkgconfig
    <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">test</span><span class="fg-white"></span>
 <span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">python_single_target_python3_11</span><span class="fg-white"></span>
 <span class="fg-bright-black"></span>         dev-lang/python<span class="fg-white">:3.11</span>
@@ -159,22 +178,29 @@
    &gt;=dev-vcs/git-1.8.2.1<span class="fg-cyan"> [ curl ]</span>
 
 <span class="ansi-bold"></span><span class="fg-bright-black ansi-bold">depend : </span>
-   <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">gdb-plugin</span><span class="fg-white"></span>
-<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">python_single_target_python3_11</span><span class="fg-white"></span>
-<span class="fg-bright-black"></span>         dev-lang/python<span class="fg-white">:3.11</span>
-<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">python_single_target_python3_12</span><span class="fg-white"></span>
-<span class="fg-bright-black"></span>         dev-lang/python<span class="fg-white">:3.12</span>
-<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">python_single_target_python3_13</span><span class="fg-white"></span>
-<span class="fg-bright-black"></span>         dev-lang/python<span class="fg-white">:3.13</span>
-<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">python_single_target_python3_14</span><span class="fg-white"></span>
-<span class="fg-bright-black"></span>         dev-lang/python<span class="fg-white">:3.14</span>
    <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">hwloc</span><span class="fg-white"></span>
 <span class="fg-bright-black"></span>      &gt;=sys-apps/hwloc-2.5<span class="fg-white">:0=</span><span class="fg-cyan"> [ abi_x86_32(-)? abi_x86_64(-)? abi_x86_x32(-)? abi_mips_n32(-)? abi_mips_n64(-)? abi_mips_o32(-)? abi_s390_32(-)? abi_s390_64(-)? ]</span>
+   <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">offload</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>      dev-libs/libffi<span class="fg-white">:=</span>
+<span class="fg-bright-black"></span>      ~llvm-core/llvm-23.0.0.9999
+<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">level-zero</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>         dev-libs/level-zero<span class="fg-white">:=</span>
+<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">rocm</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>         dev-libs/rocr-runtime<span class="fg-white">:=</span>
 
 <span class="ansi-bold"></span><span class="fg-bright-black ansi-bold">idepend : </span>
 <span class="ansi-italic"></span><span class="fg-white ansi-italic">   [not set]</span>
 
 <span class="ansi-bold"></span><span class="fg-bright-black ansi-bold">rdepend : </span>
+   <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">hwloc</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>      &gt;=sys-apps/hwloc-2.5<span class="fg-white">:0=</span><span class="fg-cyan"> [ abi_x86_32(-)? abi_x86_64(-)? abi_x86_x32(-)? abi_mips_n32(-)? abi_mips_n64(-)? abi_mips_o32(-)? abi_s390_32(-)? abi_s390_64(-)? ]</span>
+   <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">offload</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>      dev-libs/libffi<span class="fg-white">:=</span>
+<span class="fg-bright-black"></span>      ~llvm-core/llvm-23.0.0.9999
+<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">level-zero</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>         dev-libs/level-zero<span class="fg-white">:=</span>
+<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">rocm</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>         dev-libs/rocr-runtime<span class="fg-white">:=</span>
    <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">gdb-plugin</span><span class="fg-white"></span>
 <span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">python_single_target_python3_11</span><span class="fg-white"></span>
 <span class="fg-bright-black"></span>         dev-lang/python<span class="fg-white">:3.11</span>
@@ -184,8 +210,14 @@
 <span class="fg-bright-black"></span>         dev-lang/python<span class="fg-white">:3.13</span>
 <span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">python_single_target_python3_14</span><span class="fg-white"></span>
 <span class="fg-bright-black"></span>         dev-lang/python<span class="fg-white">:3.14</span>
-   <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">hwloc</span><span class="fg-white"></span>
-<span class="fg-bright-black"></span>      &gt;=sys-apps/hwloc-2.5<span class="fg-white">:0=</span><span class="fg-cyan"> [ abi_x86_32(-)? abi_x86_64(-)? abi_x86_x32(-)? abi_mips_n32(-)? abi_mips_n64(-)? abi_mips_o32(-)? abi_s390_32(-)? abi_s390_64(-)? ]</span>
+   <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">offload</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>      <span class="fg-white"></span><span class="ansi-italic fg-white">[weak block] </span>llvm-runtimes/offload
+<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">cuda</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>         ~llvm-runtimes/openmp-nvptx64-nvidia-cuda-23.0.0.9999
+<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">level-zero</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>         ~llvm-runtimes/openmp-spirv64-intel-23.0.0.9999
+<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">rocm</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>         ~llvm-runtimes/openmp-amdgcn-amd-amdhsa-23.0.0.9999
 
 <span class="ansi-bold"></span><span class="fg-bright-black ansi-bold">pdepend : </span>
 <span class="ansi-italic"></span><span class="fg-white ansi-italic">   [not set]</span>

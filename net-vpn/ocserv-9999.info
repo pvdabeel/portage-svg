@@ -21,31 +21,40 @@
    geoip
    kerberos
    [32m+lz4[00m
+   [32m+nftables[00m
    otp
    pam
    radius
    [32m+seccomp[00m
    systemd
    tcpd
+   root-tests
    test
 [01m[90mrequired_use : [00m
 [03m[37m   [not set][00m[00m
 [01m[90mkeywords : [00m
 [03m[37m   [not set][00m[00m
 [01m[90mproperties : [00m
+   [90m[00m[100muse[00m[90m[00m [32mroot-tests[37m[00m
+[90m[00m      test_privileged
    live
 [01m[90meclasses : [00m
    toolchain-funcs
    linux-info
+   flag-o-matic
+   multiprocessing
+   ninja-utils
+   eapi9-pipestatus
+   python-utils-r1
+   sysroot
+   rust-toolchain
+   meson
    systemd
-   gnuconfig
-   libtool
-   autotools
    git-r3
 [01m[90mdefined_phases : [00m
+   compile
    configure
    install
-   prepare
    setup
    test
    unpack
@@ -56,9 +65,41 @@
 [03m[37m   [not set][00m[00m
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 [01m[90mbdepend : [00m
-   net-misc/ipcalc
+   net-misc/ipcalc-ng
    virtual/pkgconfig
    [90m[00m[100muse[00m[90m[00m [32mtest[37m[00m
+[90m[00m      dev-libs/libnl[37m:3=[00m
+[90m[00m      dev-libs/libev[37m:0=[00m
+[90m[00m      >=dev-libs/nettle-2.7[37m:0=[00m
+[90m[00m      dev-libs/pcl[37m:0=[00m
+[90m[00m      dev-libs/protobuf-c[37m:0=[00m
+[90m[00m      >=net-libs/gnutls-3.3.0[37m:0=[00m
+[90m[00m      sys-libs/readline[37m:0=[00m
+[90m[00m      sys-libs/talloc[37m:0=[00m
+[90m[00m      virtual/libcrypt[37m:=[00m
+[90m[00m      [90m[00m[100muse[00m[90m[00m [32mgeoip[37m[00m
+[90m[00m         dev-libs/geoip[37m:0=[00m
+[90m[00m      [90m[00m[100muse[00m[90m[00m [32mkerberos[37m[00m
+[90m[00m         app-crypt/mit-krb5
+[90m[00m      [90m[00m[100muse[00m[90m[00m [32mlz4[37m[00m
+[90m[00m         app-arch/lz4[37m:0=[00m
+[90m[00m      [90m[00m[100muse[00m[90m[00m [32motp[37m[00m
+[90m[00m         sys-auth/oath-toolkit[37m:0=[00m
+[90m[00m      [90m[00m[100muse[00m[90m[00m [32mpam[37m[00m
+[90m[00m         sys-libs/pam[37m:0=[00m
+[90m[00m      [90m[00m[100muse[00m[90m[00m [32mradius[37m[00m
+[90m[00m         net-libs/radcli[37m:0=[00m
+[90m[00m      [90m[00m[100muse[00m[90m[00m [32mseccomp[37m[00m
+[90m[00m         sys-libs/libseccomp[37m:0=[00m
+[90m[00m      [90m[00m[100muse[00m[90m[00m [32msystemd[37m[00m
+[90m[00m         sys-apps/systemd[37m:0=[00m
+[90m[00m      [90m[00m[100muse[00m[90m[00m [32mtcpd[37m[00m
+[90m[00m         sys-apps/tcp-wrappers[37m:0=[00m
+[90m[00m      sys-apps/which
+[90m[00m      [90m[00m[100muse[00m[90m[00m [32mnftables[37m[00m
+[90m[00m         net-firewall/nftables
+[90m[00m      [90m[00m[100muse[00m[90m[00m [31m-nftables[37m[00m
+[90m[00m         net-firewall/iptables
 [90m[00m      net-libs/gnutls[36m [ tools(+) ][00m
 [90m[00m      net-libs/socket_wrapper
 [90m[00m      net-vpn/openconnect
@@ -66,15 +107,13 @@
 [90m[00m      sys-libs/uid_wrapper
 [90m[00m      [90m[00m[100muse[00m[90m[00m [32mpam[37m[00m
 [90m[00m         sys-libs/pam_wrapper
+[90m[00m      [90m[00m[100muse[00m[90m[00m [32mroot-tests[37m[00m
+[90m[00m         net-analyzer/nmap[36m [ ncat(+) ][00m
+[90m[00m         net-misc/iperf
+   >=dev-build/meson-1.2.3
+   app-alternatives/ninja
+   dev-build/meson-format-array
    virtual/pkgconfig
-   sys-devel/gnuconfig
-   >=app-portage/elt-patches-20250306
-   [90m[00m[100many[00m[90m[00m [00m
-[90m[00m      >=dev-build/automake-1.18[37m:1.18[00m
-[90m[00m      >=dev-build/automake-1.17-r1[37m:1.17[00m
-   [90m[00m[100many[00m[90m[00m [00m
-[90m[00m      >=dev-build/autoconf-2.72-r1[37m:2.72[00m
-   >=dev-build/libtool-2.4.7-r3
    >=dev-vcs/git-1.8.2.1[36m [ curl ][00m
 
 [01m[90mdepend : [00m
@@ -137,6 +176,11 @@
 [90m[00m      sys-apps/systemd[37m:0=[00m
    [90m[00m[100muse[00m[90m[00m [32mtcpd[37m[00m
 [90m[00m      sys-apps/tcp-wrappers[37m:0=[00m
+   sys-apps/which
+   [90m[00m[100muse[00m[90m[00m [32mnftables[37m[00m
+[90m[00m      net-firewall/nftables
+   [90m[00m[100muse[00m[90m[00m [31m-nftables[37m[00m
+[90m[00m      net-firewall/iptables
 
 [01m[90mpdepend : [00m
 [03m[37m   [not set][00m[00m
