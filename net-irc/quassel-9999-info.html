@@ -54,7 +54,7 @@
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 <span class="ansi-bold"></span><span class="fg-bright-black ansi-bold">description : </span>
-   Qt IRC client supporting a remote daemon for 24/7 connectivity
+   Qt/KDE IRC client supporting a remote daemon for 24/7 connectivity
 <span class="ansi-bold"></span><span class="fg-bright-black ansi-bold">homepage : </span>
    https://quassel-irc.org/
 <span class="ansi-bold"></span><span class="fg-bright-black ansi-bold">maintainer : </span>
@@ -69,21 +69,32 @@
 <span class="ansi-italic"></span><span class="fg-white ansi-italic">   [not set]</span>
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 <span class="ansi-bold"></span><span class="fg-bright-black ansi-bold">iuse : </span>
+   crypt
    <span class="fg-green">+dbus</span>
    gui
+   kde
    ldap
    monolithic
    oxygen
    postgres
    <span class="fg-green">+server</span>
+   spell
    syslog
    <span class="fg-green">+system-icons</span>
    test
+   urlpreview
 <span class="ansi-bold"></span><span class="fg-bright-black ansi-bold">required_use : </span>
    <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">any</span><span class="fg-bright-black"><span class="pua"></span></span> 
 <span class="fg-bright-black"></span>      gui
 <span class="fg-bright-black"></span>      server
 <span class="fg-bright-black"></span>      monolithic
+   <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">crypt</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">any</span><span class="fg-bright-black"><span class="pua"></span></span> 
+<span class="fg-bright-black"></span>         server
+<span class="fg-bright-black"></span>         monolithic
+   <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">kde</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>      dbus
+<span class="fg-bright-black"></span>      spell
    <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">ldap</span><span class="fg-white"></span>
 <span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">any</span><span class="fg-bright-black"><span class="pua"></span></span> 
 <span class="fg-bright-black"></span>         server
@@ -91,6 +102,10 @@
    <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">postgres</span><span class="fg-white"></span>
 <span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">any</span><span class="fg-bright-black"><span class="pua"></span></span> 
 <span class="fg-bright-black"></span>         server
+<span class="fg-bright-black"></span>         monolithic
+   <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">spell</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">any</span><span class="fg-bright-black"><span class="pua"></span></span> 
+<span class="fg-bright-black"></span>         gui
 <span class="fg-bright-black"></span>         monolithic
    <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">syslog</span><span class="fg-white"></span>
 <span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">any</span><span class="fg-bright-black"><span class="pua"></span></span> 
@@ -128,7 +143,7 @@
 <span class="ansi-italic"></span><span class="fg-white ansi-italic">   [not set]</span>
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 <span class="ansi-bold"></span><span class="fg-bright-black ansi-bold">bdepend : </span>
-   dev-qt/linguist-tools<span class="fg-white">:5</span>
+   dev-qt/qttools<span class="fg-white">:6</span><span class="fg-cyan"> [ linguist ]</span>
    kde-frameworks/extra-cmake-modules<span class="fg-white">:0</span>
    app-alternatives/ninja
    &gt;=dev-build/cmake-3.28.5
@@ -137,109 +152,154 @@
 
 <span class="ansi-bold"></span><span class="fg-bright-black ansi-bold">depend : </span>
    dev-libs/boost<span class="fg-white">:=</span>
-   dev-qt/qtcore<span class="fg-white">:5</span>
-   dev-qt/qtnetwork<span class="fg-white">:5</span><span class="fg-cyan"> [ ssl ]</span>
+   dev-qt/qtbase<span class="fg-white">:6</span><span class="fg-cyan"> [ network ssl ]</span>
    virtual/zlib<span class="fg-white">:=</span>
    <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">monolithic</span><span class="fg-white"></span>
-<span class="fg-bright-black"></span>      acct-group/quassel
-<span class="fg-bright-black"></span>      acct-user/quassel
-<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">ldap</span><span class="fg-white"></span>
-<span class="fg-bright-black"></span>         net-nds/openldap<span class="fg-white">:=</span>
-<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">postgres</span><span class="fg-white"></span>
-<span class="fg-bright-black"></span>         dev-qt/qtsql<span class="fg-white">:5</span><span class="fg-cyan"> [ postgres ]</span>
-<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-red">-postgres</span><span class="fg-white"></span>
-<span class="fg-bright-black"></span>         dev-qt/qtsql<span class="fg-white">:5</span><span class="fg-cyan"> [ sqlite ]</span>
-<span class="fg-bright-black"></span>         dev-db/sqlite<span class="fg-white">:3</span><span class="fg-cyan"> [ threadsafe(+) -secure-delete ]</span>
-<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">syslog</span><span class="fg-white"></span>
-<span class="fg-bright-black"></span>         virtual/logger
-<span class="fg-bright-black"></span>      dev-qt/qtgui<span class="fg-white">:5</span>
-<span class="fg-bright-black"></span>      dev-qt/qtmultimedia<span class="fg-white">:5</span>
-<span class="fg-bright-black"></span>      dev-qt/qtwidgets<span class="fg-white">:5</span>
-<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">dbus</span><span class="fg-white"></span>
-<span class="fg-bright-black"></span>         dev-qt/qtdbus<span class="fg-white">:5</span>
+<span class="fg-bright-black"></span>      dev-qt/qt5compat<span class="fg-white">:6</span>
+<span class="fg-bright-black"></span>      dev-qt/qtbase<span class="fg-white">:6</span><span class="fg-cyan"> [ dbus? gui widgets ]</span>
+<span class="fg-bright-black"></span>      dev-qt/qtmultimedia<span class="fg-white">:6</span>
+<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">kde</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>         kde-frameworks/kconfigwidgets<span class="fg-white">:6</span>
+<span class="fg-bright-black"></span>         kde-frameworks/kcoreaddons<span class="fg-white">:6</span>
+<span class="fg-bright-black"></span>         kde-frameworks/knotifications<span class="fg-white">:6</span>
+<span class="fg-bright-black"></span>         kde-frameworks/knotifyconfig<span class="fg-white">:6</span>
+<span class="fg-bright-black"></span>         kde-frameworks/ktextwidgets<span class="fg-white">:6</span>
+<span class="fg-bright-black"></span>         kde-frameworks/kwidgetsaddons<span class="fg-white">:6</span>
+<span class="fg-bright-black"></span>         kde-frameworks/kxmlgui<span class="fg-white">:6</span>
+<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">spell</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>         kde-frameworks/sonnet<span class="fg-white">:6</span>
 <span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">system-icons</span><span class="fg-white"></span>
 <span class="fg-bright-black"></span>         kde-frameworks/breeze-icons<span class="fg-white">:*</span>
 <span class="fg-bright-black"></span>         <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">oxygen</span><span class="fg-white"></span>
 <span class="fg-bright-black"></span>            kde-frameworks/oxygen-icons<span class="fg-white">:*</span>
+<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">urlpreview</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>         dev-qt/qtwebengine<span class="fg-white">:6</span><span class="fg-cyan"> [ widgets ]</span>
+<span class="fg-bright-black"></span>      acct-group/quassel
+<span class="fg-bright-black"></span>      acct-user/quassel
+<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">crypt</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>         &gt;=app-crypt/qca-2.3.7<span class="fg-white">:2</span><span class="fg-cyan"> [ qt6(+) ]</span>
+<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">ldap</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>         net-nds/openldap<span class="fg-white">:=</span>
+<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">postgres</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>         dev-qt/qtbase<span class="fg-white">:6</span><span class="fg-cyan"> [ postgres sql ]</span>
+<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-red">-postgres</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>         dev-qt/qtbase<span class="fg-white">:6</span><span class="fg-cyan"> [ sql sqlite ]</span>
+<span class="fg-bright-black"></span>         dev-db/sqlite<span class="fg-white">:3</span><span class="fg-cyan"> [ threadsafe(+) -secure-delete ]</span>
+<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">syslog</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>         virtual/logger
    <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-red">-monolithic</span><span class="fg-white"></span>
-<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">server</span><span class="fg-white"></span>
-<span class="fg-bright-black"></span>         acct-group/quassel
-<span class="fg-bright-black"></span>         acct-user/quassel
-<span class="fg-bright-black"></span>         <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">ldap</span><span class="fg-white"></span>
-<span class="fg-bright-black"></span>            net-nds/openldap<span class="fg-white">:=</span>
-<span class="fg-bright-black"></span>         <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">postgres</span><span class="fg-white"></span>
-<span class="fg-bright-black"></span>            dev-qt/qtsql<span class="fg-white">:5</span><span class="fg-cyan"> [ postgres ]</span>
-<span class="fg-bright-black"></span>         <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-red">-postgres</span><span class="fg-white"></span>
-<span class="fg-bright-black"></span>            dev-qt/qtsql<span class="fg-white">:5</span><span class="fg-cyan"> [ sqlite ]</span>
-<span class="fg-bright-black"></span>            dev-db/sqlite<span class="fg-white">:3</span><span class="fg-cyan"> [ threadsafe(+) -secure-delete ]</span>
-<span class="fg-bright-black"></span>         <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">syslog</span><span class="fg-white"></span>
-<span class="fg-bright-black"></span>            virtual/logger
 <span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">gui</span><span class="fg-white"></span>
-<span class="fg-bright-black"></span>         dev-qt/qtgui<span class="fg-white">:5</span>
-<span class="fg-bright-black"></span>         dev-qt/qtmultimedia<span class="fg-white">:5</span>
-<span class="fg-bright-black"></span>         dev-qt/qtwidgets<span class="fg-white">:5</span>
-<span class="fg-bright-black"></span>         <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">dbus</span><span class="fg-white"></span>
-<span class="fg-bright-black"></span>            dev-qt/qtdbus<span class="fg-white">:5</span>
+<span class="fg-bright-black"></span>         dev-qt/qt5compat<span class="fg-white">:6</span>
+<span class="fg-bright-black"></span>         dev-qt/qtbase<span class="fg-white">:6</span><span class="fg-cyan"> [ dbus? gui widgets ]</span>
+<span class="fg-bright-black"></span>         dev-qt/qtmultimedia<span class="fg-white">:6</span>
+<span class="fg-bright-black"></span>         <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">kde</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>            kde-frameworks/kconfigwidgets<span class="fg-white">:6</span>
+<span class="fg-bright-black"></span>            kde-frameworks/kcoreaddons<span class="fg-white">:6</span>
+<span class="fg-bright-black"></span>            kde-frameworks/knotifications<span class="fg-white">:6</span>
+<span class="fg-bright-black"></span>            kde-frameworks/knotifyconfig<span class="fg-white">:6</span>
+<span class="fg-bright-black"></span>            kde-frameworks/ktextwidgets<span class="fg-white">:6</span>
+<span class="fg-bright-black"></span>            kde-frameworks/kwidgetsaddons<span class="fg-white">:6</span>
+<span class="fg-bright-black"></span>            kde-frameworks/kxmlgui<span class="fg-white">:6</span>
+<span class="fg-bright-black"></span>         <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">spell</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>            kde-frameworks/sonnet<span class="fg-white">:6</span>
 <span class="fg-bright-black"></span>         <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">system-icons</span><span class="fg-white"></span>
 <span class="fg-bright-black"></span>            kde-frameworks/breeze-icons<span class="fg-white">:*</span>
 <span class="fg-bright-black"></span>            <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">oxygen</span><span class="fg-white"></span>
 <span class="fg-bright-black"></span>               kde-frameworks/oxygen-icons<span class="fg-white">:*</span>
+<span class="fg-bright-black"></span>         <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">urlpreview</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>            dev-qt/qtwebengine<span class="fg-white">:6</span><span class="fg-cyan"> [ widgets ]</span>
+<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">server</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>         acct-group/quassel
+<span class="fg-bright-black"></span>         acct-user/quassel
+<span class="fg-bright-black"></span>         <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">crypt</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>            &gt;=app-crypt/qca-2.3.7<span class="fg-white">:2</span><span class="fg-cyan"> [ qt6(+) ]</span>
+<span class="fg-bright-black"></span>         <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">ldap</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>            net-nds/openldap<span class="fg-white">:=</span>
+<span class="fg-bright-black"></span>         <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">postgres</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>            dev-qt/qtbase<span class="fg-white">:6</span><span class="fg-cyan"> [ postgres sql ]</span>
+<span class="fg-bright-black"></span>         <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-red">-postgres</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>            dev-qt/qtbase<span class="fg-white">:6</span><span class="fg-cyan"> [ sql sqlite ]</span>
+<span class="fg-bright-black"></span>            dev-db/sqlite<span class="fg-white">:3</span><span class="fg-cyan"> [ threadsafe(+) -secure-delete ]</span>
+<span class="fg-bright-black"></span>         <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">syslog</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>            virtual/logger
    <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">test</span><span class="fg-white"></span>
 <span class="fg-bright-black"></span>      dev-cpp/gtest
-<span class="fg-bright-black"></span>      dev-qt/qttest<span class="fg-white">:5</span>
 
 <span class="ansi-bold"></span><span class="fg-bright-black ansi-bold">idepend : </span>
 <span class="ansi-italic"></span><span class="fg-white ansi-italic">   [not set]</span>
 
 <span class="ansi-bold"></span><span class="fg-bright-black ansi-bold">rdepend : </span>
    dev-libs/boost<span class="fg-white">:=</span>
-   dev-qt/qtcore<span class="fg-white">:5</span>
-   dev-qt/qtnetwork<span class="fg-white">:5</span><span class="fg-cyan"> [ ssl ]</span>
+   dev-qt/qtbase<span class="fg-white">:6</span><span class="fg-cyan"> [ network ssl ]</span>
    virtual/zlib<span class="fg-white">:=</span>
    <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">monolithic</span><span class="fg-white"></span>
-<span class="fg-bright-black"></span>      acct-group/quassel
-<span class="fg-bright-black"></span>      acct-user/quassel
-<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">ldap</span><span class="fg-white"></span>
-<span class="fg-bright-black"></span>         net-nds/openldap<span class="fg-white">:=</span>
-<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">postgres</span><span class="fg-white"></span>
-<span class="fg-bright-black"></span>         dev-qt/qtsql<span class="fg-white">:5</span><span class="fg-cyan"> [ postgres ]</span>
-<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-red">-postgres</span><span class="fg-white"></span>
-<span class="fg-bright-black"></span>         dev-qt/qtsql<span class="fg-white">:5</span><span class="fg-cyan"> [ sqlite ]</span>
-<span class="fg-bright-black"></span>         dev-db/sqlite<span class="fg-white">:3</span><span class="fg-cyan"> [ threadsafe(+) -secure-delete ]</span>
-<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">syslog</span><span class="fg-white"></span>
-<span class="fg-bright-black"></span>         virtual/logger
-<span class="fg-bright-black"></span>      dev-qt/qtgui<span class="fg-white">:5</span>
-<span class="fg-bright-black"></span>      dev-qt/qtmultimedia<span class="fg-white">:5</span>
-<span class="fg-bright-black"></span>      dev-qt/qtwidgets<span class="fg-white">:5</span>
-<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">dbus</span><span class="fg-white"></span>
-<span class="fg-bright-black"></span>         dev-qt/qtdbus<span class="fg-white">:5</span>
+<span class="fg-bright-black"></span>      dev-qt/qt5compat<span class="fg-white">:6</span>
+<span class="fg-bright-black"></span>      dev-qt/qtbase<span class="fg-white">:6</span><span class="fg-cyan"> [ dbus? gui widgets ]</span>
+<span class="fg-bright-black"></span>      dev-qt/qtmultimedia<span class="fg-white">:6</span>
+<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">kde</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>         kde-frameworks/kconfigwidgets<span class="fg-white">:6</span>
+<span class="fg-bright-black"></span>         kde-frameworks/kcoreaddons<span class="fg-white">:6</span>
+<span class="fg-bright-black"></span>         kde-frameworks/knotifications<span class="fg-white">:6</span>
+<span class="fg-bright-black"></span>         kde-frameworks/knotifyconfig<span class="fg-white">:6</span>
+<span class="fg-bright-black"></span>         kde-frameworks/ktextwidgets<span class="fg-white">:6</span>
+<span class="fg-bright-black"></span>         kde-frameworks/kwidgetsaddons<span class="fg-white">:6</span>
+<span class="fg-bright-black"></span>         kde-frameworks/kxmlgui<span class="fg-white">:6</span>
+<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">spell</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>         kde-frameworks/sonnet<span class="fg-white">:6</span>
 <span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">system-icons</span><span class="fg-white"></span>
 <span class="fg-bright-black"></span>         kde-frameworks/breeze-icons<span class="fg-white">:*</span>
 <span class="fg-bright-black"></span>         <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">oxygen</span><span class="fg-white"></span>
 <span class="fg-bright-black"></span>            kde-frameworks/oxygen-icons<span class="fg-white">:*</span>
+<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">urlpreview</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>         dev-qt/qtwebengine<span class="fg-white">:6</span><span class="fg-cyan"> [ widgets ]</span>
+<span class="fg-bright-black"></span>      acct-group/quassel
+<span class="fg-bright-black"></span>      acct-user/quassel
+<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">crypt</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>         &gt;=app-crypt/qca-2.3.7<span class="fg-white">:2</span><span class="fg-cyan"> [ qt6(+) ]</span>
+<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">ldap</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>         net-nds/openldap<span class="fg-white">:=</span>
+<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">postgres</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>         dev-qt/qtbase<span class="fg-white">:6</span><span class="fg-cyan"> [ postgres sql ]</span>
+<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-red">-postgres</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>         dev-qt/qtbase<span class="fg-white">:6</span><span class="fg-cyan"> [ sql sqlite ]</span>
+<span class="fg-bright-black"></span>         dev-db/sqlite<span class="fg-white">:3</span><span class="fg-cyan"> [ threadsafe(+) -secure-delete ]</span>
+<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">syslog</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>         virtual/logger
    <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-red">-monolithic</span><span class="fg-white"></span>
-<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">server</span><span class="fg-white"></span>
-<span class="fg-bright-black"></span>         acct-group/quassel
-<span class="fg-bright-black"></span>         acct-user/quassel
-<span class="fg-bright-black"></span>         <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">ldap</span><span class="fg-white"></span>
-<span class="fg-bright-black"></span>            net-nds/openldap<span class="fg-white">:=</span>
-<span class="fg-bright-black"></span>         <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">postgres</span><span class="fg-white"></span>
-<span class="fg-bright-black"></span>            dev-qt/qtsql<span class="fg-white">:5</span><span class="fg-cyan"> [ postgres ]</span>
-<span class="fg-bright-black"></span>         <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-red">-postgres</span><span class="fg-white"></span>
-<span class="fg-bright-black"></span>            dev-qt/qtsql<span class="fg-white">:5</span><span class="fg-cyan"> [ sqlite ]</span>
-<span class="fg-bright-black"></span>            dev-db/sqlite<span class="fg-white">:3</span><span class="fg-cyan"> [ threadsafe(+) -secure-delete ]</span>
-<span class="fg-bright-black"></span>         <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">syslog</span><span class="fg-white"></span>
-<span class="fg-bright-black"></span>            virtual/logger
 <span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">gui</span><span class="fg-white"></span>
-<span class="fg-bright-black"></span>         dev-qt/qtgui<span class="fg-white">:5</span>
-<span class="fg-bright-black"></span>         dev-qt/qtmultimedia<span class="fg-white">:5</span>
-<span class="fg-bright-black"></span>         dev-qt/qtwidgets<span class="fg-white">:5</span>
-<span class="fg-bright-black"></span>         <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">dbus</span><span class="fg-white"></span>
-<span class="fg-bright-black"></span>            dev-qt/qtdbus<span class="fg-white">:5</span>
+<span class="fg-bright-black"></span>         dev-qt/qt5compat<span class="fg-white">:6</span>
+<span class="fg-bright-black"></span>         dev-qt/qtbase<span class="fg-white">:6</span><span class="fg-cyan"> [ dbus? gui widgets ]</span>
+<span class="fg-bright-black"></span>         dev-qt/qtmultimedia<span class="fg-white">:6</span>
+<span class="fg-bright-black"></span>         <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">kde</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>            kde-frameworks/kconfigwidgets<span class="fg-white">:6</span>
+<span class="fg-bright-black"></span>            kde-frameworks/kcoreaddons<span class="fg-white">:6</span>
+<span class="fg-bright-black"></span>            kde-frameworks/knotifications<span class="fg-white">:6</span>
+<span class="fg-bright-black"></span>            kde-frameworks/knotifyconfig<span class="fg-white">:6</span>
+<span class="fg-bright-black"></span>            kde-frameworks/ktextwidgets<span class="fg-white">:6</span>
+<span class="fg-bright-black"></span>            kde-frameworks/kwidgetsaddons<span class="fg-white">:6</span>
+<span class="fg-bright-black"></span>            kde-frameworks/kxmlgui<span class="fg-white">:6</span>
+<span class="fg-bright-black"></span>         <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">spell</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>            kde-frameworks/sonnet<span class="fg-white">:6</span>
 <span class="fg-bright-black"></span>         <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">system-icons</span><span class="fg-white"></span>
 <span class="fg-bright-black"></span>            kde-frameworks/breeze-icons<span class="fg-white">:*</span>
 <span class="fg-bright-black"></span>            <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">oxygen</span><span class="fg-white"></span>
 <span class="fg-bright-black"></span>               kde-frameworks/oxygen-icons<span class="fg-white">:*</span>
+<span class="fg-bright-black"></span>         <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">urlpreview</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>            dev-qt/qtwebengine<span class="fg-white">:6</span><span class="fg-cyan"> [ widgets ]</span>
+<span class="fg-bright-black"></span>      <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">server</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>         acct-group/quassel
+<span class="fg-bright-black"></span>         acct-user/quassel
+<span class="fg-bright-black"></span>         <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">crypt</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>            &gt;=app-crypt/qca-2.3.7<span class="fg-white">:2</span><span class="fg-cyan"> [ qt6(+) ]</span>
+<span class="fg-bright-black"></span>         <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">ldap</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>            net-nds/openldap<span class="fg-white">:=</span>
+<span class="fg-bright-black"></span>         <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">postgres</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>            dev-qt/qtbase<span class="fg-white">:6</span><span class="fg-cyan"> [ postgres sql ]</span>
+<span class="fg-bright-black"></span>         <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-red">-postgres</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>            dev-qt/qtbase<span class="fg-white">:6</span><span class="fg-cyan"> [ sql sqlite ]</span>
+<span class="fg-bright-black"></span>            dev-db/sqlite<span class="fg-white">:3</span><span class="fg-cyan"> [ threadsafe(+) -secure-delete ]</span>
+<span class="fg-bright-black"></span>         <span class="fg-bright-black"><span class="pua"></span></span><span class="bg-bright-black">use</span><span class="fg-bright-black"><span class="pua"></span></span> <span class="fg-green">syslog</span><span class="fg-white"></span>
+<span class="fg-bright-black"></span>            virtual/logger
 
 <span class="ansi-bold"></span><span class="fg-bright-black ansi-bold">pdepend : </span>
 <span class="ansi-italic"></span><span class="fg-white ansi-italic">   [not set]</span>
