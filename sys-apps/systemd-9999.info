@@ -1,13 +1,13 @@
 
 [93m>>> Printing information for: portage://sys-apps/systemd-9999[00m
 
-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------
 [01m[90mdescription : [00m
    System and service manager for Linux
 [01m[90mhomepage : [00m
    https://systemd.io/
 [01m[90mmaintainer : [00m
-[03m[37m   [not set][00m[00m
+   systemd@gentoo.org
 [01m[90mlicense : [00m
    GPL-2
    LGPL-2.1
@@ -19,7 +19,7 @@
    0
 [01m[90msubslot : [00m
    2
-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------
 [01m[90miuse : [00m
    acl
    apparmor
@@ -35,9 +35,11 @@
    gnutls
    homed
    idn
+   imds
    importd
    [32m+kernel-install[00m
    [32m+kmod[00m
+   [32m+libarchive[00m
    [32m+lz4[00m
    lzma
    [32m+openssl[00m
@@ -67,14 +69,12 @@
    abi_mips_o32
    abi_s390_32
    abi_s390_64
-   python_single_target_python3_11
    python_single_target_python3_12
    python_single_target_python3_13
    python_single_target_python3_14
    secureboot
 [01m[90mrequired_use : [00m
    [90m[00m[100mone[00m[90m[00m [00m
-[90m[00m      python_single_target_python3_11
 [90m[00m      python_single_target_python3_12
 [90m[00m      python_single_target_python3_13
 [90m[00m      python_single_target_python3_14
@@ -89,8 +89,11 @@
 [90m[00m      cryptsetup
 [90m[00m      pam
 [90m[00m      openssl
+   [90m[00m[100muse[00m[90m[00m [32mimds[37m[00m
+[90m[00m      curl
    [90m[00m[100muse[00m[90m[00m [32mimportd[37m[00m
 [90m[00m      curl
+[90m[00m      libarchive
 [90m[00m      lzma
 [90m[00m      openssl
    [90m[00m[100mone[00m[90m[00m[one] [00m
@@ -131,7 +134,6 @@
    pam
    python-single-r1
    secureboot
-   bash-completion-r1
    shell-completion
    systemd
    udev
@@ -149,10 +151,10 @@
    unpack
 [01m[90minstalled : [00m
 [03m[37m   [not set][00m[00m
-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------
 [01m[90msrc_uri : [00m
 [03m[37m   [not set][00m[00m
-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------
 [01m[90mbdepend : [00m
    app-arch/xz-utils[37m:0[00m
    dev-util/gperf
@@ -172,21 +174,12 @@
    app-text/docbook-xml-dtd[37m:4.5[00m
    app-text/docbook-xsl-stylesheets
    dev-libs/libxslt[37m:0[00m
-   [90m[00m[100muse[00m[90m[00m [32mpython_single_target_python3_11[37m[00m
-[90m[00m      dev-lang/python[37m:3.11[00m
    [90m[00m[100muse[00m[90m[00m [32mpython_single_target_python3_12[37m[00m
 [90m[00m      dev-lang/python[37m:3.12[00m
    [90m[00m[100muse[00m[90m[00m [32mpython_single_target_python3_13[37m[00m
 [90m[00m      dev-lang/python[37m:3.13[00m
    [90m[00m[100muse[00m[90m[00m [32mpython_single_target_python3_14[37m[00m
 [90m[00m      dev-lang/python[37m:3.14[00m
-   [90m[00m[100muse[00m[90m[00m [32mpython_single_target_python3_11[37m[00m
-[90m[00m      dev-python/jinja2[36m [ python_targets_python3_11(-) ][00m
-[90m[00m      dev-python/lxml[36m [ python_targets_python3_11(-) ][00m
-[90m[00m      [90m[00m[100muse[00m[90m[00m [32mboot[37m[00m
-[90m[00m         >=dev-python/pyelftools-0.30[36m [ python_targets_python3_11(-) ][00m
-[90m[00m         [90m[00m[100muse[00m[90m[00m [32mtest[37m[00m
-[90m[00m            dev-python/pefile[36m [ python_targets_python3_11(-) ][00m
    [90m[00m[100muse[00m[90m[00m [32mpython_single_target_python3_12[37m[00m
 [90m[00m      dev-python/jinja2[36m [ python_targets_python3_12(-) ][00m
 [90m[00m      dev-python/lxml[36m [ python_targets_python3_12(-) ][00m
@@ -238,7 +231,8 @@
 [90m[00m      >=sys-libs/glibc-2.34
 [90m[00m      >=sys-libs/libxcrypt-4.4.0
    [90m[00m[100muse[00m[90m[00m [32melibc_musl[37m[00m
-[90m[00m      >=sys-libs/musl-1.2.5-r8
+[90m[00m      >=sys-libs/musl-1.2.6
+[90m[00m      sys-libs/libucontext
 [90m[00m      virtual/libcrypt
    [90m[00m[100muse[00m[90m[00m [32mfido2[37m[00m
 [90m[00m      dev-libs/libfido2
@@ -255,6 +249,8 @@
 [90m[00m      virtual/zlib[37m:=[00m
    [90m[00m[100muse[00m[90m[00m [32mkmod[37m[00m
 [90m[00m      >=sys-apps/kmod-15[37m:0=[00m
+   [90m[00m[100muse[00m[90m[00m [32mlibarchive[37m[00m
+[90m[00m      >=app-arch/libarchive-3.0[37m:0=[00m
    [90m[00m[100muse[00m[90m[00m [32mlz4[37m[00m
 [90m[00m      >=app-arch/lz4-0_p131[37m:0=[00m
    [90m[00m[100muse[00m[90m[00m [32mlzma[37m[00m
@@ -308,7 +304,8 @@
 [90m[00m      >=sys-libs/glibc-2.34
 [90m[00m      >=sys-libs/libxcrypt-4.4.0
    [90m[00m[100muse[00m[90m[00m [32melibc_musl[37m[00m
-[90m[00m      >=sys-libs/musl-1.2.5-r8
+[90m[00m      >=sys-libs/musl-1.2.6
+[90m[00m      sys-libs/libucontext
 [90m[00m      virtual/libcrypt
    [90m[00m[100muse[00m[90m[00m [32mfido2[37m[00m
 [90m[00m      dev-libs/libfido2
@@ -325,6 +322,8 @@
 [90m[00m      virtual/zlib[37m:=[00m
    [90m[00m[100muse[00m[90m[00m [32mkmod[37m[00m
 [90m[00m      >=sys-apps/kmod-15[37m:0=[00m
+   [90m[00m[100muse[00m[90m[00m [32mlibarchive[37m[00m
+[90m[00m      >=app-arch/libarchive-3.0[37m:0=[00m
    [90m[00m[100muse[00m[90m[00m [32mlz4[37m[00m
 [90m[00m      >=app-arch/lz4-0_p131[37m:0=[00m
    [90m[00m[100muse[00m[90m[00m [32mlzma[37m[00m
@@ -381,17 +380,15 @@
    >=acct-user/systemd-resolve-0-r1
    >=acct-user/systemd-timesync-0-r1
    >=sys-apps/baselayout-2.2
+   [90m[00m[100muse[00m[90m[00m [32mimds[37m[00m
+[90m[00m      acct-user/systemd-imds
    [90m[00m[100muse[00m[90m[00m [32mukify[37m[00m
-[90m[00m      [90m[00m[100muse[00m[90m[00m [32mpython_single_target_python3_11[37m[00m
-[90m[00m         dev-lang/python[37m:3.11[00m
 [90m[00m      [90m[00m[100muse[00m[90m[00m [32mpython_single_target_python3_12[37m[00m
 [90m[00m         dev-lang/python[37m:3.12[00m
 [90m[00m      [90m[00m[100muse[00m[90m[00m [32mpython_single_target_python3_13[37m[00m
 [90m[00m         dev-lang/python[37m:3.13[00m
 [90m[00m      [90m[00m[100muse[00m[90m[00m [32mpython_single_target_python3_14[37m[00m
 [90m[00m         dev-lang/python[37m:3.14[00m
-[90m[00m      [90m[00m[100muse[00m[90m[00m [32mpython_single_target_python3_11[37m[00m
-[90m[00m         dev-python/pefile[36m [ python_targets_python3_11(-) ][00m
 [90m[00m      [90m[00m[100muse[00m[90m[00m [32mpython_single_target_python3_12[37m[00m
 [90m[00m         dev-python/pefile[36m [ python_targets_python3_12(-) ][00m
 [90m[00m      [90m[00m[100muse[00m[90m[00m [32mpython_single_target_python3_13[37m[00m

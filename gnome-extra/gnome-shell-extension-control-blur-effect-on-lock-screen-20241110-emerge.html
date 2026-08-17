@@ -54,26 +54,50 @@
 <span class="fg-green">These are the packages that would be merged, in order:</span>
 
 Calculating dependencies  ... done!
-Dependency resolution took <span class="fg-green">0.44</span> s (backtrack: 0/20).
+Dependency resolution took <span class="fg-green">1.10</span> s (backtrack: 0/20).
+
+
+!!! Multiple package instances within a single package slot have been pulled
+!!! into the dependency graph, resulting in a slot conflict:
+
+dev-libs/glib:2
+
+  (<span class="fg-cyan">dev-libs/glib-2.84.4-r2:2/2::gentoo</span>, installed) USE="<span class="ansi-bold fg-red">dbus</span> <span class="ansi-bold fg-red">elf</span> <span class="ansi-bold fg-red">mime</span> <span class="ansi-bold fg-red">xattr</span> <span class="ansi-bold fg-blue">-debug</span> <span class="ansi-bold fg-blue">-doc</span> <span class="ansi-bold fg-blue">-introspection</span> (<span class="ansi-bold fg-blue">-selinux</span>) <span class="ansi-bold fg-blue">-static-libs</span> <span class="ansi-bold fg-blue">-sysprof</span> <span class="ansi-bold fg-blue">-systemtap</span> <span class="ansi-bold fg-blue">-test</span> <span class="ansi-bold fg-blue">-utils</span>" pulled in by
+    (no parents that aren't satisfied by other packages in this slot)
+
+  (<span class="fg-green">dev-libs/glib-2.88.2:2/2::gentoo</span>, ebuild scheduled for merge) USE="<span class="ansi-bold fg-red">dbus</span> <span class="ansi-bold fg-red">elf</span> <span class="ansi-bold fg-red">mime</span> <span class="ansi-bold fg-red">xattr</span> <span class="ansi-bold fg-blue">-debug</span> <span class="ansi-bold fg-blue">-doc</span> <span class="ansi-bold fg-blue">-introspection</span> (<span class="ansi-bold fg-blue">-selinux</span>) <span class="ansi-bold fg-blue">-static-libs</span> <span class="ansi-bold fg-blue">-sysprof</span> <span class="ansi-bold fg-blue">-systemtap</span> <span class="ansi-bold fg-blue">-test</span> <span class="ansi-bold fg-blue">-utils</span>" pulled in by
+    <span class="ansi-bold fg-red">&gt;=</span>dev-libs/glib-<span class="ansi-bold fg-red">2.86.0</span><span class="ansi-bold fg-red">:2</span> required by (<span class="fg-green">gnome-base/gnome-shell-49.8:0/0::gentoo</span>, ebuild scheduled for merge) USE="<span class="ansi-bold fg-red">X</span> <span class="ansi-bold fg-red">ibus</span> <span class="ansi-bold fg-red">networkmanager</span> <span class="ansi-bold fg-blue">-elogind</span> <span class="ansi-bold fg-blue">-gtk-doc</span> <span class="ansi-bold fg-blue">-pipewire</span> (<span class="ansi-bold fg-blue">-selinux</span>) (<span class="ansi-bold fg-blue">-systemd</span>) <span class="ansi-bold fg-blue">-test</span> <span class="ansi-bold fg-blue">-wayland</span>" PYTHON_SINGLE_TARGET="<span class="ansi-bold fg-red">python3_14</span> <span class="ansi-bold fg-blue">-python3_12</span> <span class="ansi-bold fg-blue">-python3_13</span>"
+    ^^              ^^^^^^^^                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+
+
+It may be possible to solve this problem by using package.mask to
+prevent one of those packages from being selected. However, it is also
+possible that conflicting dependencies exist such that they are
+impossible to satisfy simultaneously.  If such a conflict exists in
+the dependencies of two different packages, then those packages can
+not be installed simultaneously.
+
+For more information, see MASKED PACKAGES section in the emerge man
+page or refer to the Gentoo Handbook.
 
 
 The following <span class="ansi-bold fg-red">USE changes</span> are necessary to proceed:
  (see "package.use" in the portage(5) man page for more details)
-# required by gnome-base/gnome-shell-49.6::gentoo
+# required by gnome-base/gnome-shell-49.8::gentoo
 # required by gnome-extra/gnome-shell-extension-control-blur-effect-on-lock-screen-20241110::gentoo
 # required by =gnome-extra/gnome-shell-extension-control-blur-effect-on-lock-screen-20241110 (argument)
 <span class="fg-green">&gt;=app-crypt/gcr-4.4.0.1-r1 introspection</span>
-# required by gnome-base/gnome-shell-49.6::gentoo
+# required by gnome-base/gnome-shell-49.8::gentoo
 # required by gnome-extra/gnome-shell-extension-control-blur-effect-on-lock-screen-20241110::gentoo
 # required by =gnome-extra/gnome-shell-extension-control-blur-effect-on-lock-screen-20241110 (argument)
-<span class="fg-green">&gt;=gui-libs/gtk-4.20.3-r2 introspection</span>
-# required by gnome-base/gnome-shell-49.6::gentoo
+<span class="fg-green">&gt;=gui-libs/gtk-4.20.4 introspection</span>
+# required by gnome-base/gnome-shell-49.8::gentoo
 # required by gnome-extra/gnome-shell-extension-control-blur-effect-on-lock-screen-20241110::gentoo
 # required by =gnome-extra/gnome-shell-extension-control-blur-effect-on-lock-screen-20241110 (argument)
-<span class="fg-green">&gt;=x11-wm/mutter-49.5 introspection</span>
+<span class="fg-green">&gt;=x11-wm/mutter-49.7 introspection</span>
 
 !!! <span class="ansi-bold fg-red">The ebuild selected to satisfy </span><span class="fg-green">"&gt;=x11-wm/mutter-49.0:0/17[introspection,test?]"</span><span class="ansi-bold fg-red"> has unmet requirements.</span>
-- x11-wm/mutter-49.5::gentoo USE="<span class="ansi-bold fg-red">X</span> <span class="ansi-bold fg-red">wayland</span> (<span class="ansi-bold fg-red">xwayland</span>) <span class="ansi-bold fg-blue">-bash-completion</span> <span class="ansi-bold fg-blue">-debug</span> <span class="ansi-bold fg-blue">-devkit</span> <span class="ansi-bold fg-blue">-elogind</span> <span class="ansi-bold fg-blue">-gnome</span> <span class="ansi-bold fg-blue">-gtk-doc</span> <span class="ansi-bold fg-blue">-introspection</span> <span class="ansi-bold fg-blue">-screencast</span> <span class="ansi-bold fg-blue">-sysprof</span> (<span class="ansi-bold fg-blue">-systemd</span>) <span class="ansi-bold fg-blue">-test</span> <span class="ansi-bold fg-blue">-udev</span>" INPUT_DEVICES="<span class="ansi-bold fg-blue">-wacom</span>" VIDEO_CARDS="<span class="ansi-bold fg-blue">-nvidia</span>"
+- x11-wm/mutter-49.7::gentoo USE="<span class="ansi-bold fg-red">X</span> <span class="ansi-bold fg-red">wayland</span> (<span class="ansi-bold fg-red">xwayland</span>) <span class="ansi-bold fg-blue">-bash-completion</span> <span class="ansi-bold fg-blue">-debug</span> <span class="ansi-bold fg-blue">-devkit</span> <span class="ansi-bold fg-blue">-elogind</span> <span class="ansi-bold fg-blue">-gnome</span> <span class="ansi-bold fg-blue">-gtk-doc</span> <span class="ansi-bold fg-blue">-introspection</span> <span class="ansi-bold fg-blue">-screencast</span> (<span class="ansi-bold fg-blue">-selinux</span>) <span class="ansi-bold fg-blue">-sysprof</span> (<span class="ansi-bold fg-blue">-systemd</span>) <span class="ansi-bold fg-blue">-test</span> <span class="ansi-bold fg-blue">-udev</span>" INPUT_DEVICES="<span class="ansi-bold fg-blue">-wacom</span>" VIDEO_CARDS="<span class="ansi-bold fg-blue">-nvidia</span>"
 
   The following REQUIRED_USE flag constraints are unsatisfied:
     wayland? ( exactly-one-of ( elogind systemd ) udev )
@@ -81,14 +105,14 @@ The following <span class="ansi-bold fg-red">USE changes</span> are necessary to
   The above constraints are a subset of the following complete expression:
     any-of ( X wayland ) devkit? ( screencast wayland ) gtk-doc? ( introspection ) wayland? ( exactly-one-of ( elogind systemd ) udev ) test? ( screencast wayland ) xwayland? ( wayland )
 
-(dependency required by "<span class="fg-green">gnome-base/gnome-shell-49.6::gentoo</span>" [ebuild])
+(dependency required by "<span class="fg-green">gnome-base/gnome-shell-49.8::gentoo</span>" [ebuild])
 (dependency required by "<span class="fg-green">gnome-extra/gnome-shell-extension-control-blur-effect-on-lock-screen-20241110::gentoo</span>" [ebuild])
 (dependency required by "<span class="fg-green">=gnome-extra/gnome-shell-extension-control-blur-effect-on-lock-screen-20241110</span>" [argument])
 
 </pre>
 <div class="terminal-stats" role="status">
   <dl>
-    <dt>Wall time</dt><dd>1.567 s <span class="vs-portage-ng">vs. <span class="wall-time-sec">6.876 s</span> for portage-ng</span></dd>
+    <dt>Wall time</dt><dd>2.133 s <span class="vs-portage-ng">vs. <span class="wall-time-sec">9.554 s</span> for portage-ng</span></dd>
   </dl>
 </div>
 </div>

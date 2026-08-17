@@ -11,7 +11,7 @@
 <h1>net-ftp/vsftpd-3.0.5-r2 &mdash; Execution Plan</h1>
 <button class="theme-btn" id="theme-btn" onclick="toggleTheme()">&#9790;</button>
 </div>
-<p class="subtitle">4 packages &middot; 8 steps &middot; download 193 KB</p>
+<p class="subtitle">5 packages &middot; 9 steps &middot; download 193 KB</p>
 <div class="nav-rows">
 <div class="nav-bar">
   <div class="nav-group">
@@ -53,6 +53,7 @@
   <span class="use-expand-btn" onclick="toggleUseExpand()">&#9654;</span>
   <span class="use-flags" id="global-use-flags">
           <span class="use-flag on">+pam</span>
+          <span class="use-flag off">-selinux</span>
           <span class="use-flag on">+ssl</span>
           <span class="use-flag off">-tcpd</span>
           <span class="use-flag off">-verify-sig</span>
@@ -91,12 +92,14 @@
     <th>Step 6</th>
     <th>Step 7</th>
     <th>Step 8</th>
+    <th>Step 9</th>
   </tr></thead>
   <tbody>
     <tr data-pkg="acct-group-ftp" data-actions="install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>acct-group/ftp-0-r3</td>
       <td><span class="cell inst" data-type="install" id="acct-group-ftp-inst">install</span></td>
       <td><span class="cell run" data-type="run" id="acct-group-ftp-run">run</span></td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -116,9 +119,37 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+    </tr>
+    <tr data-pkg="root" data-actions="install run">
+      <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>acct-user/root-0-r3</td>
+      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" id="root-inst">install</span></td>
+      <td><span class="cell run" data-type="run" id="root-run">run</span></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+    </tr>
+    <tr class="detail-row" data-parent="root">
+      <td class="detail-pkg">
+      </td>
+      <td class="detail-dl">
+      </td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="acct-user-ftp" data-actions="install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>acct-user/ftp-0-r5</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td><span class="cell inst" data-type="install" id="acct-user-ftp-inst">install</span></td>
@@ -140,10 +171,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="ftpbase" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>net-ftp/ftpbase-0.01-r6</td>
       <td><span class="cell dl" data-type="download" id="ftpbase-dl">download</span></td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -169,10 +202,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="vsftpd" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>net-ftp/vsftpd-3.0.5-r2</td>
       <td><span class="cell dl" data-type="download" id="vsftpd-dl">download</span></td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -186,6 +221,7 @@
         <div class="detail-label">USE</div>
         <div class="use-flags">
           <span class="use-flag on">+pam</span>
+          <span class="use-flag off">-selinux</span>
           <span class="use-flag on">+ssl</span>
           <span class="use-flag off">-tcpd</span>
           <span class="use-flag off">-verify-sig</span>
@@ -196,6 +232,7 @@
           <tr><td><a href="https://security.appspot.com/downloads/vsftpd-3.0.5.tar.gz" target="_blank">vsftpd-3.0.5.tar.gz</a></td><td class="sz">193 KB</td><td><span class="src-status pending">fetch</span></td></tr>
         </table>
       </td>
+      <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
@@ -238,7 +275,9 @@ const deps = [
   ["acct-user-ftp-run","ftpbase-inst","rdepend"],
   ["acct-user-ftp-run","ftpbase-run","rdepend"],
   ["ftpbase-run","vsftpd-inst","rdepend"],
-  ["ftpbase-run","vsftpd-run","rdepend"]
+  ["ftpbase-run","vsftpd-run","rdepend"],
+  ["root-run","acct-user-ftp-inst","rdepend"],
+  ["root-run","acct-user-ftp-run","rdepend"]
 ];
 function toggleFilter(btn){
   const a=btn.dataset.action; filters[a]=!filters[a];

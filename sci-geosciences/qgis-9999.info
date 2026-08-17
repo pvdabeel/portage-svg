@@ -1,13 +1,13 @@
 
 [93m>>> Printing information for: portage://sci-geosciences/qgis-9999[00m
 
-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------
 [01m[90mdescription : [00m
    User friendly Geographic Information System
 [01m[90mhomepage : [00m
    https://www.qgis.org/
 [01m[90mmaintainer : [00m
-[03m[37m   [not set][00m[00m
+   sci-geosciences@gentoo.org
 [01m[90mlicense : [00m
    GPL-2+
    GPL-3+
@@ -17,11 +17,12 @@
    0
 [01m[90msubslot : [00m
 [03m[37m   [not set][00m[00m
-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------
 [01m[90miuse : [00m
    3d
    doc
    examples
+   geographiclib
    [32m+georeferencer[00m
    grass
    hdf5
@@ -37,10 +38,12 @@
    webengine
    python_single_target_python3_12
    python_single_target_python3_13
+   python_single_target_python3_14
 [01m[90mrequired_use : [00m
    [90m[00m[100mone[00m[90m[00m [00m
 [90m[00m      python_single_target_python3_12
 [90m[00m      python_single_target_python3_13
+[90m[00m      python_single_target_python3_14
    [90m[00m[100muse[00m[90m[00m [32mmapserver[37m[00m
 [90m[00m      python
 [01m[90mkeywords : [00m
@@ -55,6 +58,7 @@
    ninja-utils
    xdg-utils
    cmake
+   optfeature
    eapi9-pipestatus
    python-utils-r1
    python-single-r1
@@ -72,20 +76,20 @@
    unpack
 [01m[90minstalled : [00m
 [03m[37m   [not set][00m[00m
-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------
 [01m[90msrc_uri : [00m
 [03m[37m   [not set][00m[00m
-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------
 [01m[90mbdepend : [00m
    [90m[00m[100muse[00m[90m[00m [32mpython_single_target_python3_12[37m[00m
 [90m[00m      dev-lang/python[37m:3.12[00m[36m [ sqlite ][00m
    [90m[00m[100muse[00m[90m[00m [32mpython_single_target_python3_13[37m[00m
 [90m[00m      dev-lang/python[37m:3.13[00m[36m [ sqlite ][00m
+   [90m[00m[100muse[00m[90m[00m [32mpython_single_target_python3_14[37m[00m
+[90m[00m      dev-lang/python[37m:3.14[00m[36m [ sqlite ][00m
    app-alternatives/lex
    app-alternatives/yacc
    dev-qt/qttools[37m:6[00m[36m [ linguist ][00m
-   [90m[00m[100muse[00m[90m[00m [32mdoc[37m[00m
-[90m[00m      app-text/doxygen
    [90m[00m[100muse[00m[90m[00m [32mtest[37m[00m
 [90m[00m      [90m[00m[100muse[00m[90m[00m [32mpython[37m[00m
 [90m[00m         [90m[00m[100muse[00m[90m[00m [32mpython_single_target_python3_12[37m[00m
@@ -100,6 +104,12 @@
 [90m[00m            [90m[00m[100muse[00m[90m[00m [32mpostgres[37m[00m
 [90m[00m               dev-python/psycopg[37m:2[00m[36m [ python_targets_python3_13(-) ][00m
 [90m[00m            dev-python/pyqt6[36m [ python_targets_python3_13(-) testlib ][00m
+[90m[00m         [90m[00m[100muse[00m[90m[00m [32mpython_single_target_python3_14[37m[00m
+[90m[00m            dev-python/mock[36m [ python_targets_python3_14(-) ][00m
+[90m[00m            dev-python/nose2[36m [ python_targets_python3_14(-) ][00m
+[90m[00m            [90m[00m[100muse[00m[90m[00m [32mpostgres[37m[00m
+[90m[00m               dev-python/psycopg[37m:2[00m[36m [ python_targets_python3_14(-) ][00m
+[90m[00m            dev-python/pyqt6[36m [ python_targets_python3_14(-) testlib ][00m
    >=dev-vcs/git-1.8.2.1[36m [ curl ][00m
    app-alternatives/ninja
    >=dev-build/cmake-3.28.5
@@ -109,7 +119,7 @@
    dev-cpp/abseil-cpp[37m:=[00m
    >=dev-db/spatialite-4.2.0[37m:=[00m
    dev-db/sqlite[37m:3[00m
-   dev-libs/expat
+   >=dev-libs/expat-1.95
    dev-libs/libzip[37m:=[00m
    dev-libs/protobuf[37m:=[00m
    >=dev-libs/qtkeychain-0.14.1-r1[37m:=[00m[36m [ qt6(+) ][00m
@@ -121,8 +131,9 @@
    dev-qt/qttools[37m:6[00m[36m [ designer ][00m
    dev-vcs/git
    media-gfx/exiv2[37m:=[00m
-   >=sci-libs/gdal-3.0.4[37m:=[00m[36m [ geos spatialite sqlite ][00m
-   sci-libs/geos
+   net-print/cups
+   >=sci-libs/gdal-3.2.0[37m:=[00m[36m [ geos spatialite sqlite ][00m
+   >=sci-libs/geos-3.9
    sci-libs/libspatialindex[37m:=[00m
    >=sci-libs/proj-8.1[37m:=[00m
    virtual/zlib[37m:=[00m
@@ -131,11 +142,13 @@
    [90m[00m[100muse[00m[90m[00m [32m3d[37m[00m
 [90m[00m      dev-qt/qt3d[37m:6[00m
    [90m[00m[100muse[00m[90m[00m [32mgeoreferencer[37m[00m
-[90m[00m      sci-libs/gsl[37m:=[00m
+[90m[00m      >=sci-libs/gsl-1.8[37m:=[00m
    [90m[00m[100muse[00m[90m[00m [32mgrass[37m[00m
 [90m[00m      sci-geosciences/grass[37m:=[00m
    [90m[00m[100muse[00m[90m[00m [32mhdf5[37m[00m
 [90m[00m      sci-libs/hdf5[37m:=[00m
+   [90m[00m[100muse[00m[90m[00m [32mgeographiclib[37m[00m
+[90m[00m      sci-geosciences/GeographicLib
    [90m[00m[100muse[00m[90m[00m [32mmapserver[37m[00m
 [90m[00m      dev-libs/fcgi
    [90m[00m[100muse[00m[90m[00m [32mnetcdf[37m[00m
@@ -154,10 +167,12 @@
 [90m[00m         dev-lang/python[37m:3.12[00m[36m [ sqlite ][00m
 [90m[00m      [90m[00m[100muse[00m[90m[00m [32mpython_single_target_python3_13[37m[00m
 [90m[00m         dev-lang/python[37m:3.13[00m[36m [ sqlite ][00m
+[90m[00m      [90m[00m[100muse[00m[90m[00m [32mpython_single_target_python3_14[37m[00m
+[90m[00m         dev-lang/python[37m:3.14[00m[36m [ sqlite ][00m
 [90m[00m      [90m[00m[100muse[00m[90m[00m [32mpython_single_target_python3_12[37m[00m
 [90m[00m         dev-python/httplib2[36m [ python_targets_python3_12(-) ][00m
-[90m[00m         dev-python/jinja2[36m [ python_targets_python3_12(-) ][00m
 [90m[00m         dev-python/markupsafe[36m [ python_targets_python3_12(-) ][00m
+[90m[00m         dev-python/matplotlib[36m [ python_targets_python3_12(-) ][00m
 [90m[00m         dev-python/numpy[36m [ python_targets_python3_12(-) ][00m
 [90m[00m         dev-python/owslib[36m [ python_targets_python3_12(-) ][00m
 [90m[00m         dev-python/pygments[36m [ python_targets_python3_12(-) ][00m
@@ -171,10 +186,13 @@
 [90m[00m         sci-libs/gdal[36m [ python python_targets_python3_12(-) ][00m
 [90m[00m         [90m[00m[100muse[00m[90m[00m [32mpostgres[37m[00m
 [90m[00m            dev-python/psycopg[37m:2[00m[36m [ python_targets_python3_12(-) ][00m
+[90m[00m         [90m[00m[100muse[00m[90m[00m [32mwebengine[37m[00m
+[90m[00m            dev-python/pyqt6-webengine[36m [ python_targets_python3_12(-) ][00m
+[90m[00m            dev-python/pyqt6[36m [ webchannel ][00m
 [90m[00m      [90m[00m[100muse[00m[90m[00m [32mpython_single_target_python3_13[37m[00m
 [90m[00m         dev-python/httplib2[36m [ python_targets_python3_13(-) ][00m
-[90m[00m         dev-python/jinja2[36m [ python_targets_python3_13(-) ][00m
 [90m[00m         dev-python/markupsafe[36m [ python_targets_python3_13(-) ][00m
+[90m[00m         dev-python/matplotlib[36m [ python_targets_python3_13(-) ][00m
 [90m[00m         dev-python/numpy[36m [ python_targets_python3_13(-) ][00m
 [90m[00m         dev-python/owslib[36m [ python_targets_python3_13(-) ][00m
 [90m[00m         dev-python/pygments[36m [ python_targets_python3_13(-) ][00m
@@ -188,10 +206,31 @@
 [90m[00m         sci-libs/gdal[36m [ python python_targets_python3_13(-) ][00m
 [90m[00m         [90m[00m[100muse[00m[90m[00m [32mpostgres[37m[00m
 [90m[00m            dev-python/psycopg[37m:2[00m[36m [ python_targets_python3_13(-) ][00m
+[90m[00m         [90m[00m[100muse[00m[90m[00m [32mwebengine[37m[00m
+[90m[00m            dev-python/pyqt6-webengine[36m [ python_targets_python3_13(-) ][00m
+[90m[00m            dev-python/pyqt6[36m [ webchannel ][00m
+[90m[00m      [90m[00m[100muse[00m[90m[00m [32mpython_single_target_python3_14[37m[00m
+[90m[00m         dev-python/httplib2[36m [ python_targets_python3_14(-) ][00m
+[90m[00m         dev-python/markupsafe[36m [ python_targets_python3_14(-) ][00m
+[90m[00m         dev-python/matplotlib[36m [ python_targets_python3_14(-) ][00m
+[90m[00m         dev-python/numpy[36m [ python_targets_python3_14(-) ][00m
+[90m[00m         dev-python/owslib[36m [ python_targets_python3_14(-) ][00m
+[90m[00m         dev-python/pygments[36m [ python_targets_python3_14(-) ][00m
+[90m[00m         dev-python/pyqt6[36m [ designer gui multimedia network positioning printsupport serialport sql svg widgets python_targets_python3_14(-) ][00m
+[90m[00m         dev-python/python-dateutil[36m [ python_targets_python3_14(-) ][00m
+[90m[00m         dev-python/pytz[36m [ python_targets_python3_14(-) ][00m
+[90m[00m         dev-python/pyyaml[36m [ python_targets_python3_14(-) ][00m
+[90m[00m         dev-python/qscintilla[36m [ python_targets_python3_14(-) ][00m
+[90m[00m         dev-python/requests[36m [ python_targets_python3_14(-) ][00m
+[90m[00m         dev-python/sip[37m:=[00m[36m [ python_targets_python3_14(-) ][00m
+[90m[00m         sci-libs/gdal[36m [ python python_targets_python3_14(-) ][00m
+[90m[00m         [90m[00m[100muse[00m[90m[00m [32mpostgres[37m[00m
+[90m[00m            dev-python/psycopg[37m:2[00m[36m [ python_targets_python3_14(-) ][00m
+[90m[00m         [90m[00m[100muse[00m[90m[00m [32mwebengine[37m[00m
+[90m[00m            dev-python/pyqt6-webengine[36m [ python_targets_python3_14(-) ][00m
+[90m[00m            dev-python/pyqt6[36m [ webchannel ][00m
    [90m[00m[100muse[00m[90m[00m [32mqml[37m[00m
 [90m[00m      dev-qt/qtdeclarative[37m:6[00m
-   [90m[00m[100muse[00m[90m[00m [32mwebengine[37m[00m
-[90m[00m      dev-qt/qtwebengine[37m:6[00m
    dev-cpp/nlohmann_json
    [90m[00m[100muse[00m[90m[00m [32mtest[37m[00m
 [90m[00m      [90m[00m[100muse[00m[90m[00m [32mpython[37m[00m
@@ -207,7 +246,7 @@
    dev-cpp/abseil-cpp[37m:=[00m
    >=dev-db/spatialite-4.2.0[37m:=[00m
    dev-db/sqlite[37m:3[00m
-   dev-libs/expat
+   >=dev-libs/expat-1.95
    dev-libs/libzip[37m:=[00m
    dev-libs/protobuf[37m:=[00m
    >=dev-libs/qtkeychain-0.14.1-r1[37m:=[00m[36m [ qt6(+) ][00m
@@ -219,8 +258,9 @@
    dev-qt/qttools[37m:6[00m[36m [ designer ][00m
    dev-vcs/git
    media-gfx/exiv2[37m:=[00m
-   >=sci-libs/gdal-3.0.4[37m:=[00m[36m [ geos spatialite sqlite ][00m
-   sci-libs/geos
+   net-print/cups
+   >=sci-libs/gdal-3.2.0[37m:=[00m[36m [ geos spatialite sqlite ][00m
+   >=sci-libs/geos-3.9
    sci-libs/libspatialindex[37m:=[00m
    >=sci-libs/proj-8.1[37m:=[00m
    virtual/zlib[37m:=[00m
@@ -229,11 +269,13 @@
    [90m[00m[100muse[00m[90m[00m [32m3d[37m[00m
 [90m[00m      dev-qt/qt3d[37m:6[00m
    [90m[00m[100muse[00m[90m[00m [32mgeoreferencer[37m[00m
-[90m[00m      sci-libs/gsl[37m:=[00m
+[90m[00m      >=sci-libs/gsl-1.8[37m:=[00m
    [90m[00m[100muse[00m[90m[00m [32mgrass[37m[00m
 [90m[00m      sci-geosciences/grass[37m:=[00m
    [90m[00m[100muse[00m[90m[00m [32mhdf5[37m[00m
 [90m[00m      sci-libs/hdf5[37m:=[00m
+   [90m[00m[100muse[00m[90m[00m [32mgeographiclib[37m[00m
+[90m[00m      sci-geosciences/GeographicLib
    [90m[00m[100muse[00m[90m[00m [32mmapserver[37m[00m
 [90m[00m      dev-libs/fcgi
    [90m[00m[100muse[00m[90m[00m [32mnetcdf[37m[00m
@@ -252,10 +294,12 @@
 [90m[00m         dev-lang/python[37m:3.12[00m[36m [ sqlite ][00m
 [90m[00m      [90m[00m[100muse[00m[90m[00m [32mpython_single_target_python3_13[37m[00m
 [90m[00m         dev-lang/python[37m:3.13[00m[36m [ sqlite ][00m
+[90m[00m      [90m[00m[100muse[00m[90m[00m [32mpython_single_target_python3_14[37m[00m
+[90m[00m         dev-lang/python[37m:3.14[00m[36m [ sqlite ][00m
 [90m[00m      [90m[00m[100muse[00m[90m[00m [32mpython_single_target_python3_12[37m[00m
 [90m[00m         dev-python/httplib2[36m [ python_targets_python3_12(-) ][00m
-[90m[00m         dev-python/jinja2[36m [ python_targets_python3_12(-) ][00m
 [90m[00m         dev-python/markupsafe[36m [ python_targets_python3_12(-) ][00m
+[90m[00m         dev-python/matplotlib[36m [ python_targets_python3_12(-) ][00m
 [90m[00m         dev-python/numpy[36m [ python_targets_python3_12(-) ][00m
 [90m[00m         dev-python/owslib[36m [ python_targets_python3_12(-) ][00m
 [90m[00m         dev-python/pygments[36m [ python_targets_python3_12(-) ][00m
@@ -269,10 +313,13 @@
 [90m[00m         sci-libs/gdal[36m [ python python_targets_python3_12(-) ][00m
 [90m[00m         [90m[00m[100muse[00m[90m[00m [32mpostgres[37m[00m
 [90m[00m            dev-python/psycopg[37m:2[00m[36m [ python_targets_python3_12(-) ][00m
+[90m[00m         [90m[00m[100muse[00m[90m[00m [32mwebengine[37m[00m
+[90m[00m            dev-python/pyqt6-webengine[36m [ python_targets_python3_12(-) ][00m
+[90m[00m            dev-python/pyqt6[36m [ webchannel ][00m
 [90m[00m      [90m[00m[100muse[00m[90m[00m [32mpython_single_target_python3_13[37m[00m
 [90m[00m         dev-python/httplib2[36m [ python_targets_python3_13(-) ][00m
-[90m[00m         dev-python/jinja2[36m [ python_targets_python3_13(-) ][00m
 [90m[00m         dev-python/markupsafe[36m [ python_targets_python3_13(-) ][00m
+[90m[00m         dev-python/matplotlib[36m [ python_targets_python3_13(-) ][00m
 [90m[00m         dev-python/numpy[36m [ python_targets_python3_13(-) ][00m
 [90m[00m         dev-python/owslib[36m [ python_targets_python3_13(-) ][00m
 [90m[00m         dev-python/pygments[36m [ python_targets_python3_13(-) ][00m
@@ -286,11 +333,31 @@
 [90m[00m         sci-libs/gdal[36m [ python python_targets_python3_13(-) ][00m
 [90m[00m         [90m[00m[100muse[00m[90m[00m [32mpostgres[37m[00m
 [90m[00m            dev-python/psycopg[37m:2[00m[36m [ python_targets_python3_13(-) ][00m
+[90m[00m         [90m[00m[100muse[00m[90m[00m [32mwebengine[37m[00m
+[90m[00m            dev-python/pyqt6-webengine[36m [ python_targets_python3_13(-) ][00m
+[90m[00m            dev-python/pyqt6[36m [ webchannel ][00m
+[90m[00m      [90m[00m[100muse[00m[90m[00m [32mpython_single_target_python3_14[37m[00m
+[90m[00m         dev-python/httplib2[36m [ python_targets_python3_14(-) ][00m
+[90m[00m         dev-python/markupsafe[36m [ python_targets_python3_14(-) ][00m
+[90m[00m         dev-python/matplotlib[36m [ python_targets_python3_14(-) ][00m
+[90m[00m         dev-python/numpy[36m [ python_targets_python3_14(-) ][00m
+[90m[00m         dev-python/owslib[36m [ python_targets_python3_14(-) ][00m
+[90m[00m         dev-python/pygments[36m [ python_targets_python3_14(-) ][00m
+[90m[00m         dev-python/pyqt6[36m [ designer gui multimedia network positioning printsupport serialport sql svg widgets python_targets_python3_14(-) ][00m
+[90m[00m         dev-python/python-dateutil[36m [ python_targets_python3_14(-) ][00m
+[90m[00m         dev-python/pytz[36m [ python_targets_python3_14(-) ][00m
+[90m[00m         dev-python/pyyaml[36m [ python_targets_python3_14(-) ][00m
+[90m[00m         dev-python/qscintilla[36m [ python_targets_python3_14(-) ][00m
+[90m[00m         dev-python/requests[36m [ python_targets_python3_14(-) ][00m
+[90m[00m         dev-python/sip[37m:=[00m[36m [ python_targets_python3_14(-) ][00m
+[90m[00m         sci-libs/gdal[36m [ python python_targets_python3_14(-) ][00m
+[90m[00m         [90m[00m[100muse[00m[90m[00m [32mpostgres[37m[00m
+[90m[00m            dev-python/psycopg[37m:2[00m[36m [ python_targets_python3_14(-) ][00m
+[90m[00m         [90m[00m[100muse[00m[90m[00m [32mwebengine[37m[00m
+[90m[00m            dev-python/pyqt6-webengine[36m [ python_targets_python3_14(-) ][00m
+[90m[00m            dev-python/pyqt6[36m [ webchannel ][00m
    [90m[00m[100muse[00m[90m[00m [32mqml[37m[00m
 [90m[00m      dev-qt/qtdeclarative[37m:6[00m
-   [90m[00m[100muse[00m[90m[00m [32mwebengine[37m[00m
-[90m[00m      dev-qt/qtwebengine[37m:6[00m
-   sci-geosciences/gpsbabel
 
 [01m[90mpdepend : [00m
 [03m[37m   [not set][00m[00m
