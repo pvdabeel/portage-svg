@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>app-editors/vscode-1.136.1 &mdash; Dependency Graph</title>
+<link rel="stylesheet" href="../.portage-ng.css">
+</head>
+<body class="page-deptree">
+<div class="header">
+<div class="title-row">
+<h1>app-editors/vscode-1.136.1 &mdash; Dependency Graph</h1>
+<button class="theme-btn" id="theme-btn" onclick="toggleTheme()">&#9790;</button>
+</div>
+<p class="subtitle" id="subtitle"></p>
+<div class="nav-rows">
+<div class="nav-bar">
+  <div class="nav-group">
+    <span class="nav-group-label">nav</span>
+    <a class="nav-link" href="../index.html">portage</a>
+    <a class="nav-link" href="./index.html">app-editors</a>
+    <a class="nav-link" href="./vscode.html">vscode</a>
+  </div>
+  <div class="nav-group">
+    <span class="nav-group-label">version</span>
+    <a class="nav-link disabled">&laquo;</a>
+    <a class="nav-link disabled">&lsaquo;</a>
+    <a class="nav-link" href="../app-editors/vscode-1.135.0-deptree.html" title="app-editors/vscode-1.135.0">&rsaquo;</a>
+    <a class="nav-link" href="../app-editors/vscode-1.135.0-deptree.html" title="app-editors/vscode-1.135.0">&raquo;</a>
+  </div>
+</div>
+<div class="nav-bar">
+  <div class="nav-group">
+    <span class="nav-group-label">graphs</span>
+    <a class="nav-link" href="../app-editors/vscode-1.136.1-detail.html">detail</a>
+    <a class="nav-link active">deptree</a>
+    <a class="nav-link" href="../app-editors/vscode-1.136.1-gantt.html">gantt</a>
+  </div>
+  <div class="nav-group">
+    <span class="nav-group-label">cli</span>
+    <a class="nav-link" href="../app-editors/vscode-1.136.1-merge.html">--merge</a>
+    <a class="nav-link" href="../app-editors/vscode-1.136.1-fetchonly.html">--fetchonly</a>
+    <a class="nav-link" href="../app-editors/vscode-1.136.1-info.html">--info</a>
+  </div>
+  <div class="nav-group">
+    <span class="nav-group-label">legacy</span>
+    <a class="nav-link" href="../app-editors/vscode-1.136.1-emerge.html">emerge</a>
+  </div>
+</div>
+</div>
+</div>
+<div class="dep-tabs">
+  <span class="label">Dep type:</span>
+  <button class="dep-tab off" data-type="bdepend" onclick="switchDepType('bdepend')">BDEPEND</button>
+  <button class="dep-tab off" data-type="cdepend" onclick="switchDepType('cdepend')">CDEPEND</button>
+  <button class="dep-tab off" data-type="depend" onclick="switchDepType('depend')">DEPEND</button>
+  <button class="dep-tab off" data-type="idepend" onclick="switchDepType('idepend')">IDEPEND</button>
+  <button class="dep-tab active" data-type="rdepend" onclick="switchDepType('rdepend')">RDEPEND</button>
+  <button class="dep-tab off" data-type="pdepend" onclick="switchDepType('pdepend')">PDEPEND</button>
+  <div class="sep"></div>
+  <button class="action-btn" onclick="expandAll()">expand all</button>
+  <button class="action-btn" onclick="collapseAll()">collapse all</button>
+  <button class="action-btn" onclick="resetView()">reset view</button>
+</div>
+<div class="graph-container" id="graph-container">
+  <svg id="graph-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+  <div class="zoom-controls">
+    <button class="zoom-btn" onclick="zoomIn()">+</button>
+    <span class="zoom-level" id="zoom-level">100%</span>
+    <button class="zoom-btn" onclick="zoomOut()">&minus;</button>
+    <button class="zoom-btn" onclick="resetView()" title="Fit to view">&#8634;</button>
+  </div>
+</div>
+<div class="tooltip" id="tooltip"></div>
+<div class="legend">
+  <div class="legend-item"><div class="legend-swatch" style="background:#fff;border-color:var(--node-root-border);border-width:2px"></div>root package</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#fff;border-color:#ccc;border-left:3px solid var(--node-installed)"></div>installed</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#fff;border-color:#ccc"></div>not installed</div>
+  <div class="legend-item"><svg width="30" height="12"><line x1="0" y1="6" x2="24" y2="6" stroke="var(--edge-normal)" stroke-width="1.5"/><polygon points="24,3 30,6 24,9" fill="var(--edge-normal)"/></svg>dependency</div>
+  <div class="legend-item"><svg width="30" height="12"><line x1="0" y1="6" x2="24" y2="6" stroke="var(--edge-weak)" stroke-width="1.5" stroke-dasharray="4,2"/><polygon points="24,3 30,6 24,9" fill="var(--edge-weak)"/></svg>weak blocker</div>
+  <div class="legend-item"><svg width="30" height="12"><line x1="0" y1="6" x2="24" y2="6" stroke="var(--edge-strong)" stroke-width="1.5" stroke-dasharray="2,2"/><polygon points="24,3 30,6 24,9" fill="var(--edge-strong)"/></svg>strong blocker</div>
+</div>
+<script>
+const treeData = {
+  bdepend: {
+    nodes: [
+      {id:"app-editors/vscode-1.136.1",cat:"app-editors",name:"vscode",ver:"1.136.1",slot:"0",installed:false,desc:"Multiplatform Visual Studio Code from Microsoft",homepage:"https://code.visualstudio.com",use:["-egl","-wayland","-webkit"]}
+    ],
+    edges: [
+    ],
+    root: "app-editors/vscode-1.136.1"
+  },
+  cdepend: {
+    nodes: [
+      {id:"app-editors/vscode-1.136.1",cat:"app-editors",name:"vscode",ver:"1.136.1",slot:"0",installed:false,desc:"Multiplatform Visual Studio Code from Microsoft",homepage:"https://code.visualstudio.com",use:["-egl","-wayland","-webkit"]}
+    ],
+    edges: [
+    ],
+    root: "app-editors/vscode-1.136.1"
+  },
+  depend: {
+    nodes: [
+      {id:"app-editors/vscode-1.136.1",cat:"app-editors",name:"vscode",ver:"1.136.1",slot:"0",installed:false,desc:"Multiplatform Visual Studio Code from Microsoft",homepage:"https://code.visualstudio.com",use:["-egl","-wayland","-webkit"]}
+    ],
+    edges: [
+    ],
+    root: "app-editors/vscode-1.136.1"
+  },
+  idepend: {
+    nodes: [
+      {id:"x11-misc/shared-mime-info-2.5.1",cat:"x11-misc",name:"shared-mime-info",ver:"2.5.1",slot:"0",installed:false,desc:"The Shared MIME-info Database specification",homepage:"https://gitlab.freedesktop.org/xdg/shared-mime-info",use:["-test"]},
+      {id:"dev-util/desktop-file-utils-0.28-r1",cat:"dev-util",name:"desktop-file-utils",ver:"0.28-r1",slot:"0",installed:false,desc:"Command line utilities to work with desktop menu entries",homepage:"https://freedesktop.org/wiki/Software/desktop-file-utils/",use:[]},
+      {id:"app-editors/vscode-1.136.1",cat:"app-editors",name:"vscode",ver:"1.136.1",slot:"0",installed:false,desc:"Multiplatform Visual Studio Code from Microsoft",homepage:"https://code.visualstudio.com",use:["-egl","-wayland","-webkit"]}
+    ],
+    edges: [
+      {from:"app-editors/vscode-1.136.1",to:"dev-util/desktop-file-utils-0.28-r1",type:"no"},
+      {from:"app-editors/vscode-1.136.1",to:"x11-misc/shared-mime-info-2.5.1",type:"no"}
+    ],
+    root: "app-editors/vscode-1.136.1"
+  },
+  rdepend: {
+    nodes: [
+      {id:"gnome-base/gsettings-desktop-schemas-49.1",cat:"gnome-base",name:"gsettings-desktop-schemas",ver:"49.1",slot:"0",installed:false,desc:"Collection of GSettings schemas for GNOME desktop",homepage:"https://gitlab.gnome.org/GNOME/gsettings-desktop-schemas",use:["-introspection"]},
+      {id:"x11-themes/adwaita-icon-theme-legacy-46.2",cat:"x11-themes",name:"adwaita-icon-theme-legacy",ver:"46.2",slot:"0",installed:false,desc:"Adwaita Icon Theme legacy",homepage:"https://gitlab.gnome.org/GNOME/adwaita-icon-theme-legacy",use:[]},
+      {id:"gnome-base/librsvg-2.62.3",cat:"gnome-base",name:"librsvg",ver:"2.62.3",slot:"2",installed:false,desc:"Scalable Vector Graphics (SVG) rendering library",homepage:"https://wiki.gnome.org/Projects/LibRsvg https://gitlab.gnome.org/GNOME/librsvg",use:["-debug","-gtk-doc","-introspection","-test","-vala"]},
+      {id:"x11-themes/hicolor-icon-theme-0.17",cat:"x11-themes",name:"hicolor-icon-theme",ver:"0.17",slot:"0",installed:false,desc:"Fallback theme for the freedesktop icon theme specification",homepage:"https://freedesktop.org/wiki/Software/icon-theme",use:[]},
+      {id:"x11-themes/gnome-themes-standard-3.28-r1",cat:"x11-themes",name:"gnome-themes-standard",ver:"3.28-r1",slot:"0",installed:false,desc:"Standard Themes for GNOME Applications",homepage:"https://gitlab.gnome.org/GNOME/gnome-themes-extra",use:[]},
+      {id:"x11-themes/adwaita-icon-theme-49.0",cat:"x11-themes",name:"adwaita-icon-theme",ver:"49.0",slot:"0",installed:false,desc:"GNOME default icon theme",homepage:"https://gitlab.gnome.org/GNOME/adwaita-icon-theme",use:["-branding"]},
+      {id:"x11-libs/gtk+-2.24.33-r3",cat:"x11-libs",name:"gtk+",ver:"2.24.33-r3",slot:"2",installed:false,desc:"Gimp ToolKit +",homepage:"https://www.gtk.org/",use:["-aqua","-cups","-examples","-introspection","-test","-vim-syntax","-xinerama"]},
+      {id:"acct-group/messagebus-0-r3",cat:"acct-group",name:"messagebus",ver:"0-r3",slot:"0",installed:true,desc:"System group: messagebus",homepage:"",use:[]},
+      {id:"dev-util/pkgconf-9999",cat:"dev-util",name:"pkgconf",ver:"9999",slot:"0",installed:false,desc:"pkg-config compatible replacement with no dependencies other than C99",homepage:"https://github.com/pkgconf/pkgconf",use:["+native-symlinks"]},
+      {id:"dev-libs/gobject-introspection-common-1.86.0",cat:"dev-libs",name:"gobject-introspection-common",ver:"1.86.0",slot:"0",installed:false,desc:"Build infrastructure for GObject Introspection",homepage:"https://gi.readthedocs.io/",use:[]},
+      {id:"dev-util/desktop-file-utils-0.28-r1",cat:"dev-util",name:"desktop-file-utils",ver:"0.28-r1",slot:"0",installed:false,desc:"Command line utilities to work with desktop menu entries",homepage:"https://freedesktop.org/wiki/Software/desktop-file-utils/",use:[]},
+      {id:"x11-libs/libXrender-0.9.12",cat:"x11-libs",name:"libXrender",ver:"0.9.12",slot:"0",installed:true,desc:"X.Org Xrender library",homepage:"https://www.x.org/ https://gitlab.freedesktop.org/xorg/lib/libxrender",use:[]},
+      {id:"x11-misc/xkeyboard-config-9999",cat:"x11-misc",name:"xkeyboard-config",ver:"9999",slot:"0",installed:false,desc:"X keyboard configuration database",homepage:"https://www.freedesktop.org/wiki/Software/XKeyboardConfig/ https://gitlab.freedesktop.org/xkeyboard-config/xkeyboard-config",use:["-test"]},
+      {id:"x11-libs/libXdmcp-1.1.5",cat:"x11-libs",name:"libXdmcp",ver:"1.1.5",slot:"0",installed:true,desc:"X.Org X Display Manager Control Protocol library",homepage:"https://www.x.org/ https://gitlab.freedesktop.org/xorg/lib/libxdmcp",use:["-doc"]},
+      {id:"x11-libs/libXau-1.0.12",cat:"x11-libs",name:"libXau",ver:"1.0.12",slot:"0",installed:true,desc:"X.Org X authorization library",homepage:"https://www.x.org/ https://gitlab.freedesktop.org/xorg/lib/libxau",use:["-doc"]},
+      {id:"x11-base/xorg-proto-9999",cat:"x11-base",name:"xorg-proto",ver:"9999",slot:"0",installed:false,desc:"X.Org combined protocol headers",homepage:"https://gitlab.freedesktop.org/xorg/proto/xorgproto",use:["-test"]},
+      {id:"x11-misc/compose-tables-1.8.13",cat:"x11-misc",name:"compose-tables",ver:"1.8.13",slot:"0",installed:true,desc:"X.Org Compose Key tables from libX11",homepage:"https://www.x.org/ https://gitlab.freedesktop.org/xorg/util/compose-tables",use:[]},
+      {id:"dev-util/gtk-update-icon-cache-3.24.42",cat:"dev-util",name:"gtk-update-icon-cache",ver:"3.24.42",slot:"0",installed:false,desc:"GTK update icon cache",homepage:"https://www.gtk.org/ https://gitlab.gnome.org/Community/gentoo/gtk-update-icon-cache",use:[]},
+      {id:"x11-misc/shared-mime-info-2.5.1",cat:"x11-misc",name:"shared-mime-info",ver:"2.5.1",slot:"0",installed:false,desc:"The Shared MIME-info Database specification",homepage:"https://gitlab.freedesktop.org/xdg/shared-mime-info",use:["-test"]},
+      {id:"x11-libs/gdk-pixbuf-2.44.7",cat:"x11-libs",name:"gdk-pixbuf",ver:"2.44.7",slot:"2",installed:false,desc:"Image loading library for GTK+",homepage:"https://gitlab.gnome.org/GNOME/gdk-pixbuf",use:["+gif","-gtk-doc","-introspection","+jpeg","-test","+tiff"]},
+      {id:"media-libs/libepoxy-9999",cat:"media-libs",name:"libepoxy",ver:"9999",slot:"0",installed:false,desc:"Library for handling OpenGL function pointer management",homepage:"https://github.com/anholt/libepoxy",use:["+X","-test"]},
+      {id:"media-libs/harfbuzz-9999",cat:"media-libs",name:"harfbuzz",ver:"9999",slot:"0",installed:false,desc:"An OpenType text shaping engine",homepage:"https://harfbuzz.github.io/",use:["+cairo","-debug","-doc","-experimental","+glib","+graphite","-icu","-introspection","-test","+truetype"]},
+      {id:"dev-libs/fribidi-1.0.16",cat:"dev-libs",name:"fribidi",ver:"1.0.16",slot:"0",installed:true,desc:"A free implementation of the unicode bidirectional algorithm",homepage:"https://fribidi.org/",use:["-doc","-test"]},
+      {id:"x11-libs/pixman-9999",cat:"x11-libs",name:"pixman",ver:"9999",slot:"0",installed:false,desc:"Low-level pixel manipulation routines",homepage:"http://www.pixman.org/ https://gitlab.freedesktop.org/pixman/pixman/",use:["-loongson2f","-static-libs","-test"]},
+      {id:"media-libs/libpng-1.6.58",cat:"media-libs",name:"libpng",ver:"1.6.58",slot:"0",installed:false,desc:"Portable Network Graphics library",homepage:"https://www.libpng.org/",use:["+apng","-static-libs","-test"]},
+      {id:"media-libs/freetype-9999",cat:"media-libs",name:"freetype",ver:"9999",slot:"2",installed:false,desc:"High-quality and portable font engine",homepage:"https://www.freetype.org/",use:["+X","+adobe-cff","-brotli","+bzip2","+cleartype-hinting","-debug","-doc","-fontforge","+harfbuzz","+png","-static-libs","-svg","-utils"]},
+      {id:"media-libs/fontconfig-2.18.3",cat:"media-libs",name:"fontconfig",ver:"2.18.3",slot:"1.0",installed:false,desc:"A library for configuring and customizing font access",homepage:"https://fontconfig.org/",use:["-doc","+nls","-test"]},
+      {id:"acct-user/messagebus-0-r3",cat:"acct-user",name:"messagebus",ver:"0-r3",slot:"0",installed:true,desc:"System user: messagebus",homepage:"",use:[]},
+      {id:"dev-util/spirv-tools-9999",cat:"dev-util",name:"spirv-tools",ver:"9999",slot:"0",installed:false,desc:"Provides an API and commands for processing SPIR-V modules",homepage:"https://github.com/KhronosGroup/SPIRV-Tools",use:["-test"]},
+      {id:"media-libs/alsa-ucm-conf-1.2.16.1",cat:"media-libs",name:"alsa-ucm-conf",ver:"1.2.16.1",slot:"0",installed:false,desc:"ALSA ucm configuration files",homepage:"https://alsa-project.org/wiki/Main_Page",use:["-verify-sig"]},
+      {id:"media-libs/alsa-topology-conf-1.2.5.1-r1",cat:"media-libs",name:"alsa-topology-conf",ver:"1.2.5.1-r1",slot:"0",installed:false,desc:"ALSA topology configuration files",homepage:"https://alsa-project.org/wiki/Main_Page",use:["-verify-sig"]},
+      {id:"virtual/pkgconfig-3",cat:"virtual",name:"pkgconfig",ver:"3",slot:"0",installed:true,desc:"Virtual for the pkg-config implementation",homepage:"",use:["+native-symlinks"]},
+      {id:"dev-db/sqlite-9999",cat:"dev-db",name:"sqlite",ver:"9999",slot:"3",installed:false,desc:"SQL database engine",homepage:"https://sqlite.org/",use:["-debug","-doc","-icu","+readline","-secure-delete","-static-libs","-tcl","-test","-test-full","-tools"]},
+      {id:"virtual/libintl-0-r2",cat:"virtual",name:"libintl",ver:"0-r2",slot:"0",installed:true,desc:"Virtual for the GNU Internationalization Library",homepage:"",use:[]},
+      {id:"dev-libs/libffi-9999",cat:"dev-libs",name:"libffi",ver:"9999",slot:"0",installed:false,desc:"Portable, high level programming interface to various calling conventions",homepage:"https://sourceware.org/libffi/",use:["-debug","+exec-static-trampoline","-pax-kernel","-static-libs","-test"]},
+      {id:"dev-libs/libpcre2-10.47",cat:"dev-libs",name:"libpcre2",ver:"10.47",slot:"0",installed:true,desc:"Perl-compatible regular expression library",homepage:"https://pcre2project.github.io/pcre2/ https://www.pcre.org/",use:["+bzip2","+jit","-libedit","+pcre16","+pcre32","+readline","-static-libs","+unicode","-valgrind","-verify-sig","+zlib"]},
+      {id:"virtual/libiconv-0-r2",cat:"virtual",name:"libiconv",ver:"0-r2",slot:"0",installed:true,desc:"Virtual for the GNU conversion library",homepage:"",use:[]},
+      {id:"dev-util/gdbus-codegen-2.88.2",cat:"dev-util",name:"gdbus-codegen",ver:"2.88.2",slot:"0",installed:false,desc:"GDBus code and documentation generator",homepage:"https://www.gtk.org/",use:[]},
+      {id:"dev-libs/gobject-introspection-1.84.0-r2",cat:"dev-libs",name:"gobject-introspection",ver:"1.84.0-r2",slot:"0",installed:false,desc:"Introspection system for GObject-based libraries",homepage:"https://gi.readthedocs.io/",use:["-doctool","-gtk-doc","-test"]},
+      {id:"dev-libs/atk-2.38.0",cat:"dev-libs",name:"atk",ver:"2.38.0",slot:"0",installed:false,desc:"GTK+ & GNOME Accessibility Toolkit",homepage:"https://wiki.gnome.org/Accessibility",use:["-gtk-doc","-introspection"]},
+      {id:"dev-libs/libxml2-9999",cat:"dev-libs",name:"libxml2",ver:"9999",slot:"2",installed:false,desc:"XML C parser and toolkit",homepage:"https://gitlab.gnome.org/GNOME/libxml2/-/wikis/home",use:["-doc","-icu","+python","+readline","-static-libs","-test"]},
+      {id:"x11-misc/xdg-utils-1.2.1-r11",cat:"x11-misc",name:"xdg-utils",ver:"1.2.1-r11",slot:"0",installed:false,desc:"Portland utils for cross-platform/cross-toolkit/cross-desktop interoperability",homepage:"https://www.freedesktop.org/wiki/Software/xdg-utils/",use:["+X","+dbus","-doc","-gnome","-perl","-plasma"]},
+      {id:"x11-libs/pango-1.57.1",cat:"x11-libs",name:"pango",ver:"1.57.1",slot:"0",installed:false,desc:"Internationalized text layout and rendering library",homepage:"https://www.gtk.org/docs/architecture/pango https://gitlab.gnome.org/GNOME/pango",use:["+X","-debug","-examples","-gtk-doc","-introspection","-libthai","-sysprof","-test"]},
+      {id:"x11-libs/libXScrnSaver-1.2.5",cat:"x11-libs",name:"libXScrnSaver",ver:"1.2.5",slot:"0",installed:false,desc:"X.Org XScrnSaver library",homepage:"https://www.x.org/ https://gitlab.freedesktop.org/xorg/lib/libxscrnsaver",use:["-doc"]},
+      {id:"x11-libs/libXrandr-1.5.5",cat:"x11-libs",name:"libXrandr",ver:"1.5.5",slot:"0",installed:true,desc:"X.Org Xrandr library",homepage:"https://www.x.org/ https://gitlab.freedesktop.org/xorg/lib/libxrandr",use:["-doc"]},
+      {id:"x11-libs/libxkbfile-1.2.0",cat:"x11-libs",name:"libxkbfile",ver:"1.2.0",slot:"0",installed:false,desc:"X.Org xkbfile library",homepage:"https://www.x.org/ https://gitlab.freedesktop.org/xorg/lib/libxkbfile",use:[]},
+      {id:"x11-libs/libxkbcommon-1.13.2",cat:"x11-libs",name:"libxkbcommon",ver:"1.13.2",slot:"0",installed:false,desc:"Keymap handling library for toolkits and window systems",homepage:"https://xkbcommon.org/ https://github.com/xkbcommon/libxkbcommon/",use:["+X","-doc","-static-libs","-test","-tools","-wayland"]},
+      {id:"x11-libs/libXfixes-6.0.2",cat:"x11-libs",name:"libXfixes",ver:"6.0.2",slot:"0",installed:true,desc:"X.Org Xfixes library",homepage:"https://www.x.org/ https://gitlab.freedesktop.org/xorg/lib/libxfixes",use:["-doc"]},
+      {id:"x11-libs/libXext-1.3.7",cat:"x11-libs",name:"libXext",ver:"1.3.7",slot:"0",installed:true,desc:"X.Org Xext library",homepage:"https://www.x.org/ https://gitlab.freedesktop.org/xorg/lib/libxext",use:["-doc"]},
+      {id:"x11-libs/libXdamage-1.1.7",cat:"x11-libs",name:"libXdamage",ver:"1.1.7",slot:"0",installed:false,desc:"X.Org Xdamage library",homepage:"https://www.x.org/ https://gitlab.freedesktop.org/xorg/lib/libxdamage",use:[]},
+      {id:"x11-libs/libXcomposite-0.4.7",cat:"x11-libs",name:"libXcomposite",ver:"0.4.7",slot:"0",installed:false,desc:"X.Org Xcomposite library",homepage:"https://www.x.org/ https://gitlab.freedesktop.org/xorg/lib/libxcomposite",use:["-doc"]},
+      {id:"x11-libs/libxcb-1.17.0",cat:"x11-libs",name:"libxcb",ver:"1.17.0",slot:"0",installed:true,desc:"X C-language Bindings library",homepage:"https://xcb.freedesktop.org/ https://gitlab.freedesktop.org/xorg/lib/libxcb",use:["-doc","-selinux","-test","+xkb"]},
+      {id:"x11-libs/libX11-1.8.13",cat:"x11-libs",name:"libX11",ver:"1.8.13",slot:"0",installed:true,desc:"X.Org X11 library",homepage:"https://www.x.org/ https://gitlab.freedesktop.org/xorg/lib/libx11",use:["-doc","-test"]},
+      {id:"x11-libs/libdrm-9999",cat:"x11-libs",name:"libdrm",ver:"9999",slot:"0",installed:false,desc:"X.Org libdrm library",homepage:"https://dri.freedesktop.org/ https://gitlab.freedesktop.org/mesa/libdrm",use:["-doc","-test","-tools","-udev","-valgrind"]},
+      {id:"x11-libs/gtk+-3.24.52",cat:"x11-libs",name:"gtk+",ver:"3.24.52",slot:"3",installed:false,desc:"Gimp ToolKit +",homepage:"https://www.gtk.org/",use:["+X","-aqua","-broadway","-cloudproviders","-colord","-cups","-examples","-gtk-doc","-introspection","-sysprof","-test","-vim-syntax","-wayland","-xinerama"]},
+      {id:"x11-libs/cairo-9999",cat:"x11-libs",name:"cairo",ver:"9999",slot:"0",installed:false,desc:"A vector graphics library with cross-device output support",homepage:"https://www.cairographics.org/ https://gitlab.freedesktop.org/cairo/cairo",use:["+X","-aqua","-debug","+glib","-gtk-doc","-lzo","-test"]},
+      {id:"sys-process/lsof-4.99.7",cat:"sys-process",name:"lsof",ver:"4.99.7",slot:"0",installed:false,desc:"Lists open files for running Unix processes",homepage:"https://github.com/lsof-org/lsof",use:["-rpc","-selinux"]},
+      {id:"virtual/zlib-1.3.1-r1",cat:"virtual",name:"zlib",ver:"1.3.1-r1",slot:"0",installed:true,desc:"Virtual for libz.so providers",homepage:"",use:["-static-libs"]},
+      {id:"sys-apps/dbus-1.16.2-r1",cat:"sys-apps",name:"dbus",ver:"1.16.2-r1",slot:"0",installed:false,desc:"A message bus system, a simple way for applications to talk to each other",homepage:"https://www.freedesktop.org/wiki/Software/dbus/",use:["+X","-apparmor","-audit","-debug","-doc","-elogind","-selinux","-static-libs","-systemd","-test","-valgrind"]},
+      {id:"net-misc/curl-9999",cat:"net-misc",name:"curl",ver:"9999",slot:"0",installed:false,desc:"A Client that groks URLs",homepage:"https://curl.se/",use:["+adns","+alt-svc","-brotli","-debug","-ech","+ftp","-gnutls","-gopher","+hsts","+http2","+http3","+httpsrr","-idn","+imap","-kerberos","-ldap","-mbedtls","+openssl","+pop3","+psl","+quic","-rustls","-sasl-scram","+smtp","+ssh","+ssl","-static-libs","-telnet","-test","+tftp","-verify-sig","+websockets","-zstd"]},
+      {id:"media-libs/mesa-9999",cat:"media-libs",name:"mesa",ver:"9999",slot:"0",installed:false,desc:"OpenGL-like graphic library for Linux",homepage:"https://mesa3d.org/",use:["+X","-debug","-llvm","-lm-sensors","-opencl","+opengl","+proprietary-codecs","-sysprof","-test","-unwind","-vaapi","-valgrind","-vulkan","-wayland","+zstd"]},
+      {id:"media-libs/libglvnd-9999",cat:"media-libs",name:"libglvnd",ver:"9999",slot:"0",installed:false,desc:"The GL Vendor-Neutral Dispatch library",homepage:"https://gitlab.freedesktop.org/glvnd/libglvnd",use:["+X","-test"]},
+      {id:"media-libs/alsa-lib-1.2.16.1",cat:"media-libs",name:"alsa-lib",ver:"1.2.16.1",slot:"0",installed:false,desc:"Advanced Linux Sound Architecture Library",homepage:"https://alsa-project.org/wiki/Main_Page",use:["-debug","-doc","+python","-verify-sig"]},
+      {id:"dev-libs/nss-3.128",cat:"dev-libs",name:"nss",ver:"3.128",slot:"0",installed:false,desc:"Mozilla's Network Security Services library that implements PKI support",homepage:"https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS",use:["-cacert","-test","-test-full","+utils"]},
+      {id:"dev-libs/nspr-4.40",cat:"dev-libs",name:"nspr",ver:"4.40",slot:"0",installed:false,desc:"Netscape Portable Runtime",homepage:"https://www.mozilla.org/projects/nspr/",use:["-debug"]},
+      {id:"dev-libs/glib-2.88.3",cat:"dev-libs",name:"glib",ver:"2.88.3",slot:"2",installed:false,desc:"The GLib library of C routines",homepage:"https://www.gtk.org/",use:["+dbus","-debug","-doc","+elf","-introspection","+mime","-selinux","-static-libs","-sysprof","-systemtap","-test","-utils","+xattr"]},
+      {id:"dev-libs/expat-2.8.4",cat:"dev-libs",name:"expat",ver:"2.8.4",slot:"0",installed:false,desc:"Stream-oriented XML parser library",homepage:"https://libexpat.github.io/",use:["-examples","-static-libs","-test","+unicode"]},
+      {id:"app-misc/ca-certificates-20260601.3.112.5",cat:"app-misc",name:"ca-certificates",ver:"20260601.3.112.5",slot:"0",installed:false,desc:"Common CA Certificates PEM files",homepage:"https://packages.debian.org/sid/ca-certificates",use:["-cacert"]},
+      {id:"app-crypt/libsecret-0.21.7-r1",cat:"app-crypt",name:"libsecret",ver:"0.21.7-r1",slot:"0",installed:false,desc:"GObject library for accessing the freedesktop.org Secret Service API",homepage:"https://gnome.pages.gitlab.gnome.org/libsecret",use:["+crypt","+gcrypt","-gnutls","-gtk-doc","-introspection","+pam","-test","+test-rust","-tpm","-vala"]},
+      {id:"app-accessibility/at-spi2-core-2.60.5",cat:"app-accessibility",name:"at-spi2-core",ver:"2.60.5",slot:"2",installed:false,desc:"D-Bus accessibility specifications and registration daemon",homepage:"https://gitlab.gnome.org/GNOME/at-spi2-core",use:["+X","-dbus-broker","-dbus-glib","-gtk-doc","-introspection","-systemd","-test"]},
+      {id:"app-editors/vscode-1.136.1",cat:"app-editors",name:"vscode",ver:"1.136.1",slot:"0",installed:false,desc:"Multiplatform Visual Studio Code from Microsoft",homepage:"https://code.visualstudio.com",use:["-egl","-wayland","-webkit"]}
+    ],
+    edges: [
+      {from:"acct-user/messagebus-0-r3",to:"acct-group/messagebus-0-r3",type:"no"},
+      {from:"app-accessibility/at-spi2-core-2.60.5",to:"dev-libs/atk-2.38.0",type:"weak"},
+      {from:"app-accessibility/at-spi2-core-2.60.5",to:"dev-libs/glib-2.88.3",type:"no"},
+      {from:"app-accessibility/at-spi2-core-2.60.5",to:"dev-libs/libxml2-9999",type:"no"},
+      {from:"app-accessibility/at-spi2-core-2.60.5",to:"sys-apps/dbus-1.16.2-r1",type:"no"},
+      {from:"app-crypt/libsecret-0.21.7-r1",to:"dev-libs/glib-2.88.3",type:"no"},
+      {from:"app-editors/vscode-1.136.1",to:"app-accessibility/at-spi2-core-2.60.5",type:"no"},
+      {from:"app-editors/vscode-1.136.1",to:"app-crypt/libsecret-0.21.7-r1",type:"no"},
+      {from:"app-editors/vscode-1.136.1",to:"app-misc/ca-certificates-20260601.3.112.5",type:"no"},
+      {from:"app-editors/vscode-1.136.1",to:"dev-libs/expat-2.8.4",type:"no"},
+      {from:"app-editors/vscode-1.136.1",to:"dev-libs/glib-2.88.3",type:"no"},
+      {from:"app-editors/vscode-1.136.1",to:"dev-libs/nspr-4.40",type:"no"},
+      {from:"app-editors/vscode-1.136.1",to:"dev-libs/nss-3.128",type:"no"},
+      {from:"app-editors/vscode-1.136.1",to:"media-libs/alsa-lib-1.2.16.1",type:"no"},
+      {from:"app-editors/vscode-1.136.1",to:"media-libs/libglvnd-9999",type:"no"},
+      {from:"app-editors/vscode-1.136.1",to:"media-libs/mesa-9999",type:"no"},
+      {from:"app-editors/vscode-1.136.1",to:"net-misc/curl-9999",type:"no"},
+      {from:"app-editors/vscode-1.136.1",to:"sys-apps/dbus-1.16.2-r1",type:"no"},
+      {from:"app-editors/vscode-1.136.1",to:"sys-process/lsof-4.99.7",type:"no"},
+      {from:"app-editors/vscode-1.136.1",to:"virtual/zlib-1.3.1-r1",type:"no"},
+      {from:"app-editors/vscode-1.136.1",to:"x11-libs/cairo-9999",type:"no"},
+      {from:"app-editors/vscode-1.136.1",to:"x11-libs/gtk+-3.24.52",type:"no"},
+      {from:"app-editors/vscode-1.136.1",to:"x11-libs/libX11-1.8.13",type:"no"},
+      {from:"app-editors/vscode-1.136.1",to:"x11-libs/libXScrnSaver-1.2.5",type:"no"},
+      {from:"app-editors/vscode-1.136.1",to:"x11-libs/libXcomposite-0.4.7",type:"no"},
+      {from:"app-editors/vscode-1.136.1",to:"x11-libs/libXdamage-1.1.7",type:"no"},
+      {from:"app-editors/vscode-1.136.1",to:"x11-libs/libXext-1.3.7",type:"no"},
+      {from:"app-editors/vscode-1.136.1",to:"x11-libs/libXfixes-6.0.2",type:"no"},
+      {from:"app-editors/vscode-1.136.1",to:"x11-libs/libXrandr-1.5.5",type:"no"},
+      {from:"app-editors/vscode-1.136.1",to:"x11-libs/libdrm-9999",type:"no"},
+      {from:"app-editors/vscode-1.136.1",to:"x11-libs/libxcb-1.17.0",type:"no"},
+      {from:"app-editors/vscode-1.136.1",to:"x11-libs/libxkbcommon-1.13.2",type:"no"},
+      {from:"app-editors/vscode-1.136.1",to:"x11-libs/libxkbfile-1.2.0",type:"no"},
+      {from:"app-editors/vscode-1.136.1",to:"x11-libs/pango-1.57.1",type:"no"},
+      {from:"app-editors/vscode-1.136.1",to:"x11-misc/xdg-utils-1.2.1-r11",type:"no"},
+      {from:"dev-db/sqlite-9999",to:"virtual/zlib-1.3.1-r1",type:"no"},
+      {from:"dev-libs/atk-2.38.0",to:"dev-libs/glib-2.88.3",type:"no"},
+      {from:"dev-libs/glib-2.88.3",to:"dev-libs/gobject-introspection-1.84.0-r2",type:"weak"},
+      {from:"dev-libs/glib-2.88.3",to:"dev-libs/libffi-9999",type:"no"},
+      {from:"dev-libs/glib-2.88.3",to:"dev-libs/libpcre2-10.47",type:"no"},
+      {from:"dev-libs/glib-2.88.3",to:"dev-util/gdbus-codegen-2.88.2",type:"weak"},
+      {from:"dev-libs/glib-2.88.3",to:"virtual/libiconv-0-r2",type:"no"},
+      {from:"dev-libs/glib-2.88.3",to:"virtual/libintl-0-r2",type:"no"},
+      {from:"dev-libs/glib-2.88.3",to:"virtual/zlib-1.3.1-r1",type:"no"},
+      {from:"dev-libs/gobject-introspection-1.84.0-r2",to:"dev-libs/glib-2.88.3",type:"no"},
+      {from:"dev-libs/gobject-introspection-1.84.0-r2",to:"dev-libs/gobject-introspection-common-1.86.0",type:"no"},
+      {from:"dev-libs/gobject-introspection-1.84.0-r2",to:"dev-libs/libffi-9999",type:"no"},
+      {from:"dev-libs/gobject-introspection-1.84.0-r2",to:"virtual/pkgconfig-3",type:"no"},
+      {from:"dev-libs/gobject-introspection-common-1.86.0",to:"dev-libs/gobject-introspection-1.84.0-r2",type:"weak"},
+      {from:"dev-libs/libxml2-9999",to:"virtual/libiconv-0-r2",type:"no"},
+      {from:"dev-libs/libxml2-9999",to:"virtual/zlib-1.3.1-r1",type:"no"},
+      {from:"dev-libs/nss-3.128",to:"dev-db/sqlite-9999",type:"no"},
+      {from:"dev-libs/nss-3.128",to:"dev-libs/nspr-4.40",type:"no"},
+      {from:"dev-libs/nss-3.128",to:"virtual/pkgconfig-3",type:"no"},
+      {from:"dev-libs/nss-3.128",to:"virtual/zlib-1.3.1-r1",type:"no"},
+      {from:"dev-util/desktop-file-utils-0.28-r1",to:"dev-libs/glib-2.88.3",type:"no"},
+      {from:"dev-util/gdbus-codegen-2.88.2",to:"dev-libs/glib-2.88.3",type:"no"},
+      {from:"dev-util/gtk-update-icon-cache-3.24.42",to:"dev-libs/glib-2.88.3",type:"no"},
+      {from:"dev-util/gtk-update-icon-cache-3.24.42",to:"x11-libs/gdk-pixbuf-2.44.7",type:"no"},
+      {from:"dev-util/gtk-update-icon-cache-3.24.42",to:"x11-libs/gtk+-2.24.33-r3",type:"weak"},
+      {from:"gnome-base/librsvg-2.62.3",to:"dev-libs/glib-2.88.3",type:"no"},
+      {from:"gnome-base/librsvg-2.62.3",to:"dev-libs/libxml2-9999",type:"no"},
+      {from:"gnome-base/librsvg-2.62.3",to:"media-libs/freetype-9999",type:"no"},
+      {from:"gnome-base/librsvg-2.62.3",to:"media-libs/harfbuzz-9999",type:"no"},
+      {from:"gnome-base/librsvg-2.62.3",to:"x11-libs/cairo-9999",type:"no"},
+      {from:"gnome-base/librsvg-2.62.3",to:"x11-libs/gdk-pixbuf-2.44.7",type:"no"},
+      {from:"gnome-base/librsvg-2.62.3",to:"x11-libs/pango-1.57.1",type:"no"},
+      {from:"media-libs/alsa-lib-1.2.16.1",to:"media-libs/alsa-topology-conf-1.2.5.1-r1",type:"no"},
+      {from:"media-libs/alsa-lib-1.2.16.1",to:"media-libs/alsa-ucm-conf-1.2.16.1",type:"no"},
+      {from:"media-libs/fontconfig-2.18.3",to:"dev-libs/expat-2.8.4",type:"no"},
+      {from:"media-libs/fontconfig-2.18.3",to:"media-libs/freetype-9999",type:"no"},
+      {from:"media-libs/fontconfig-2.18.3",to:"virtual/libintl-0-r2",type:"no"},
+      {from:"media-libs/freetype-9999",to:"virtual/zlib-1.3.1-r1",type:"no"},
+      {from:"media-libs/libepoxy-9999",to:"media-libs/libglvnd-9999",type:"no"},
+      {from:"media-libs/libglvnd-9999",to:"media-libs/mesa-9999",type:"weak"},
+      {from:"media-libs/libpng-1.6.58",to:"virtual/zlib-1.3.1-r1",type:"no"},
+      {from:"media-libs/mesa-9999",to:"dev-libs/expat-2.8.4",type:"no"},
+      {from:"media-libs/mesa-9999",to:"dev-util/spirv-tools-9999",type:"no"},
+      {from:"media-libs/mesa-9999",to:"media-libs/libglvnd-9999",type:"no"},
+      {from:"media-libs/mesa-9999",to:"virtual/zlib-1.3.1-r1",type:"no"},
+      {from:"media-libs/mesa-9999",to:"x11-libs/libdrm-9999",type:"no"},
+      {from:"net-misc/curl-9999",to:"virtual/zlib-1.3.1-r1",type:"no"},
+      {from:"sys-apps/dbus-1.16.2-r1",to:"acct-user/messagebus-0-r3",type:"no"},
+      {from:"sys-apps/dbus-1.16.2-r1",to:"dev-libs/expat-2.8.4",type:"no"},
+      {from:"virtual/pkgconfig-3",to:"dev-util/pkgconf-9999",type:"no"},
+      {from:"x11-libs/cairo-9999",to:"media-libs/fontconfig-2.18.3",type:"no"},
+      {from:"x11-libs/cairo-9999",to:"media-libs/freetype-9999",type:"no"},
+      {from:"x11-libs/cairo-9999",to:"media-libs/libpng-1.6.58",type:"no"},
+      {from:"x11-libs/cairo-9999",to:"virtual/zlib-1.3.1-r1",type:"no"},
+      {from:"x11-libs/cairo-9999",to:"x11-libs/pixman-9999",type:"no"},
+      {from:"x11-libs/gdk-pixbuf-2.44.7",to:"dev-libs/glib-2.88.3",type:"no"},
+      {from:"x11-libs/gdk-pixbuf-2.44.7",to:"media-libs/libpng-1.6.58",type:"no"},
+      {from:"x11-libs/gdk-pixbuf-2.44.7",to:"x11-misc/shared-mime-info-2.5.1",type:"no"},
+      {from:"x11-libs/gtk+-2.24.33-r3",to:"app-accessibility/at-spi2-core-2.60.5",type:"no"},
+      {from:"x11-libs/gtk+-2.24.33-r3",to:"dev-libs/glib-2.88.3",type:"no"},
+      {from:"x11-libs/gtk+-2.24.33-r3",to:"dev-util/gtk-update-icon-cache-3.24.42",type:"no"},
+      {from:"x11-libs/gtk+-2.24.33-r3",to:"media-libs/fontconfig-2.18.3",type:"no"},
+      {from:"x11-libs/gtk+-2.24.33-r3",to:"virtual/libintl-0-r2",type:"no"},
+      {from:"x11-libs/gtk+-2.24.33-r3",to:"x11-libs/cairo-9999",type:"no"},
+      {from:"x11-libs/gtk+-2.24.33-r3",to:"x11-libs/gdk-pixbuf-2.44.7",type:"no"},
+      {from:"x11-libs/gtk+-2.24.33-r3",to:"x11-libs/pango-1.57.1",type:"no"},
+      {from:"x11-libs/gtk+-2.24.33-r3",to:"x11-misc/shared-mime-info-2.5.1",type:"no"},
+      {from:"x11-libs/gtk+-2.24.33-r3",to:"x11-themes/adwaita-icon-theme-49.0",type:"no"},
+      {from:"x11-libs/gtk+-2.24.33-r3",to:"x11-themes/gnome-themes-standard-3.28-r1",type:"no"},
+      {from:"x11-libs/gtk+-3.24.52",to:"app-accessibility/at-spi2-core-2.60.5",type:"no"},
+      {from:"x11-libs/gtk+-3.24.52",to:"dev-libs/fribidi-1.0.16",type:"no"},
+      {from:"x11-libs/gtk+-3.24.52",to:"dev-libs/glib-2.88.3",type:"no"},
+      {from:"x11-libs/gtk+-3.24.52",to:"dev-util/gtk-update-icon-cache-3.24.42",type:"no"},
+      {from:"x11-libs/gtk+-3.24.52",to:"media-libs/fontconfig-2.18.3",type:"no"},
+      {from:"x11-libs/gtk+-3.24.52",to:"media-libs/harfbuzz-9999",type:"no"},
+      {from:"x11-libs/gtk+-3.24.52",to:"media-libs/libepoxy-9999",type:"no"},
+      {from:"x11-libs/gtk+-3.24.52",to:"virtual/libintl-0-r2",type:"no"},
+      {from:"x11-libs/gtk+-3.24.52",to:"x11-libs/cairo-9999",type:"no"},
+      {from:"x11-libs/gtk+-3.24.52",to:"x11-libs/gdk-pixbuf-2.44.7",type:"no"},
+      {from:"x11-libs/gtk+-3.24.52",to:"x11-libs/pango-1.57.1",type:"no"},
+      {from:"x11-libs/gtk+-3.24.52",to:"x11-misc/shared-mime-info-2.5.1",type:"no"},
+      {from:"x11-libs/libX11-1.8.13",to:"x11-base/xorg-proto-9999",type:"no"},
+      {from:"x11-libs/libX11-1.8.13",to:"x11-libs/libxcb-1.17.0",type:"no"},
+      {from:"x11-libs/libX11-1.8.13",to:"x11-misc/compose-tables-1.8.13",type:"no"},
+      {from:"x11-libs/libXScrnSaver-1.2.5",to:"x11-libs/libX11-1.8.13",type:"no"},
+      {from:"x11-libs/libXScrnSaver-1.2.5",to:"x11-libs/libXext-1.3.7",type:"no"},
+      {from:"x11-libs/libXcomposite-0.4.7",to:"x11-libs/libX11-1.8.13",type:"no"},
+      {from:"x11-libs/libXdamage-1.1.7",to:"x11-libs/libX11-1.8.13",type:"no"},
+      {from:"x11-libs/libXext-1.3.7",to:"x11-libs/libX11-1.8.13",type:"no"},
+      {from:"x11-libs/libXfixes-6.0.2",to:"x11-libs/libX11-1.8.13",type:"no"},
+      {from:"x11-libs/libXrandr-1.5.5",to:"x11-libs/libX11-1.8.13",type:"no"},
+      {from:"x11-libs/libXrandr-1.5.5",to:"x11-libs/libXext-1.3.7",type:"no"},
+      {from:"x11-libs/libXrandr-1.5.5",to:"x11-libs/libXrender-0.9.12",type:"no"},
+      {from:"x11-libs/libXrender-0.9.12",to:"x11-libs/libX11-1.8.13",type:"no"},
+      {from:"x11-libs/libxcb-1.17.0",to:"x11-libs/libXau-1.0.12",type:"no"},
+      {from:"x11-libs/libxcb-1.17.0",to:"x11-libs/libXdmcp-1.1.5",type:"no"},
+      {from:"x11-libs/libxkbcommon-1.13.2",to:"dev-libs/libxml2-9999",type:"no"},
+      {from:"x11-libs/libxkbcommon-1.13.2",to:"x11-misc/compose-tables-1.8.13",type:"no"},
+      {from:"x11-libs/libxkbcommon-1.13.2",to:"x11-misc/xkeyboard-config-9999",type:"no"},
+      {from:"x11-libs/libxkbfile-1.2.0",to:"x11-libs/libX11-1.8.13",type:"no"},
+      {from:"x11-libs/pango-1.57.1",to:"dev-libs/fribidi-1.0.16",type:"no"},
+      {from:"x11-libs/pango-1.57.1",to:"dev-libs/glib-2.88.3",type:"no"},
+      {from:"x11-libs/pango-1.57.1",to:"media-libs/fontconfig-2.18.3",type:"no"},
+      {from:"x11-libs/pango-1.57.1",to:"media-libs/freetype-9999",type:"no"},
+      {from:"x11-libs/pango-1.57.1",to:"media-libs/harfbuzz-9999",type:"no"},
+      {from:"x11-libs/pango-1.57.1",to:"x11-libs/cairo-9999",type:"no"},
+      {from:"x11-misc/shared-mime-info-2.5.1",to:"dev-libs/glib-2.88.3",type:"no"},
+      {from:"x11-misc/shared-mime-info-2.5.1",to:"dev-libs/libxml2-9999",type:"no"},
+      {from:"x11-misc/xdg-utils-1.2.1-r11",to:"dev-util/desktop-file-utils-0.28-r1",type:"no"},
+      {from:"x11-misc/xdg-utils-1.2.1-r11",to:"x11-misc/shared-mime-info-2.5.1",type:"no"},
+      {from:"x11-themes/adwaita-icon-theme-49.0",to:"gnome-base/librsvg-2.62.3",type:"no"},
+      {from:"x11-themes/adwaita-icon-theme-49.0",to:"x11-themes/adwaita-icon-theme-legacy-46.2",type:"no"},
+      {from:"x11-themes/adwaita-icon-theme-49.0",to:"x11-themes/hicolor-icon-theme-0.17",type:"no"},
+      {from:"x11-themes/adwaita-icon-theme-legacy-46.2",to:"gnome-base/librsvg-2.62.3",type:"no"},
+      {from:"x11-themes/adwaita-icon-theme-legacy-46.2",to:"x11-themes/hicolor-icon-theme-0.17",type:"no"},
+      {from:"x11-themes/gnome-themes-standard-3.28-r1",to:"gnome-base/gsettings-desktop-schemas-49.1",type:"no"}
+    ],
+    root: "app-editors/vscode-1.136.1"
+  },
+  pdepend: {
+    nodes: [
+      {id:"app-editors/vscode-1.136.1",cat:"app-editors",name:"vscode",ver:"1.136.1",slot:"0",installed:false,desc:"Multiplatform Visual Studio Code from Microsoft",homepage:"https://code.visualstudio.com",use:["-egl","-wayland","-webkit"]}
+    ],
+    edges: [
+    ],
+    root: "app-editors/vscode-1.136.1"
+  }
+};
+let currentType = "rdepend";
+let collapsed = new Set();
+let viewBox = {x:0, y:0, w:0, h:0};
+let zoom = 1;
+let isPanning = false, panStart = {x:0,y:0}, vbStart = {x:0,y:0};
+let autoCollapsed = false;
+const CARD_W = 130, CARD_H = 44, LAYER_H = 90, MIN_GAP = 16;
+const AUTO_COLLAPSE_THRESHOLD = 60;
+const svg = document.getElementById("graph-svg");
+const container = document.getElementById("graph-container");
+const tooltip = document.getElementById("tooltip");
+const ns = "http://www.w3.org/2000/svg";
+function getTree() { return treeData[currentType]; }
+function autoCollapseIfLarge() {
+  const tree = getTree();
+  if (!tree || tree.nodes.length <= AUTO_COLLAPSE_THRESHOLD) return;
+  const childMap = {};
+  tree.nodes.forEach(n => childMap[n.id] = []);
+  tree.edges.forEach(e => { if (childMap[e.from]) childMap[e.from].push(e.to); });
+  const directChildren = new Set(childMap[tree.root]||[]);
+  tree.nodes.forEach(n => {
+    if ((childMap[n.id]||[]).length > 0 && n.id !== tree.root && !directChildren.has(n.id)) collapsed.add(n.id);
+  });
+  autoCollapsed = true;
+}
+autoCollapseIfLarge();
+function buildLayout() {
+  const tree = getTree();
+  if (!tree || !tree.nodes.length) return {positions:{},maxX:0,maxY:0,hiddenSet:new Set(),childMap:{},nodeMap:{}};
+  const childMap = {}, nodeMap = {};
+  tree.nodes.forEach(n => { nodeMap[n.id] = n; childMap[n.id] = []; });
+  tree.edges.forEach(e => { if (childMap[e.from]) childMap[e.from].push(e.to); });
+  const hiddenSet = new Set();
+  function markHidden(id) { (childMap[id]||[]).forEach(c => { hiddenSet.add(c); markHidden(c); }); }
+  collapsed.forEach(id => markHidden(id));
+  const layers = {};
+  const visited = new Set();
+  function bfs(startId) {
+    const queue = [{id: startId, depth: 0}];
+    visited.add(startId);
+    while (queue.length) {
+      const {id, depth} = queue.shift();
+      if (!layers[depth]) layers[depth] = [];
+      layers[depth].push(id);
+      (childMap[id]||[]).forEach(c => {
+        if (!visited.has(c) && !hiddenSet.has(c)) { visited.add(c); queue.push({id:c, depth:depth+1}); }
+      });
+    }
+  }
+  bfs(tree.root);
+  const positions = {};
+  const maxDepth = Math.max(0, ...Object.keys(layers).map(Number));
+  const layerWidths = {};
+  for (let d = maxDepth; d >= 0; d--) {
+    const ids = layers[d] || [];
+    layerWidths[d] = ids.length * CARD_W + (ids.length - 1) * MIN_GAP;
+  }
+  const maxW = Math.max(...Object.values(layerWidths), 400);
+  for (let d = maxDepth; d >= 0; d--) {
+    const ids = layers[d] || [];
+    if (ids.length === 0) continue;
+    const totalW = ids.length * CARD_W + (ids.length - 1) * MIN_GAP;
+    const startX = (maxW - totalW) / 2;
+    ids.forEach((id, i) => {
+      positions[id] = {x: startX + i * (CARD_W + MIN_GAP) + CARD_W / 2, y: d * LAYER_H + 30};
+    });
+  }
+  for (let pass = 0; pass < 4; pass++) {
+    for (let d = maxDepth; d >= 0; d--) {
+      const ids = layers[d] || [];
+      ids.forEach(id => {
+        const children = (childMap[id]||[]).filter(c => !hiddenSet.has(c) && positions[c]);
+        if (children.length > 0) {
+          positions[id].x = children.reduce((s, c) => s + positions[c].x, 0) / children.length;
+        }
+      });
+      spreadLayer(ids, positions);
+    }
+    for (let d = 0; d <= maxDepth; d++) {
+      const ids = layers[d] || [];
+      ids.forEach(id => {
+        const children = (childMap[id]||[]).filter(c => !hiddenSet.has(c) && positions[c]);
+        if (children.length > 0) {
+          positions[id].x = children.reduce((s, c) => s + positions[c].x, 0) / children.length;
+        }
+      });
+      spreadLayer(ids, positions);
+    }
+  }
+  let actualMaxX = 0;
+  Object.values(positions).forEach(p => { if (p.x + CARD_W/2 > actualMaxX) actualMaxX = p.x + CARD_W/2; });
+  return {positions, maxX: Math.max(actualMaxX + MIN_GAP, 400), maxY: (maxDepth + 1) * LAYER_H + 40, hiddenSet, childMap, nodeMap};
+}
+function spreadLayer(ids, positions) {
+  if (!ids || ids.length <= 1) return;
+  for (let i = 1; i < ids.length; i++) {
+    const prev = positions[ids[i-1]], curr = positions[ids[i]];
+    const minX = prev.x + CARD_W + MIN_GAP;
+    if (curr.x < minX) curr.x = minX;
+  }
+}
+function precomputeDescendants(childMap) {
+  const counts = {};
+  const memo = {};
+  function dfs(id) {
+    if (memo[id] !== undefined) return memo[id];
+    memo[id] = 0;
+    let c = 0;
+    (childMap[id]||[]).forEach(ch => { c += 1 + dfs(ch); });
+    memo[id] = c;
+    return c;
+  }
+  Object.keys(childMap).forEach(id => { counts[id] = dfs(id); });
+  return counts;
+}
+function render() {
+  const tree = getTree();
+  if (!tree || !tree.nodes.length) { svg.innerHTML = ""; document.getElementById("subtitle").textContent = "No dependencies"; return; }
+  const {positions, maxX, maxY, hiddenSet, childMap, nodeMap} = buildLayout();
+  const descCounts = precomputeDescendants(childMap);
+  const pad = 40;
+  const contentW = maxX + pad * 2, contentH = maxY + pad * 2;
+  const cW = container.clientWidth || contentW, cH = container.clientHeight || contentH;
+  const vw = Math.max(contentW, cW), vh = Math.max(contentH, cH);
+  viewBox = {x: -(vw - maxX) / 2, y: -(vh - maxY) / 2, w: vw, h: vh};
+  svg.setAttribute("viewBox", `${viewBox.x} ${viewBox.y} ${viewBox.w} ${viewBox.h}`);
+  const parts = [];
+  parts.push("<defs>");
+  ["normal","weak","strong"].forEach(t => {
+    const col = t === "weak" ? "var(--edge-weak)" : t === "strong" ? "var(--edge-strong)" : "var(--edge-normal)";
+    parts.push(`<marker id="arrow-${t}" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="${col}"/></marker>`);
+  });
+  parts.push("</defs><g class=\"edge-layer\">");
+  tree.edges.forEach(e => {
+    if (hiddenSet.has(e.to) || !positions[e.from] || !positions[e.to]) return;
+    const fp = positions[e.from], tp = positions[e.to];
+    const x1 = fp.x, y1 = fp.y + CARD_H / 2, x2 = tp.x, y2 = tp.y - CARD_H / 2;
+    const my = (y1 + y2) / 2;
+    const col = e.type === "weak" ? "var(--edge-weak)" : e.type === "strong" ? "var(--edge-strong)" : "var(--edge-normal)";
+    const mt = e.type === "no" ? "normal" : e.type;
+    let extra = "";
+    if (e.type === "weak") extra = ' stroke-dasharray="5,3"';
+    if (e.type === "strong") extra = ' stroke-dasharray="3,2"';
+    parts.push(`<path d="M${x1},${y1} C${x1},${my} ${x2},${my} ${x2},${y2}" stroke="${col}" stroke-width="1.3" fill="none" marker-end="url(#arrow-${mt})" opacity="0.6"${extra}/>`);
+  });
+  parts.push("</g><g class=\"node-layer\">");
+  tree.nodes.forEach(n => {
+    if (hiddenSet.has(n.id) || !positions[n.id]) return;
+    const pos = positions[n.id], isRoot = n.id === tree.root;
+    const isColl = collapsed.has(n.id);
+    const cc = (childMap[n.id]||[]).length;
+    const dc = descCounts[n.id]||0;
+    const x = pos.x - CARD_W / 2, y = pos.y - CARD_H / 2;
+    const cursor = cc > 0 ? "pointer" : "default";
+    let s = `<g class="node-g" data-id="${n.id}" style="cursor:${cursor}">`;
+    if (n.installed) {
+      s += `<rect x="${x}" y="${y}" width="3" height="${CARD_H}" fill="var(--node-installed)" rx="2"/>`;
+    }
+    const rx = n.installed ? x + 3 : x, rw = n.installed ? CARD_W - 3 : CARD_W;
+    const sc = isRoot ? "var(--node-root-border)" : "var(--node-border)";
+    const sw = isRoot ? 2 : 1.5;
+    const op = isColl ? ' opacity="0.7"' : "";
+    s += `<rect x="${rx}" y="${y}" width="${rw}" height="${CARD_H}" rx="5" ry="5" fill="var(--node-bg)" stroke="${sc}" stroke-width="${sw}"${op}/>`;
+    s += `<text x="${pos.x}" y="${pos.y - 4}" text-anchor="middle" font-size="11" font-weight="600" fill="var(--text)" font-family="Helvetica Neue,Helvetica,sans-serif">${n.name}</text>`;
+    const vt = n.ver + (n.slot !== "0" ? "  :" + n.slot : "");
+    s += `<text x="${pos.x}" y="${pos.y + 10}" text-anchor="middle" font-size="10" fill="var(--text2)" font-family="Helvetica Neue,Helvetica,sans-serif">${vt}</text>`;
+    if (cc > 0) {
+      const fc = isColl ? "var(--rdepend)" : "var(--text2)";
+      const fw = isColl ? "600" : "normal";
+      const txt = isColl ? "+" + dc : "\u25BE";
+      s += `<text x="${pos.x + CARD_W/2 - 6}" y="${pos.y + CARD_H/2 - 3}" text-anchor="end" font-size="9" fill="${fc}" font-weight="${fw}" font-family="Helvetica Neue,Helvetica,sans-serif">${txt}</text>`;
+    }
+    s += "</g>";
+    parts.push(s);
+  });
+  parts.push("</g>");
+  svg.innerHTML = parts.join("");
+  let visN = 0, visE = 0;
+  tree.nodes.forEach(n => { if (!hiddenSet.has(n.id) && positions[n.id]) visN++; });
+  tree.edges.forEach(e => { if (!hiddenSet.has(e.to) && positions[e.from] && positions[e.to]) visE++; });
+  let minY = Infinity, maxYv = -Infinity;
+  for (const p of Object.values(positions)) { if (p.y < minY) minY = p.y; if (p.y > maxYv) maxYv = p.y; }
+  const levels = minY === Infinity ? 0 : Math.round((maxYv - minY) / LAYER_H) + 1;
+  const total = tree.nodes.length;
+  let sub = `${visN} nodes \u00b7 ${visE} edges \u00b7 ${levels} levels`;
+  if (visN < total) sub += ` (${total} total)`;
+  document.getElementById("subtitle").textContent = sub;
+}
+const nodeIndex = {};
+Object.values(treeData).forEach(t => t.nodes.forEach(n => nodeIndex[n.id] = n));
+let lastChildMap = null;
+function getChildMap() {
+  if (lastChildMap && lastChildMap._type === currentType) return lastChildMap;
+  const tree = getTree(), cm = {};
+  tree.nodes.forEach(n => cm[n.id] = []);
+  tree.edges.forEach(e => { if (cm[e.from]) cm[e.from].push(e.to); });
+  cm._type = currentType; lastChildMap = cm; return cm;
+}
+svg.addEventListener("click", ev => {
+  const g = ev.target.closest(".node-g"); if (!g) return;
+  const id = g.dataset.id, cm = getChildMap();
+  if (!(cm[id]||[]).length) return;
+  if (collapsed.has(id)) collapsed.delete(id); else collapsed.add(id);
+  render();
+});
+svg.addEventListener("mouseover", ev => {
+  const g = ev.target.closest(".node-g"); if (!g) return;
+  const n = nodeIndex[g.dataset.id]; if (!n) return;
+  showTooltip(ev, n);
+});
+svg.addEventListener("mousemove", ev => {
+  if (ev.target.closest(".node-g")) moveTooltip(ev); else hideTooltip();
+});
+svg.addEventListener("mouseout", ev => {
+  const g = ev.target.closest(".node-g");
+  if (g && !g.contains(ev.relatedTarget)) hideTooltip();
+});
+function showTooltip(ev, n) {
+  const useHtml = (n.use||[]).map(u => {
+    const on = u.startsWith("+");
+    return `<span class="use-flag ${on?"on":"off"}">${u}</span>`;
+  }).join("");
+  tooltip.innerHTML = `
+    <div class="tt-title">${n.cat}/${n.name}-${n.ver}</div>
+    ${n.desc ? `<div class="tt-desc">${n.desc}</div>` : ""}
+    <div class="tt-row"><span class="tt-label">Slot</span><span class="tt-value">${n.slot}</span></div>
+    <div class="tt-row"><span class="tt-label">Status</span><span class="${n.installed?"tt-installed":"tt-not-installed"}">${n.installed?"Installed":"Not installed"}</span></div>
+    ${n.homepage ? `<div class="tt-row"><span class="tt-label">Home</span><a class="tt-link" href="${n.homepage}" target="_blank">${n.homepage.replace(/https?:\/\//,"").substring(0,40)}...</a></div>` : ""}
+    ${useHtml ? `<div style="margin-top:4px"><span class="tt-label">USE</span><div class="use-flags">${useHtml}</div></div>` : ""}
+  `; tooltip.style.display = "block"; moveTooltip(ev);
+}
+function moveTooltip(ev) {
+  const pad = 12; let x = ev.clientX + pad, y = ev.clientY + pad;
+  const tw = tooltip.offsetWidth, th = tooltip.offsetHeight;
+  if (x + tw > window.innerWidth - pad) x = ev.clientX - tw - pad;
+  if (y + th > window.innerHeight - pad) y = ev.clientY - th - pad;
+  tooltip.style.left = x + "px"; tooltip.style.top = y + "px";
+}
+function hideTooltip() { tooltip.style.display = "none"; }
+function switchDepType(type) {
+  if (!treeData[type]) return;
+  currentType = type; collapsed.clear(); lastChildMap = null;
+  autoCollapseIfLarge();
+  document.querySelectorAll(".dep-tab").forEach(b => {
+    b.classList.toggle("active", b.dataset.type === type);
+    b.classList.toggle("off", b.dataset.type !== type);
+  }); render();
+}
+function expandAll() {
+  const tree = getTree();
+  if (tree && tree.nodes.length > 500 && !confirm("This tree has " + tree.nodes.length + " nodes. Expanding all may be slow. Continue?")) return;
+  collapsed.clear(); render();
+}
+function collapseAll() {
+  const tree = getTree(); if (!tree) return;
+  const cm = getChildMap();
+  tree.nodes.forEach(n => { if ((cm[n.id]||[]).length > 0 && n.id !== tree.root) collapsed.add(n.id); });
+  render();
+}
+function resetView() { zoom = 1; document.getElementById("zoom-level").textContent = "100%"; render(); }
+function zoomIn() { zoom = Math.min(zoom * 1.25, 4); applyZoom(); }
+function zoomOut() { zoom = Math.max(zoom / 1.25, 0.25); applyZoom(); }
+function applyZoom() {
+  const cx = viewBox.x + viewBox.w / 2, cy = viewBox.y + viewBox.h / 2;
+  const nw = viewBox.w / zoom, nh = viewBox.h / zoom;
+  svg.setAttribute("viewBox", `${cx - nw/2} ${cy - nh/2} ${nw} ${nh}`);
+  document.getElementById("zoom-level").textContent = Math.round(zoom * 100) + "%";
+}
+container.addEventListener("mousedown", e => {
+  if (e.target.closest(".node-g")) return;
+  isPanning = true; panStart = {x: e.clientX, y: e.clientY};
+  const vb = svg.getAttribute("viewBox").split(" ").map(Number);
+  vbStart = {x: vb[0], y: vb[1]}; container.style.cursor = "grabbing";
+});
+container.addEventListener("mousemove", e => {
+  if (!isPanning) return;
+  const vb = svg.getAttribute("viewBox").split(" ").map(Number);
+  const scale = vb[2] / container.clientWidth;
+  const dx = (e.clientX - panStart.x) * scale, dy = (e.clientY - panStart.y) * scale;
+  svg.setAttribute("viewBox", `${vbStart.x - dx} ${vbStart.y - dy} ${vb[2]} ${vb[3]}`);
+});
+container.addEventListener("mouseup", () => { isPanning = false; container.style.cursor = ""; });
+container.addEventListener("mouseleave", () => { isPanning = false; container.style.cursor = ""; });
+container.addEventListener("wheel", e => {
+  e.preventDefault();
+  const factor = e.deltaY > 0 ? 0.9 : 1.1;
+  zoom *= factor; zoom = Math.max(0.25, Math.min(4, zoom));
+  const vb = svg.getAttribute("viewBox").split(" ").map(Number);
+  const rect = container.getBoundingClientRect();
+  const mx = (e.clientX - rect.left) / rect.width, my = (e.clientY - rect.top) / rect.height;
+  const nw = vb[2] / factor, nh = vb[3] / factor;
+  const nx = vb[0] + (vb[2] - nw) * mx, ny = vb[1] + (vb[3] - nh) * my;
+  svg.setAttribute("viewBox", `${nx} ${ny} ${nw} ${nh}`);
+  document.getElementById("zoom-level").textContent = Math.round(zoom * 100) + "%";
+}, {passive: false});
+render();
+</script>
+<script>
+function toggleTheme() {
+  const html = document.documentElement;
+  const cur = html.getAttribute("data-theme") || "dark";
+  const next = cur === "dark" ? "light" : "dark";
+  html.setAttribute("data-theme", next);
+  document.getElementById("theme-btn").innerHTML = next === "light" ? "&#9788;" : "&#9790;";
+  localStorage.setItem("deptree-theme", next);
+}
+(function() {
+  const saved = localStorage.getItem("deptree-theme");
+  if (saved) {
+    document.documentElement.setAttribute("data-theme", saved);
+    document.getElementById("theme-btn").innerHTML = saved === "light" ? "&#9788;" : "&#9790;";
+  }
+})();
+</script>
+</body>
+</html>
