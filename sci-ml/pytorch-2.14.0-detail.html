@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>sci-ml/pytorch-2.14.0 &mdash; Detail Graph</title>
+<link rel="stylesheet" href="../.portage-ng.css">
+</head>
+<body class="page-detail">
+<div class="header">
+<div class="title-row">
+<h1>sci-ml/pytorch-2.14.0 &mdash; Detail Graph</h1>
+<button class="theme-btn" id="theme-btn" onclick="toggleTheme()">&#9790;</button>
+</div>
+<p class="subtitle" id="subtitle"></p>
+<div class="nav-rows">
+<div class="nav-bar">
+  <div class="nav-group">
+    <span class="nav-group-label">nav</span>
+    <a class="nav-link" href="../index.html">portage</a>
+    <a class="nav-link" href="./index.html">sci-ml</a>
+    <a class="nav-link" href="./pytorch.html">pytorch</a>
+  </div>
+  <div class="nav-group">
+    <span class="nav-group-label">version</span>
+    <a class="nav-link disabled">&laquo;</a>
+    <a class="nav-link disabled">&lsaquo;</a>
+    <a class="nav-link" href="../sci-ml/pytorch-2.13.0-r3-detail.html" title="sci-ml/pytorch-2.13.0-r3">&rsaquo;</a>
+    <a class="nav-link" href="../sci-ml/pytorch-2.12.0-detail.html" title="sci-ml/pytorch-2.12.0">&raquo;</a>
+  </div>
+</div>
+<div class="nav-bar">
+  <div class="nav-group">
+    <span class="nav-group-label">graphs</span>
+    <a class="nav-link active">detail</a>
+    <a class="nav-link" href="../sci-ml/pytorch-2.14.0-deptree.html">deptree</a>
+    <a class="nav-link" href="../sci-ml/pytorch-2.14.0-gantt.html">gantt</a>
+  </div>
+  <div class="nav-group">
+    <span class="nav-group-label">cli</span>
+    <a class="nav-link" href="../sci-ml/pytorch-2.14.0-merge.html">--merge</a>
+    <a class="nav-link" href="../sci-ml/pytorch-2.14.0-fetchonly.html">--fetchonly</a>
+    <a class="nav-link" href="../sci-ml/pytorch-2.14.0-info.html">--info</a>
+  </div>
+  <div class="nav-group">
+    <span class="nav-group-label">legacy</span>
+    <a class="nav-link" href="../sci-ml/pytorch-2.14.0-emerge.html">emerge</a>
+  </div>
+</div>
+</div>
+</div>
+<div class="controls-row">
+  <div class="phase-tabs">
+    <button class="phase-tab active" data-phase="install" onclick="switchPhase('install',this)">Install<span class="badge" id="badge-install">0</span></button>
+    <button class="phase-tab" data-phase="run" onclick="switchPhase('run',this)">Run<span class="badge" id="badge-run">0</span></button>
+    <button class="phase-tab" data-phase="both" onclick="switchPhase('both',this)">Install &amp; Run<span class="badge" id="badge-both">0</span></button>
+  </div>
+  <div class="view-toggle">
+    <button class="view-btn active" onclick="switchView('tree',this)">&#9776; Tree</button>
+    <button class="view-btn" onclick="switchView('graph',this)">&#9675; Graph</button>
+  </div>
+</div>
+<div class="tree-toolbar" id="tree-toolbar">
+  <button onclick="expandAll()">Expand All</button>
+  <button onclick="collapseAll()">Collapse All</button>
+  <button onclick="expandCandidates()">Show Candidates</button>
+  <button onclick="collapseCandidates()">Hide Candidates</button>
+</div>
+<div class="tree-container" id="tree-container"></div>
+<div class="graph-container" id="graph-container">
+  <svg id="graph-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+  <div class="zoom-controls">
+    <button class="zoom-btn" onclick="zoomIn()" title="Zoom in">+</button>
+    <span class="zoom-level" id="zoom-level">100%</span>
+    <button class="zoom-btn" onclick="zoomOut()" title="Zoom out">&minus;</button>
+    <button class="zoom-btn" onclick="resetView()" title="Reset view">&#8634;</button>
+  </div>
+</div>
+<div class="legend">
+  <span class="legend-title">Legend:</span>
+  <span class="legend-item"><span class="legend-swatch" style="background:var(--green-bg);border:1px solid var(--green-border)"></span> +flag</span>
+  <span class="legend-item"><span class="legend-swatch" style="background:var(--red-bg);border:1px solid var(--red-border)"></span> -flag</span>
+  <span class="legend-item"><span class="legend-swatch" style="background:var(--orange-bg);border:1px solid var(--orange-border)"></span> any_of</span>
+  <span class="legend-item"><span class="legend-swatch" style="background:var(--blue-bg);border:1px solid var(--blue-border)"></span> all_of</span>
+  <span class="legend-item"><span class="legend-swatch" style="background:var(--purple-bg);border:1px solid var(--purple-border)"></span> exactly_one_of</span>
+  <span class="legend-item"><span class="legend-swatch" style="background:var(--gray-bg);border:1px solid var(--gray-border)"></span> at_most_one_of</span>
+  <span class="legend-item"><span class="legend-swatch" style="background:var(--orange);border:1px solid var(--orange)"></span> weak blocker</span>
+  <span class="legend-item"><span class="legend-swatch" style="background:var(--red);border:1px solid var(--red)"></span> strong blocker</span>
+  <span class="legend-item"><span class="legend-swatch" style="background:var(--surface2);border:1px solid var(--border2)"></span> candidate</span>
+  <span class="legend-item"><span class="legend-swatch" style="background:var(--green-bg);border:1px solid var(--green-border)"></span> installed</span>
+</div>
+<script>
+const rootLabel = "sci-ml/pytorch-2.14.0";
+const rootEntry = "sci-ml/pytorch-2.14.0";
+const rootRepo = "portage";
+const depData = {
+  install: [
+    {type:"use_cond",cond:"negative",flag:"mkl",children:[{type:"use_cond",cond:"negative",flag:"openblas",children:[{type:"pkg_dep",strength:"no",cat:"virtual",name:"blas",constraint:"*",candidates:[{id:"virtual/blas-3.8-r1",inst:false}]}]}]},
+    {type:"use_cond",cond:"positive",flag:"cuda",children:[{type:"pkg_dep",strength:"no",cat:"dev-libs",name:"cudnn",constraint:"*",candidates:[{id:"dev-libs/cudnn-9.17.0.29",inst:false},{id:"dev-libs/cudnn-9.14.0.64",inst:false},{id:"dev-libs/cudnn-9.8.0.87-r1",inst:false},{id:"dev-libs/cudnn-8.9.7.29-r1",inst:false},{id:"dev-libs/cudnn-8.8.0.121",inst:false},{id:"dev-libs/cudnn-8.6.0.163",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-ml",name:"cudnn-frontend",constraint:">=1.12.0",candidates:[{id:"sci-ml/cudnn-frontend-1.16.1",inst:false},{id:"sci-ml/cudnn-frontend-1.15.0",inst:false},{id:"sci-ml/cudnn-frontend-1.12.1",inst:false}]},{type:"pkg_dep",strength:"no",cat:"dev-util",name:"nvidia-cuda-toolkit",constraint:">=12.9",candidates:[{id:"dev-util/nvidia-cuda-toolkit-12.9.2",inst:false},{id:"dev-util/nvidia-cuda-toolkit-12.9.1-r1",inst:false}]},{type:"use_cond",cond:"positive",flag:"cusparselt",children:[{type:"pkg_dep",strength:"no",cat:"dev-libs",name:"cusparselt",constraint:"*",candidates:[{id:"dev-libs/cusparselt-0.7.1.0",inst:false}]}]}]},
+    {type:"use_cond",cond:"positive",flag:"distributed",children:[{type:"use_cond",cond:"negative",flag:"rocm",children:[{type:"pkg_dep",strength:"no",cat:"sci-ml",name:"tensorpipe",constraint:"*",candidates:[{id:"sci-ml/tensorpipe-2025.11.05",inst:false}]}]},{type:"pkg_dep",strength:"no",cat:"dev-cpp",name:"cpp-httplib",constraint:"*",candidates:[{id:"dev-cpp/cpp-httplib-0.51.0",inst:false},{id:"dev-cpp/cpp-httplib-0.50.1",inst:false},{id:"dev-cpp/cpp-httplib-0.38.0",inst:false}]}]},
+    {type:"use_cond",cond:"positive",flag:"fbgemm",children:[{type:"pkg_dep",strength:"no",cat:"sci-ml",name:"FBGEMM",constraint:">=1.4",candidates:[{id:"sci-ml/FBGEMM-1.7.0-r1",inst:false},{id:"sci-ml/FBGEMM-1.4.0.2025.12.10-r1",inst:false}]}]},
+    {type:"use_cond",cond:"positive",flag:"gloo",children:[{type:"pkg_dep",strength:"no",cat:"sci-ml",name:"gloo",constraint:">=2025.06.04",candidates:[{id:"sci-ml/gloo-2025.12.02-r1",inst:false},{id:"sci-ml/gloo-2025.06.04-r2",inst:false}]}]},
+    {type:"use_cond",cond:"positive",flag:"kineto",children:[{type:"pkg_dep",strength:"no",cat:"sci-ml",name:"kineto",constraint:"0.4.0_p20260603",candidates:[{id:"sci-ml/kineto-0.4.0_p20260603",inst:false}]}]},
+    {type:"use_cond",cond:"positive",flag:"mimalloc",children:[{type:"pkg_dep",strength:"no",cat:"dev-libs",name:"mimalloc",constraint:"*",candidates:[{id:"dev-libs/mimalloc-3.4.5",inst:false},{id:"dev-libs/mimalloc-3.2.8-r1",inst:false}]}]},
+    {type:"use_cond",cond:"positive",flag:"mkl",children:[{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"mkl",constraint:"*",candidates:[{id:"sci-libs/mkl-2026.1.0.236",inst:false},{id:"sci-libs/mkl-2026.0.0.908",inst:false},{id:"sci-libs/mkl-2025.3.1.8",inst:false}]}]},
+    {type:"use_cond",cond:"positive",flag:"mpi",children:[{type:"pkg_dep",strength:"no",cat:"virtual",name:"mpi",constraint:"*",candidates:[{id:"virtual/mpi-2.0-r8",inst:false}]}]},
+    {type:"use_cond",cond:"positive",flag:"nnpack",children:[{type:"pkg_dep",strength:"no",cat:"sci-ml",name:"NNPACK",constraint:"*",candidates:[{id:"sci-ml/NNPACK-2020.12.22-r4",inst:false}]},{type:"pkg_dep",strength:"no",cat:"dev-libs",name:"pthreadpool",constraint:"*",candidates:[{id:"dev-libs/pthreadpool-2023.08.29",inst:false}]}]},
+    {type:"use_cond",cond:"positive",flag:"numpy",children:[{type:"use_cond",cond:"positive",flag:"python_single_target_python3_12",children:[{type:"pkg_dep",strength:"no",cat:"dev-python",name:"numpy",constraint:"*",candidates:[{id:"dev-python/numpy-2.5.2-r1",inst:false},{id:"dev-python/numpy-2.5.1",inst:false},{id:"dev-python/numpy-2.4.6",inst:false},{id:"dev-python/numpy-2.4.4-r1",inst:false},{id:"dev-python/numpy-2.2.6",inst:false}]}]},{type:"use_cond",cond:"positive",flag:"python_single_target_python3_13",children:[{type:"pkg_dep",strength:"no",cat:"dev-python",name:"numpy",constraint:"*",candidates:[{id:"dev-python/numpy-2.5.2-r1",inst:false},{id:"dev-python/numpy-2.5.1",inst:false},{id:"dev-python/numpy-2.4.6",inst:false},{id:"dev-python/numpy-2.4.4-r1",inst:false},{id:"dev-python/numpy-2.2.6",inst:false}]}]},{type:"use_cond",cond:"positive",flag:"python_single_target_python3_14",children:[{type:"pkg_dep",strength:"no",cat:"dev-python",name:"numpy",constraint:"*",candidates:[{id:"dev-python/numpy-2.5.2-r1",inst:false},{id:"dev-python/numpy-2.5.1",inst:false},{id:"dev-python/numpy-2.4.6",inst:false},{id:"dev-python/numpy-2.4.4-r1",inst:false},{id:"dev-python/numpy-2.2.6",inst:false}]}]}]},
+    {type:"use_cond",cond:"positive",flag:"onednn",children:[{type:"pkg_dep",strength:"no",cat:"sci-ml",name:"oneDNN",constraint:"*",candidates:[{id:"sci-ml/oneDNN-3.12",inst:false},{id:"sci-ml/oneDNN-3.11.2",inst:false},{id:"sci-ml/oneDNN-3.10.2",inst:false}]}]},
+    {type:"use_cond",cond:"positive",flag:"openblas",children:[{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"openblas",constraint:"*",candidates:[{id:"sci-libs/openblas-0.3.34",inst:false},{id:"sci-libs/openblas-0.3.33",inst:false},{id:"sci-libs/openblas-0.3.32",inst:false},{id:"sci-libs/openblas-0.3.31",inst:false},{id:"sci-libs/openblas-0.3.30-r5",inst:false}]}]},
+    {type:"use_cond",cond:"positive",flag:"opencl",children:[{type:"pkg_dep",strength:"no",cat:"virtual",name:"opencl",constraint:"*",candidates:[{id:"virtual/opencl-3-r5",inst:false}]}]},
+    {type:"use_cond",cond:"positive",flag:"python_single_target_python3_12",children:[{type:"pkg_dep",strength:"no",cat:"dev-lang",name:"python",constraint:"*",candidates:[{id:"dev-lang/python-3.15.9999",inst:false},{id:"dev-lang/python-3.15.0_rc2",inst:false},{id:"dev-lang/python-3.15.0_rc1_p1-r1",inst:false},{id:"dev-lang/python-3.15.0_rc1",inst:false},{id:"dev-lang/python-3.15.0_beta4",inst:false},{id:"dev-lang/python-3.15.0_beta3",inst:false},{id:"dev-lang/python-3.15.0_beta2",inst:false},{id:"dev-lang/python-3.14.9999",inst:false},{id:"dev-lang/python-3.14.7",inst:false},{id:"dev-lang/python-3.14.6_p1",inst:false},{id:"dev-lang/python-3.14.6",inst:false},{id:"dev-lang/python-3.14.3",inst:true},{id:"dev-lang/python-3.13.9999",inst:false},{id:"dev-lang/python-3.13.15",inst:false},{id:"dev-lang/python-3.13.14",inst:false},{id:"dev-lang/python-3.13.12",inst:true},{id:"dev-lang/python-3.12.9999",inst:false},{id:"dev-lang/python-3.12.14",inst:false},{id:"dev-lang/python-3.12.13_p1",inst:false},{id:"dev-lang/python-3.11.9999",inst:false},{id:"dev-lang/python-3.11.16",inst:false},{id:"dev-lang/python-3.11.15-r1",inst:false},{id:"dev-lang/python-3.10.9999",inst:false},{id:"dev-lang/python-3.10.21",inst:false},{id:"dev-lang/python-3.10.20",inst:false},{id:"dev-lang/python-3.9.25",inst:false},{id:"dev-lang/python-3.8.20_p7-r1",inst:false},{id:"dev-lang/python-2.7.18_p16-r2",inst:false},{id:"dev-lang/python-0.3.15.9999",inst:false},{id:"dev-lang/python-0.3.15.0_rc2",inst:false},{id:"dev-lang/python-0.3.15.0_rc1-r1",inst:false},{id:"dev-lang/python-0.3.15.0_beta4",inst:false},{id:"dev-lang/python-0.3.15.0_beta3",inst:false},{id:"dev-lang/python-0.3.15.0_beta2",inst:false},{id:"dev-lang/python-0.3.14.9999",inst:false},{id:"dev-lang/python-0.3.14.7",inst:false},{id:"dev-lang/python-0.3.14.6_p1",inst:false},{id:"dev-lang/python-0.3.14.6",inst:false},{id:"dev-lang/python-0.3.13.9999",inst:false},{id:"dev-lang/python-0.3.13.15",inst:false},{id:"dev-lang/python-0.3.13.14",inst:false}]}]},
+    {type:"use_cond",cond:"positive",flag:"python_single_target_python3_12",children:[{type:"pkg_dep",strength:"no",cat:"dev-python",name:"sympy",constraint:"*",candidates:[{id:"dev-python/sympy-1.14.0-r2",inst:false}]},{type:"pkg_dep",strength:"no",cat:"dev-python",name:"typing-extensions",constraint:"*",candidates:[{id:"dev-python/typing-extensions-4.16.0",inst:false},{id:"dev-python/typing-extensions-4.15.0",inst:true}]}]},
+    {type:"use_cond",cond:"positive",flag:"python_single_target_python3_13",children:[{type:"pkg_dep",strength:"no",cat:"dev-lang",name:"python",constraint:"*",candidates:[{id:"dev-lang/python-3.15.9999",inst:false},{id:"dev-lang/python-3.15.0_rc2",inst:false},{id:"dev-lang/python-3.15.0_rc1_p1-r1",inst:false},{id:"dev-lang/python-3.15.0_rc1",inst:false},{id:"dev-lang/python-3.15.0_beta4",inst:false},{id:"dev-lang/python-3.15.0_beta3",inst:false},{id:"dev-lang/python-3.15.0_beta2",inst:false},{id:"dev-lang/python-3.14.9999",inst:false},{id:"dev-lang/python-3.14.7",inst:false},{id:"dev-lang/python-3.14.6_p1",inst:false},{id:"dev-lang/python-3.14.6",inst:false},{id:"dev-lang/python-3.14.3",inst:true},{id:"dev-lang/python-3.13.9999",inst:false},{id:"dev-lang/python-3.13.15",inst:false},{id:"dev-lang/python-3.13.14",inst:false},{id:"dev-lang/python-3.13.12",inst:true},{id:"dev-lang/python-3.12.9999",inst:false},{id:"dev-lang/python-3.12.14",inst:false},{id:"dev-lang/python-3.12.13_p1",inst:false},{id:"dev-lang/python-3.11.9999",inst:false},{id:"dev-lang/python-3.11.16",inst:false},{id:"dev-lang/python-3.11.15-r1",inst:false},{id:"dev-lang/python-3.10.9999",inst:false},{id:"dev-lang/python-3.10.21",inst:false},{id:"dev-lang/python-3.10.20",inst:false},{id:"dev-lang/python-3.9.25",inst:false},{id:"dev-lang/python-3.8.20_p7-r1",inst:false},{id:"dev-lang/python-2.7.18_p16-r2",inst:false},{id:"dev-lang/python-0.3.15.9999",inst:false},{id:"dev-lang/python-0.3.15.0_rc2",inst:false},{id:"dev-lang/python-0.3.15.0_rc1-r1",inst:false},{id:"dev-lang/python-0.3.15.0_beta4",inst:false},{id:"dev-lang/python-0.3.15.0_beta3",inst:false},{id:"dev-lang/python-0.3.15.0_beta2",inst:false},{id:"dev-lang/python-0.3.14.9999",inst:false},{id:"dev-lang/python-0.3.14.7",inst:false},{id:"dev-lang/python-0.3.14.6_p1",inst:false},{id:"dev-lang/python-0.3.14.6",inst:false},{id:"dev-lang/python-0.3.13.9999",inst:false},{id:"dev-lang/python-0.3.13.15",inst:false},{id:"dev-lang/python-0.3.13.14",inst:false}]}]},
+    {type:"use_cond",cond:"positive",flag:"python_single_target_python3_13",children:[{type:"pkg_dep",strength:"no",cat:"dev-python",name:"sympy",constraint:"*",candidates:[{id:"dev-python/sympy-1.14.0-r2",inst:false}]},{type:"pkg_dep",strength:"no",cat:"dev-python",name:"typing-extensions",constraint:"*",candidates:[{id:"dev-python/typing-extensions-4.16.0",inst:false},{id:"dev-python/typing-extensions-4.15.0",inst:true}]}]},
+    {type:"use_cond",cond:"positive",flag:"python_single_target_python3_14",children:[{type:"pkg_dep",strength:"no",cat:"dev-lang",name:"python",constraint:"*",candidates:[{id:"dev-lang/python-3.15.9999",inst:false},{id:"dev-lang/python-3.15.0_rc2",inst:false},{id:"dev-lang/python-3.15.0_rc1_p1-r1",inst:false},{id:"dev-lang/python-3.15.0_rc1",inst:false},{id:"dev-lang/python-3.15.0_beta4",inst:false},{id:"dev-lang/python-3.15.0_beta3",inst:false},{id:"dev-lang/python-3.15.0_beta2",inst:false},{id:"dev-lang/python-3.14.9999",inst:false},{id:"dev-lang/python-3.14.7",inst:false},{id:"dev-lang/python-3.14.6_p1",inst:false},{id:"dev-lang/python-3.14.6",inst:false},{id:"dev-lang/python-3.14.3",inst:true},{id:"dev-lang/python-3.13.9999",inst:false},{id:"dev-lang/python-3.13.15",inst:false},{id:"dev-lang/python-3.13.14",inst:false},{id:"dev-lang/python-3.13.12",inst:true},{id:"dev-lang/python-3.12.9999",inst:false},{id:"dev-lang/python-3.12.14",inst:false},{id:"dev-lang/python-3.12.13_p1",inst:false},{id:"dev-lang/python-3.11.9999",inst:false},{id:"dev-lang/python-3.11.16",inst:false},{id:"dev-lang/python-3.11.15-r1",inst:false},{id:"dev-lang/python-3.10.9999",inst:false},{id:"dev-lang/python-3.10.21",inst:false},{id:"dev-lang/python-3.10.20",inst:false},{id:"dev-lang/python-3.9.25",inst:false},{id:"dev-lang/python-3.8.20_p7-r1",inst:false},{id:"dev-lang/python-2.7.18_p16-r2",inst:false},{id:"dev-lang/python-0.3.15.9999",inst:false},{id:"dev-lang/python-0.3.15.0_rc2",inst:false},{id:"dev-lang/python-0.3.15.0_rc1-r1",inst:false},{id:"dev-lang/python-0.3.15.0_beta4",inst:false},{id:"dev-lang/python-0.3.15.0_beta3",inst:false},{id:"dev-lang/python-0.3.15.0_beta2",inst:false},{id:"dev-lang/python-0.3.14.9999",inst:false},{id:"dev-lang/python-0.3.14.7",inst:false},{id:"dev-lang/python-0.3.14.6_p1",inst:false},{id:"dev-lang/python-0.3.14.6",inst:false},{id:"dev-lang/python-0.3.13.9999",inst:false},{id:"dev-lang/python-0.3.13.15",inst:false},{id:"dev-lang/python-0.3.13.14",inst:false}]}]},
+    {type:"use_cond",cond:"positive",flag:"python_single_target_python3_14",children:[{type:"pkg_dep",strength:"no",cat:"dev-python",name:"sympy",constraint:"*",candidates:[{id:"dev-python/sympy-1.14.0-r2",inst:false}]},{type:"pkg_dep",strength:"no",cat:"dev-python",name:"typing-extensions",constraint:"*",candidates:[{id:"dev-python/typing-extensions-4.16.0",inst:false},{id:"dev-python/typing-extensions-4.15.0",inst:true}]}]},
+    {type:"use_cond",cond:"positive",flag:"qnnpack",children:[{type:"pkg_dep",strength:"weak",cat:"sci-libs",name:"QNNPACK",constraint:"*",candidates:[]},{type:"pkg_dep",strength:"no",cat:"sci-ml",name:"gemmlowp",constraint:"*",candidates:[{id:"sci-ml/gemmlowp-2021.12.20",inst:false}]},{type:"pkg_dep",strength:"no",cat:"dev-libs",name:"pthreadpool",constraint:"*",candidates:[{id:"dev-libs/pthreadpool-2023.08.29",inst:false}]}]},
+    {type:"use_cond",cond:"positive",flag:"rocm",children:[{type:"use_cond",cond:"positive",flag:"nccl",children:[{type:"pkg_dep",strength:"no",cat:"dev-libs",name:"rccl",constraint:">=6.3",candidates:[{id:"dev-libs/rccl-7.2.0",inst:false},{id:"dev-libs/rccl-7.1.0",inst:false},{id:"dev-libs/rccl-7.0.2",inst:false},{id:"dev-libs/rccl-6.4.3",inst:false},{id:"dev-libs/rccl-6.3.0",inst:false}]},{type:"pkg_dep",strength:"no",cat:"dev-libs",name:"rccl",constraint:"<7.3",candidates:[{id:"dev-libs/rccl-7.2.0",inst:false},{id:"dev-libs/rccl-7.1.0",inst:false},{id:"dev-libs/rccl-7.0.2",inst:false},{id:"dev-libs/rccl-6.4.3",inst:false},{id:"dev-libs/rccl-6.3.0",inst:false}]}]},{type:"pkg_dep",strength:"no",cat:"dev-util",name:"hip",constraint:">=6.3",candidates:[{id:"dev-util/hip-7.2.0-r1",inst:false},{id:"dev-util/hip-7.1.0-r1",inst:false},{id:"dev-util/hip-7.0.2-r1",inst:false},{id:"dev-util/hip-6.4.3-r2",inst:false},{id:"dev-util/hip-6.3.3-r2",inst:false}]},{type:"pkg_dep",strength:"no",cat:"dev-util",name:"hip",constraint:"<7.3",candidates:[{id:"dev-util/hip-7.2.0-r1",inst:false},{id:"dev-util/hip-7.1.0-r1",inst:false},{id:"dev-util/hip-7.0.2-r1",inst:false},{id:"dev-util/hip-6.4.3-r2",inst:false},{id:"dev-util/hip-6.3.3-r2",inst:false}]},{type:"pkg_dep",strength:"no",cat:"dev-util",name:"roctracer",constraint:">=6.3",candidates:[{id:"dev-util/roctracer-7.2.0",inst:false},{id:"dev-util/roctracer-7.1.0",inst:false},{id:"dev-util/roctracer-7.0.2",inst:false},{id:"dev-util/roctracer-6.4.3",inst:false},{id:"dev-util/roctracer-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"dev-util",name:"roctracer",constraint:"<7.3",candidates:[{id:"dev-util/roctracer-7.2.0",inst:false},{id:"dev-util/roctracer-7.1.0",inst:false},{id:"dev-util/roctracer-7.0.2",inst:false},{id:"dev-util/roctracer-6.4.3",inst:false},{id:"dev-util/roctracer-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"hipBLAS",constraint:">=6.3",candidates:[{id:"sci-libs/hipBLAS-7.2.0",inst:false},{id:"sci-libs/hipBLAS-7.1.0",inst:false},{id:"sci-libs/hipBLAS-7.0.2",inst:false},{id:"sci-libs/hipBLAS-6.4.3-r1",inst:false},{id:"sci-libs/hipBLAS-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"hipBLAS",constraint:"<7.3",candidates:[{id:"sci-libs/hipBLAS-7.2.0",inst:false},{id:"sci-libs/hipBLAS-7.1.0",inst:false},{id:"sci-libs/hipBLAS-7.0.2",inst:false},{id:"sci-libs/hipBLAS-6.4.3-r1",inst:false},{id:"sci-libs/hipBLAS-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"hipBLASLt",constraint:">=6.3",candidates:[{id:"sci-libs/hipBLASLt-7.2.0",inst:false},{id:"sci-libs/hipBLASLt-7.1.0-r2",inst:false},{id:"sci-libs/hipBLASLt-7.0.2-r2",inst:false},{id:"sci-libs/hipBLASLt-6.4.3",inst:false},{id:"sci-libs/hipBLASLt-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"hipBLASLt",constraint:"<7.3",candidates:[{id:"sci-libs/hipBLASLt-7.2.0",inst:false},{id:"sci-libs/hipBLASLt-7.1.0-r2",inst:false},{id:"sci-libs/hipBLASLt-7.0.2-r2",inst:false},{id:"sci-libs/hipBLASLt-6.4.3",inst:false},{id:"sci-libs/hipBLASLt-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"hipFFT",constraint:">=6.3",candidates:[{id:"sci-libs/hipFFT-7.2.0",inst:false},{id:"sci-libs/hipFFT-7.1.0",inst:false},{id:"sci-libs/hipFFT-7.0.2",inst:false},{id:"sci-libs/hipFFT-6.4.3",inst:false},{id:"sci-libs/hipFFT-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"hipFFT",constraint:"<7.3",candidates:[{id:"sci-libs/hipFFT-7.2.0",inst:false},{id:"sci-libs/hipFFT-7.1.0",inst:false},{id:"sci-libs/hipFFT-7.0.2",inst:false},{id:"sci-libs/hipFFT-6.4.3",inst:false},{id:"sci-libs/hipFFT-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"hipRAND",constraint:">=6.3",candidates:[{id:"sci-libs/hipRAND-7.2.0",inst:false},{id:"sci-libs/hipRAND-7.1.0",inst:false},{id:"sci-libs/hipRAND-7.0.2",inst:false},{id:"sci-libs/hipRAND-6.4.3",inst:false},{id:"sci-libs/hipRAND-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"hipRAND",constraint:"<7.3",candidates:[{id:"sci-libs/hipRAND-7.2.0",inst:false},{id:"sci-libs/hipRAND-7.1.0",inst:false},{id:"sci-libs/hipRAND-7.0.2",inst:false},{id:"sci-libs/hipRAND-6.4.3",inst:false},{id:"sci-libs/hipRAND-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"hipSOLVER",constraint:">=6.3",candidates:[{id:"sci-libs/hipSOLVER-7.2.0",inst:false},{id:"sci-libs/hipSOLVER-7.1.0",inst:false},{id:"sci-libs/hipSOLVER-7.0.2",inst:false},{id:"sci-libs/hipSOLVER-6.4.3",inst:false},{id:"sci-libs/hipSOLVER-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"hipSOLVER",constraint:"<7.3",candidates:[{id:"sci-libs/hipSOLVER-7.2.0",inst:false},{id:"sci-libs/hipSOLVER-7.1.0",inst:false},{id:"sci-libs/hipSOLVER-7.0.2",inst:false},{id:"sci-libs/hipSOLVER-6.4.3",inst:false},{id:"sci-libs/hipSOLVER-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"hipSPARSE",constraint:">=6.3",candidates:[{id:"sci-libs/hipSPARSE-7.2.0",inst:false},{id:"sci-libs/hipSPARSE-7.1.0",inst:false},{id:"sci-libs/hipSPARSE-7.0.2",inst:false},{id:"sci-libs/hipSPARSE-6.4.3",inst:false},{id:"sci-libs/hipSPARSE-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"hipSPARSE",constraint:"<7.3",candidates:[{id:"sci-libs/hipSPARSE-7.2.0",inst:false},{id:"sci-libs/hipSPARSE-7.1.0",inst:false},{id:"sci-libs/hipSPARSE-7.0.2",inst:false},{id:"sci-libs/hipSPARSE-6.4.3",inst:false},{id:"sci-libs/hipSPARSE-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"miopen",constraint:">=6.3",candidates:[{id:"sci-libs/miopen-7.2.0",inst:false},{id:"sci-libs/miopen-7.1.0-r1",inst:false},{id:"sci-libs/miopen-7.0.2",inst:false},{id:"sci-libs/miopen-6.4.3-r1",inst:false},{id:"sci-libs/miopen-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"miopen",constraint:"<7.3",candidates:[{id:"sci-libs/miopen-7.2.0",inst:false},{id:"sci-libs/miopen-7.1.0-r1",inst:false},{id:"sci-libs/miopen-7.0.2",inst:false},{id:"sci-libs/miopen-6.4.3-r1",inst:false},{id:"sci-libs/miopen-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"rocBLAS",constraint:">=6.3",candidates:[{id:"sci-libs/rocBLAS-9999",inst:false},{id:"sci-libs/rocBLAS-7.2.0",inst:false},{id:"sci-libs/rocBLAS-7.1.0",inst:false},{id:"sci-libs/rocBLAS-7.0.2-r1",inst:false},{id:"sci-libs/rocBLAS-6.4.3-r1",inst:false},{id:"sci-libs/rocBLAS-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"rocBLAS",constraint:"<7.3",candidates:[{id:"sci-libs/rocBLAS-7.2.0",inst:false},{id:"sci-libs/rocBLAS-7.1.0",inst:false},{id:"sci-libs/rocBLAS-7.0.2-r1",inst:false},{id:"sci-libs/rocBLAS-6.4.3-r1",inst:false},{id:"sci-libs/rocBLAS-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"rocRAND",constraint:">=6.3",candidates:[{id:"sci-libs/rocRAND-7.2.0",inst:false},{id:"sci-libs/rocRAND-7.1.0",inst:false},{id:"sci-libs/rocRAND-7.0.2",inst:false},{id:"sci-libs/rocRAND-6.4.3",inst:false},{id:"sci-libs/rocRAND-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"rocRAND",constraint:"<7.3",candidates:[{id:"sci-libs/rocRAND-7.2.0",inst:false},{id:"sci-libs/rocRAND-7.1.0",inst:false},{id:"sci-libs/rocRAND-7.0.2",inst:false},{id:"sci-libs/rocRAND-6.4.3",inst:false},{id:"sci-libs/rocRAND-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"rocSOLVER",constraint:">=6.3",candidates:[{id:"sci-libs/rocSOLVER-7.2.0",inst:false},{id:"sci-libs/rocSOLVER-7.1.0-r1",inst:false},{id:"sci-libs/rocSOLVER-7.0.2-r1",inst:false},{id:"sci-libs/rocSOLVER-6.4.3",inst:false},{id:"sci-libs/rocSOLVER-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"rocSOLVER",constraint:"<7.3",candidates:[{id:"sci-libs/rocSOLVER-7.2.0",inst:false},{id:"sci-libs/rocSOLVER-7.1.0-r1",inst:false},{id:"sci-libs/rocSOLVER-7.0.2-r1",inst:false},{id:"sci-libs/rocSOLVER-6.4.3",inst:false},{id:"sci-libs/rocSOLVER-6.3.3",inst:false}]},{type:"use_cond",cond:"positive",flag:"memefficient",children:[{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"aotriton-bin",constraint:"0.13*",candidates:[{id:"sci-libs/aotriton-bin-0.13b",inst:false}]}]},{type:"use_cond",cond:"positive",flag:"distributed",children:[{type:"pkg_dep",strength:"no",cat:"dev-util",name:"rocm-smi",constraint:">=6.3",candidates:[{id:"dev-util/rocm-smi-7.2.0",inst:false},{id:"dev-util/rocm-smi-7.1.0",inst:false},{id:"dev-util/rocm-smi-7.0.2",inst:false},{id:"dev-util/rocm-smi-6.4.3-r1",inst:false},{id:"dev-util/rocm-smi-6.3.3-r1",inst:false}]},{type:"pkg_dep",strength:"no",cat:"dev-util",name:"rocm-smi",constraint:"<7.3",candidates:[{id:"dev-util/rocm-smi-7.2.0",inst:false},{id:"dev-util/rocm-smi-7.1.0",inst:false},{id:"dev-util/rocm-smi-7.0.2",inst:false},{id:"dev-util/rocm-smi-6.4.3-r1",inst:false},{id:"dev-util/rocm-smi-6.3.3-r1",inst:false}]},{type:"pkg_dep",strength:"no",cat:"dev-util",name:"amdsmi",constraint:">=6.3",candidates:[{id:"dev-util/amdsmi-7.2.0",inst:false},{id:"dev-util/amdsmi-7.1.1",inst:false},{id:"dev-util/amdsmi-7.0.2",inst:false}]},{type:"pkg_dep",strength:"no",cat:"dev-util",name:"amdsmi",constraint:"<7.3",candidates:[{id:"dev-util/amdsmi-7.2.0",inst:false},{id:"dev-util/amdsmi-7.1.1",inst:false},{id:"dev-util/amdsmi-7.0.2",inst:false}]}]},{type:"use_cond",cond:"positive",flag:"cusparselt",children:[{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"hipsparselt",constraint:">=6.3",candidates:[{id:"sci-libs/hipsparselt-7.2.0",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"hipsparselt",constraint:"<7.3",candidates:[{id:"sci-libs/hipsparselt-7.2.0",inst:false}]}]}]},
+    {type:"use_cond",cond:"positive",flag:"xnnpack",children:[{type:"pkg_dep",strength:"no",cat:"sci-ml",name:"XNNPACK",constraint:">=2024.11",candidates:[{id:"sci-ml/XNNPACK-2024.12.03",inst:false}]},{type:"pkg_dep",strength:"no",cat:"dev-libs",name:"pthreadpool",constraint:"*",candidates:[{id:"dev-libs/pthreadpool-2023.08.29",inst:false}]}]},
+    {type:"pkg_dep",strength:"no",cat:"dev-cpp",name:"abseil-cpp",constraint:"*",candidates:[{id:"dev-cpp/abseil-cpp-20260107.1",inst:false},{id:"dev-cpp/abseil-cpp-20250814.1",inst:false},{id:"dev-cpp/abseil-cpp-20250512.1",inst:false},{id:"dev-cpp/abseil-cpp-20250127.1",inst:false}]},
+    {type:"pkg_dep",strength:"no",cat:"dev-cpp",name:"gflags",constraint:"*",candidates:[{id:"dev-cpp/gflags-9999",inst:false},{id:"dev-cpp/gflags-2.2.2-r1",inst:false}]},
+    {type:"pkg_dep",strength:"no",cat:"dev-cpp",name:"glog",constraint:">=0.6.0",candidates:[{id:"dev-cpp/glog-0.7.1",inst:false},{id:"dev-cpp/glog-0.6.0-r1",inst:false},{id:"dev-cpp/glog-0.6.0",inst:false}]},
+    {type:"pkg_dep",strength:"no",cat:"dev-libs",name:"cpuinfo",constraint:">=2025.11.14",candidates:[{id:"dev-libs/cpuinfo-2026.04.13",inst:false},{id:"dev-libs/cpuinfo-2025.11.14",inst:false}]},
+    {type:"pkg_dep",strength:"no",cat:"dev-libs",name:"libfmt",constraint:"*",candidates:[{id:"dev-libs/libfmt-9999",inst:false},{id:"dev-libs/libfmt-12.1.0",inst:true},{id:"dev-libs/libfmt-12.0.0",inst:false},{id:"dev-libs/libfmt-11.2.0-r1",inst:false},{id:"dev-libs/libfmt-11.1.4",inst:false},{id:"dev-libs/libfmt-11.1.3",inst:false},{id:"dev-libs/libfmt-11.0.2",inst:false},{id:"dev-libs/libfmt-10.2.1-r2",inst:false},{id:"dev-libs/libfmt-10.1.1-r1",inst:false},{id:"dev-libs/libfmt-9.1.0-r2",inst:false},{id:"dev-libs/libfmt-9.1.0-r1",inst:false}]},
+    {type:"pkg_dep",strength:"no",cat:"dev-libs",name:"protobuf",constraint:"*",candidates:[{id:"dev-libs/protobuf-9999",inst:false},{id:"dev-libs/protobuf-34.2",inst:false},{id:"dev-libs/protobuf-33.4",inst:false},{id:"dev-libs/protobuf-33.1",inst:false},{id:"dev-libs/protobuf-33.0",inst:false},{id:"dev-libs/protobuf-32.1",inst:false},{id:"dev-libs/protobuf-31.1",inst:false},{id:"dev-libs/protobuf-30.2",inst:false},{id:"dev-libs/protobuf-29.5-r1",inst:false},{id:"dev-libs/protobuf-28.0",inst:false},{id:"dev-libs/protobuf-25.9",inst:false},{id:"dev-libs/protobuf-25.6",inst:false},{id:"dev-libs/protobuf-21.12",inst:false}]},
+    {type:"pkg_dep",strength:"no",cat:"dev-libs",name:"sleef",constraint:"*",candidates:[{id:"dev-libs/sleef-3.9.0",inst:false},{id:"dev-libs/sleef-3.8",inst:false}]},
+    {type:"pkg_dep",strength:"no",cat:"sci-ml",name:"onnx",constraint:"*",candidates:[{id:"sci-ml/onnx-1.20.1",inst:false},{id:"sci-ml/onnx-1.18.0-r1",inst:false}]},
+    {type:"pkg_dep",strength:"weak",cat:"sci-ml",name:"caffe2",constraint:"*",candidates:[{id:"sci-ml/caffe2-2.12.0-r3",inst:false}]}
+  ],
+  run: [
+    {type:"use_cond",cond:"negative",flag:"mkl",children:[{type:"use_cond",cond:"negative",flag:"openblas",children:[{type:"pkg_dep",strength:"no",cat:"virtual",name:"blas",constraint:"*",candidates:[{id:"virtual/blas-3.8-r1",inst:false}]}]}]},
+    {type:"use_cond",cond:"positive",flag:"cuda",children:[{type:"pkg_dep",strength:"no",cat:"dev-libs",name:"cudnn",constraint:"*",candidates:[{id:"dev-libs/cudnn-9.17.0.29",inst:false},{id:"dev-libs/cudnn-9.14.0.64",inst:false},{id:"dev-libs/cudnn-9.8.0.87-r1",inst:false},{id:"dev-libs/cudnn-8.9.7.29-r1",inst:false},{id:"dev-libs/cudnn-8.8.0.121",inst:false},{id:"dev-libs/cudnn-8.6.0.163",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-ml",name:"cudnn-frontend",constraint:">=1.12.0",candidates:[{id:"sci-ml/cudnn-frontend-1.16.1",inst:false},{id:"sci-ml/cudnn-frontend-1.15.0",inst:false},{id:"sci-ml/cudnn-frontend-1.12.1",inst:false}]},{type:"pkg_dep",strength:"no",cat:"dev-util",name:"nvidia-cuda-toolkit",constraint:">=12.9",candidates:[{id:"dev-util/nvidia-cuda-toolkit-12.9.2",inst:false},{id:"dev-util/nvidia-cuda-toolkit-12.9.1-r1",inst:false}]},{type:"use_cond",cond:"positive",flag:"cusparselt",children:[{type:"pkg_dep",strength:"no",cat:"dev-libs",name:"cusparselt",constraint:"*",candidates:[{id:"dev-libs/cusparselt-0.7.1.0",inst:false}]}]}]},
+    {type:"use_cond",cond:"positive",flag:"cuda",children:[{type:"pkg_dep",strength:"no",cat:"dev-libs",name:"cutlass",constraint:"4.4.2",candidates:[{id:"dev-libs/cutlass-4.4.2",inst:false}]}]},
+    {type:"use_cond",cond:"positive",flag:"distributed",children:[{type:"use_cond",cond:"negative",flag:"rocm",children:[{type:"pkg_dep",strength:"no",cat:"sci-ml",name:"tensorpipe",constraint:"*",candidates:[{id:"sci-ml/tensorpipe-2025.11.05",inst:false}]}]},{type:"pkg_dep",strength:"no",cat:"dev-cpp",name:"cpp-httplib",constraint:"*",candidates:[{id:"dev-cpp/cpp-httplib-0.51.0",inst:false},{id:"dev-cpp/cpp-httplib-0.50.1",inst:false},{id:"dev-cpp/cpp-httplib-0.38.0",inst:false}]}]},
+    {type:"use_cond",cond:"positive",flag:"fbgemm",children:[{type:"pkg_dep",strength:"no",cat:"sci-ml",name:"FBGEMM",constraint:">=1.4",candidates:[{id:"sci-ml/FBGEMM-1.7.0-r1",inst:false},{id:"sci-ml/FBGEMM-1.4.0.2025.12.10-r1",inst:false}]}]},
+    {type:"use_cond",cond:"positive",flag:"gloo",children:[{type:"pkg_dep",strength:"no",cat:"sci-ml",name:"gloo",constraint:">=2025.06.04",candidates:[{id:"sci-ml/gloo-2025.12.02-r1",inst:false},{id:"sci-ml/gloo-2025.06.04-r2",inst:false}]}]},
+    {type:"use_cond",cond:"positive",flag:"kineto",children:[{type:"pkg_dep",strength:"no",cat:"sci-ml",name:"kineto",constraint:"0.4.0_p20260603",candidates:[{id:"sci-ml/kineto-0.4.0_p20260603",inst:false}]}]},
+    {type:"use_cond",cond:"positive",flag:"mimalloc",children:[{type:"pkg_dep",strength:"no",cat:"dev-libs",name:"mimalloc",constraint:"*",candidates:[{id:"dev-libs/mimalloc-3.4.5",inst:false},{id:"dev-libs/mimalloc-3.2.8-r1",inst:false}]}]},
+    {type:"use_cond",cond:"positive",flag:"mkl",children:[{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"mkl",constraint:"*",candidates:[{id:"sci-libs/mkl-2026.1.0.236",inst:false},{id:"sci-libs/mkl-2026.0.0.908",inst:false},{id:"sci-libs/mkl-2025.3.1.8",inst:false}]}]},
+    {type:"use_cond",cond:"positive",flag:"mpi",children:[{type:"pkg_dep",strength:"no",cat:"virtual",name:"mpi",constraint:"*",candidates:[{id:"virtual/mpi-2.0-r8",inst:false}]}]},
+    {type:"use_cond",cond:"positive",flag:"nnpack",children:[{type:"pkg_dep",strength:"no",cat:"sci-ml",name:"NNPACK",constraint:"*",candidates:[{id:"sci-ml/NNPACK-2020.12.22-r4",inst:false}]},{type:"pkg_dep",strength:"no",cat:"dev-libs",name:"pthreadpool",constraint:"*",candidates:[{id:"dev-libs/pthreadpool-2023.08.29",inst:false}]}]},
+    {type:"use_cond",cond:"positive",flag:"numpy",children:[{type:"use_cond",cond:"positive",flag:"python_single_target_python3_12",children:[{type:"pkg_dep",strength:"no",cat:"dev-python",name:"numpy",constraint:"*",candidates:[{id:"dev-python/numpy-2.5.2-r1",inst:false},{id:"dev-python/numpy-2.5.1",inst:false},{id:"dev-python/numpy-2.4.6",inst:false},{id:"dev-python/numpy-2.4.4-r1",inst:false},{id:"dev-python/numpy-2.2.6",inst:false}]}]},{type:"use_cond",cond:"positive",flag:"python_single_target_python3_13",children:[{type:"pkg_dep",strength:"no",cat:"dev-python",name:"numpy",constraint:"*",candidates:[{id:"dev-python/numpy-2.5.2-r1",inst:false},{id:"dev-python/numpy-2.5.1",inst:false},{id:"dev-python/numpy-2.4.6",inst:false},{id:"dev-python/numpy-2.4.4-r1",inst:false},{id:"dev-python/numpy-2.2.6",inst:false}]}]},{type:"use_cond",cond:"positive",flag:"python_single_target_python3_14",children:[{type:"pkg_dep",strength:"no",cat:"dev-python",name:"numpy",constraint:"*",candidates:[{id:"dev-python/numpy-2.5.2-r1",inst:false},{id:"dev-python/numpy-2.5.1",inst:false},{id:"dev-python/numpy-2.4.6",inst:false},{id:"dev-python/numpy-2.4.4-r1",inst:false},{id:"dev-python/numpy-2.2.6",inst:false}]}]}]},
+    {type:"use_cond",cond:"positive",flag:"onednn",children:[{type:"pkg_dep",strength:"no",cat:"sci-ml",name:"ideep",constraint:"*",candidates:[{id:"sci-ml/ideep-3.12",inst:false},{id:"sci-ml/ideep-3.10.2",inst:false}]}]},
+    {type:"use_cond",cond:"positive",flag:"onednn",children:[{type:"pkg_dep",strength:"no",cat:"sci-ml",name:"oneDNN",constraint:"*",candidates:[{id:"sci-ml/oneDNN-3.12",inst:false},{id:"sci-ml/oneDNN-3.11.2",inst:false},{id:"sci-ml/oneDNN-3.10.2",inst:false}]}]},
+    {type:"use_cond",cond:"positive",flag:"openblas",children:[{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"openblas",constraint:"*",candidates:[{id:"sci-libs/openblas-0.3.34",inst:false},{id:"sci-libs/openblas-0.3.33",inst:false},{id:"sci-libs/openblas-0.3.32",inst:false},{id:"sci-libs/openblas-0.3.31",inst:false},{id:"sci-libs/openblas-0.3.30-r5",inst:false}]}]},
+    {type:"use_cond",cond:"positive",flag:"opencl",children:[{type:"pkg_dep",strength:"no",cat:"virtual",name:"opencl",constraint:"*",candidates:[{id:"virtual/opencl-3-r5",inst:false}]}]},
+    {type:"use_cond",cond:"positive",flag:"python_single_target_python3_12",children:[{type:"pkg_dep",strength:"no",cat:"dev-lang",name:"python",constraint:"*",candidates:[{id:"dev-lang/python-3.15.9999",inst:false},{id:"dev-lang/python-3.15.0_rc2",inst:false},{id:"dev-lang/python-3.15.0_rc1_p1-r1",inst:false},{id:"dev-lang/python-3.15.0_rc1",inst:false},{id:"dev-lang/python-3.15.0_beta4",inst:false},{id:"dev-lang/python-3.15.0_beta3",inst:false},{id:"dev-lang/python-3.15.0_beta2",inst:false},{id:"dev-lang/python-3.14.9999",inst:false},{id:"dev-lang/python-3.14.7",inst:false},{id:"dev-lang/python-3.14.6_p1",inst:false},{id:"dev-lang/python-3.14.6",inst:false},{id:"dev-lang/python-3.14.3",inst:true},{id:"dev-lang/python-3.13.9999",inst:false},{id:"dev-lang/python-3.13.15",inst:false},{id:"dev-lang/python-3.13.14",inst:false},{id:"dev-lang/python-3.13.12",inst:true},{id:"dev-lang/python-3.12.9999",inst:false},{id:"dev-lang/python-3.12.14",inst:false},{id:"dev-lang/python-3.12.13_p1",inst:false},{id:"dev-lang/python-3.11.9999",inst:false},{id:"dev-lang/python-3.11.16",inst:false},{id:"dev-lang/python-3.11.15-r1",inst:false},{id:"dev-lang/python-3.10.9999",inst:false},{id:"dev-lang/python-3.10.21",inst:false},{id:"dev-lang/python-3.10.20",inst:false},{id:"dev-lang/python-3.9.25",inst:false},{id:"dev-lang/python-3.8.20_p7-r1",inst:false},{id:"dev-lang/python-2.7.18_p16-r2",inst:false},{id:"dev-lang/python-0.3.15.9999",inst:false},{id:"dev-lang/python-0.3.15.0_rc2",inst:false},{id:"dev-lang/python-0.3.15.0_rc1-r1",inst:false},{id:"dev-lang/python-0.3.15.0_beta4",inst:false},{id:"dev-lang/python-0.3.15.0_beta3",inst:false},{id:"dev-lang/python-0.3.15.0_beta2",inst:false},{id:"dev-lang/python-0.3.14.9999",inst:false},{id:"dev-lang/python-0.3.14.7",inst:false},{id:"dev-lang/python-0.3.14.6_p1",inst:false},{id:"dev-lang/python-0.3.14.6",inst:false},{id:"dev-lang/python-0.3.13.9999",inst:false},{id:"dev-lang/python-0.3.13.15",inst:false},{id:"dev-lang/python-0.3.13.14",inst:false}]}]},
+    {type:"use_cond",cond:"positive",flag:"python_single_target_python3_12",children:[{type:"pkg_dep",strength:"no",cat:"dev-python",name:"gpep517",constraint:">=16",candidates:[{id:"dev-python/gpep517-22",inst:false},{id:"dev-python/gpep517-20",inst:false},{id:"dev-python/gpep517-19",inst:true}]},{type:"pkg_dep",strength:"no",cat:"dev-python",name:"scikit-build-core",constraint:"*",candidates:[{id:"dev-python/scikit-build-core-1.0.3",inst:false},{id:"dev-python/scikit-build-core-1.0.2",inst:false},{id:"dev-python/scikit-build-core-0.12.2",inst:true}]}]},
+    {type:"use_cond",cond:"positive",flag:"python_single_target_python3_12",children:[{type:"pkg_dep",strength:"no",cat:"dev-python",name:"pybind11",constraint:"<3.0.5",candidates:[{id:"dev-python/pybind11-3.0.4",inst:false},{id:"dev-python/pybind11-3.0.2",inst:true},{id:"dev-python/pybind11-3.0.1",inst:false}]},{type:"pkg_dep",strength:"no",cat:"dev-python",name:"pyyaml",constraint:"*",candidates:[{id:"dev-python/pyyaml-6.0.3",inst:true}]},{type:"pkg_dep",strength:"no",cat:"dev-python",name:"typing-extensions",constraint:"*",candidates:[{id:"dev-python/typing-extensions-4.16.0",inst:false},{id:"dev-python/typing-extensions-4.15.0",inst:true}]}]},
+    {type:"use_cond",cond:"positive",flag:"python_single_target_python3_12",children:[{type:"pkg_dep",strength:"no",cat:"dev-python",name:"sympy",constraint:"*",candidates:[{id:"dev-python/sympy-1.14.0-r2",inst:false}]},{type:"pkg_dep",strength:"no",cat:"dev-python",name:"typing-extensions",constraint:"*",candidates:[{id:"dev-python/typing-extensions-4.16.0",inst:false},{id:"dev-python/typing-extensions-4.15.0",inst:true}]}]},
+    {type:"use_cond",cond:"positive",flag:"python_single_target_python3_13",children:[{type:"pkg_dep",strength:"no",cat:"dev-lang",name:"python",constraint:"*",candidates:[{id:"dev-lang/python-3.15.9999",inst:false},{id:"dev-lang/python-3.15.0_rc2",inst:false},{id:"dev-lang/python-3.15.0_rc1_p1-r1",inst:false},{id:"dev-lang/python-3.15.0_rc1",inst:false},{id:"dev-lang/python-3.15.0_beta4",inst:false},{id:"dev-lang/python-3.15.0_beta3",inst:false},{id:"dev-lang/python-3.15.0_beta2",inst:false},{id:"dev-lang/python-3.14.9999",inst:false},{id:"dev-lang/python-3.14.7",inst:false},{id:"dev-lang/python-3.14.6_p1",inst:false},{id:"dev-lang/python-3.14.6",inst:false},{id:"dev-lang/python-3.14.3",inst:true},{id:"dev-lang/python-3.13.9999",inst:false},{id:"dev-lang/python-3.13.15",inst:false},{id:"dev-lang/python-3.13.14",inst:false},{id:"dev-lang/python-3.13.12",inst:true},{id:"dev-lang/python-3.12.9999",inst:false},{id:"dev-lang/python-3.12.14",inst:false},{id:"dev-lang/python-3.12.13_p1",inst:false},{id:"dev-lang/python-3.11.9999",inst:false},{id:"dev-lang/python-3.11.16",inst:false},{id:"dev-lang/python-3.11.15-r1",inst:false},{id:"dev-lang/python-3.10.9999",inst:false},{id:"dev-lang/python-3.10.21",inst:false},{id:"dev-lang/python-3.10.20",inst:false},{id:"dev-lang/python-3.9.25",inst:false},{id:"dev-lang/python-3.8.20_p7-r1",inst:false},{id:"dev-lang/python-2.7.18_p16-r2",inst:false},{id:"dev-lang/python-0.3.15.9999",inst:false},{id:"dev-lang/python-0.3.15.0_rc2",inst:false},{id:"dev-lang/python-0.3.15.0_rc1-r1",inst:false},{id:"dev-lang/python-0.3.15.0_beta4",inst:false},{id:"dev-lang/python-0.3.15.0_beta3",inst:false},{id:"dev-lang/python-0.3.15.0_beta2",inst:false},{id:"dev-lang/python-0.3.14.9999",inst:false},{id:"dev-lang/python-0.3.14.7",inst:false},{id:"dev-lang/python-0.3.14.6_p1",inst:false},{id:"dev-lang/python-0.3.14.6",inst:false},{id:"dev-lang/python-0.3.13.9999",inst:false},{id:"dev-lang/python-0.3.13.15",inst:false},{id:"dev-lang/python-0.3.13.14",inst:false}]}]},
+    {type:"use_cond",cond:"positive",flag:"python_single_target_python3_13",children:[{type:"pkg_dep",strength:"no",cat:"dev-python",name:"gpep517",constraint:">=16",candidates:[{id:"dev-python/gpep517-22",inst:false},{id:"dev-python/gpep517-20",inst:false},{id:"dev-python/gpep517-19",inst:true}]},{type:"pkg_dep",strength:"no",cat:"dev-python",name:"scikit-build-core",constraint:"*",candidates:[{id:"dev-python/scikit-build-core-1.0.3",inst:false},{id:"dev-python/scikit-build-core-1.0.2",inst:false},{id:"dev-python/scikit-build-core-0.12.2",inst:true}]}]},
+    {type:"use_cond",cond:"positive",flag:"python_single_target_python3_13",children:[{type:"pkg_dep",strength:"no",cat:"dev-python",name:"pybind11",constraint:"<3.0.5",candidates:[{id:"dev-python/pybind11-3.0.4",inst:false},{id:"dev-python/pybind11-3.0.2",inst:true},{id:"dev-python/pybind11-3.0.1",inst:false}]},{type:"pkg_dep",strength:"no",cat:"dev-python",name:"pyyaml",constraint:"*",candidates:[{id:"dev-python/pyyaml-6.0.3",inst:true}]},{type:"pkg_dep",strength:"no",cat:"dev-python",name:"typing-extensions",constraint:"*",candidates:[{id:"dev-python/typing-extensions-4.16.0",inst:false},{id:"dev-python/typing-extensions-4.15.0",inst:true}]}]},
+    {type:"use_cond",cond:"positive",flag:"python_single_target_python3_13",children:[{type:"pkg_dep",strength:"no",cat:"dev-python",name:"sympy",constraint:"*",candidates:[{id:"dev-python/sympy-1.14.0-r2",inst:false}]},{type:"pkg_dep",strength:"no",cat:"dev-python",name:"typing-extensions",constraint:"*",candidates:[{id:"dev-python/typing-extensions-4.16.0",inst:false},{id:"dev-python/typing-extensions-4.15.0",inst:true}]}]},
+    {type:"use_cond",cond:"positive",flag:"python_single_target_python3_14",children:[{type:"pkg_dep",strength:"no",cat:"dev-lang",name:"python",constraint:"*",candidates:[{id:"dev-lang/python-3.15.9999",inst:false},{id:"dev-lang/python-3.15.0_rc2",inst:false},{id:"dev-lang/python-3.15.0_rc1_p1-r1",inst:false},{id:"dev-lang/python-3.15.0_rc1",inst:false},{id:"dev-lang/python-3.15.0_beta4",inst:false},{id:"dev-lang/python-3.15.0_beta3",inst:false},{id:"dev-lang/python-3.15.0_beta2",inst:false},{id:"dev-lang/python-3.14.9999",inst:false},{id:"dev-lang/python-3.14.7",inst:false},{id:"dev-lang/python-3.14.6_p1",inst:false},{id:"dev-lang/python-3.14.6",inst:false},{id:"dev-lang/python-3.14.3",inst:true},{id:"dev-lang/python-3.13.9999",inst:false},{id:"dev-lang/python-3.13.15",inst:false},{id:"dev-lang/python-3.13.14",inst:false},{id:"dev-lang/python-3.13.12",inst:true},{id:"dev-lang/python-3.12.9999",inst:false},{id:"dev-lang/python-3.12.14",inst:false},{id:"dev-lang/python-3.12.13_p1",inst:false},{id:"dev-lang/python-3.11.9999",inst:false},{id:"dev-lang/python-3.11.16",inst:false},{id:"dev-lang/python-3.11.15-r1",inst:false},{id:"dev-lang/python-3.10.9999",inst:false},{id:"dev-lang/python-3.10.21",inst:false},{id:"dev-lang/python-3.10.20",inst:false},{id:"dev-lang/python-3.9.25",inst:false},{id:"dev-lang/python-3.8.20_p7-r1",inst:false},{id:"dev-lang/python-2.7.18_p16-r2",inst:false},{id:"dev-lang/python-0.3.15.9999",inst:false},{id:"dev-lang/python-0.3.15.0_rc2",inst:false},{id:"dev-lang/python-0.3.15.0_rc1-r1",inst:false},{id:"dev-lang/python-0.3.15.0_beta4",inst:false},{id:"dev-lang/python-0.3.15.0_beta3",inst:false},{id:"dev-lang/python-0.3.15.0_beta2",inst:false},{id:"dev-lang/python-0.3.14.9999",inst:false},{id:"dev-lang/python-0.3.14.7",inst:false},{id:"dev-lang/python-0.3.14.6_p1",inst:false},{id:"dev-lang/python-0.3.14.6",inst:false},{id:"dev-lang/python-0.3.13.9999",inst:false},{id:"dev-lang/python-0.3.13.15",inst:false},{id:"dev-lang/python-0.3.13.14",inst:false}]}]},
+    {type:"use_cond",cond:"positive",flag:"python_single_target_python3_14",children:[{type:"pkg_dep",strength:"no",cat:"dev-python",name:"gpep517",constraint:">=16",candidates:[{id:"dev-python/gpep517-22",inst:false},{id:"dev-python/gpep517-20",inst:false},{id:"dev-python/gpep517-19",inst:true}]},{type:"pkg_dep",strength:"no",cat:"dev-python",name:"scikit-build-core",constraint:"*",candidates:[{id:"dev-python/scikit-build-core-1.0.3",inst:false},{id:"dev-python/scikit-build-core-1.0.2",inst:false},{id:"dev-python/scikit-build-core-0.12.2",inst:true}]}]},
+    {type:"use_cond",cond:"positive",flag:"python_single_target_python3_14",children:[{type:"pkg_dep",strength:"no",cat:"dev-python",name:"pybind11",constraint:"<3.0.5",candidates:[{id:"dev-python/pybind11-3.0.4",inst:false},{id:"dev-python/pybind11-3.0.2",inst:true},{id:"dev-python/pybind11-3.0.1",inst:false}]},{type:"pkg_dep",strength:"no",cat:"dev-python",name:"pyyaml",constraint:"*",candidates:[{id:"dev-python/pyyaml-6.0.3",inst:true}]},{type:"pkg_dep",strength:"no",cat:"dev-python",name:"typing-extensions",constraint:"*",candidates:[{id:"dev-python/typing-extensions-4.16.0",inst:false},{id:"dev-python/typing-extensions-4.15.0",inst:true}]}]},
+    {type:"use_cond",cond:"positive",flag:"python_single_target_python3_14",children:[{type:"pkg_dep",strength:"no",cat:"dev-python",name:"sympy",constraint:"*",candidates:[{id:"dev-python/sympy-1.14.0-r2",inst:false}]},{type:"pkg_dep",strength:"no",cat:"dev-python",name:"typing-extensions",constraint:"*",candidates:[{id:"dev-python/typing-extensions-4.16.0",inst:false},{id:"dev-python/typing-extensions-4.15.0",inst:true}]}]},
+    {type:"use_cond",cond:"positive",flag:"qnnpack",children:[{type:"pkg_dep",strength:"no",cat:"dev-libs",name:"clog",constraint:"*",candidates:[{id:"dev-libs/clog-2023.11.04",inst:false}]}]},
+    {type:"use_cond",cond:"positive",flag:"qnnpack",children:[{type:"pkg_dep",strength:"weak",cat:"sci-libs",name:"QNNPACK",constraint:"*",candidates:[]},{type:"pkg_dep",strength:"no",cat:"sci-ml",name:"gemmlowp",constraint:"*",candidates:[{id:"sci-ml/gemmlowp-2021.12.20",inst:false}]},{type:"pkg_dep",strength:"no",cat:"dev-libs",name:"pthreadpool",constraint:"*",candidates:[{id:"dev-libs/pthreadpool-2023.08.29",inst:false}]}]},
+    {type:"use_cond",cond:"positive",flag:"rocm",children:[{type:"use_cond",cond:"positive",flag:"nccl",children:[{type:"pkg_dep",strength:"no",cat:"dev-libs",name:"rccl",constraint:">=6.3",candidates:[{id:"dev-libs/rccl-7.2.0",inst:false},{id:"dev-libs/rccl-7.1.0",inst:false},{id:"dev-libs/rccl-7.0.2",inst:false},{id:"dev-libs/rccl-6.4.3",inst:false},{id:"dev-libs/rccl-6.3.0",inst:false}]},{type:"pkg_dep",strength:"no",cat:"dev-libs",name:"rccl",constraint:"<7.3",candidates:[{id:"dev-libs/rccl-7.2.0",inst:false},{id:"dev-libs/rccl-7.1.0",inst:false},{id:"dev-libs/rccl-7.0.2",inst:false},{id:"dev-libs/rccl-6.4.3",inst:false},{id:"dev-libs/rccl-6.3.0",inst:false}]}]},{type:"pkg_dep",strength:"no",cat:"dev-util",name:"hip",constraint:">=6.3",candidates:[{id:"dev-util/hip-7.2.0-r1",inst:false},{id:"dev-util/hip-7.1.0-r1",inst:false},{id:"dev-util/hip-7.0.2-r1",inst:false},{id:"dev-util/hip-6.4.3-r2",inst:false},{id:"dev-util/hip-6.3.3-r2",inst:false}]},{type:"pkg_dep",strength:"no",cat:"dev-util",name:"hip",constraint:"<7.3",candidates:[{id:"dev-util/hip-7.2.0-r1",inst:false},{id:"dev-util/hip-7.1.0-r1",inst:false},{id:"dev-util/hip-7.0.2-r1",inst:false},{id:"dev-util/hip-6.4.3-r2",inst:false},{id:"dev-util/hip-6.3.3-r2",inst:false}]},{type:"pkg_dep",strength:"no",cat:"dev-util",name:"roctracer",constraint:">=6.3",candidates:[{id:"dev-util/roctracer-7.2.0",inst:false},{id:"dev-util/roctracer-7.1.0",inst:false},{id:"dev-util/roctracer-7.0.2",inst:false},{id:"dev-util/roctracer-6.4.3",inst:false},{id:"dev-util/roctracer-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"dev-util",name:"roctracer",constraint:"<7.3",candidates:[{id:"dev-util/roctracer-7.2.0",inst:false},{id:"dev-util/roctracer-7.1.0",inst:false},{id:"dev-util/roctracer-7.0.2",inst:false},{id:"dev-util/roctracer-6.4.3",inst:false},{id:"dev-util/roctracer-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"hipBLAS",constraint:">=6.3",candidates:[{id:"sci-libs/hipBLAS-7.2.0",inst:false},{id:"sci-libs/hipBLAS-7.1.0",inst:false},{id:"sci-libs/hipBLAS-7.0.2",inst:false},{id:"sci-libs/hipBLAS-6.4.3-r1",inst:false},{id:"sci-libs/hipBLAS-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"hipBLAS",constraint:"<7.3",candidates:[{id:"sci-libs/hipBLAS-7.2.0",inst:false},{id:"sci-libs/hipBLAS-7.1.0",inst:false},{id:"sci-libs/hipBLAS-7.0.2",inst:false},{id:"sci-libs/hipBLAS-6.4.3-r1",inst:false},{id:"sci-libs/hipBLAS-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"hipBLASLt",constraint:">=6.3",candidates:[{id:"sci-libs/hipBLASLt-7.2.0",inst:false},{id:"sci-libs/hipBLASLt-7.1.0-r2",inst:false},{id:"sci-libs/hipBLASLt-7.0.2-r2",inst:false},{id:"sci-libs/hipBLASLt-6.4.3",inst:false},{id:"sci-libs/hipBLASLt-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"hipBLASLt",constraint:"<7.3",candidates:[{id:"sci-libs/hipBLASLt-7.2.0",inst:false},{id:"sci-libs/hipBLASLt-7.1.0-r2",inst:false},{id:"sci-libs/hipBLASLt-7.0.2-r2",inst:false},{id:"sci-libs/hipBLASLt-6.4.3",inst:false},{id:"sci-libs/hipBLASLt-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"hipFFT",constraint:">=6.3",candidates:[{id:"sci-libs/hipFFT-7.2.0",inst:false},{id:"sci-libs/hipFFT-7.1.0",inst:false},{id:"sci-libs/hipFFT-7.0.2",inst:false},{id:"sci-libs/hipFFT-6.4.3",inst:false},{id:"sci-libs/hipFFT-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"hipFFT",constraint:"<7.3",candidates:[{id:"sci-libs/hipFFT-7.2.0",inst:false},{id:"sci-libs/hipFFT-7.1.0",inst:false},{id:"sci-libs/hipFFT-7.0.2",inst:false},{id:"sci-libs/hipFFT-6.4.3",inst:false},{id:"sci-libs/hipFFT-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"hipRAND",constraint:">=6.3",candidates:[{id:"sci-libs/hipRAND-7.2.0",inst:false},{id:"sci-libs/hipRAND-7.1.0",inst:false},{id:"sci-libs/hipRAND-7.0.2",inst:false},{id:"sci-libs/hipRAND-6.4.3",inst:false},{id:"sci-libs/hipRAND-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"hipRAND",constraint:"<7.3",candidates:[{id:"sci-libs/hipRAND-7.2.0",inst:false},{id:"sci-libs/hipRAND-7.1.0",inst:false},{id:"sci-libs/hipRAND-7.0.2",inst:false},{id:"sci-libs/hipRAND-6.4.3",inst:false},{id:"sci-libs/hipRAND-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"hipSOLVER",constraint:">=6.3",candidates:[{id:"sci-libs/hipSOLVER-7.2.0",inst:false},{id:"sci-libs/hipSOLVER-7.1.0",inst:false},{id:"sci-libs/hipSOLVER-7.0.2",inst:false},{id:"sci-libs/hipSOLVER-6.4.3",inst:false},{id:"sci-libs/hipSOLVER-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"hipSOLVER",constraint:"<7.3",candidates:[{id:"sci-libs/hipSOLVER-7.2.0",inst:false},{id:"sci-libs/hipSOLVER-7.1.0",inst:false},{id:"sci-libs/hipSOLVER-7.0.2",inst:false},{id:"sci-libs/hipSOLVER-6.4.3",inst:false},{id:"sci-libs/hipSOLVER-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"hipSPARSE",constraint:">=6.3",candidates:[{id:"sci-libs/hipSPARSE-7.2.0",inst:false},{id:"sci-libs/hipSPARSE-7.1.0",inst:false},{id:"sci-libs/hipSPARSE-7.0.2",inst:false},{id:"sci-libs/hipSPARSE-6.4.3",inst:false},{id:"sci-libs/hipSPARSE-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"hipSPARSE",constraint:"<7.3",candidates:[{id:"sci-libs/hipSPARSE-7.2.0",inst:false},{id:"sci-libs/hipSPARSE-7.1.0",inst:false},{id:"sci-libs/hipSPARSE-7.0.2",inst:false},{id:"sci-libs/hipSPARSE-6.4.3",inst:false},{id:"sci-libs/hipSPARSE-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"miopen",constraint:">=6.3",candidates:[{id:"sci-libs/miopen-7.2.0",inst:false},{id:"sci-libs/miopen-7.1.0-r1",inst:false},{id:"sci-libs/miopen-7.0.2",inst:false},{id:"sci-libs/miopen-6.4.3-r1",inst:false},{id:"sci-libs/miopen-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"miopen",constraint:"<7.3",candidates:[{id:"sci-libs/miopen-7.2.0",inst:false},{id:"sci-libs/miopen-7.1.0-r1",inst:false},{id:"sci-libs/miopen-7.0.2",inst:false},{id:"sci-libs/miopen-6.4.3-r1",inst:false},{id:"sci-libs/miopen-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"rocBLAS",constraint:">=6.3",candidates:[{id:"sci-libs/rocBLAS-9999",inst:false},{id:"sci-libs/rocBLAS-7.2.0",inst:false},{id:"sci-libs/rocBLAS-7.1.0",inst:false},{id:"sci-libs/rocBLAS-7.0.2-r1",inst:false},{id:"sci-libs/rocBLAS-6.4.3-r1",inst:false},{id:"sci-libs/rocBLAS-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"rocBLAS",constraint:"<7.3",candidates:[{id:"sci-libs/rocBLAS-7.2.0",inst:false},{id:"sci-libs/rocBLAS-7.1.0",inst:false},{id:"sci-libs/rocBLAS-7.0.2-r1",inst:false},{id:"sci-libs/rocBLAS-6.4.3-r1",inst:false},{id:"sci-libs/rocBLAS-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"rocRAND",constraint:">=6.3",candidates:[{id:"sci-libs/rocRAND-7.2.0",inst:false},{id:"sci-libs/rocRAND-7.1.0",inst:false},{id:"sci-libs/rocRAND-7.0.2",inst:false},{id:"sci-libs/rocRAND-6.4.3",inst:false},{id:"sci-libs/rocRAND-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"rocRAND",constraint:"<7.3",candidates:[{id:"sci-libs/rocRAND-7.2.0",inst:false},{id:"sci-libs/rocRAND-7.1.0",inst:false},{id:"sci-libs/rocRAND-7.0.2",inst:false},{id:"sci-libs/rocRAND-6.4.3",inst:false},{id:"sci-libs/rocRAND-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"rocSOLVER",constraint:">=6.3",candidates:[{id:"sci-libs/rocSOLVER-7.2.0",inst:false},{id:"sci-libs/rocSOLVER-7.1.0-r1",inst:false},{id:"sci-libs/rocSOLVER-7.0.2-r1",inst:false},{id:"sci-libs/rocSOLVER-6.4.3",inst:false},{id:"sci-libs/rocSOLVER-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"rocSOLVER",constraint:"<7.3",candidates:[{id:"sci-libs/rocSOLVER-7.2.0",inst:false},{id:"sci-libs/rocSOLVER-7.1.0-r1",inst:false},{id:"sci-libs/rocSOLVER-7.0.2-r1",inst:false},{id:"sci-libs/rocSOLVER-6.4.3",inst:false},{id:"sci-libs/rocSOLVER-6.3.3",inst:false}]},{type:"use_cond",cond:"positive",flag:"memefficient",children:[{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"aotriton-bin",constraint:"0.13*",candidates:[{id:"sci-libs/aotriton-bin-0.13b",inst:false}]}]},{type:"use_cond",cond:"positive",flag:"distributed",children:[{type:"pkg_dep",strength:"no",cat:"dev-util",name:"rocm-smi",constraint:">=6.3",candidates:[{id:"dev-util/rocm-smi-7.2.0",inst:false},{id:"dev-util/rocm-smi-7.1.0",inst:false},{id:"dev-util/rocm-smi-7.0.2",inst:false},{id:"dev-util/rocm-smi-6.4.3-r1",inst:false},{id:"dev-util/rocm-smi-6.3.3-r1",inst:false}]},{type:"pkg_dep",strength:"no",cat:"dev-util",name:"rocm-smi",constraint:"<7.3",candidates:[{id:"dev-util/rocm-smi-7.2.0",inst:false},{id:"dev-util/rocm-smi-7.1.0",inst:false},{id:"dev-util/rocm-smi-7.0.2",inst:false},{id:"dev-util/rocm-smi-6.4.3-r1",inst:false},{id:"dev-util/rocm-smi-6.3.3-r1",inst:false}]},{type:"pkg_dep",strength:"no",cat:"dev-util",name:"amdsmi",constraint:">=6.3",candidates:[{id:"dev-util/amdsmi-7.2.0",inst:false},{id:"dev-util/amdsmi-7.1.1",inst:false},{id:"dev-util/amdsmi-7.0.2",inst:false}]},{type:"pkg_dep",strength:"no",cat:"dev-util",name:"amdsmi",constraint:"<7.3",candidates:[{id:"dev-util/amdsmi-7.2.0",inst:false},{id:"dev-util/amdsmi-7.1.1",inst:false},{id:"dev-util/amdsmi-7.0.2",inst:false}]}]},{type:"use_cond",cond:"positive",flag:"cusparselt",children:[{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"hipsparselt",constraint:">=6.3",candidates:[{id:"sci-libs/hipsparselt-7.2.0",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"hipsparselt",constraint:"<7.3",candidates:[{id:"sci-libs/hipsparselt-7.2.0",inst:false}]}]}]},
+    {type:"use_cond",cond:"positive",flag:"rocm",children:[{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"hipCUB",constraint:">=6.3",candidates:[{id:"sci-libs/hipCUB-7.2.0",inst:false},{id:"sci-libs/hipCUB-7.1.0",inst:false},{id:"sci-libs/hipCUB-7.0.2",inst:false},{id:"sci-libs/hipCUB-6.4.3",inst:false},{id:"sci-libs/hipCUB-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"hipCUB",constraint:"<7.3",candidates:[{id:"sci-libs/hipCUB-7.2.0",inst:false},{id:"sci-libs/hipCUB-7.1.0",inst:false},{id:"sci-libs/hipCUB-7.0.2",inst:false},{id:"sci-libs/hipCUB-6.4.3",inst:false},{id:"sci-libs/hipCUB-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"rocPRIM",constraint:">=6.3",candidates:[{id:"sci-libs/rocPRIM-7.2.0",inst:false},{id:"sci-libs/rocPRIM-7.1.0",inst:false},{id:"sci-libs/rocPRIM-7.0.2",inst:false},{id:"sci-libs/rocPRIM-6.4.3",inst:false},{id:"sci-libs/rocPRIM-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"rocPRIM",constraint:"<7.3",candidates:[{id:"sci-libs/rocPRIM-7.2.0",inst:false},{id:"sci-libs/rocPRIM-7.1.0",inst:false},{id:"sci-libs/rocPRIM-7.0.2",inst:false},{id:"sci-libs/rocPRIM-6.4.3",inst:false},{id:"sci-libs/rocPRIM-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"rocThrust",constraint:">=6.3",candidates:[{id:"sci-libs/rocThrust-7.2.0",inst:false},{id:"sci-libs/rocThrust-7.1.0",inst:false},{id:"sci-libs/rocThrust-7.0.2",inst:false},{id:"sci-libs/rocThrust-6.4.3",inst:false},{id:"sci-libs/rocThrust-6.3.3",inst:false}]},{type:"pkg_dep",strength:"no",cat:"sci-libs",name:"rocThrust",constraint:"<7.3",candidates:[{id:"sci-libs/rocThrust-7.2.0",inst:false},{id:"sci-libs/rocThrust-7.1.0",inst:false},{id:"sci-libs/rocThrust-7.0.2",inst:false},{id:"sci-libs/rocThrust-6.4.3",inst:false},{id:"sci-libs/rocThrust-6.3.3",inst:false}]}]},
+    {type:"use_cond",cond:"positive",flag:"xnnpack",children:[{type:"pkg_dep",strength:"no",cat:"sci-ml",name:"XNNPACK",constraint:">=2024.11",candidates:[{id:"sci-ml/XNNPACK-2024.12.03",inst:false}]},{type:"pkg_dep",strength:"no",cat:"dev-libs",name:"pthreadpool",constraint:"*",candidates:[{id:"dev-libs/pthreadpool-2023.08.29",inst:false}]}]},
+    {type:"pkg_dep",strength:"no",cat:"dev-build",name:"cmake",constraint:"*",candidates:[{id:"dev-build/cmake-9999",inst:false},{id:"dev-build/cmake-4.3.4",inst:false},{id:"dev-build/cmake-4.2.4",inst:false},{id:"dev-build/cmake-4.2.3",inst:true},{id:"dev-build/cmake-4.1.5",inst:false},{id:"dev-build/cmake-4.1.4",inst:false}]},
+    {type:"pkg_dep",strength:"no",cat:"dev-cpp",name:"abseil-cpp",constraint:"*",candidates:[{id:"dev-cpp/abseil-cpp-20260107.1",inst:false},{id:"dev-cpp/abseil-cpp-20250814.1",inst:false},{id:"dev-cpp/abseil-cpp-20250512.1",inst:false},{id:"dev-cpp/abseil-cpp-20250127.1",inst:false}]},
+    {type:"pkg_dep",strength:"no",cat:"dev-cpp",name:"gflags",constraint:"*",candidates:[{id:"dev-cpp/gflags-9999",inst:false},{id:"dev-cpp/gflags-2.2.2-r1",inst:false}]},
+    {type:"pkg_dep",strength:"no",cat:"dev-cpp",name:"glog",constraint:">=0.6.0",candidates:[{id:"dev-cpp/glog-0.7.1",inst:false},{id:"dev-cpp/glog-0.6.0-r1",inst:false},{id:"dev-cpp/glog-0.6.0",inst:false}]},
+    {type:"pkg_dep",strength:"no",cat:"dev-cpp",name:"nlohmann_json",constraint:"*",candidates:[{id:"dev-cpp/nlohmann_json-3.12.0-r1",inst:false}]},
+    {type:"pkg_dep",strength:"no",cat:"dev-libs",name:"FXdiv",constraint:"*",candidates:[{id:"dev-libs/FXdiv-2020.12.09-r1",inst:false}]},
+    {type:"pkg_dep",strength:"no",cat:"dev-libs",name:"cpuinfo",constraint:">=2025.11.14",candidates:[{id:"dev-libs/cpuinfo-2026.04.13",inst:false},{id:"dev-libs/cpuinfo-2025.11.14",inst:false}]},
+    {type:"pkg_dep",strength:"no",cat:"dev-libs",name:"flatbuffers",constraint:"*",candidates:[{id:"dev-libs/flatbuffers-25.12.19",inst:false}]},
+    {type:"pkg_dep",strength:"no",cat:"dev-libs",name:"libfmt",constraint:"*",candidates:[{id:"dev-libs/libfmt-9999",inst:false},{id:"dev-libs/libfmt-12.1.0",inst:true},{id:"dev-libs/libfmt-12.0.0",inst:false},{id:"dev-libs/libfmt-11.2.0-r1",inst:false},{id:"dev-libs/libfmt-11.1.4",inst:false},{id:"dev-libs/libfmt-11.1.3",inst:false},{id:"dev-libs/libfmt-11.0.2",inst:false},{id:"dev-libs/libfmt-10.2.1-r2",inst:false},{id:"dev-libs/libfmt-10.1.1-r1",inst:false},{id:"dev-libs/libfmt-9.1.0-r2",inst:false},{id:"dev-libs/libfmt-9.1.0-r1",inst:false}]},
+    {type:"pkg_dep",strength:"no",cat:"dev-libs",name:"pocketfft",constraint:"*",candidates:[{id:"dev-libs/pocketfft-9999",inst:false},{id:"dev-libs/pocketfft-2026.04.10",inst:false},{id:"dev-libs/pocketfft-2024.11.30",inst:false}]},
+    {type:"pkg_dep",strength:"no",cat:"dev-libs",name:"protobuf",constraint:"*",candidates:[{id:"dev-libs/protobuf-9999",inst:false},{id:"dev-libs/protobuf-34.2",inst:false},{id:"dev-libs/protobuf-33.4",inst:false},{id:"dev-libs/protobuf-33.1",inst:false},{id:"dev-libs/protobuf-33.0",inst:false},{id:"dev-libs/protobuf-32.1",inst:false},{id:"dev-libs/protobuf-31.1",inst:false},{id:"dev-libs/protobuf-30.2",inst:false},{id:"dev-libs/protobuf-29.5-r1",inst:false},{id:"dev-libs/protobuf-28.0",inst:false},{id:"dev-libs/protobuf-25.9",inst:false},{id:"dev-libs/protobuf-25.6",inst:false},{id:"dev-libs/protobuf-21.12",inst:false}]},
+    {type:"pkg_dep",strength:"no",cat:"dev-libs",name:"psimd",constraint:"*",candidates:[{id:"dev-libs/psimd-2020.05.17",inst:false}]},
+    {type:"pkg_dep",strength:"no",cat:"dev-libs",name:"sleef",constraint:"*",candidates:[{id:"dev-libs/sleef-3.9.0",inst:false},{id:"dev-libs/sleef-3.8",inst:false}]},
+    {type:"pkg_dep",strength:"no",cat:"sci-ml",name:"FP16",constraint:"*",candidates:[{id:"sci-ml/FP16-2024.06.20",inst:false},{id:"sci-ml/FP16-2024.05.27-r1",inst:false}]},
+    {type:"pkg_dep",strength:"no",cat:"sci-ml",name:"onnx",constraint:"*",candidates:[{id:"sci-ml/onnx-1.20.1",inst:false},{id:"sci-ml/onnx-1.18.0-r1",inst:false}]},
+    {type:"pkg_dep",strength:"weak",cat:"sci-ml",name:"caffe2",constraint:"*",candidates:[{id:"sci-ml/caffe2-2.12.0-r3",inst:false}]}
+  ],
+  both: [
+  ]
+};
+let currentPhase = "install";
+let currentView = "tree";
+let gZoom = 1;
+let isPanning = false, panStart = {x:0,y:0}, vbStart = {x:0,y:0};
+function escHTML(s) {
+  if (typeof s !== "string") s = String(s);
+  return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+function countDeps(nodes) {
+  let c = 0;
+  (nodes||[]).forEach(n => { if (n.type==="pkg_dep") c++; if (n.children) c += countDeps(n.children); });
+  return c;
+}
+function countConds(nodes) {
+  let c = 0;
+  (nodes||[]).forEach(n => { if (n.type==="use_cond") c++; if (n.children) c += countConds(n.children); });
+  return c;
+}
+function countCandidates(nodes) {
+  let c = 0;
+  (nodes||[]).forEach(n => { if (n.candidates) c += n.candidates.length; if (n.children) c += countCandidates(n.children); });
+  return c;
+}
+function countChildren(node) {
+  if (node.type==="pkg_dep") return 0;
+  return (node.children||[]).length;
+}
+function renderTree() {
+  const data = depData[currentPhase] || [];
+  const el = document.getElementById("tree-container");
+  if (!data.length) { el.innerHTML = "<div class=\"tree-empty\">No dependencies for this phase.</div>"; updateSubtitle(); return; }
+  el.innerHTML = buildTreeHTML(data);
+  updateSubtitle();
+}
+function updateSubtitle() {
+  const data = depData[currentPhase] || [];
+  const d = countDeps(data), c = countConds(data), k = countCandidates(data);
+  document.getElementById("subtitle").textContent =
+    d + " dependencies \u00b7 " + c + " use conditionals \u00b7 " + k + " candidates";
+}
+function buildTreeHTML(nodes) {
+  let h = "";
+  (nodes||[]).forEach(node => {
+    h += "<div class=\"tree-node\">";
+    if (node.type === "use_cond") {
+      const cls = node.cond === "positive" ? "badge-use-pos" : "badge-use-neg";
+      const sign = node.cond === "positive" ? "+" : "-";
+      const n = countChildren(node);
+      h += "<div class=\"group-row\" onclick=\"toggleGroup(this)\">";
+      h += "<span class=\"toggle-icon\">&#9662;</span>";
+      h += "<span class=\"type-badge " + cls + "\">" + sign + escHTML(node.flag) + "</span>";
+      h += "<span class=\"group-label\">use_conditional</span>";
+      h += "<span class=\"group-count\">" + n + " dep" + (n!==1?"s":"") + "</span>";
+      h += "</div>";
+      h += "<div class=\"tree-children\">" + buildTreeHTML(node.children) + "</div>";
+    } else if (["any_of","all_of","exactly_one_of","at_most_one_of"].indexOf(node.type) >= 0) {
+      const info = {any_of:["any of","badge-any-of","at least one required"],
+                    all_of:["all of","badge-all-of","all required"],
+                    exactly_one_of:["exactly one of","badge-exactly-one","exactly one required"],
+                    at_most_one_of:["at most one of","badge-at-most-one","at most one required"]};
+      const [label, cls, desc] = info[node.type];
+      const n = (node.children||[]).length;
+      h += "<div class=\"group-row\" onclick=\"toggleGroup(this)\">";
+      h += "<span class=\"toggle-icon\">&#9662;</span>";
+      h += "<span class=\"type-badge " + cls + "\">" + label + "</span>";
+      h += "<span class=\"group-label\">" + desc + "</span>";
+      h += "<span class=\"group-count\">" + n + " option" + (n!==1?"s":"") + "</span>";
+      h += "</div>";
+      h += "<div class=\"tree-children\">" + buildTreeHTML(node.children) + "</div>";
+    } else if (node.type === "pkg_dep") {
+      const nc = (node.candidates||[]).length;
+      const firstId = nc > 0 ? node.candidates[0].id : "";
+      h += "<div class=\"pkg-row\">";
+      h += "<span class=\"pkg-connector\"></span>";
+      h += "<span class=\"pkg-cat\">" + escHTML(node.cat) + "/</span>";
+      h += "<span class=\"pkg-name\"><a href=\"../" + firstId + "-detail.html\">" + escHTML(node.name) + "</a></span>";
+      h += "<span class=\"pkg-constraint\">" + escHTML(node.constraint) + "</span>";
+      if (node.strength !== "no") {
+        h += "<span class=\"pkg-blocker " + node.strength + "\">" + node.strength + " blocker</span>";
+      }
+      h += "<span class=\"candidates-toggle\" onclick=\"toggleCandidates(this)\">" + nc + " candidate" + (nc!==1?"s":"") + " <span class=\"arrow\">&#9656;</span></span>";
+      h += "</div>";
+      h += "<div class=\"candidates-list\">";
+      (node.candidates||[]).forEach(c => {
+        h += "<div class=\"candidate-item\">";
+        h += "<a href=\"../" + c.id + "-detail.html\">" + escHTML(c.id) + "</a>";
+        if (c.inst) h += " <span class=\"candidate-installed\">installed</span>";
+        h += "</div>";
+      });
+      h += "</div>";
+    }
+    h += "</div>";
+  });
+  return h;
+}
+function toggleGroup(row) {
+  const icon = row.querySelector(".toggle-icon");
+  const ch = row.parentElement.querySelector(".tree-children");
+  if (!ch) return;
+  if (ch.style.display === "none") { ch.style.display = "block"; icon.classList.remove("collapsed"); }
+  else { ch.style.display = "none"; icon.classList.add("collapsed"); }
+}
+function toggleCandidates(el) {
+  const list = el.parentElement.nextElementSibling;
+  if (!list || !list.classList.contains("candidates-list")) return;
+  list.classList.toggle("open");
+  const arrow = el.querySelector(".arrow");
+  arrow.innerHTML = list.classList.contains("open") ? "&#9662;" : "&#9656;";
+}
+function expandAll() {
+  document.querySelectorAll(".tree-children").forEach(c => c.style.display = "block");
+  document.querySelectorAll(".toggle-icon").forEach(i => i.classList.remove("collapsed"));
+}
+function collapseAll() {
+  document.querySelectorAll(".tree-children").forEach(c => c.style.display = "none");
+  document.querySelectorAll(".toggle-icon").forEach(i => i.classList.add("collapsed"));
+}
+function expandCandidates() {
+  document.querySelectorAll(".candidates-list").forEach(c => c.classList.add("open"));
+  document.querySelectorAll(".candidates-toggle .arrow").forEach(a => a.innerHTML = "&#9662;");
+}
+function collapseCandidates() {
+  document.querySelectorAll(".candidates-list").forEach(c => c.classList.remove("open"));
+  document.querySelectorAll(".candidates-toggle .arrow").forEach(a => a.innerHTML = "&#9656;");
+}
+const CARD_W = 160, CARD_H = 36, LAYER_X = 210, GAP_Y = 10;
+const nodeColors = {
+  ebuild:         {fill:"var(--blue-bg)",   stroke:"var(--accent)",  text:"var(--accent)"},
+  use_cond_pos:   {fill:"var(--green-bg)",  stroke:"var(--green)",   text:"var(--green)"},
+  use_cond_neg:   {fill:"var(--red-bg)",    stroke:"var(--red)",     text:"var(--red)"},
+  any_of:         {fill:"var(--orange-bg)", stroke:"var(--orange)",  text:"var(--orange)"},
+  all_of:         {fill:"var(--blue-bg)",   stroke:"var(--blue)",    text:"var(--blue)"},
+  exactly_one_of: {fill:"var(--purple-bg)", stroke:"var(--purple)",  text:"var(--purple)"},
+  at_most_one_of: {fill:"var(--gray-bg)",   stroke:"var(--gray-c)",  text:"var(--gray-c)"},
+  pkg_dep:        {fill:"var(--node-bg)",   stroke:"var(--node-border)", text:"var(--text)"},
+  blocker_weak:   {fill:"var(--orange-bg)", stroke:"var(--orange)",  text:"var(--orange)"},
+  blocker_strong: {fill:"var(--red-bg)",    stroke:"var(--red)",     text:"var(--red)"},
+  candidate:      {fill:"var(--surface2)",  stroke:"var(--border2)", text:"var(--text2)"},
+  candidate_inst: {fill:"var(--green-bg)",  stroke:"var(--green-border)", text:"var(--green)"}
+};
+function flattenTree(nodes, parentId, depth) {
+  const flat = [], edges = [];
+  (nodes||[]).forEach((node, i) => {
+    const id = parentId + "_" + i;
+    let nodeType = node.type;
+    let label1 = "", label2 = "";
+    let edgeStyle = "solid";
+    if (node.type === "use_cond") {
+      nodeType = node.cond === "positive" ? "use_cond_pos" : "use_cond_neg";
+      label1 = (node.cond === "positive" ? "+" : "-") + node.flag;
+      label2 = "use_conditional";
+      edgeStyle = "dashed";
+    } else if (node.type === "pkg_dep") {
+      if (node.strength === "weak") nodeType = "blocker_weak";
+      else if (node.strength === "strong") nodeType = "blocker_strong";
+      label1 = node.cat + "/" + node.name;
+      label2 = node.constraint;
+    } else {
+      label1 = node.type.replace(/_/g, " ");
+      edgeStyle = node.type === "all_of" ? "solid" : "dotted";
+    }
+    flat.push({id, nodeType, label1, label2, depth});
+    if (parentId !== "root") edges.push({from: parentId, to: id, style: edgeStyle});
+    else edges.push({from: "root", to: id, style: "solid"});
+    if (node.candidates && node.candidates.length) {
+      node.candidates.forEach((c, ci) => {
+        const cid = id + "_c" + ci;
+        const cType = c.inst ? "candidate_inst" : "candidate";
+        const parts = c.id.split("/");
+        const cLabel = parts.length > 1 ? parts[1] : c.id;
+        flat.push({id: cid, nodeType: cType, label1: cLabel, label2: c.inst ? "installed" : "", depth: depth + 1});
+        edges.push({from: id, to: cid, style: "dotted"});
+      });
+    }
+    if (node.children) {
+      const sub = flattenTree(node.children, id, depth + 1);
+      flat.push(...sub.flat); edges.push(...sub.edges);
+    }
+  });
+  return {flat, edges};
+}
+function renderGraph() {
+  const data = depData[currentPhase] || [];
+  const svg = document.getElementById("graph-svg");
+  if (!data.length) { svg.innerHTML = ""; return; }
+  const {flat, edges} = flattenTree(data, "root", 1);
+  flat.unshift({id:"root", nodeType:"ebuild", label1:rootLabel, label2:"ebuild", depth:0});
+  const positions = layoutGraph(flat, edges);
+  let svgContent = "";
+  edges.forEach(e => {
+    const fp = positions[e.from], tp = positions[e.to];
+    if (!fp || !tp) return;
+    const x1 = fp.x + CARD_W, y1 = fp.y + CARD_H / 2;
+    const x2 = tp.x, y2 = tp.y + CARD_H / 2;
+    const mx = (x1 + x2) / 2;
+    let dash = "";
+    if (e.style === "dashed") dash = " stroke-dasharray=\"6,3\"";
+    if (e.style === "dotted") dash = " stroke-dasharray=\"2,4\"";
+    svgContent += "<path d=\"M" + x1 + "," + y1 + " C" + mx + "," + y1 + " " + mx + "," + y2 + " " + x2 + "," + y2 + "\"" +
+      " fill=\"none\" stroke=\"var(--edge-color)\" stroke-width=\"1.3\"" + dash + " opacity=\"0.5\"/>";
+    const aS = 4;
+    svgContent += "<polygon points=\"" + x2 + "," + y2 + " " + (x2-aS*1.5) + "," + (y2-aS) + " " + (x2-aS*1.5) + "," + (y2+aS) + "\" fill=\"var(--edge-color)\" opacity=\"0.5\"/>";
+  });
+  flat.forEach(n => {
+    const pos = positions[n.id];
+    if (!pos) return;
+    const c = nodeColors[n.nodeType] || nodeColors.pkg_dep;
+    svgContent += "<g>";
+    svgContent += "<rect x=\"" + pos.x + "\" y=\"" + pos.y + "\" width=\"" + CARD_W + "\" height=\"" + CARD_H + "\"" +
+      " rx=\"5\" fill=\"" + c.fill + "\" stroke=\"" + c.stroke + "\" stroke-width=\"1.5\"/>";
+    svgContent += "<text x=\"" + (pos.x + CARD_W/2) + "\" y=\"" + (pos.y + 14) + "\"" +
+      " text-anchor=\"middle\" font-size=\"11\" font-weight=\"600\" fill=\"" + c.text + "\">" + escHTML(n.label1) + "</text>";
+    if (n.label2) {
+      svgContent += "<text x=\"" + (pos.x + CARD_W/2) + "\" y=\"" + (pos.y + 27) + "\"" +
+        " text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text2)\">" + escHTML(n.label2) + "</text>";
+    }
+    svgContent += "</g>";
+  });
+  let maxX = 0, maxY = 0;
+  flat.forEach(n => { const p = positions[n.id]; if (p) { if (p.x+CARD_W > maxX) maxX = p.x+CARD_W; if (p.y+CARD_H > maxY) maxY = p.y+CARD_H; }});
+  const pad = 40;
+  svg.setAttribute("viewBox", (-pad) + " " + (-pad) + " " + (maxX+pad*2) + " " + (maxY+pad*2));
+  svg.innerHTML = "<g id=\"graph-g\">" + svgContent + "</g>";
+}
+function layoutGraph(nodes, edges) {
+  const layers = {};
+  nodes.forEach(n => { if (!layers[n.depth]) layers[n.depth] = []; layers[n.depth].push(n); });
+  const childMap = {};
+  nodes.forEach(n => childMap[n.id] = []);
+  edges.forEach(e => { if (childMap[e.from]) childMap[e.from].push(e.to); });
+  const positions = {};
+  const maxDepth = Math.max(0, ...Object.keys(layers).map(Number));
+  for (let d = 0; d <= maxDepth; d++) {
+    const ids = layers[d] || [];
+    ids.forEach((n, i) => {
+      positions[n.id] = {x: d * LAYER_X + 20, y: i * (CARD_H + GAP_Y) + 20};
+    });
+  }
+  for (let pass = 0; pass < 4; pass++) {
+    for (let d = maxDepth; d >= 0; d--) {
+      const ids = (layers[d]||[]);
+      ids.forEach(n => {
+        const ch = (childMap[n.id]||[]).filter(c => positions[c]);
+        if (ch.length > 0) {
+          positions[n.id].y = ch.reduce((s,c) => s + positions[c].y, 0) / ch.length;
+        }
+      });
+      spreadLayerY(ids.map(n => n.id), positions);
+    }
+    for (let d = 0; d <= maxDepth; d++) {
+      const ids = (layers[d]||[]);
+      ids.forEach(n => {
+        const ch = (childMap[n.id]||[]).filter(c => positions[c]);
+        if (ch.length > 0) {
+          positions[n.id].y = ch.reduce((s,c) => s + positions[c].y, 0) / ch.length;
+        }
+      });
+      spreadLayerY(ids.map(n => n.id), positions);
+    }
+  }
+  return positions;
+}
+function spreadLayerY(ids, positions) {
+  if (!ids || ids.length <= 1) return;
+  for (let i = 1; i < ids.length; i++) {
+    const prev = positions[ids[i-1]], curr = positions[ids[i]];
+    if (!prev || !curr) continue;
+    const minY = prev.y + CARD_H + GAP_Y;
+    if (curr.y < minY) curr.y = minY;
+  }
+}
+(function() {
+  const container = document.getElementById("graph-container");
+  const svg = document.getElementById("graph-svg");
+  let vbX=0,vbY=0,vbW=0,vbH=0,lastDx=0,lastDy=0,ctmA=1,ctmD=1;
+  function syncVB(){const v=svg.getAttribute("viewBox");if(!v)return false;const p=v.split(" ");vbX=+p[0];vbY=+p[1];vbW=+p[2];vbH=+p[3];return true;}
+  function applyVB(){svg.setAttribute("viewBox",vbX+" "+vbY+" "+vbW+" "+vbH);}
+  function endPan(){
+    if(!isPanning)return;isPanning=false;container.style.cursor="";
+    vbX=vbStart.x-lastDx/ctmA;vbY=vbStart.y-lastDy/ctmD;applyVB();
+    svg.style.transform="";svg.style.willChange="";
+    lastDx=0;lastDy=0;
+  }
+  container.addEventListener("mousedown", e => {
+    if (e.target.closest("g")) return;
+    if (!syncVB()) return;
+    isPanning = true; lastDx = 0; lastDy = 0;
+    panStart = {x: e.clientX, y: e.clientY};
+    vbStart = {x: vbX, y: vbY};
+    const ctm = svg.getScreenCTM();
+    if (ctm) { ctmA = ctm.a; ctmD = ctm.d; }
+    svg.style.willChange = "transform";
+    container.style.cursor = "grabbing";
+  });
+  container.addEventListener("mousemove", e => {
+    if (!isPanning) return;
+    lastDx = e.clientX - panStart.x;
+    lastDy = e.clientY - panStart.y;
+    svg.style.transform = "translate(" + lastDx + "px," + lastDy + "px)";
+  });
+  container.addEventListener("mouseup", endPan);
+  container.addEventListener("mouseleave", endPan);
+  container.addEventListener("wheel", e => {
+    e.preventDefault();
+    if (!syncVB()) return;
+    const factor = e.deltaY > 0 ? 0.9 : 1.1;
+    gZoom *= factor; gZoom = Math.max(0.25, Math.min(4, gZoom));
+    const rect = container.getBoundingClientRect();
+    const mx = (e.clientX - rect.left) / rect.width;
+    const my = (e.clientY - rect.top) / rect.height;
+    const nw = vbW / factor, nh = vbH / factor;
+    vbX += (vbW - nw) * mx;
+    vbY += (vbH - nh) * my;
+    vbW = nw; vbH = nh;
+    applyVB();
+    document.getElementById("zoom-level").textContent = Math.round(gZoom * 100) + "%";
+  }, {passive: false});
+})();
+function switchPhase(phase, btn) {
+  currentPhase = phase;
+  document.querySelectorAll(".phase-tab").forEach(t => t.classList.remove("active"));
+  if (btn) btn.classList.add("active");
+  if (currentView === "tree") renderTree(); else renderGraph();
+}
+function switchView(view, btn) {
+  currentView = view;
+  document.querySelectorAll(".view-btn").forEach(b => b.classList.remove("active"));
+  if (btn) btn.classList.add("active");
+  const treeEl = document.getElementById("tree-container");
+  const toolbar = document.getElementById("tree-toolbar");
+  const graphEl = document.getElementById("graph-container");
+  if (view === "tree") {
+    treeEl.style.display = "block"; toolbar.style.display = "flex"; graphEl.style.display = "none";
+    renderTree();
+  } else {
+    treeEl.style.display = "none"; toolbar.style.display = "none"; graphEl.style.display = "block";
+    renderGraph();
+  }
+}
+function zoomIn() {
+  gZoom = Math.min(gZoom * 1.25, 4);
+  applyZoom();
+}
+function zoomOut() {
+  gZoom = Math.max(gZoom / 1.25, 0.25);
+  applyZoom();
+}
+function applyZoom() {
+  const svg = document.getElementById("graph-svg");
+  const vb = svg.getAttribute("viewBox");
+  if (!vb) return;
+  const parts = vb.split(" ").map(Number);
+  const cx = parts[0] + parts[2] / 2, cy = parts[1] + parts[3] / 2;
+  const nw = parts[2] / gZoom, nh = parts[3] / gZoom;
+  svg.setAttribute("viewBox", (cx - nw/2) + " " + (cy - nh/2) + " " + nw + " " + nh);
+  document.getElementById("zoom-level").textContent = Math.round(gZoom * 100) + "%";
+}
+function resetView() {
+  gZoom = 1;
+  document.getElementById("zoom-level").textContent = "100%";
+  renderGraph();
+}
+(function() {
+  ["install","run","both"].forEach(p => {
+    const el = document.getElementById("badge-" + p);
+    if (el) el.textContent = countDeps(depData[p] || []);
+  });
+  renderTree();
+})();
+</script>
+<script>
+function toggleTheme() {
+  const html = document.documentElement;
+  const cur = html.getAttribute("data-theme") || "dark";
+  const next = cur === "dark" ? "light" : "dark";
+  html.setAttribute("data-theme", next);
+  document.getElementById("theme-btn").innerHTML = next === "light" ? "&#9788;" : "&#9790;";
+  localStorage.setItem("detail-theme", next);
+}
+(function() {
+  const saved = localStorage.getItem("detail-theme");
+  if (saved) {
+    document.documentElement.setAttribute("data-theme", saved);
+    document.getElementById("theme-btn").innerHTML = saved === "light" ? "&#9788;" : "&#9790;";
+  }
+})();
+</script>
+</body>
+</html>
