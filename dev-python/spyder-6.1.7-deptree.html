@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>dev-python/spyder-6.1.7 &mdash; Dependency Graph</title>
+<link rel="stylesheet" href="../.portage-ng.css">
+</head>
+<body class="page-deptree">
+<div class="header">
+<div class="title-row">
+<h1>dev-python/spyder-6.1.7 &mdash; Dependency Graph</h1>
+<button class="theme-btn" id="theme-btn" onclick="toggleTheme()">&#9790;</button>
+</div>
+<p class="subtitle" id="subtitle"></p>
+<div class="nav-rows">
+<div class="nav-bar">
+  <div class="nav-group">
+    <span class="nav-group-label">nav</span>
+    <a class="nav-link" href="../index.html">portage</a>
+    <a class="nav-link" href="./index.html">dev-python</a>
+    <a class="nav-link" href="./spyder.html">spyder</a>
+  </div>
+  <div class="nav-group">
+    <span class="nav-group-label">version</span>
+    <a class="nav-link disabled">&laquo;</a>
+    <a class="nav-link disabled">&lsaquo;</a>
+    <a class="nav-link" href="../dev-python/spyder-6.1.6-deptree.html" title="dev-python/spyder-6.1.6">&rsaquo;</a>
+    <a class="nav-link" href="../dev-python/spyder-6.1.6-deptree.html" title="dev-python/spyder-6.1.6">&raquo;</a>
+  </div>
+</div>
+<div class="nav-bar">
+  <div class="nav-group">
+    <span class="nav-group-label">graphs</span>
+    <a class="nav-link" href="../dev-python/spyder-6.1.7-detail.html">detail</a>
+    <a class="nav-link active">deptree</a>
+    <a class="nav-link" href="../dev-python/spyder-6.1.7-gantt.html">gantt</a>
+  </div>
+  <div class="nav-group">
+    <span class="nav-group-label">cli</span>
+    <a class="nav-link" href="../dev-python/spyder-6.1.7-merge.html">--merge</a>
+    <a class="nav-link" href="../dev-python/spyder-6.1.7-fetchonly.html">--fetchonly</a>
+    <a class="nav-link" href="../dev-python/spyder-6.1.7-info.html">--info</a>
+  </div>
+  <div class="nav-group">
+    <span class="nav-group-label">legacy</span>
+    <a class="nav-link" href="../dev-python/spyder-6.1.7-emerge.html">emerge</a>
+  </div>
+</div>
+</div>
+</div>
+<div class="dep-tabs">
+  <span class="label">Dep type:</span>
+  <button class="dep-tab off" data-type="bdepend" onclick="switchDepType('bdepend')">BDEPEND</button>
+  <button class="dep-tab off" data-type="cdepend" onclick="switchDepType('cdepend')">CDEPEND</button>
+  <button class="dep-tab off" data-type="depend" onclick="switchDepType('depend')">DEPEND</button>
+  <button class="dep-tab off" data-type="idepend" onclick="switchDepType('idepend')">IDEPEND</button>
+  <button class="dep-tab active" data-type="rdepend" onclick="switchDepType('rdepend')">RDEPEND</button>
+  <button class="dep-tab off" data-type="pdepend" onclick="switchDepType('pdepend')">PDEPEND</button>
+  <div class="sep"></div>
+  <button class="action-btn" onclick="expandAll()">expand all</button>
+  <button class="action-btn" onclick="collapseAll()">collapse all</button>
+  <button class="action-btn" onclick="resetView()">reset view</button>
+</div>
+<div class="graph-container" id="graph-container">
+  <svg id="graph-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+  <div class="zoom-controls">
+    <button class="zoom-btn" onclick="zoomIn()">+</button>
+    <span class="zoom-level" id="zoom-level">100%</span>
+    <button class="zoom-btn" onclick="zoomOut()">&minus;</button>
+    <button class="zoom-btn" onclick="resetView()" title="Fit to view">&#8634;</button>
+  </div>
+</div>
+<div class="tooltip" id="tooltip"></div>
+<div class="legend">
+  <div class="legend-item"><div class="legend-swatch" style="background:#fff;border-color:var(--node-root-border);border-width:2px"></div>root package</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#fff;border-color:#ccc;border-left:3px solid var(--node-installed)"></div>installed</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#fff;border-color:#ccc"></div>not installed</div>
+  <div class="legend-item"><svg width="30" height="12"><line x1="0" y1="6" x2="24" y2="6" stroke="var(--edge-normal)" stroke-width="1.5"/><polygon points="24,3 30,6 24,9" fill="var(--edge-normal)"/></svg>dependency</div>
+  <div class="legend-item"><svg width="30" height="12"><line x1="0" y1="6" x2="24" y2="6" stroke="var(--edge-weak)" stroke-width="1.5" stroke-dasharray="4,2"/><polygon points="24,3 30,6 24,9" fill="var(--edge-weak)"/></svg>weak blocker</div>
+  <div class="legend-item"><svg width="30" height="12"><line x1="0" y1="6" x2="24" y2="6" stroke="var(--edge-strong)" stroke-width="1.5" stroke-dasharray="2,2"/><polygon points="24,3 30,6 24,9" fill="var(--edge-strong)"/></svg>strong blocker</div>
+</div>
+<script>
+const treeData = {
+  bdepend: {
+    nodes: [
+      {id:"dev-python/flit-core-4.0.2",cat:"dev-python",name:"flit-core",ver:"4.0.2",slot:"0",installed:false,desc:"Simplified packaging of Python modules (core module)",homepage:"https://pypi.org/project/flit-core/ https://github.com/pypa/flit/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/wheel-0.48.0",cat:"dev-python",name:"wheel",ver:"0.48.0",slot:"0",installed:false,desc:"A built-package format for Python",homepage:"https://github.com/pypa/wheel/ https://pypi.org/project/wheel/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/platformdirs-4.11.7",cat:"dev-python",name:"platformdirs",ver:"4.11.7",slot:"0",installed:false,desc:"A small Python module for determining appropriate platform-specific dirs",homepage:"https://pypi.org/project/platformdirs/ https://github.com/tox-dev/platformdirs/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/packaging-26.3",cat:"dev-python",name:"packaging",ver:"26.3",slot:"0",installed:false,desc:"Core utilities for Python packages",homepage:"https://github.com/pypa/packaging/ https://pypi.org/project/packaging/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/more-itertools-11.1.0",cat:"dev-python",name:"more-itertools",ver:"11.1.0",slot:"0",installed:false,desc:"More routines for operating on iterables, beyond itertools",homepage:"https://github.com/more-itertools/more-itertools/ https://pypi.org/project/more-itertools/",use:["-doc"]},
+      {id:"dev-python/jaraco-text-4.3.0",cat:"dev-python",name:"jaraco-text",ver:"4.3.0",slot:"0",installed:false,desc:"Text utilities used by other projects by developer jaraco",homepage:"https://github.com/jaraco/jaraco.text/ https://pypi.org/project/jaraco.text/",use:["-test"]},
+      {id:"dev-python/jaraco-functools-4.6.0",cat:"dev-python",name:"jaraco-functools",ver:"4.6.0",slot:"0",installed:false,desc:"Additional functions used by other projects by developer jaraco",homepage:"https://github.com/jaraco/jaraco.functools/ https://pypi.org/project/jaraco.functools/",use:["-test"]},
+      {id:"dev-python/setuptools-84.0.0",cat:"dev-python",name:"setuptools",ver:"84.0.0",slot:"0",installed:false,desc:"Collection of extensions to Distutils",homepage:"https://github.com/pypa/setuptools/ https://pypi.org/project/setuptools/",use:["-test"]},
+      {id:"dev-python/gpep517-22",cat:"dev-python",name:"gpep517",ver:"22",slot:"0",installed:false,desc:"A backend script to aid installing Python packages in Gentoo",homepage:"https://pypi.org/project/gpep517/ https://github.com/gentoo/gpep517/",use:["-test"]},
+      {id:"dev-python/spyder-6.1.7",cat:"dev-python",name:"spyder",ver:"6.1.7",slot:"0",installed:false,desc:"The Scientific Python Development Environment",homepage:"https://www.spyder-ide.org/ https://github.com/spyder-ide/spyder/ https://pypi.org/project/spyder/",use:["-test"]}
+    ],
+    edges: [
+      {from:"dev-python/flit-core-4.0.2",to:"dev-python/gpep517-22",type:"no"},
+      {from:"dev-python/jaraco-functools-4.6.0",to:"dev-python/flit-core-4.0.2",type:"no"},
+      {from:"dev-python/jaraco-functools-4.6.0",to:"dev-python/gpep517-22",type:"no"},
+      {from:"dev-python/jaraco-text-4.3.0",to:"dev-python/flit-core-4.0.2",type:"no"},
+      {from:"dev-python/jaraco-text-4.3.0",to:"dev-python/gpep517-22",type:"no"},
+      {from:"dev-python/more-itertools-11.1.0",to:"dev-python/flit-core-4.0.2",type:"no"},
+      {from:"dev-python/more-itertools-11.1.0",to:"dev-python/gpep517-22",type:"no"},
+      {from:"dev-python/packaging-26.3",to:"dev-python/flit-core-4.0.2",type:"no"},
+      {from:"dev-python/packaging-26.3",to:"dev-python/gpep517-22",type:"no"},
+      {from:"dev-python/platformdirs-4.11.7",to:"dev-python/flit-core-4.0.2",type:"no"},
+      {from:"dev-python/platformdirs-4.11.7",to:"dev-python/gpep517-22",type:"no"},
+      {from:"dev-python/setuptools-84.0.0",to:"dev-python/gpep517-22",type:"no"},
+      {from:"dev-python/setuptools-84.0.0",to:"dev-python/jaraco-functools-4.6.0",type:"no"},
+      {from:"dev-python/setuptools-84.0.0",to:"dev-python/jaraco-text-4.3.0",type:"no"},
+      {from:"dev-python/setuptools-84.0.0",to:"dev-python/more-itertools-11.1.0",type:"no"},
+      {from:"dev-python/setuptools-84.0.0",to:"dev-python/packaging-26.3",type:"no"},
+      {from:"dev-python/setuptools-84.0.0",to:"dev-python/platformdirs-4.11.7",type:"no"},
+      {from:"dev-python/setuptools-84.0.0",to:"dev-python/wheel-0.48.0",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/gpep517-22",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/setuptools-84.0.0",type:"no"},
+      {from:"dev-python/wheel-0.48.0",to:"dev-python/flit-core-4.0.2",type:"no"},
+      {from:"dev-python/wheel-0.48.0",to:"dev-python/gpep517-22",type:"no"}
+    ],
+    root: "dev-python/spyder-6.1.7"
+  },
+  cdepend: {
+    nodes: [
+      {id:"dev-python/spyder-6.1.7",cat:"dev-python",name:"spyder",ver:"6.1.7",slot:"0",installed:false,desc:"The Scientific Python Development Environment",homepage:"https://www.spyder-ide.org/ https://github.com/spyder-ide/spyder/ https://pypi.org/project/spyder/",use:["-test"]}
+    ],
+    edges: [
+    ],
+    root: "dev-python/spyder-6.1.7"
+  },
+  depend: {
+    nodes: [
+      {id:"dev-python/spyder-6.1.7",cat:"dev-python",name:"spyder",ver:"6.1.7",slot:"0",installed:false,desc:"The Scientific Python Development Environment",homepage:"https://www.spyder-ide.org/ https://github.com/spyder-ide/spyder/ https://pypi.org/project/spyder/",use:["-test"]}
+    ],
+    edges: [
+    ],
+    root: "dev-python/spyder-6.1.7"
+  },
+  idepend: {
+    nodes: [
+      {id:"x11-misc/shared-mime-info-2.5.1",cat:"x11-misc",name:"shared-mime-info",ver:"2.5.1",slot:"0",installed:false,desc:"The Shared MIME-info Database specification",homepage:"https://gitlab.freedesktop.org/xdg/shared-mime-info",use:["-test"]},
+      {id:"dev-util/desktop-file-utils-0.28-r1",cat:"dev-util",name:"desktop-file-utils",ver:"0.28-r1",slot:"0",installed:false,desc:"Command line utilities to work with desktop menu entries",homepage:"https://freedesktop.org/wiki/Software/desktop-file-utils/",use:[]},
+      {id:"dev-python/spyder-6.1.7",cat:"dev-python",name:"spyder",ver:"6.1.7",slot:"0",installed:false,desc:"The Scientific Python Development Environment",homepage:"https://www.spyder-ide.org/ https://github.com/spyder-ide/spyder/ https://pypi.org/project/spyder/",use:["-test"]}
+    ],
+    edges: [
+      {from:"dev-python/spyder-6.1.7",to:"dev-util/desktop-file-utils-0.28-r1",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"x11-misc/shared-mime-info-2.5.1",type:"no"}
+    ],
+    root: "dev-python/spyder-6.1.7"
+  },
+  rdepend: {
+    nodes: [
+      {id:"dev-libs/libunistring-1.4.2",cat:"dev-libs",name:"libunistring",ver:"1.4.2",slot:"0",installed:false,desc:"Library for manipulating Unicode and C strings according to Unicode standard",homepage:"https://www.gnu.org/software/libunistring/",use:["-doc","-static-libs"]},
+      {id:"net-dns/libidn2-2.3.8",cat:"net-dns",name:"libidn2",ver:"2.3.8",slot:"0",installed:true,desc:"An implementation of the IDNA2008 specifications (RFCs 5890, 5891, 5892, 5893)",homepage:"https://www.gnu.org/software/libidn/#libidn2 https://gitlab.com/libidn/libidn2/",use:["+nls","-static-libs","-verify-sig"]},
+      {id:"dev-python/zope-interface-8.6",cat:"dev-python",name:"zope-interface",ver:"8.6",slot:"0",installed:false,desc:"Interfaces for Python",homepage:"https://github.com/zopefoundation/zope.interface/ https://pypi.org/project/zope.interface/",use:["-debug","+native-extensions","-test","-verify-provenance"]},
+      {id:"dev-python/incremental-24.11.0",cat:"dev-python",name:"incremental",ver:"24.11.0",slot:"0",installed:false,desc:"Incremental is a small library that versions your Python projects",homepage:"https://github.com/twisted/incremental/ https://pypi.org/project/Incremental/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/hyperlink-21.0.0-r1",cat:"dev-python",name:"hyperlink",ver:"21.0.0-r1",slot:"0",installed:false,desc:"A featureful, correct URL for Python",homepage:"https://github.com/python-hyper/hyperlink/ https://pypi.org/project/hyperlink/",use:["-test"]},
+      {id:"dev-python/constantly-23.10.4",cat:"dev-python",name:"constantly",ver:"23.10.4",slot:"0",installed:false,desc:"Symbolic constants in Python",homepage:"https://github.com/twisted/constantly/ https://pypi.org/project/constantly/",use:["-test"]},
+      {id:"dev-python/automat-25.4.16",cat:"dev-python",name:"automat",ver:"25.4.16",slot:"0",installed:false,desc:"Self-service finite-state machines for the programmer on the go",homepage:"https://github.com/glyph/automat/ https://pypi.org/project/Automat/",use:["-examples","-test"]},
+      {id:"dev-libs/double-conversion-3.4.0",cat:"dev-libs",name:"double-conversion",ver:"3.4.0",slot:"0",installed:false,desc:"Binary-decimal and decimal-binary conversion routines for IEEE doubles",homepage:"https://github.com/google/double-conversion/",use:["-test"]},
+      {id:"dev-python/zipp-4.1.0",cat:"dev-python",name:"zipp",ver:"4.1.0",slot:"0",installed:false,desc:"Backport of pathlib-compatible object wrapper for zip files",homepage:"https://github.com/jaraco/zipp/ https://pypi.org/project/zipp/",use:["-test"]},
+      {id:"dev-python/pycodestyle-2.14.0",cat:"dev-python",name:"pycodestyle",ver:"2.14.0",slot:"0",installed:false,desc:"Python style guide checker (fka pep8)",homepage:"https://pycodestyle.pycqa.org/en/latest/ https://github.com/PyCQA/pycodestyle/ https://pypi.org/project/pycodestyle/",use:["-doc","-test"]},
+      {id:"dev-python/pyflakes-3.4.0",cat:"dev-python",name:"pyflakes",ver:"3.4.0",slot:"0",installed:false,desc:"Passive checker for Python programs",homepage:"https://github.com/PyCQA/pyflakes/ https://pypi.org/project/pyflakes/",use:["-test"]},
+      {id:"virtual/zlib-1.3.1-r1",cat:"virtual",name:"zlib",ver:"1.3.1-r1",slot:"0",installed:true,desc:"Virtual for libz.so providers",homepage:"",use:["-static-libs"]},
+      {id:"virtual/libiconv-0-r2",cat:"virtual",name:"libiconv",ver:"0-r2",slot:"0",installed:true,desc:"Virtual for the GNU conversion library",homepage:"",use:[]},
+      {id:"sys-libs/glibc-9999",cat:"sys-libs",name:"glibc",ver:"9999",slot:"2.2",installed:false,desc:"GNU libc C library",homepage:"https://www.gnu.org/software/libc/",use:["-audit","-caps","+cet","-clang","-compile-locales","-custom-cflags","-doc","-gd","-hash-sysv-compat","-headers-only","+multiarch","-multilib","-multilib-bootstrap","-nscd","-old-kernel","-perl","-profile","-selinux","-sframe","+ssp","-stack-realign","+static-libs","-suid","-systemd","-systemtap","-test","-vanilla","-verify-sig"]},
+      {id:"dev-python/wheel-0.48.0",cat:"dev-python",name:"wheel",ver:"0.48.0",slot:"0",installed:false,desc:"A built-package format for Python",homepage:"https://github.com/pypa/wheel/ https://pypi.org/project/wheel/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/jaraco-text-4.3.0",cat:"dev-python",name:"jaraco-text",ver:"4.3.0",slot:"0",installed:false,desc:"Text utilities used by other projects by developer jaraco",homepage:"https://github.com/jaraco/jaraco.text/ https://pypi.org/project/jaraco.text/",use:["-test"]},
+      {id:"dev-python/ply-3.11-r2",cat:"dev-python",name:"ply",ver:"3.11-r2",slot:"0",installed:true,desc:"Python Lex-Yacc library",homepage:"https://www.dabeaz.com/ply/ https://github.com/dabeaz/ply/ https://pypi.org/project/ply/",use:["-examples"]},
+      {id:"dev-python/pure-eval-0.2.3",cat:"dev-python",name:"pure-eval",ver:"0.2.3",slot:"0",installed:false,desc:"Safely evaluate AST nodes without side effects",homepage:"https://github.com/alexmojaki/pure_eval/ https://pypi.org/project/pure-eval/",use:["-test"]},
+      {id:"dev-python/executing-2.2.1",cat:"dev-python",name:"executing",ver:"2.2.1",slot:"0",installed:false,desc:"Get information about what a Python frame is currently doing",homepage:"https://github.com/alexmojaki/executing/ https://pypi.org/project/executing/",use:["-test"]},
+      {id:"dev-python/asttokens-3.0.2",cat:"dev-python",name:"asttokens",ver:"3.0.2",slot:"0",installed:false,desc:"Annotate Python AST trees with source text and token information",homepage:"https://github.com/gristlabs/asttokens/ https://pypi.org/project/asttokens/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/wcwidth-0.8.3",cat:"dev-python",name:"wcwidth",ver:"0.8.3",slot:"0",installed:false,desc:"Measures number of Terminal column cells of wide-character codes",homepage:"https://pypi.org/project/wcwidth/ https://github.com/jquast/wcwidth/",use:["-test"]},
+      {id:"dev-python/olefile-0.47",cat:"dev-python",name:"olefile",ver:"0.47",slot:"0",installed:true,desc:"Python package to parse, read and write Microsoft OLE2 files",homepage:"https://www.decalage.info/olefile/ https://github.com/decalage2/olefile/ https://pypi.org/project/olefile/",use:["-doc"]},
+      {id:"dev-python/twisted-26.4.0-r1",cat:"dev-python",name:"twisted",ver:"26.4.0-r1",slot:"0",installed:false,desc:"An asynchronous networking framework written in Python",homepage:"https://twisted.org/ https://github.com/twisted/twisted/ https://pypi.org/project/Twisted/",use:["-conch","-http2","-serial","+ssl","-test","-verify-provenance","-websockets"]},
+      {id:"dev-python/ujson-5.13.0",cat:"dev-python",name:"ujson",ver:"5.13.0",slot:"0",installed:false,desc:"Ultra fast JSON encoder and decoder for Python",homepage:"https://github.com/ultrajson/ultrajson/ https://pypi.org/project/ujson/",use:["-debug","-test","-verify-provenance"]},
+      {id:"dev-python/parso-0.8.7",cat:"dev-python",name:"parso",ver:"0.8.7",slot:"0",installed:false,desc:"A python parser that supports error recovery and round-trip parsing",homepage:"https://github.com/davidhalter/parso/ https://pypi.org/project/parso/",use:["-doc","-test"]},
+      {id:"dev-python/importlib-metadata-9.0.1",cat:"dev-python",name:"importlib-metadata",ver:"9.0.1",slot:"0",installed:false,desc:"Read metadata from Python packages",homepage:"https://github.com/python/importlib_metadata/ https://pypi.org/project/importlib-metadata/",use:["-test"]},
+      {id:"dev-python/flake8-7.3.0",cat:"dev-python",name:"flake8",ver:"7.3.0",slot:"0",installed:false,desc:"A wrapper around PyFlakes, pep8 & mccabe",homepage:"https://github.com/PyCQA/flake8/ https://pypi.org/project/flake8/",use:["-doc","-test"]},
+      {id:"dev-libs/libxslt-9999",cat:"dev-libs",name:"libxslt",ver:"9999",slot:"0",installed:false,desc:"XSLT libraries and tools",homepage:"https://gitlab.gnome.org/GNOME/libxslt",use:["+crypt","-debug","-debugger","-examples","+python","-static-libs"]},
+      {id:"dev-libs/libxml2-9999",cat:"dev-libs",name:"libxml2",ver:"9999",slot:"2",installed:false,desc:"XML C parser and toolkit",homepage:"https://gitlab.gnome.org/GNOME/libxml2/-/wikis/home",use:["-doc","-icu","+python","+readline","-static-libs","-test"]},
+      {id:"dev-python/pysocks-1.7.1-r2",cat:"dev-python",name:"pysocks",ver:"1.7.1-r2",slot:"0",installed:true,desc:"SOCKS client module",homepage:"https://github.com/Anorov/PySocks/ https://pypi.org/project/PySocks/",use:[]},
+      {id:"app-misc/ca-certificates-20260601.3.112.5",cat:"app-misc",name:"ca-certificates",ver:"20260601.3.112.5",slot:"0",installed:false,desc:"Common CA Certificates PEM files",homepage:"https://packages.debian.org/sid/ca-certificates",use:["-cacert"]},
+      {id:"sys-libs/timezone-data-2026c",cat:"sys-libs",name:"timezone-data",ver:"2026c",slot:"0",installed:false,desc:"Timezone data (/usr/share/zoneinfo) and utilities (tzselect/zic/zdump)",homepage:"https://www.iana.org/time-zones",use:["-leaps-timezone","+nls","-zic-slim"]},
+      {id:"dev-python/setuptools-84.0.0",cat:"dev-python",name:"setuptools",ver:"84.0.0",slot:"0",installed:false,desc:"Collection of extensions to Distutils",homepage:"https://github.com/pypa/setuptools/ https://pypi.org/project/setuptools/",use:["-test"]},
+      {id:"dev-python/pycparser-3.0",cat:"dev-python",name:"pycparser",ver:"3.0",slot:"0",installed:true,desc:"C parser and AST generator written in Python",homepage:"https://github.com/eliben/pycparser/ https://pypi.org/project/pycparser/",use:["-test"]},
+      {id:"dev-libs/libffi-9999",cat:"dev-libs",name:"libffi",ver:"9999",slot:"0",installed:false,desc:"Portable, high level programming interface to various calling conventions",homepage:"https://sourceware.org/libffi/",use:["-debug","+exec-static-trampoline","-pax-kernel","-static-libs","-test"]},
+      {id:"net-dns/c-ares-1.34.8",cat:"net-dns",name:"c-ares",ver:"1.34.8",slot:"0",installed:false,desc:"C library that resolves names asynchronously",homepage:"https://c-ares.org/",use:["-static-libs","-test","-verify-sig"]},
+      {id:"dev-python/stack-data-0.6.3-r1",cat:"dev-python",name:"stack-data",ver:"0.6.3-r1",slot:"0",installed:false,desc:"Extract data from Python tracebacks for informative displays",homepage:"https://github.com/alexmojaki/stack_data/ https://pypi.org/project/stack-data/",use:["-test"]},
+      {id:"dev-python/prompt-toolkit-3.0.53",cat:"dev-python",name:"prompt-toolkit",ver:"3.0.53",slot:"0",installed:false,desc:"Building powerful interactive command lines in Python",homepage:"https://pypi.org/project/prompt_toolkit/ https://github.com/prompt-toolkit/python-prompt-toolkit/",use:["-test"]},
+      {id:"dev-python/nest-asyncio-1.6.0-r1",cat:"dev-python",name:"nest-asyncio",ver:"1.6.0-r1",slot:"0",installed:false,desc:"Patch asyncio to allow nested event loops",homepage:"https://github.com/erdewit/nest_asyncio/ https://pypi.org/project/nest-asyncio/",use:["-test"]},
+      {id:"dev-python/pillow-12.3.0",cat:"dev-python",name:"pillow",ver:"12.3.0",slot:"0",installed:false,desc:"Python Imaging Library (fork)",homepage:"https://python-pillow.github.io/ https://github.com/python-pillow/Pillow/ https://pypi.org/project/pillow/",use:["-avif","-debug","-examples","-imagequant","+jpeg","+jpeg2k","-lcms","-raqm","-test","+tiff","-tk","+truetype","-webp","+xcb","+zlib"]},
+      {id:"dev-python/tornado-6.5.8",cat:"dev-python",name:"tornado",ver:"6.5.8",slot:"0",installed:false,desc:"Python web framework and asynchronous networking library",homepage:"https://www.tornadoweb.org/ https://github.com/tornadoweb/tornado/ https://pypi.org/project/tornado/",use:["-debug","-test","-verify-provenance"]},
+      {id:"dev-python/nest-asyncio2-1.7.2",cat:"dev-python",name:"nest-asyncio2",ver:"1.7.2",slot:"0",installed:false,desc:"Patch asyncio to allow nested event loops",homepage:"https://github.com/Chaoses-Ib/nest-asyncio2/ https://pypi.org/project/nest-asyncio2/",use:["-test"]},
+      {id:"dev-python/matplotlib-inline-0.2.2",cat:"dev-python",name:"matplotlib-inline",ver:"0.2.2",slot:"0",installed:false,desc:"Inline Matplotlib backend for Jupyter",homepage:"https://github.com/ipython/matplotlib-inline/ https://pypi.org/project/matplotlib-inline/",use:["-test"]},
+      {id:"dev-python/comm-0.2.3",cat:"dev-python",name:"comm",ver:"0.2.3",slot:"0",installed:false,desc:"Jupyter Python Comm implementation, for usage in ipykernel, xeus-python",homepage:"https://github.com/ipython/comm/ https://pypi.org/project/comm/",use:["-test"]},
+      {id:"app-arch/zstd-1.5.7-r1",cat:"app-arch",name:"zstd",ver:"1.5.7-r1",slot:"0",installed:true,desc:"zstd fast compression library",homepage:"https://facebook.github.io/zstd/",use:["-lz4","+lzma","-static-libs","-test","-verify-sig","+zlib"]},
+      {id:"dev-python/pytokens-0.4.1",cat:"dev-python",name:"pytokens",ver:"0.4.1",slot:"0",installed:false,desc:"A fast, spec compliant Python 3.13+ tokenizer that runs on older Pythons",homepage:"https://github.com/tusharsadhwani/pytokens/ https://pypi.org/project/pytokens/",use:["-test"]},
+      {id:"dev-python/pathspec-1.1.1",cat:"dev-python",name:"pathspec",ver:"1.1.1",slot:"0",installed:false,desc:"Utility library for gitignore style pattern matching of file paths",homepage:"https://github.com/cpburnz/python-pathspec/ https://pypi.org/project/pathspec/",use:["-verify-provenance"]},
+      {id:"dev-python/mypy-extensions-1.1.0",cat:"dev-python",name:"mypy-extensions",ver:"1.1.0",slot:"0",installed:true,desc:"Type system extensions for programs checked with mypy",homepage:"https://www.mypy-lang.org/ https://github.com/python/mypy_extensions/",use:["-test"]},
+      {id:"dev-python/pluggy-1.6.0",cat:"dev-python",name:"pluggy",ver:"1.6.0",slot:"0",installed:true,desc:"Plugin and hook calling mechanisms for Python",homepage:"https://pluggy.readthedocs.io/ https://github.com/pytest-dev/pluggy/ https://pypi.org/project/pluggy/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/python-lsp-jsonrpc-1.1.2",cat:"dev-python",name:"python-lsp-jsonrpc",ver:"1.1.2",slot:"0",installed:false,desc:"JSON RPC 2.0 server library",homepage:"https://github.com/python-lsp/python-lsp-jsonrpc/ https://pypi.org/project/python-lsp-jsonrpc/",use:["-test"]},
+      {id:"dev-python/jedi-0.20.0",cat:"dev-python",name:"jedi",ver:"0.20.0",slot:"0",installed:false,desc:"Autocompletion library for Python",homepage:"https://github.com/davidhalter/jedi/ https://pypi.org/project/jedi/",use:["-doc","-test"]},
+      {id:"dev-python/docstring-to-markdown-0.17",cat:"dev-python",name:"docstring-to-markdown",ver:"0.17",slot:"0",installed:false,desc:"On the fly conversion of Python docstrings to markdown",homepage:"https://github.com/python-lsp/docstring-to-markdown/ https://pypi.org/project/docstring-to-markdown/",use:["-test"]},
+      {id:"dev-python/tomlkit-0.15.1",cat:"dev-python",name:"tomlkit",ver:"0.15.1",slot:"0",installed:false,desc:"Style preserving TOML library",homepage:"https://github.com/python-poetry/tomlkit/ https://pypi.org/project/tomlkit/",use:["-test"]},
+      {id:"dev-python/mccabe-0.7.0",cat:"dev-python",name:"mccabe",ver:"0.7.0",slot:"0",installed:false,desc:"flake8 plugin: McCabe complexity checker",homepage:"https://github.com/PyCQA/mccabe/ https://pypi.org/project/mccabe/",use:["-test"]},
+      {id:"dev-python/isort-9.0.1",cat:"dev-python",name:"isort",ver:"9.0.1",slot:"0",installed:false,desc:"A python utility/library to sort imports",homepage:"https://github.com/PyCQA/isort/ https://pypi.org/project/isort/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/dill-0.4.1",cat:"dev-python",name:"dill",ver:"0.4.1",slot:"0",installed:false,desc:"Serialize all of Python (almost)",homepage:"https://github.com/uqfoundation/dill/ https://pypi.org/project/dill/",use:[]},
+      {id:"dev-python/astroid-4.3.1",cat:"dev-python",name:"astroid",ver:"4.3.1",slot:"0",installed:false,desc:"Abstract Syntax Tree for logilab packages",homepage:"https://github.com/pylint-dev/astroid/ https://pypi.org/project/astroid/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/astroid-4.0.4",cat:"dev-python",name:"astroid",ver:"4.0.4",slot:"0",installed:false,desc:"Abstract Syntax Tree for logilab packages",homepage:"https://github.com/pylint-dev/astroid/ https://pypi.org/project/astroid/",use:["-test","-verify-provenance"]},
+      {id:"dev-libs/libsodium-1.0.22",cat:"dev-libs",name:"libsodium",ver:"1.0.22",slot:"0",installed:false,desc:"Portable fork of NaCl, a higher-level cryptographic library",homepage:"https://libsodium.org",use:["+asm","-static-libs","+urandom","-verify-sig"]},
+      {id:"dev-python/appdirs-1.4.4-r3",cat:"dev-python",name:"appdirs",ver:"1.4.4-r3",slot:"0",installed:false,desc:"Module for determining appropriate platform-specific dirs",homepage:"https://github.com/ActiveState/appdirs/ https://pypi.org/project/appdirs/",use:[]},
+      {id:"dev-python/fastjsonschema-2.22.2",cat:"dev-python",name:"fastjsonschema",ver:"2.22.2",slot:"0",installed:false,desc:"Fast JSON schema validator for Python",homepage:"https://github.com/horejsek/python-fastjsonschema/ https://pypi.org/project/fastjsonschema/",use:["-test"]},
+      {id:"dev-python/platformdirs-4.11.7",cat:"dev-python",name:"platformdirs",ver:"4.11.7",slot:"0",installed:false,desc:"A small Python module for determining appropriate platform-specific dirs",homepage:"https://pypi.org/project/platformdirs/ https://github.com/tox-dev/platformdirs/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/webencodings-0.6.1",cat:"dev-python",name:"webencodings",ver:"0.6.1",slot:"0",installed:false,desc:"Character encoding aliases for legacy web content",homepage:"https://github.com/CourtBouillon/webencodings/ https://pypi.org/project/webencodings/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/soupsieve-2.9.2",cat:"dev-python",name:"soupsieve",ver:"2.9.2",slot:"0",installed:false,desc:"A modern CSS selector implementation for BeautifulSoup",homepage:"https://github.com/facelessuser/soupsieve/ https://pypi.org/project/soupsieve/",use:["-test"]},
+      {id:"dev-python/lxml-6.1.3",cat:"dev-python",name:"lxml",ver:"6.1.3",slot:"0",installed:false,desc:"A Pythonic binding for the libxml2 and libxslt libraries",homepage:"https://lxml.de/ https://pypi.org/project/lxml/ https://github.com/lxml/lxml/",use:["-debug","-doc","-examples","-test","+threads"]},
+      {id:"dev-python/html5lib-1.2_pre20240221",cat:"dev-python",name:"html5lib",ver:"1.2_pre20240221",slot:"0",installed:false,desc:"HTML parser based on the HTML5 specification",homepage:"https://github.com/html5lib/html5lib-python/ https://html5lib.readthedocs.io/ https://pypi.org/project/html5lib/",use:["-test"]},
+      {id:"dev-python/uc-micro-py-2.0.0",cat:"dev-python",name:"uc-micro-py",ver:"2.0.0",slot:"0",installed:false,desc:"Micro subset of unicode data files for linkify-it-py projects",homepage:"https://github.com/tsutsu3/uc.micro-py/ https://pypi.org/project/uc-micro-py/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/more-itertools-11.1.0",cat:"dev-python",name:"more-itertools",ver:"11.1.0",slot:"0",installed:false,desc:"More routines for operating on iterables, beyond itertools",homepage:"https://github.com/more-itertools/more-itertools/ https://pypi.org/project/more-itertools/",use:["-doc"]},
+      {id:"dev-python/regex-2026.9.3",cat:"dev-python",name:"regex",ver:"2026.9.3",slot:"0",installed:false,desc:"Alternative regular expression module to replace re",homepage:"https://github.com/mrabarnett/mrab-regex/ https://pypi.org/project/regex/",use:["-debug","-doc"]},
+      {id:"dev-python/strict-rfc3339-0.7-r2",cat:"dev-python",name:"strict-rfc3339",ver:"0.7-r2",slot:"0",installed:false,desc:"Strict, simple, lightweight RFC3339 functions",homepage:"https://pypi.org/project/strict-rfc3339/ https://github.com/danielrichman/strict-rfc3339",use:[]},
+      {id:"dev-python/six-1.17.0",cat:"dev-python",name:"six",ver:"1.17.0",slot:"0",installed:true,desc:"Python 2 and 3 compatibility library",homepage:"https://github.com/benjaminp/six/ https://pypi.org/project/six/",use:["-doc","-test"]},
+      {id:"dev-python/colorama-0.4.6",cat:"dev-python",name:"colorama",ver:"0.4.6",slot:"0",installed:false,desc:"ANSI escape character sequences for colored terminal text & cursor positioning",homepage:"https://pypi.org/project/colorama/ https://github.com/tartley/colorama/",use:["-examples","-test"]},
+      {id:"dev-python/urllib3-2.7.0",cat:"dev-python",name:"urllib3",ver:"2.7.0",slot:"0",installed:false,desc:"HTTP library with thread-safe connection pooling, file post, and more",homepage:"https://github.com/urllib3/urllib3/ https://pypi.org/project/urllib3/",use:["-brotli","-http2","-test","-verify-provenance","-zstd"]},
+      {id:"dev-python/charset-normalizer-3.5.1",cat:"dev-python",name:"charset-normalizer",ver:"3.5.1",slot:"0",installed:false,desc:"The Real First Universal Charset Detector",homepage:"https://pypi.org/project/charset-normalizer/ https://github.com/jawah/charset_normalizer/",use:["-debug","-native-extensions","-test","-verify-provenance"]},
+      {id:"dev-python/certifi-3024.7.22",cat:"dev-python",name:"certifi",ver:"3024.7.22",slot:"0",installed:true,desc:"A certifi hack to use system trust store on Linux/FreeBSD",homepage:"https://github.com/projg2/certifi-system-store/ https://github.com/tiran/certifi-system-store/ https://pypi.org/project/certifi-system-store/",use:["-test"]},
+      {id:"dev-python/text-unidecode-1.3-r1",cat:"dev-python",name:"text-unidecode",ver:"1.3-r1",slot:"0",installed:false,desc:"The most basic port of the Text::Unidecode Perl library",homepage:"https://pypi.org/project/text-unidecode/ https://github.com/kmike/text-unidecode/",use:["-test"]},
+      {id:"dev-libs/libyaml-0.2.5",cat:"dev-libs",name:"libyaml",ver:"0.2.5",slot:"0",installed:true,desc:"YAML 1.1 parser and emitter written in C",homepage:"https://github.com/yaml/libyaml",use:["-doc","-static-libs","-test"]},
+      {id:"dev-python/tzdata-10001",cat:"dev-python",name:"tzdata",ver:"10001",slot:"0",installed:false,desc:"tzdata shim to satisfy requirements (while using system tzdata)",homepage:"https://peps.python.org/pep-0615/",use:[]},
+      {id:"dev-python/python-dateutil-2.9.0_p0",cat:"dev-python",name:"python-dateutil",ver:"2.9.0_p0",slot:"0",installed:false,desc:"Extensions to the standard Python datetime module",homepage:"https://dateutil.readthedocs.io/ https://pypi.org/project/python-dateutil/ https://github.com/dateutil/dateutil/",use:["-test"]},
+      {id:"dev-python/cffi-2.1.1",cat:"dev-python",name:"cffi",ver:"2.1.1",slot:"0",installed:false,desc:"Foreign Function Interface for Python calling C code",homepage:"https://cffi.readthedocs.io/ https://github.com/python-cffi/cffi/ https://pypi.org/project/cffi/",use:["-debug","-doc","-test"]},
+      {id:"dev-libs/openssl-4.0.9999",cat:"dev-libs",name:"openssl",ver:"4.0.9999",slot:"0",installed:false,desc:"Robust, full-featured Open Source Toolkit for the Transport Layer Security (TLS)",homepage:"https://openssl-library.org/",use:["+asm","-fips","-ktls","+quic","-rfc3779","-sctp","-static-libs","-test","-tls-compression","-vanilla","-weak-ssl-ciphers"]},
+      {id:"app-arch/brotli-9999",cat:"app-arch",name:"brotli",ver:"9999",slot:"0",installed:false,desc:"Generic-purpose lossless compression algorithm",homepage:"https://github.com/google/brotli/",use:["-debug","+python","-test"]},
+      {id:"dev-python/pycares-5.0.1",cat:"dev-python",name:"pycares",ver:"5.0.1",slot:"0",installed:false,desc:"Python interface for c-ares",homepage:"https://github.com/saghul/pycares/ https://pypi.org/project/pycares/",use:["-debug","-test"]},
+      {id:"dev-python/wurlitzer-3.1.1",cat:"dev-python",name:"wurlitzer",ver:"3.1.1",slot:"0",installed:false,desc:"Capture C-level stdout/stderr in Python",homepage:"https://github.com/minrk/wurlitzer/ https://pypi.org/project/wurlitzer/",use:["-test"]},
+      {id:"dev-python/ipython-9.17.1",cat:"dev-python",name:"ipython",ver:"9.17.1",slot:"0",installed:false,desc:"Advanced interactive shell for Python",homepage:"https://ipython.org/ https://github.com/ipython/ipython/ https://pypi.org/project/ipython/",use:["-examples","-gui","-nbconvert","-notebook","+smp","-test","-verify-provenance"]},
+      {id:"dev-python/ipykernel-6.31.0",cat:"dev-python",name:"ipykernel",ver:"6.31.0",slot:"0",installed:false,desc:"IPython Kernel for Jupyter",homepage:"https://github.com/ipython/ipykernel/ https://pypi.org/project/ipykernel/",use:["-test"]},
+      {id:"dev-python/cloudpickle-3.1.2",cat:"dev-python",name:"cloudpickle",ver:"3.1.2",slot:"0",installed:false,desc:"Extended pickling support for Python objects",homepage:"https://github.com/cloudpipe/cloudpickle/ https://pypi.org/project/cloudpickle/",use:["-test"]},
+      {id:"dev-python/sphinxcontrib-serializinghtml-2.0.0-r1",cat:"dev-python",name:"sphinxcontrib-serializinghtml",ver:"2.0.0-r1",slot:"0",installed:false,desc:"Sphinx extension which outputs outputs serialized HTML files",homepage:"https://www.sphinx-doc.org/ https://github.com/sphinx-doc/sphinxcontrib-serializinghtml/ https://pypi.org/project/sphinxcontrib-serializinghtml/",use:["-test"]},
+      {id:"dev-python/sphinxcontrib-qthelp-2.0.0-r1",cat:"dev-python",name:"sphinxcontrib-qthelp",ver:"2.0.0-r1",slot:"0",installed:false,desc:"Sphinx extension which outputs QtHelp documents",homepage:"https://www.sphinx-doc.org/ https://github.com/sphinx-doc/sphinxcontrib-qthelp/ https://pypi.org/project/sphinxcontrib-qthelp/",use:["-test"]},
+      {id:"dev-python/sphinxcontrib-jsmath-1.0.1-r5",cat:"dev-python",name:"sphinxcontrib-jsmath",ver:"1.0.1-r5",slot:"0",installed:false,desc:"Sphinx extension which renders display math in HTML via JavaScript",homepage:"https://www.sphinx-doc.org/ https://github.com/sphinx-doc/sphinxcontrib-jsmath/ https://pypi.org/project/sphinxcontrib-jsmath/",use:["-test"]},
+      {id:"dev-python/sphinxcontrib-htmlhelp-2.1.0-r1",cat:"dev-python",name:"sphinxcontrib-htmlhelp",ver:"2.1.0-r1",slot:"0",installed:false,desc:"Sphinx extension which outputs HTML help book",homepage:"https://www.sphinx-doc.org/ https://github.com/sphinx-doc/sphinxcontrib-htmlhelp/ https://pypi.org/project/sphinxcontrib-htmlhelp/",use:["-test"]},
+      {id:"dev-python/sphinxcontrib-devhelp-2.0.0-r1",cat:"dev-python",name:"sphinxcontrib-devhelp",ver:"2.0.0-r1",slot:"0",installed:false,desc:"Sphinx extension which outputs Devhelp documents",homepage:"https://www.sphinx-doc.org/ https://github.com/sphinx-doc/sphinxcontrib-devhelp/ https://pypi.org/project/sphinxcontrib-devhelp/",use:["-test"]},
+      {id:"dev-python/sphinxcontrib-applehelp-2.0.0-r1",cat:"dev-python",name:"sphinxcontrib-applehelp",ver:"2.0.0-r1",slot:"0",installed:false,desc:"Sphinx extension which outputs Apple help book",homepage:"https://www.sphinx-doc.org/ https://github.com/sphinx-doc/sphinxcontrib-applehelp/ https://pypi.org/project/sphinxcontrib-applehelp/",use:["-test"]},
+      {id:"dev-python/snowballstemmer-3.1.1",cat:"dev-python",name:"snowballstemmer",ver:"3.1.1",slot:"0",installed:false,desc:"Stemmer algorithms generated from Snowball algorithms",homepage:"https://snowballstem.org/ https://github.com/snowballstem/snowball/ https://pypi.org/project/snowballstemmer/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/roman-numerals-4.1.0",cat:"dev-python",name:"roman-numerals",ver:"4.1.0",slot:"0",installed:false,desc:"Manipulate roman numerals",homepage:"https://github.com/AA-Turner/roman-numerals/ https://pypi.org/project/roman-numerals/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/imagesize-2.0.1",cat:"dev-python",name:"imagesize",ver:"2.0.1",slot:"0",installed:false,desc:"Pure Python module for getting image size from png/jpeg/jpeg2000/gif files",homepage:"https://github.com/shibukawa/imagesize_py/ https://pypi.org/project/imagesize/",use:["-test"]},
+      {id:"dev-python/docutils-0.23",cat:"dev-python",name:"docutils",ver:"0.23",slot:"0",installed:false,desc:"Python Documentation Utilities (reference reStructuredText impl.)",homepage:"https://docutils.sourceforge.io/ https://pypi.org/project/docutils/",use:[]},
+      {id:"dev-python/babel-2.18.0",cat:"dev-python",name:"babel",ver:"2.18.0",slot:"0",installed:false,desc:"Collection of tools for internationalizing Python applications",homepage:"https://babel.pocoo.org/ https://pypi.org/project/babel/ https://github.com/python-babel/babel/",use:["-doc","-test","-verify-provenance"]},
+      {id:"dev-python/alabaster-1.0.0",cat:"dev-python",name:"alabaster",ver:"1.0.0",slot:"0",installed:false,desc:"A configurable sidebar-enabled Sphinx theme",homepage:"https://github.com/sphinx-doc/alabaster/ https://pypi.org/project/alabaster/",use:[]},
+      {id:"sci-libs/libspatialindex-1.9.3-r2",cat:"sci-libs",name:"libspatialindex",ver:"1.9.3-r2",slot:"0",installed:false,desc:"C++ implementation of R*-tree, an MVR-tree and a TPR-tree with C API",homepage:"https://libspatialindex.org/ https://github.com/libspatialindex/libspatialindex",use:["-test"]},
+      {id:"dev-python/jupyter-client-8.10.0",cat:"dev-python",name:"jupyter-client",ver:"8.10.0",slot:"0",installed:false,desc:"Jupyter protocol implementation and client libraries",homepage:"https://jupyter.org/ https://github.com/jupyter/jupyter_client/ https://pypi.org/project/jupyter-client/",use:["-test"]},
+      {id:"dev-python/ipykernel-7.3.0",cat:"dev-python",name:"ipykernel",ver:"7.3.0",slot:"0",installed:false,desc:"IPython Kernel for Jupyter",homepage:"https://github.com/ipython/ipykernel/ https://pypi.org/project/ipykernel/",use:["-test"]},
+      {id:"media-fonts/fontawesome-9999",cat:"media-fonts",name:"fontawesome",ver:"9999",slot:"0",installed:false,desc:"The iconic font",homepage:"https://fontawesome.com",use:["+X","+otf","-ttf"]},
+      {id:"dev-python/inflection-0.5.1-r1",cat:"dev-python",name:"inflection",ver:"0.5.1-r1",slot:"0",installed:false,desc:"A port of Ruby on Rails' inflector to Python",homepage:"https://github.com/jpvanhal/inflection/ https://pypi.org/project/inflection/",use:["-doc","-test"]},
+      {id:"net-libs/zeromq-4.3.5-r1",cat:"net-libs",name:"zeromq",ver:"4.3.5-r1",slot:"0",installed:false,desc:"High-performance asynchronous messaging library",homepage:"https://zeromq.org/",use:["-doc","-drafts","+libbsd","+sodium","-static-libs","-test","-unwind"]},
+      {id:"dev-python/lsprotocol-2025.0.0-r1",cat:"dev-python",name:"lsprotocol",ver:"2025.0.0-r1",slot:"0",installed:false,desc:"Language Server Protocol types code generator packages",homepage:"https://github.com/microsoft/lsprotocol https://pypi.org/project/lsprotocol/",use:["-test"]},
+      {id:"dev-python/cattrs-26.1.0",cat:"dev-python",name:"cattrs",ver:"26.1.0",slot:"0",installed:false,desc:"Composable complex class support for attrs and dataclasses",homepage:"https://pypi.org/project/cattrs/ https://github.com/python-attrs/cattrs/",use:["-test","+test-rust"]},
+      {id:"dev-util/ruff-0.16.5",cat:"dev-util",name:"ruff",ver:"0.16.5",slot:"0",installed:false,desc:"An extremely fast Python linter, written in Rust",homepage:"https://docs.astral.sh/ruff/ https://github.com/astral-sh/ruff",use:["-debug"]},
+      {id:"dev-python/black-26.5.1",cat:"dev-python",name:"black",ver:"26.5.1",slot:"0",installed:false,desc:"The uncompromising Python code formatter",homepage:"https://black.readthedocs.io/en/stable/ https://github.com/psf/black/ https://pypi.org/project/black/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/python-lsp-server-1.15.0",cat:"dev-python",name:"python-lsp-server",ver:"1.15.0",slot:"0",installed:false,desc:"Python Language Server for the Language Server Protocol",homepage:"https://github.com/python-lsp/python-lsp-server/ https://pypi.org/project/python-lsp-server/",use:["-all-plugins","-test"]},
+      {id:"dev-python/pylint-4.0.8",cat:"dev-python",name:"pylint",ver:"4.0.8",slot:"0",installed:false,desc:"Python code static checker",homepage:"https://pypi.org/project/pylint/ https://github.com/pylint-dev/pylint/",use:["-examples","-test","-verify-provenance"]},
+      {id:"dev-python/pynacl-1.6.2",cat:"dev-python",name:"pynacl",ver:"1.6.2",slot:"0",installed:false,desc:"Python binding to the Networking and Cryptography (NaCl) library",homepage:"https://github.com/pyca/pynacl/ https://pypi.org/project/PyNaCl/",use:["-debug","-test"]},
+      {id:"dev-python/pyjwt-2.13.0",cat:"dev-python",name:"pyjwt",ver:"2.13.0",slot:"0",installed:false,desc:"JSON Web Token implementation in Python",homepage:"https://github.com/jpadilla/pyjwt/ https://pypi.org/project/PyJWT/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/path-17.1.1",cat:"dev-python",name:"path",ver:"17.1.1",slot:"0",installed:false,desc:"A module wrapper for os.path",homepage:"https://github.com/jaraco/path/ https://pypi.org/project/path/",use:["-test"]},
+      {id:"dev-python/ptyprocess-0.7.0-r2",cat:"dev-python",name:"ptyprocess",ver:"0.7.0-r2",slot:"0",installed:false,desc:"Run a subprocess in a pseudo terminal",homepage:"https://github.com/pexpect/ptyprocess/ https://pypi.org/project/ptyprocess/",use:[]},
+      {id:"dev-python/tinycss2-1.5.1",cat:"dev-python",name:"tinycss2",ver:"1.5.1",slot:"0",installed:false,desc:"A complete yet simple CSS parser for Python",homepage:"https://www.courtbouillon.org/tinycss2/ https://github.com/Kozea/tinycss2/ https://pypi.org/project/tinycss2/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/traitlets-5.16.1",cat:"dev-python",name:"traitlets",ver:"5.16.1",slot:"0",installed:false,desc:"A configuration system for Python applications",homepage:"https://github.com/ipython/traitlets/ https://pypi.org/project/traitlets/",use:["-doc","-test"]},
+      {id:"dev-python/pandocfilters-1.5.1",cat:"dev-python",name:"pandocfilters",ver:"1.5.1",slot:"0",installed:false,desc:"Utilities for writing pandoc filters in python",homepage:"https://github.com/jgm/pandocfilters/ https://pypi.org/project/pandocfilters/",use:[]},
+      {id:"dev-python/nbformat-5.11.1",cat:"dev-python",name:"nbformat",ver:"5.11.1",slot:"0",installed:false,desc:"Reference implementation of the Jupyter Notebook format",homepage:"https://jupyter.org/ https://github.com/jupyter/nbformat/ https://pypi.org/project/nbformat/",use:["-test"]},
+      {id:"dev-python/nbclient-0.11.0",cat:"dev-python",name:"nbclient",ver:"0.11.0",slot:"0",installed:false,desc:"A client library for executing Jupyter notebooks",homepage:"https://nbclient.readthedocs.io/en/latest/ https://github.com/jupyter/nbclient/ https://pypi.org/project/nbclient/",use:["-test"]},
+      {id:"dev-python/mistune-3.3.4",cat:"dev-python",name:"mistune",ver:"3.3.4",slot:"0",installed:false,desc:"The fastest markdown parser in pure Python",homepage:"https://github.com/lepture/mistune/ https://pypi.org/project/mistune/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/markupsafe-3.0.3",cat:"dev-python",name:"markupsafe",ver:"3.0.3",slot:"0",installed:true,desc:"Implements a XML/HTML/XHTML Markup safe string for Python",homepage:"https://palletsprojects.com/p/markupsafe/ https://github.com/pallets/markupsafe/ https://pypi.org/project/MarkupSafe/",use:["-debug","+native-extensions","-test","-verify-provenance"]},
+      {id:"dev-python/jupyterlab-pygments-0.3.0",cat:"dev-python",name:"jupyterlab-pygments",ver:"0.3.0",slot:"0",installed:false,desc:"Pygments theme making use of JupyterLab CSS variables",homepage:"https://pypi.org/project/jupyterlab-pygments/ https://github.com/jupyterlab/jupyterlab_pygments/",use:[]},
+      {id:"dev-python/jupyter-core-5.9.1",cat:"dev-python",name:"jupyter-core",ver:"5.9.1",slot:"0",installed:false,desc:"Core common functionality of Jupyter projects",homepage:"https://jupyter.org/ https://github.com/jupyter/jupyter_core/ https://pypi.org/project/jupyter-core/",use:["-test"]},
+      {id:"dev-python/defusedxml-0.8.0_rc2",cat:"dev-python",name:"defusedxml",ver:"0.8.0_rc2",slot:"0",installed:false,desc:"XML bomb protection for Python stdlib modules, an xml serialiser",homepage:"https://github.com/tiran/defusedxml/ https://pypi.org/project/defusedxml/",use:["-examples"]},
+      {id:"dev-python/bleach-6.4.0",cat:"dev-python",name:"bleach",ver:"6.4.0",slot:"0",installed:false,desc:"An easy whitelist-based HTML-sanitizing tool",homepage:"https://github.com/mozilla/bleach/ https://pypi.org/project/bleach/",use:["-test"]},
+      {id:"dev-python/beautifulsoup4-4.15.0",cat:"dev-python",name:"beautifulsoup4",ver:"4.15.0",slot:"0",installed:false,desc:"Pythonic idioms for iterating, searching, and modifying an HTML/XML parse tree",homepage:"https://www.crummy.com/software/BeautifulSoup/bs4/ https://pypi.org/project/beautifulsoup4/",use:["-doc","-test"]},
+      {id:"dev-python/mdurl-0.1.2",cat:"dev-python",name:"mdurl",ver:"0.1.2",slot:"0",installed:false,desc:"Markdown URL utilities",homepage:"https://pypi.org/project/mdurl/ https://github.com/executablebooks/mdurl/",use:["-test"]},
+      {id:"dev-python/linkify-it-py-2.2.0",cat:"dev-python",name:"linkify-it-py",ver:"2.2.0",slot:"0",installed:false,desc:"Links recognition library with full unicode support",homepage:"https://github.com/tsutsu3/linkify-it-py/ https://pypi.org/project/linkify-it-py/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/jeepney-0.9.0",cat:"dev-python",name:"jeepney",ver:"0.9.0",slot:"0",installed:false,desc:"Low-level, pure Python DBus protocol wrapper",homepage:"https://gitlab.com/takluyver/jeepney/ https://pypi.org/project/jeepney/",use:["-doc","-examples","-test","+test-rust","-verify-provenance"]},
+      {id:"dev-python/jaraco-functools-4.6.0",cat:"dev-python",name:"jaraco-functools",ver:"4.6.0",slot:"0",installed:false,desc:"Additional functions used by other projects by developer jaraco",homepage:"https://github.com/jaraco/jaraco.functools/ https://pypi.org/project/jaraco.functools/",use:["-test"]},
+      {id:"dev-python/jaraco-context-6.1.2",cat:"dev-python",name:"jaraco-context",ver:"6.1.2",slot:"0",installed:false,desc:"Context managers by jaraco",homepage:"https://github.com/jaraco/jaraco.context/ https://pypi.org/project/jaraco.context/",use:["-test"]},
+      {id:"dev-python/jaraco-classes-3.4.0",cat:"dev-python",name:"jaraco-classes",ver:"3.4.0",slot:"0",installed:false,desc:"Classes used by other projects by developer jaraco",homepage:"https://github.com/jaraco/jaraco.classes/ https://pypi.org/project/jaraco.classes/",use:["-test"]},
+      {id:"dev-python/secretstorage-3.5.0",cat:"dev-python",name:"secretstorage",ver:"3.5.0",slot:"0",installed:false,desc:"Python bindings to FreeDesktop.org Secret Service API",homepage:"https://github.com/mitya57/secretstorage/ https://pypi.org/project/SecretStorage/",use:["-doc","-test","-verify-provenance"]},
+      {id:"dev-python/webcolors-25.10.0",cat:"dev-python",name:"webcolors",ver:"25.10.0",slot:"0",installed:false,desc:"Color names and value formats defined by the HTML and CSS specifications",homepage:"https://github.com/ubernostrum/webcolors/ https://pypi.org/project/webcolors/",use:["-test"]},
+      {id:"dev-python/uri-template-1.3.0",cat:"dev-python",name:"uri-template",ver:"1.3.0",slot:"0",installed:false,desc:"URI Template expansion in strict adherence to RFC 6570",homepage:"https://gitlab.linss.com/open-source/python/uri-template/ https://pypi.org/project/uri-template/",use:[]},
+      {id:"dev-python/rfc3987-1.3.8-r3",cat:"dev-python",name:"rfc3987",ver:"1.3.8-r3",slot:"0",installed:false,desc:"Parsing and validation of URIs (RFC 3986) and IRIs (RFC 3987)",homepage:"https://github.com/dgerber/rfc3987/ https://pypi.org/project/rfc3987/",use:[]},
+      {id:"dev-python/rfc3986-validator-0.1.1-r2",cat:"dev-python",name:"rfc3986-validator",ver:"0.1.1-r2",slot:"0",installed:false,desc:"Pure python RFC3986 validator",homepage:"https://pypi.org/project/rfc3986-validator/ https://github.com/naimetti/rfc3986-validator",use:["-test"]},
+      {id:"dev-python/rfc3339-validator-0.1.4-r1",cat:"dev-python",name:"rfc3339-validator",ver:"0.1.4-r1",slot:"0",installed:false,desc:"A pure python RFC3339 validator",homepage:"https://github.com/naimetti/rfc3339-validator/ https://pypi.org/project/rfc3339-validator/",use:["-test"]},
+      {id:"dev-python/jsonpointer-3.1.1",cat:"dev-python",name:"jsonpointer",ver:"3.1.1",slot:"0",installed:false,desc:"Identify specific nodes in a JSON document (according to draft 08)",homepage:"https://github.com/stefankoegl/python-json-pointer/ https://pypi.org/project/jsonpointer/",use:[]},
+      {id:"dev-python/isoduration-20.11.0-r1",cat:"dev-python",name:"isoduration",ver:"20.11.0-r1",slot:"0",installed:false,desc:"Operations with ISO 8601 durations",homepage:"https://pypi.org/project/isoduration/ https://github.com/bolsote/isoduration/",use:["-test"]},
+      {id:"dev-python/idna-3.19",cat:"dev-python",name:"idna",ver:"3.19",slot:"0",installed:false,desc:"Internationalized Domain Names in Applications (IDNA)",homepage:"https://github.com/kjd/idna/ https://pypi.org/project/idna/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/fqdn-1.5.1-r2",cat:"dev-python",name:"fqdn",ver:"1.5.1-r2",slot:"0",installed:false,desc:"RFC-compliant FQDN validation and manipulation for Python",homepage:"https://github.com/ypcrts/fqdn/ https://pypi.org/project/fqdn/",use:["-doc","-test"]},
+      {id:"dev-python/rpds-py-2026.6.3",cat:"dev-python",name:"rpds-py",ver:"2026.6.3",slot:"0",installed:false,desc:"Python bindings to Rust's persistent data structures (rpds)",homepage:"https://github.com/crate-py/rpds/ https://pypi.org/project/rpds-py/",use:["-debug","-test","-verify-provenance"]},
+      {id:"dev-python/referencing-0.37.0",cat:"dev-python",name:"referencing",ver:"0.37.0",slot:"0",installed:false,desc:"Cross-specification JSON referencing (JSON Schema, OpenAPI...)",homepage:"https://github.com/python-jsonschema/referencing/ https://pypi.org/project/referencing/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/jsonschema-specifications-2025.9.1",cat:"dev-python",name:"jsonschema-specifications",ver:"2025.9.1",slot:"0",installed:false,desc:"The JSON Schema meta-schemas and vocabularies, exposed as a Registry",homepage:"https://github.com/python-jsonschema/jsonschema-specifications/ https://pypi.org/project/jsonschema-specifications/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/sortedcontainers-2.4.0-r1",cat:"dev-python",name:"sortedcontainers",ver:"2.4.0-r1",slot:"0",installed:false,desc:"Python library to sort collections and containers",homepage:"https://grantjenks.com/docs/sortedcontainers/ https://github.com/grantjenks/python-sortedcontainers/ https://pypi.org/project/sortedcontainers/",use:["-test"]},
+      {id:"dev-python/rich-15.0.0",cat:"dev-python",name:"rich",ver:"15.0.0",slot:"0",installed:false,desc:"Python library for rendering rich text, tables, etc. to the terminal",homepage:"https://github.com/Textualize/rich/ https://pypi.org/project/rich/",use:["-test"]},
+      {id:"dev-python/requests-2.34.2",cat:"dev-python",name:"requests",ver:"2.34.2",slot:"0",installed:false,desc:"HTTP library for human beings",homepage:"https://requests.readthedocs.io/ https://github.com/psf/requests/ https://pypi.org/project/requests/",use:["-socks5","-test","+test-rust","-verify-provenance"]},
+      {id:"dev-python/python-slugify-8.0.4",cat:"dev-python",name:"python-slugify",ver:"8.0.4",slot:"0",installed:false,desc:"A Python Slugify application that handles Unicode",homepage:"https://github.com/un33k/python-slugify/ https://pypi.org/project/python-slugify/",use:["-test"]},
+      {id:"dev-python/pyyaml-6.0.3",cat:"dev-python",name:"pyyaml",ver:"6.0.3",slot:"0",installed:true,desc:"YAML parser and emitter for Python",homepage:"https://pyyaml.org/wiki/PyYAML https://pypi.org/project/PyYAML/ https://github.com/yaml/pyyaml/",use:["-debug","-examples","-test"]},
+      {id:"dev-python/jinja2-3.1.6",cat:"dev-python",name:"jinja2",ver:"3.1.6",slot:"0",installed:true,desc:"A full-featured template engine for Python",homepage:"https://palletsprojects.com/p/jinja/ https://github.com/pallets/jinja/ https://pypi.org/project/Jinja2/",use:["-doc","-test","-verify-provenance"]},
+      {id:"dev-python/click-8.5.0",cat:"dev-python",name:"click",ver:"8.5.0",slot:"0",installed:false,desc:"A Python package for creating beautiful command line interfaces",homepage:"https://palletsprojects.com/p/click/ https://github.com/pallets/click/ https://pypi.org/project/click/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/binaryornot-0.6.0",cat:"dev-python",name:"binaryornot",ver:"0.6.0",slot:"0",installed:false,desc:"Ultra-lightweight pure Python package to guess whether a file is binary or text",homepage:"https://github.com/binaryornot/binaryornot/ https://pypi.org/project/binaryornot/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/arrow-1.4.0",cat:"dev-python",name:"arrow",ver:"1.4.0",slot:"0",installed:false,desc:"Better dates and times for Python",homepage:"https://github.com/arrow-py/arrow/ https://pypi.org/project/arrow/",use:["-test"]},
+      {id:"dev-python/typing-extensions-4.16.0",cat:"dev-python",name:"typing-extensions",ver:"4.16.0",slot:"0",installed:false,desc:"Backported and Experimental Type Hints for Python 3.7+",homepage:"https://pypi.org/project/typing-extensions/ https://github.com/python/typing_extensions/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/cryptography-50.0.1",cat:"dev-python",name:"cryptography",ver:"50.0.1",slot:"0",installed:false,desc:"Library providing cryptographic recipes and primitives",homepage:"https://github.com/pyca/cryptography/ https://pypi.org/project/cryptography/",use:["-debug","-test","-verify-provenance"]},
+      {id:"virtual/openssh-0-r1",cat:"virtual",name:"openssh",ver:"0-r1",slot:"0",installed:true,desc:"Virtual for net-misc/openssh and variants",homepage:"",use:["+ssl"]},
+      {id:"dev-python/propcache-0.5.2",cat:"dev-python",name:"propcache",ver:"0.5.2",slot:"0",installed:false,desc:"Accelerated property cache",homepage:"https://github.com/aio-libs/propcache/ https://pypi.org/project/propcache/",use:["-debug","+native-extensions","-test","-verify-provenance"]},
+      {id:"dev-python/multidict-6.7.1",cat:"dev-python",name:"multidict",ver:"6.7.1",slot:"0",installed:false,desc:"multidict implementation",homepage:"https://github.com/aio-libs/multidict/ https://pypi.org/project/multidict/",use:["-debug","+native-extensions","-test"]},
+      {id:"dev-python/frozenlist-1.8.0",cat:"dev-python",name:"frozenlist",ver:"1.8.0",slot:"0",installed:false,desc:"A list-like structure which implements collections.abc.MutableSequence",homepage:"https://pypi.org/project/frozenlist/ https://github.com/aio-libs/frozenlist/",use:["-debug","+native-extensions","-test"]},
+      {id:"dev-python/brotlicffi-1.2.0.2",cat:"dev-python",name:"brotlicffi",ver:"1.2.0.2",slot:"0",installed:false,desc:"Python binding to the Brotli library",homepage:"https://github.com/python-hyper/brotlicffi/ https://pypi.org/project/brotlicffi/",use:["-debug","-test"]},
+      {id:"dev-python/attrs-26.1.0",cat:"dev-python",name:"attrs",ver:"26.1.0",slot:"0",installed:false,desc:"Attributes without boilerplate",homepage:"https://github.com/python-attrs/attrs/ https://attrs.readthedocs.io/ https://pypi.org/project/attrs/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/aiosignal-1.4.0",cat:"dev-python",name:"aiosignal",ver:"1.4.0",slot:"0",installed:false,desc:"A list of registered asynchronous callbacks",homepage:"https://pypi.org/project/aiosignal/ https://github.com/aio-libs/aiosignal/",use:["-test"]},
+      {id:"dev-python/aiohappyeyeballs-2.7.1",cat:"dev-python",name:"aiohappyeyeballs",ver:"2.7.1",slot:"0",installed:false,desc:"Happy Eyeballs for pre-resolved hosts",homepage:"https://pypi.org/project/aiohappyeyeballs/ https://github.com/aio-libs/aiohappyeyeballs/",use:["-test"]},
+      {id:"dev-python/aiodns-4.0.4",cat:"dev-python",name:"aiodns",ver:"4.0.4",slot:"0",installed:false,desc:"Simple DNS resolver for asyncio",homepage:"https://pypi.org/project/aiodns/ https://github.com/aio-libs/aiodns/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/yarl-1.24.5",cat:"dev-python",name:"yarl",ver:"1.24.5",slot:"0",installed:false,desc:"Yet another URL library",homepage:"https://github.com/aio-libs/yarl/ https://pypi.org/project/yarl/",use:["-debug","+native-extensions","-test","-verify-provenance"]},
+      {id:"dev-python/watchdog-6.0.0",cat:"dev-python",name:"watchdog",ver:"6.0.0",slot:"0",installed:false,desc:"Python API and shell utilities to monitor file system events",homepage:"https://github.com/gorakhargosh/watchdog/ https://pypi.org/project/watchdog/",use:["-test"]},
+      {id:"dev-python/three-merge-0.1.1-r1",cat:"dev-python",name:"three-merge",ver:"0.1.1-r1",slot:"0",installed:false,desc:"Simple Python library to perform a 3-way merge between strings",homepage:"https://github.com/spyder-ide/three-merge/ https://pypi.org/project/three-merge/",use:["-test"]},
+      {id:"dev-python/textdistance-4.6.3",cat:"dev-python",name:"textdistance",ver:"4.6.3",slot:"0",installed:false,desc:"Compute distance between the two texts",homepage:"https://github.com/life4/textdistance/ https://pypi.org/project/textdistance/",use:["-test"]},
+      {id:"dev-python/superqt-0.8.2",cat:"dev-python",name:"superqt",ver:"0.8.2",slot:"0",installed:false,desc:"Missing widgets and components for PyQt/PySide",homepage:"https://github.com/pyapp-kit/superqt/ https://pypi.org/project/superqt/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/spyder-kernels-3.1.6",cat:"dev-python",name:"spyder-kernels",ver:"3.1.6",slot:"0",installed:false,desc:"Kernels used by spyder on its ipython console",homepage:"https://github.com/spyder-ide/spyder-kernels/ https://pypi.org/project/spyder-kernels/",use:["-test"]},
+      {id:"dev-python/sphinx-9.1.0-r1",cat:"dev-python",name:"sphinx",ver:"9.1.0-r1",slot:"0",installed:false,desc:"Python documentation generator",homepage:"https://www.sphinx-doc.org/ https://github.com/sphinx-doc/sphinx/ https://pypi.org/project/Sphinx/",use:["-doc","-latex","-test"]},
+      {id:"dev-python/rtree-1.4.1",cat:"dev-python",name:"rtree",ver:"1.4.1",slot:"0",installed:false,desc:"R-Tree spatial index for Python GIS",homepage:"https://rtree.readthedocs.io/ https://github.com/Toblerity/rtree/ https://pypi.org/project/rtree/",use:["-doc","-test","-verify-provenance"]},
+      {id:"dev-python/qtpy-2.4.3-r3",cat:"dev-python",name:"qtpy",ver:"2.4.3-r3",slot:"0",installed:false,desc:"Abstraction layer on top of PyQt and PySide with additional custom QWidgets",homepage:"https://github.com/spyder-ide/qtpy/ https://pypi.org/project/QtPy/",use:["-bluetooth","+dbus","-designer","+gui","-help","-multimedia","+network","-nfc","+opengl","-pdfium","-positioning","+printsupport","+pyqt6","-pyside6","-qml","-quick","-quick3d","-remoteobjects","-scxml","-sensors","-serialport","-spatialaudio","-speech","+sql","-svg","-test","-testlib","-vulkan","-webchannel","-webengine","-websockets","+widgets","+xml"]},
+      {id:"dev-python/qtconsole-5.7.2",cat:"dev-python",name:"qtconsole",ver:"5.7.2",slot:"0",installed:false,desc:"Qt-based console for Jupyter with support for rich media output",homepage:"https://www.spyder-ide.org/ https://github.com/spyder-ide/qtconsole/ https://pypi.org/project/qtconsole/",use:["-doc","-test"]},
+      {id:"dev-python/qtawesome-1.4.2",cat:"dev-python",name:"qtawesome",ver:"1.4.2",slot:"0",installed:false,desc:"Enables iconic fonts such as Font Awesome in PyQt",homepage:"https://github.com/spyder-ide/qtawesome/ https://pypi.org/project/QtAwesome/",use:["-doc","-test"]},
+      {id:"dev-python/qstylizer-0.2.4",cat:"dev-python",name:"qstylizer",ver:"0.2.4",slot:"0",installed:false,desc:"Stylesheet Generator for PyQt6/PySide2",homepage:"https://github.com/blambright/qstylizer/ https://pypi.org/project/qstylizer/",use:["-doc","-test"]},
+      {id:"dev-python/qdarkstyle-3.2.3",cat:"dev-python",name:"qdarkstyle",ver:"3.2.3",slot:"0",installed:false,desc:"A dark style sheet for QtWidgets application",homepage:"https://github.com/ColinDuquesnoy/QDarkStyleSheet/ https://pypi.org/project/QDarkStyle/",use:["-test"]},
+      {id:"dev-python/pyzmq-27.2.0",cat:"dev-python",name:"pyzmq",ver:"27.2.0",slot:"0",installed:false,desc:"Lightweight and super-fast messaging library built on top of the ZeroMQ library",homepage:"https://zeromq.org/languages/python/ https://pypi.org/project/pyzmq/ https://github.com/zeromq/pyzmq/",use:["-debug","-drafts","-test"]},
+      {id:"dev-python/pyxdg-0.28-r2",cat:"dev-python",name:"pyxdg",ver:"0.28-r2",slot:"0",installed:false,desc:"A Python module to deal with freedesktop.org specifications",homepage:"https://freedesktop.org/wiki/Software/pyxdg/ https://pypi.org/project/pyxdg/",use:["-test"]},
+      {id:"dev-python/pyuca-1.2",cat:"dev-python",name:"pyuca",ver:"1.2",slot:"0",installed:false,desc:"Python implementation of the Unicode Collation Algorithm",homepage:"https://github.com/jtauber/pyuca https://pypi.org/project/pyuca/",use:[]},
+      {id:"dev-python/pyls-spyder-0.4.0-r4",cat:"dev-python",name:"pyls-spyder",ver:"0.4.0-r4",slot:"0",installed:false,desc:"Spyder extensions for the python language server",homepage:"https://github.com/spyder-ide/pyls-spyder https://pypi.org/project/pyls-spyder/",use:["-test"]},
+      {id:"dev-python/python-lsp-ruff-2.3.3",cat:"dev-python",name:"python-lsp-ruff",ver:"2.3.3",slot:"0",installed:false,desc:"Ruff linting plugin for the Python LSP Server",homepage:"https://github.com/python-lsp/python-lsp-ruff/ https://pypi.org/project/python-lsp-ruff/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/python-lsp-black-2.0.0-r2",cat:"dev-python",name:"python-lsp-black",ver:"2.0.0-r2",slot:"0",installed:false,desc:"Black plugin for the Python LSP Server",homepage:"https://github.com/python-lsp/python-lsp-black/ https://pypi.org/project/python-lsp-black/",use:["-test"]},
+      {id:"dev-python/pylint-venv-3.0.4",cat:"dev-python",name:"pylint-venv",ver:"3.0.4",slot:"0",installed:false,desc:"Init-hook to use the same Pylint with different virtual environments",homepage:"https://pypi.org/project/pylint-venv/ https://github.com/jgosmann/pylint-venv/",use:["-test"]},
+      {id:"dev-python/pygments-2.21.0",cat:"dev-python",name:"pygments",ver:"2.21.0",slot:"0",installed:false,desc:"Pygments is a syntax highlighting package written in Python",homepage:"https://pygments.org/ https://github.com/pygments/pygments/ https://pypi.org/project/Pygments/",use:["-test"]},
+      {id:"dev-python/pygithub-2.10.0",cat:"dev-python",name:"pygithub",ver:"2.10.0",slot:"0",installed:false,desc:"Python library to access the Github API v3",homepage:"https://github.com/PyGithub/PyGithub/ https://pypi.org/project/PyGithub/",use:["-test"]},
+      {id:"dev-python/psutil-7.2.2",cat:"dev-python",name:"psutil",ver:"7.2.2",slot:"0",installed:true,desc:"Retrieve information on running processes and system utilization",homepage:"https://github.com/giampaolo/psutil/ https://pypi.org/project/psutil/",use:["-debug","-test"]},
+      {id:"dev-python/pickleshare-0.7.5-r1",cat:"dev-python",name:"pickleshare",ver:"0.7.5-r1",slot:"0",installed:false,desc:"A small 'shelve' like datastore with concurrency support",homepage:"https://github.com/ipython/pickleshare/ https://pypi.org/project/pickleshare/",use:["-test"]},
+      {id:"dev-python/pexpect-4.9.0",cat:"dev-python",name:"pexpect",ver:"4.9.0",slot:"0",installed:false,desc:"Python module for spawning child apps and responding to expected patterns",homepage:"https://pexpect.readthedocs.io/ https://pypi.org/project/pexpect/ https://github.com/pexpect/pexpect/",use:["-doc","-examples","-test"]},
+      {id:"dev-python/packaging-26.3",cat:"dev-python",name:"packaging",ver:"26.3",slot:"0",installed:false,desc:"Core utilities for Python packages",homepage:"https://github.com/pypa/packaging/ https://pypi.org/project/packaging/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/numpydoc-1.10.0",cat:"dev-python",name:"numpydoc",ver:"1.10.0",slot:"0",installed:false,desc:"Sphinx extension to support docstrings in Numpy format",homepage:"https://numpydoc.readthedocs.io/en/latest/ https://github.com/numpy/numpydoc/ https://pypi.org/project/numpydoc/",use:["-test"]},
+      {id:"dev-python/nbconvert-7.17.1",cat:"dev-python",name:"nbconvert",ver:"7.17.1",slot:"0",installed:false,desc:"Converting Jupyter Notebooks",homepage:"https://nbconvert.readthedocs.io/ https://github.com/jupyter/nbconvert/ https://pypi.org/project/nbconvert/",use:["-test"]},
+      {id:"dev-python/markdown-it-py-4.2.0",cat:"dev-python",name:"markdown-it-py",ver:"4.2.0",slot:"0",installed:false,desc:"Python port of markdown-it, Markdown parser",homepage:"https://pypi.org/project/markdown-it-py/ https://github.com/executablebooks/markdown-it-py/",use:["-test"]},
+      {id:"dev-python/keyring-25.7.0",cat:"dev-python",name:"keyring",ver:"25.7.0",slot:"0",installed:false,desc:"Provides access to the system keyring service",homepage:"https://github.com/jaraco/keyring/ https://pypi.org/project/keyring/",use:["-test"]},
+      {id:"dev-python/jsonschema-4.26.0",cat:"dev-python",name:"jsonschema",ver:"4.26.0",slot:"0",installed:false,desc:"An implementation of JSON-Schema validation for Python",homepage:"https://pypi.org/project/jsonschema/ https://github.com/python-jsonschema/jsonschema/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/jellyfish-1.2.1",cat:"dev-python",name:"jellyfish",ver:"1.2.1",slot:"0",installed:false,desc:"Python module for doing approximate and phonetic matching of strings",homepage:"https://github.com/jamesturk/jellyfish/ https://pypi.org/project/jellyfish/",use:["-debug","-test"]},
+      {id:"dev-python/ipython-pygments-lexers-1.1.1",cat:"dev-python",name:"ipython-pygments-lexers",ver:"1.1.1",slot:"0",installed:false,desc:"Pygments lexers for syntax-highlighting IPython code and sessions",homepage:"https://github.com/ipython/ipython-pygments-lexers/ https://pypi.org/project/ipython-pygments-lexers/",use:["-test","-verify-provenance"]},
+      {id:"dev-python/intervaltree-3.2.1",cat:"dev-python",name:"intervaltree",ver:"3.2.1",slot:"0",installed:false,desc:"Editable interval tree data structure for Python 2 and 3",homepage:"https://github.com/chaimleib/intervaltree/ https://pypi.org/project/intervaltree/",use:["-test"]},
+      {id:"dev-python/diff-match-patch-20241021",cat:"dev-python",name:"diff-match-patch",ver:"20241021",slot:"0",installed:false,desc:"Diff, match and patch algorithms for plain text",homepage:"https://github.com/diff-match-patch-python/diff-match-patch/ https://pypi.org/project/diff-match-patch/",use:["-test"]},
+      {id:"dev-util/cookiecutter-2.7.1",cat:"dev-util",name:"cookiecutter",ver:"2.7.1",slot:"0",installed:false,desc:"Command-line utility to create projects from cookiecutters (project templates)",homepage:"https://github.com/cookiecutter/cookiecutter",use:["-test"]},
+      {id:"dev-python/chardet-6.0.0_p1",cat:"dev-python",name:"chardet",ver:"6.0.0_p1",slot:"0",installed:false,desc:"Universal encoding detector",homepage:"https://github.com/chardet/chardet/ https://pypi.org/project/chardet/",use:["-test"]},
+      {id:"dev-python/bcrypt-5.0.0",cat:"dev-python",name:"bcrypt",ver:"5.0.0",slot:"0",installed:false,desc:"Modern password hashing for software and servers",homepage:"https://github.com/pyca/bcrypt/ https://pypi.org/project/bcrypt/",use:["-debug","-test","-verify-provenance"]},
+      {id:"dev-python/asyncssh-2.24.0",cat:"dev-python",name:"asyncssh",ver:"2.24.0",slot:"0",installed:false,desc:"Asynchronous SSHv2 client and server library",homepage:"https://github.com/ronf/asyncssh/ https://pypi.org/project/asyncssh/",use:["-doc","-test"]},
+      {id:"dev-python/aiohttp-3.14.3",cat:"dev-python",name:"aiohttp",ver:"3.14.3",slot:"0",installed:false,desc:"HTTP client/server for asyncio",homepage:"https://github.com/aio-libs/aiohttp/ https://pypi.org/project/aiohttp/",use:["-debug","+native-extensions","-test","+test-rust","-verify-provenance"]},
+      {id:"dev-python/spyder-6.1.7",cat:"dev-python",name:"spyder",ver:"6.1.7",slot:"0",installed:false,desc:"The Scientific Python Development Environment",homepage:"https://www.spyder-ide.org/ https://github.com/spyder-ide/spyder/ https://pypi.org/project/spyder/",use:["-test"]}
+    ],
+    edges: [
+      {from:"dev-libs/libxml2-9999",to:"virtual/libiconv-0-r2",type:"no"},
+      {from:"dev-libs/libxml2-9999",to:"virtual/zlib-1.3.1-r1",type:"no"},
+      {from:"dev-libs/libxslt-9999",to:"dev-libs/libxml2-9999",type:"no"},
+      {from:"dev-python/aiodns-4.0.4",to:"dev-python/pycares-5.0.1",type:"no"},
+      {from:"dev-python/aiohttp-3.14.3",to:"dev-python/aiodns-4.0.4",type:"no"},
+      {from:"dev-python/aiohttp-3.14.3",to:"dev-python/aiohappyeyeballs-2.7.1",type:"no"},
+      {from:"dev-python/aiohttp-3.14.3",to:"dev-python/aiosignal-1.4.0",type:"no"},
+      {from:"dev-python/aiohttp-3.14.3",to:"dev-python/attrs-26.1.0",type:"no"},
+      {from:"dev-python/aiohttp-3.14.3",to:"dev-python/brotlicffi-1.2.0.2",type:"no"},
+      {from:"dev-python/aiohttp-3.14.3",to:"dev-python/frozenlist-1.8.0",type:"no"},
+      {from:"dev-python/aiohttp-3.14.3",to:"dev-python/multidict-6.7.1",type:"no"},
+      {from:"dev-python/aiohttp-3.14.3",to:"dev-python/propcache-0.5.2",type:"no"},
+      {from:"dev-python/aiohttp-3.14.3",to:"dev-python/yarl-1.24.5",type:"no"},
+      {from:"dev-python/aiosignal-1.4.0",to:"dev-python/frozenlist-1.8.0",type:"no"},
+      {from:"dev-python/arrow-1.4.0",to:"dev-python/python-dateutil-2.9.0_p0",type:"no"},
+      {from:"dev-python/arrow-1.4.0",to:"dev-python/tzdata-10001",type:"no"},
+      {from:"dev-python/asyncssh-2.24.0",to:"dev-python/cryptography-50.0.1",type:"no"},
+      {from:"dev-python/asyncssh-2.24.0",to:"dev-python/typing-extensions-4.16.0",type:"no"},
+      {from:"dev-python/asyncssh-2.24.0",to:"virtual/openssh-0-r1",type:"no"},
+      {from:"dev-python/beautifulsoup4-4.15.0",to:"dev-python/html5lib-1.2_pre20240221",type:"no"},
+      {from:"dev-python/beautifulsoup4-4.15.0",to:"dev-python/lxml-6.1.3",type:"no"},
+      {from:"dev-python/beautifulsoup4-4.15.0",to:"dev-python/soupsieve-2.9.2",type:"no"},
+      {from:"dev-python/beautifulsoup4-4.15.0",to:"dev-python/typing-extensions-4.16.0",type:"no"},
+      {from:"dev-python/black-26.5.1",to:"dev-python/click-8.5.0",type:"no"},
+      {from:"dev-python/black-26.5.1",to:"dev-python/mypy-extensions-1.1.0",type:"no"},
+      {from:"dev-python/black-26.5.1",to:"dev-python/packaging-26.3",type:"no"},
+      {from:"dev-python/black-26.5.1",to:"dev-python/pathspec-1.1.1",type:"no"},
+      {from:"dev-python/black-26.5.1",to:"dev-python/platformdirs-4.11.7",type:"no"},
+      {from:"dev-python/black-26.5.1",to:"dev-python/pytokens-0.4.1",type:"no"},
+      {from:"dev-python/bleach-6.4.0",to:"dev-python/packaging-26.3",type:"no"},
+      {from:"dev-python/bleach-6.4.0",to:"dev-python/webencodings-0.6.1",type:"no"},
+      {from:"dev-python/brotlicffi-1.2.0.2",to:"app-arch/brotli-9999",type:"no"},
+      {from:"dev-python/cattrs-26.1.0",to:"dev-python/attrs-26.1.0",type:"no"},
+      {from:"dev-python/cattrs-26.1.0",to:"dev-python/typing-extensions-4.16.0",type:"no"},
+      {from:"dev-python/certifi-3024.7.22",to:"app-misc/ca-certificates-20260601.3.112.5",type:"no"},
+      {from:"dev-python/cffi-2.1.1",to:"dev-libs/libffi-9999",type:"no"},
+      {from:"dev-python/cffi-2.1.1",to:"dev-python/pycparser-3.0",type:"no"},
+      {from:"dev-python/cffi-2.1.1",to:"dev-python/setuptools-84.0.0",type:"no"},
+      {from:"dev-python/cryptography-50.0.1",to:"dev-libs/openssl-4.0.9999",type:"no"},
+      {from:"dev-python/cryptography-50.0.1",to:"dev-python/cffi-2.1.1",type:"no"},
+      {from:"dev-python/docstring-to-markdown-0.17",to:"dev-python/importlib-metadata-9.0.1",type:"no"},
+      {from:"dev-python/docstring-to-markdown-0.17",to:"dev-python/typing-extensions-4.16.0",type:"no"},
+      {from:"dev-python/docutils-0.23",to:"dev-python/pillow-12.3.0",type:"no"},
+      {from:"dev-python/docutils-0.23",to:"dev-python/pygments-2.21.0",type:"no"},
+      {from:"dev-python/flake8-7.3.0",to:"dev-python/pycodestyle-2.14.0",type:"no"},
+      {from:"dev-python/flake8-7.3.0",to:"dev-python/pyflakes-3.4.0",type:"no"},
+      {from:"dev-python/html5lib-1.2_pre20240221",to:"dev-python/six-1.17.0",type:"no"},
+      {from:"dev-python/html5lib-1.2_pre20240221",to:"dev-python/webencodings-0.6.1",type:"no"},
+      {from:"dev-python/hyperlink-21.0.0-r1",to:"dev-python/idna-3.19",type:"no"},
+      {from:"dev-python/importlib-metadata-9.0.1",to:"dev-python/zipp-4.1.0",type:"no"},
+      {from:"dev-python/incremental-24.11.0",to:"dev-python/packaging-26.3",type:"no"},
+      {from:"dev-python/intervaltree-3.2.1",to:"dev-python/sortedcontainers-2.4.0-r1",type:"no"},
+      {from:"dev-python/ipykernel-6.31.0",to:"dev-python/comm-0.2.3",type:"no"},
+      {from:"dev-python/ipykernel-6.31.0",to:"dev-python/ipython-9.17.1",type:"no"},
+      {from:"dev-python/ipykernel-6.31.0",to:"dev-python/jupyter-client-8.10.0",type:"no"},
+      {from:"dev-python/ipykernel-6.31.0",to:"dev-python/jupyter-core-5.9.1",type:"no"},
+      {from:"dev-python/ipykernel-6.31.0",to:"dev-python/matplotlib-inline-0.2.2",type:"no"},
+      {from:"dev-python/ipykernel-6.31.0",to:"dev-python/nest-asyncio-1.6.0-r1",type:"no"},
+      {from:"dev-python/ipykernel-6.31.0",to:"dev-python/packaging-26.3",type:"no"},
+      {from:"dev-python/ipykernel-6.31.0",to:"dev-python/psutil-7.2.2",type:"no"},
+      {from:"dev-python/ipykernel-6.31.0",to:"dev-python/pyzmq-27.2.0",type:"no"},
+      {from:"dev-python/ipykernel-6.31.0",to:"dev-python/tornado-6.5.8",type:"no"},
+      {from:"dev-python/ipykernel-6.31.0",to:"dev-python/traitlets-5.16.1",type:"no"},
+      {from:"dev-python/ipykernel-7.3.0",to:"dev-python/comm-0.2.3",type:"no"},
+      {from:"dev-python/ipykernel-7.3.0",to:"dev-python/ipython-9.17.1",type:"no"},
+      {from:"dev-python/ipykernel-7.3.0",to:"dev-python/jupyter-client-8.10.0",type:"no"},
+      {from:"dev-python/ipykernel-7.3.0",to:"dev-python/jupyter-core-5.9.1",type:"no"},
+      {from:"dev-python/ipykernel-7.3.0",to:"dev-python/matplotlib-inline-0.2.2",type:"no"},
+      {from:"dev-python/ipykernel-7.3.0",to:"dev-python/nest-asyncio2-1.7.2",type:"no"},
+      {from:"dev-python/ipykernel-7.3.0",to:"dev-python/packaging-26.3",type:"no"},
+      {from:"dev-python/ipykernel-7.3.0",to:"dev-python/psutil-7.2.2",type:"no"},
+      {from:"dev-python/ipykernel-7.3.0",to:"dev-python/pyzmq-27.2.0",type:"no"},
+      {from:"dev-python/ipykernel-7.3.0",to:"dev-python/tornado-6.5.8",type:"no"},
+      {from:"dev-python/ipykernel-7.3.0",to:"dev-python/traitlets-5.16.1",type:"no"},
+      {from:"dev-python/ipython-9.17.1",to:"dev-python/ipython-pygments-lexers-1.1.1",type:"no"},
+      {from:"dev-python/ipython-9.17.1",to:"dev-python/jedi-0.20.0",type:"no"},
+      {from:"dev-python/ipython-9.17.1",to:"dev-python/matplotlib-inline-0.2.2",type:"no"},
+      {from:"dev-python/ipython-9.17.1",to:"dev-python/pexpect-4.9.0",type:"no"},
+      {from:"dev-python/ipython-9.17.1",to:"dev-python/prompt-toolkit-3.0.53",type:"no"},
+      {from:"dev-python/ipython-9.17.1",to:"dev-python/psutil-7.2.2",type:"no"},
+      {from:"dev-python/ipython-9.17.1",to:"dev-python/pygments-2.21.0",type:"no"},
+      {from:"dev-python/ipython-9.17.1",to:"dev-python/stack-data-0.6.3-r1",type:"no"},
+      {from:"dev-python/ipython-9.17.1",to:"dev-python/traitlets-5.16.1",type:"no"},
+      {from:"dev-python/ipython-pygments-lexers-1.1.1",to:"dev-python/pygments-2.21.0",type:"no"},
+      {from:"dev-python/isoduration-20.11.0-r1",to:"dev-python/arrow-1.4.0",type:"no"},
+      {from:"dev-python/jaraco-functools-4.6.0",to:"dev-python/more-itertools-11.1.0",type:"no"},
+      {from:"dev-python/jaraco-text-4.3.0",to:"dev-python/jaraco-context-6.1.2",type:"no"},
+      {from:"dev-python/jaraco-text-4.3.0",to:"dev-python/jaraco-functools-4.6.0",type:"no"},
+      {from:"dev-python/jedi-0.20.0",to:"dev-python/parso-0.8.7",type:"no"},
+      {from:"dev-python/jinja2-3.1.6",to:"dev-python/markupsafe-3.0.3",type:"no"},
+      {from:"dev-python/jsonschema-4.26.0",to:"dev-python/attrs-26.1.0",type:"no"},
+      {from:"dev-python/jsonschema-4.26.0",to:"dev-python/fqdn-1.5.1-r2",type:"no"},
+      {from:"dev-python/jsonschema-4.26.0",to:"dev-python/idna-3.19",type:"no"},
+      {from:"dev-python/jsonschema-4.26.0",to:"dev-python/isoduration-20.11.0-r1",type:"no"},
+      {from:"dev-python/jsonschema-4.26.0",to:"dev-python/jsonpointer-3.1.1",type:"no"},
+      {from:"dev-python/jsonschema-4.26.0",to:"dev-python/jsonschema-specifications-2025.9.1",type:"no"},
+      {from:"dev-python/jsonschema-4.26.0",to:"dev-python/referencing-0.37.0",type:"no"},
+      {from:"dev-python/jsonschema-4.26.0",to:"dev-python/rfc3339-validator-0.1.4-r1",type:"no"},
+      {from:"dev-python/jsonschema-4.26.0",to:"dev-python/rfc3986-validator-0.1.1-r2",type:"no"},
+      {from:"dev-python/jsonschema-4.26.0",to:"dev-python/rfc3987-1.3.8-r3",type:"no"},
+      {from:"dev-python/jsonschema-4.26.0",to:"dev-python/rpds-py-2026.6.3",type:"no"},
+      {from:"dev-python/jsonschema-4.26.0",to:"dev-python/uri-template-1.3.0",type:"no"},
+      {from:"dev-python/jsonschema-4.26.0",to:"dev-python/webcolors-25.10.0",type:"no"},
+      {from:"dev-python/jsonschema-specifications-2025.9.1",to:"dev-python/referencing-0.37.0",type:"no"},
+      {from:"dev-python/jupyter-client-8.10.0",to:"dev-python/jupyter-core-5.9.1",type:"no"},
+      {from:"dev-python/jupyter-client-8.10.0",to:"dev-python/python-dateutil-2.9.0_p0",type:"no"},
+      {from:"dev-python/jupyter-client-8.10.0",to:"dev-python/pyzmq-27.2.0",type:"no"},
+      {from:"dev-python/jupyter-client-8.10.0",to:"dev-python/tornado-6.5.8",type:"no"},
+      {from:"dev-python/jupyter-client-8.10.0",to:"dev-python/traitlets-5.16.1",type:"no"},
+      {from:"dev-python/jupyter-client-8.10.0",to:"dev-python/typing-extensions-4.16.0",type:"no"},
+      {from:"dev-python/jupyter-core-5.9.1",to:"dev-python/platformdirs-4.11.7",type:"no"},
+      {from:"dev-python/jupyter-core-5.9.1",to:"dev-python/traitlets-5.16.1",type:"no"},
+      {from:"dev-python/jupyterlab-pygments-0.3.0",to:"dev-python/pygments-2.21.0",type:"no"},
+      {from:"dev-python/keyring-25.7.0",to:"dev-python/jaraco-classes-3.4.0",type:"no"},
+      {from:"dev-python/keyring-25.7.0",to:"dev-python/jaraco-context-6.1.2",type:"no"},
+      {from:"dev-python/keyring-25.7.0",to:"dev-python/jaraco-functools-4.6.0",type:"no"},
+      {from:"dev-python/keyring-25.7.0",to:"dev-python/jeepney-0.9.0",type:"no"},
+      {from:"dev-python/keyring-25.7.0",to:"dev-python/secretstorage-3.5.0",type:"no"},
+      {from:"dev-python/linkify-it-py-2.2.0",to:"dev-python/uc-micro-py-2.0.0",type:"no"},
+      {from:"dev-python/lsprotocol-2025.0.0-r1",to:"dev-python/attrs-26.1.0",type:"no"},
+      {from:"dev-python/lsprotocol-2025.0.0-r1",to:"dev-python/cattrs-26.1.0",type:"no"},
+      {from:"dev-python/lxml-6.1.3",to:"dev-libs/libxml2-9999",type:"no"},
+      {from:"dev-python/lxml-6.1.3",to:"dev-libs/libxslt-9999",type:"no"},
+      {from:"dev-python/markdown-it-py-4.2.0",to:"dev-python/linkify-it-py-2.2.0",type:"no"},
+      {from:"dev-python/markdown-it-py-4.2.0",to:"dev-python/mdurl-0.1.2",type:"no"},
+      {from:"dev-python/matplotlib-inline-0.2.2",to:"dev-python/traitlets-5.16.1",type:"no"},
+      {from:"dev-python/mccabe-0.7.0",to:"dev-python/flake8-7.3.0",type:"no"},
+      {from:"dev-python/nbclient-0.11.0",to:"dev-python/jupyter-client-8.10.0",type:"no"},
+      {from:"dev-python/nbclient-0.11.0",to:"dev-python/jupyter-core-5.9.1",type:"no"},
+      {from:"dev-python/nbclient-0.11.0",to:"dev-python/nbformat-5.11.1",type:"no"},
+      {from:"dev-python/nbclient-0.11.0",to:"dev-python/traitlets-5.16.1",type:"no"},
+      {from:"dev-python/nbconvert-7.17.1",to:"dev-python/beautifulsoup4-4.15.0",type:"no"},
+      {from:"dev-python/nbconvert-7.17.1",to:"dev-python/bleach-6.4.0",type:"no"},
+      {from:"dev-python/nbconvert-7.17.1",to:"dev-python/defusedxml-0.8.0_rc2",type:"no"},
+      {from:"dev-python/nbconvert-7.17.1",to:"dev-python/jinja2-3.1.6",type:"no"},
+      {from:"dev-python/nbconvert-7.17.1",to:"dev-python/jupyter-core-5.9.1",type:"no"},
+      {from:"dev-python/nbconvert-7.17.1",to:"dev-python/jupyterlab-pygments-0.3.0",type:"no"},
+      {from:"dev-python/nbconvert-7.17.1",to:"dev-python/markupsafe-3.0.3",type:"no"},
+      {from:"dev-python/nbconvert-7.17.1",to:"dev-python/mistune-3.3.4",type:"no"},
+      {from:"dev-python/nbconvert-7.17.1",to:"dev-python/nbclient-0.11.0",type:"no"},
+      {from:"dev-python/nbconvert-7.17.1",to:"dev-python/nbformat-5.11.1",type:"no"},
+      {from:"dev-python/nbconvert-7.17.1",to:"dev-python/packaging-26.3",type:"no"},
+      {from:"dev-python/nbconvert-7.17.1",to:"dev-python/pandocfilters-1.5.1",type:"no"},
+      {from:"dev-python/nbconvert-7.17.1",to:"dev-python/pygments-2.21.0",type:"no"},
+      {from:"dev-python/nbconvert-7.17.1",to:"dev-python/tinycss2-1.5.1",type:"no"},
+      {from:"dev-python/nbconvert-7.17.1",to:"dev-python/traitlets-5.16.1",type:"no"},
+      {from:"dev-python/nbformat-5.11.1",to:"dev-python/fastjsonschema-2.22.2",type:"no"},
+      {from:"dev-python/nbformat-5.11.1",to:"dev-python/jsonschema-4.26.0",type:"no"},
+      {from:"dev-python/nbformat-5.11.1",to:"dev-python/jupyter-core-5.9.1",type:"no"},
+      {from:"dev-python/nbformat-5.11.1",to:"dev-python/traitlets-5.16.1",type:"no"},
+      {from:"dev-python/numpydoc-1.10.0",to:"dev-python/sphinx-9.1.0-r1",type:"no"},
+      {from:"dev-python/path-17.1.1",to:"dev-python/appdirs-1.4.4-r3",type:"no"},
+      {from:"dev-python/pexpect-4.9.0",to:"dev-python/ptyprocess-0.7.0-r2",type:"no"},
+      {from:"dev-python/pickleshare-0.7.5-r1",to:"dev-python/path-17.1.1",type:"no"},
+      {from:"dev-python/pillow-12.3.0",to:"dev-python/olefile-0.47",type:"no"},
+      {from:"dev-python/prompt-toolkit-3.0.53",to:"dev-python/wcwidth-0.8.3",type:"no"},
+      {from:"dev-python/pycares-5.0.1",to:"dev-python/idna-3.19",type:"no"},
+      {from:"dev-python/pycares-5.0.1",to:"net-dns/c-ares-1.34.8",type:"no"},
+      {from:"dev-python/pycparser-3.0",to:"dev-python/ply-3.11-r2",type:"no"},
+      {from:"dev-python/pygithub-2.10.0",to:"dev-python/cryptography-50.0.1",type:"no"},
+      {from:"dev-python/pygithub-2.10.0",to:"dev-python/pyjwt-2.13.0",type:"no"},
+      {from:"dev-python/pygithub-2.10.0",to:"dev-python/pynacl-1.6.2",type:"no"},
+      {from:"dev-python/pygithub-2.10.0",to:"dev-python/requests-2.34.2",type:"no"},
+      {from:"dev-python/pygithub-2.10.0",to:"dev-python/typing-extensions-4.16.0",type:"no"},
+      {from:"dev-python/pylint-4.0.8",to:"dev-python/astroid-4.0.4",type:"no"},
+      {from:"dev-python/pylint-4.0.8",to:"dev-python/astroid-4.3.1",type:"no"},
+      {from:"dev-python/pylint-4.0.8",to:"dev-python/dill-0.4.1",type:"no"},
+      {from:"dev-python/pylint-4.0.8",to:"dev-python/isort-9.0.1",type:"no"},
+      {from:"dev-python/pylint-4.0.8",to:"dev-python/mccabe-0.7.0",type:"no"},
+      {from:"dev-python/pylint-4.0.8",to:"dev-python/platformdirs-4.11.7",type:"no"},
+      {from:"dev-python/pylint-4.0.8",to:"dev-python/tomlkit-0.15.1",type:"no"},
+      {from:"dev-python/pylint-venv-3.0.4",to:"dev-python/pylint-4.0.8",type:"no"},
+      {from:"dev-python/pyls-spyder-0.4.0-r4",to:"dev-python/python-lsp-server-1.15.0",type:"no"},
+      {from:"dev-python/pynacl-1.6.2",to:"dev-libs/libsodium-1.0.22",type:"no"},
+      {from:"dev-python/python-dateutil-2.9.0_p0",to:"dev-python/six-1.17.0",type:"no"},
+      {from:"dev-python/python-dateutil-2.9.0_p0",to:"sys-libs/timezone-data-2026c",type:"no"},
+      {from:"dev-python/python-lsp-black-2.0.0-r2",to:"dev-python/black-26.5.1",type:"no"},
+      {from:"dev-python/python-lsp-black-2.0.0-r2",to:"dev-python/python-lsp-server-1.15.0",type:"no"},
+      {from:"dev-python/python-lsp-jsonrpc-1.1.2",to:"dev-python/ujson-5.13.0",type:"no"},
+      {from:"dev-python/python-lsp-ruff-2.3.3",to:"dev-python/cattrs-26.1.0",type:"no"},
+      {from:"dev-python/python-lsp-ruff-2.3.3",to:"dev-python/lsprotocol-2025.0.0-r1",type:"no"},
+      {from:"dev-python/python-lsp-ruff-2.3.3",to:"dev-python/python-lsp-server-1.15.0",type:"no"},
+      {from:"dev-python/python-lsp-ruff-2.3.3",to:"dev-util/ruff-0.16.5",type:"no"},
+      {from:"dev-python/python-lsp-server-1.15.0",to:"dev-python/docstring-to-markdown-0.17",type:"no"},
+      {from:"dev-python/python-lsp-server-1.15.0",to:"dev-python/jedi-0.20.0",type:"no"},
+      {from:"dev-python/python-lsp-server-1.15.0",to:"dev-python/pluggy-1.6.0",type:"no"},
+      {from:"dev-python/python-lsp-server-1.15.0",to:"dev-python/python-lsp-jsonrpc-1.1.2",type:"no"},
+      {from:"dev-python/python-slugify-8.0.4",to:"dev-python/text-unidecode-1.3-r1",type:"no"},
+      {from:"dev-python/pyyaml-6.0.3",to:"dev-libs/libyaml-0.2.5",type:"no"},
+      {from:"dev-python/pyzmq-27.2.0",to:"net-libs/zeromq-4.3.5-r1",type:"no"},
+      {from:"dev-python/qdarkstyle-3.2.3",to:"dev-python/qtpy-2.4.3-r3",type:"no"},
+      {from:"dev-python/qstylizer-0.2.4",to:"dev-python/inflection-0.5.1-r1",type:"no"},
+      {from:"dev-python/qstylizer-0.2.4",to:"dev-python/tinycss2-1.5.1",type:"no"},
+      {from:"dev-python/qtawesome-1.4.2",to:"dev-python/qtpy-2.4.3-r3",type:"no"},
+      {from:"dev-python/qtawesome-1.4.2",to:"media-fonts/fontawesome-9999",type:"no"},
+      {from:"dev-python/qtconsole-5.7.2",to:"dev-python/ipykernel-7.3.0",type:"no"},
+      {from:"dev-python/qtconsole-5.7.2",to:"dev-python/jupyter-client-8.10.0",type:"no"},
+      {from:"dev-python/qtconsole-5.7.2",to:"dev-python/jupyter-core-5.9.1",type:"no"},
+      {from:"dev-python/qtconsole-5.7.2",to:"dev-python/packaging-26.3",type:"no"},
+      {from:"dev-python/qtconsole-5.7.2",to:"dev-python/pygments-2.21.0",type:"no"},
+      {from:"dev-python/qtconsole-5.7.2",to:"dev-python/qtpy-2.4.3-r3",type:"no"},
+      {from:"dev-python/qtconsole-5.7.2",to:"dev-python/traitlets-5.16.1",type:"no"},
+      {from:"dev-python/qtpy-2.4.3-r3",to:"dev-python/packaging-26.3",type:"no"},
+      {from:"dev-python/referencing-0.37.0",to:"dev-python/attrs-26.1.0",type:"no"},
+      {from:"dev-python/referencing-0.37.0",to:"dev-python/rpds-py-2026.6.3",type:"no"},
+      {from:"dev-python/requests-2.34.2",to:"dev-python/certifi-3024.7.22",type:"no"},
+      {from:"dev-python/requests-2.34.2",to:"dev-python/charset-normalizer-3.5.1",type:"no"},
+      {from:"dev-python/requests-2.34.2",to:"dev-python/idna-3.19",type:"no"},
+      {from:"dev-python/requests-2.34.2",to:"dev-python/urllib3-2.7.0",type:"no"},
+      {from:"dev-python/rfc3339-validator-0.1.4-r1",to:"dev-python/six-1.17.0",type:"no"},
+      {from:"dev-python/rfc3339-validator-0.1.4-r1",to:"dev-python/strict-rfc3339-0.7-r2",type:"no"},
+      {from:"dev-python/rfc3987-1.3.8-r3",to:"dev-python/regex-2026.9.3",type:"no"},
+      {from:"dev-python/rich-15.0.0",to:"dev-python/colorama-0.4.6",type:"no"},
+      {from:"dev-python/rich-15.0.0",to:"dev-python/markdown-it-py-4.2.0",type:"no"},
+      {from:"dev-python/rich-15.0.0",to:"dev-python/pygments-2.21.0",type:"no"},
+      {from:"dev-python/rtree-1.4.1",to:"dev-python/typing-extensions-4.16.0",type:"no"},
+      {from:"dev-python/rtree-1.4.1",to:"sci-libs/libspatialindex-1.9.3-r2",type:"no"},
+      {from:"dev-python/secretstorage-3.5.0",to:"dev-python/cryptography-50.0.1",type:"no"},
+      {from:"dev-python/secretstorage-3.5.0",to:"dev-python/jeepney-0.9.0",type:"no"},
+      {from:"dev-python/setuptools-84.0.0",to:"dev-python/jaraco-functools-4.6.0",type:"no"},
+      {from:"dev-python/setuptools-84.0.0",to:"dev-python/jaraco-text-4.3.0",type:"no"},
+      {from:"dev-python/setuptools-84.0.0",to:"dev-python/more-itertools-11.1.0",type:"no"},
+      {from:"dev-python/setuptools-84.0.0",to:"dev-python/packaging-26.3",type:"no"},
+      {from:"dev-python/setuptools-84.0.0",to:"dev-python/platformdirs-4.11.7",type:"no"},
+      {from:"dev-python/setuptools-84.0.0",to:"dev-python/wheel-0.48.0",type:"no"},
+      {from:"dev-python/sphinx-9.1.0-r1",to:"dev-python/alabaster-1.0.0",type:"no"},
+      {from:"dev-python/sphinx-9.1.0-r1",to:"dev-python/babel-2.18.0",type:"no"},
+      {from:"dev-python/sphinx-9.1.0-r1",to:"dev-python/docutils-0.23",type:"no"},
+      {from:"dev-python/sphinx-9.1.0-r1",to:"dev-python/imagesize-2.0.1",type:"no"},
+      {from:"dev-python/sphinx-9.1.0-r1",to:"dev-python/jinja2-3.1.6",type:"no"},
+      {from:"dev-python/sphinx-9.1.0-r1",to:"dev-python/packaging-26.3",type:"no"},
+      {from:"dev-python/sphinx-9.1.0-r1",to:"dev-python/pygments-2.21.0",type:"no"},
+      {from:"dev-python/sphinx-9.1.0-r1",to:"dev-python/requests-2.34.2",type:"no"},
+      {from:"dev-python/sphinx-9.1.0-r1",to:"dev-python/roman-numerals-4.1.0",type:"no"},
+      {from:"dev-python/sphinx-9.1.0-r1",to:"dev-python/snowballstemmer-3.1.1",type:"no"},
+      {from:"dev-python/sphinx-9.1.0-r1",to:"dev-python/sphinxcontrib-applehelp-2.0.0-r1",type:"no"},
+      {from:"dev-python/sphinx-9.1.0-r1",to:"dev-python/sphinxcontrib-devhelp-2.0.0-r1",type:"no"},
+      {from:"dev-python/sphinx-9.1.0-r1",to:"dev-python/sphinxcontrib-htmlhelp-2.1.0-r1",type:"no"},
+      {from:"dev-python/sphinx-9.1.0-r1",to:"dev-python/sphinxcontrib-jsmath-1.0.1-r5",type:"no"},
+      {from:"dev-python/sphinx-9.1.0-r1",to:"dev-python/sphinxcontrib-qthelp-2.0.0-r1",type:"no"},
+      {from:"dev-python/sphinx-9.1.0-r1",to:"dev-python/sphinxcontrib-serializinghtml-2.0.0-r1",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/aiohttp-3.14.3",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/asyncssh-2.24.0",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/bcrypt-5.0.0",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/chardet-6.0.0_p1",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/diff-match-patch-20241021",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/intervaltree-3.2.1",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/ipython-pygments-lexers-1.1.1",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/jellyfish-1.2.1",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/jsonschema-4.26.0",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/keyring-25.7.0",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/markdown-it-py-4.2.0",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/nbconvert-7.17.1",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/numpydoc-1.10.0",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/packaging-26.3",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/pexpect-4.9.0",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/pickleshare-0.7.5-r1",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/psutil-7.2.2",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/pygithub-2.10.0",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/pygments-2.21.0",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/pylint-venv-3.0.4",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/pyls-spyder-0.4.0-r4",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/python-lsp-black-2.0.0-r2",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/python-lsp-ruff-2.3.3",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/pyuca-1.2",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/pyxdg-0.28-r2",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/pyzmq-27.2.0",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/qdarkstyle-3.2.3",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/qstylizer-0.2.4",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/qtawesome-1.4.2",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/qtconsole-5.7.2",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/qtpy-2.4.3-r3",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/rtree-1.4.1",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/sphinx-9.1.0-r1",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/spyder-kernels-3.1.6",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/superqt-0.8.2",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/textdistance-4.6.3",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/three-merge-0.1.1-r1",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/watchdog-6.0.0",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-python/yarl-1.24.5",type:"no"},
+      {from:"dev-python/spyder-6.1.7",to:"dev-util/cookiecutter-2.7.1",type:"no"},
+      {from:"dev-python/spyder-kernels-3.1.6",to:"dev-python/cloudpickle-3.1.2",type:"no"},
+      {from:"dev-python/spyder-kernels-3.1.6",to:"dev-python/ipykernel-6.31.0",type:"no"},
+      {from:"dev-python/spyder-kernels-3.1.6",to:"dev-python/ipykernel-7.3.0",type:"no"},
+      {from:"dev-python/spyder-kernels-3.1.6",to:"dev-python/ipython-9.17.1",type:"no"},
+      {from:"dev-python/spyder-kernels-3.1.6",to:"dev-python/jupyter-client-8.10.0",type:"no"},
+      {from:"dev-python/spyder-kernels-3.1.6",to:"dev-python/packaging-26.3",type:"no"},
+      {from:"dev-python/spyder-kernels-3.1.6",to:"dev-python/pyxdg-0.28-r2",type:"no"},
+      {from:"dev-python/spyder-kernels-3.1.6",to:"dev-python/pyzmq-27.2.0",type:"no"},
+      {from:"dev-python/spyder-kernels-3.1.6",to:"dev-python/traitlets-5.16.1",type:"no"},
+      {from:"dev-python/spyder-kernels-3.1.6",to:"dev-python/wurlitzer-3.1.1",type:"no"},
+      {from:"dev-python/stack-data-0.6.3-r1",to:"dev-python/asttokens-3.0.2",type:"no"},
+      {from:"dev-python/stack-data-0.6.3-r1",to:"dev-python/executing-2.2.1",type:"no"},
+      {from:"dev-python/stack-data-0.6.3-r1",to:"dev-python/pure-eval-0.2.3",type:"no"},
+      {from:"dev-python/superqt-0.8.2",to:"dev-python/pygments-2.21.0",type:"no"},
+      {from:"dev-python/superqt-0.8.2",to:"dev-python/qtpy-2.4.3-r3",type:"no"},
+      {from:"dev-python/superqt-0.8.2",to:"dev-python/typing-extensions-4.16.0",type:"no"},
+      {from:"dev-python/three-merge-0.1.1-r1",to:"dev-python/diff-match-patch-20241021",type:"no"},
+      {from:"dev-python/tinycss2-1.5.1",to:"dev-python/webencodings-0.6.1",type:"no"},
+      {from:"dev-python/tornado-6.5.8",to:"dev-python/twisted-26.4.0-r1",type:"no"},
+      {from:"dev-python/twisted-26.4.0-r1",to:"dev-python/attrs-26.1.0",type:"no"},
+      {from:"dev-python/twisted-26.4.0-r1",to:"dev-python/automat-25.4.16",type:"no"},
+      {from:"dev-python/twisted-26.4.0-r1",to:"dev-python/constantly-23.10.4",type:"no"},
+      {from:"dev-python/twisted-26.4.0-r1",to:"dev-python/hyperlink-21.0.0-r1",type:"no"},
+      {from:"dev-python/twisted-26.4.0-r1",to:"dev-python/incremental-24.11.0",type:"no"},
+      {from:"dev-python/twisted-26.4.0-r1",to:"dev-python/typing-extensions-4.16.0",type:"no"},
+      {from:"dev-python/twisted-26.4.0-r1",to:"dev-python/zope-interface-8.6",type:"no"},
+      {from:"dev-python/tzdata-10001",to:"sys-libs/timezone-data-2026c",type:"no"},
+      {from:"dev-python/ujson-5.13.0",to:"dev-libs/double-conversion-3.4.0",type:"no"},
+      {from:"dev-python/urllib3-2.7.0",to:"dev-python/pysocks-1.7.1-r2",type:"no"},
+      {from:"dev-python/watchdog-6.0.0",to:"dev-python/pyyaml-6.0.3",type:"no"},
+      {from:"dev-python/wheel-0.48.0",to:"dev-python/packaging-26.3",type:"no"},
+      {from:"dev-python/yarl-1.24.5",to:"dev-python/idna-3.19",type:"no"},
+      {from:"dev-python/yarl-1.24.5",to:"dev-python/multidict-6.7.1",type:"no"},
+      {from:"dev-python/yarl-1.24.5",to:"dev-python/propcache-0.5.2",type:"no"},
+      {from:"dev-util/cookiecutter-2.7.1",to:"dev-python/arrow-1.4.0",type:"no"},
+      {from:"dev-util/cookiecutter-2.7.1",to:"dev-python/binaryornot-0.6.0",type:"no"},
+      {from:"dev-util/cookiecutter-2.7.1",to:"dev-python/click-8.5.0",type:"no"},
+      {from:"dev-util/cookiecutter-2.7.1",to:"dev-python/jinja2-3.1.6",type:"no"},
+      {from:"dev-util/cookiecutter-2.7.1",to:"dev-python/python-slugify-8.0.4",type:"no"},
+      {from:"dev-util/cookiecutter-2.7.1",to:"dev-python/pyyaml-6.0.3",type:"no"},
+      {from:"dev-util/cookiecutter-2.7.1",to:"dev-python/requests-2.34.2",type:"no"},
+      {from:"dev-util/cookiecutter-2.7.1",to:"dev-python/rich-15.0.0",type:"no"},
+      {from:"dev-util/ruff-0.16.5",to:"app-arch/zstd-1.5.7-r1",type:"no"},
+      {from:"net-dns/libidn2-2.3.8",to:"dev-libs/libunistring-1.4.2",type:"no"},
+      {from:"sys-libs/glibc-9999",to:"net-dns/libidn2-2.3.8",type:"no"},
+      {from:"sys-libs/timezone-data-2026c",to:"sys-libs/glibc-9999",type:"weak"}
+    ],
+    root: "dev-python/spyder-6.1.7"
+  },
+  pdepend: {
+    nodes: [
+      {id:"dev-python/spyder-6.1.7",cat:"dev-python",name:"spyder",ver:"6.1.7",slot:"0",installed:false,desc:"The Scientific Python Development Environment",homepage:"https://www.spyder-ide.org/ https://github.com/spyder-ide/spyder/ https://pypi.org/project/spyder/",use:["-test"]}
+    ],
+    edges: [
+    ],
+    root: "dev-python/spyder-6.1.7"
+  }
+};
+let currentType = "rdepend";
+let collapsed = new Set();
+let viewBox = {x:0, y:0, w:0, h:0};
+let zoom = 1;
+let isPanning = false, panStart = {x:0,y:0}, vbStart = {x:0,y:0};
+let autoCollapsed = false;
+const CARD_W = 130, CARD_H = 44, LAYER_H = 90, MIN_GAP = 16;
+const AUTO_COLLAPSE_THRESHOLD = 60;
+const svg = document.getElementById("graph-svg");
+const container = document.getElementById("graph-container");
+const tooltip = document.getElementById("tooltip");
+const ns = "http://www.w3.org/2000/svg";
+function getTree() { return treeData[currentType]; }
+function autoCollapseIfLarge() {
+  const tree = getTree();
+  if (!tree || tree.nodes.length <= AUTO_COLLAPSE_THRESHOLD) return;
+  const childMap = {};
+  tree.nodes.forEach(n => childMap[n.id] = []);
+  tree.edges.forEach(e => { if (childMap[e.from]) childMap[e.from].push(e.to); });
+  const directChildren = new Set(childMap[tree.root]||[]);
+  tree.nodes.forEach(n => {
+    if ((childMap[n.id]||[]).length > 0 && n.id !== tree.root && !directChildren.has(n.id)) collapsed.add(n.id);
+  });
+  autoCollapsed = true;
+}
+autoCollapseIfLarge();
+function buildLayout() {
+  const tree = getTree();
+  if (!tree || !tree.nodes.length) return {positions:{},maxX:0,maxY:0,hiddenSet:new Set(),childMap:{},nodeMap:{}};
+  const childMap = {}, nodeMap = {};
+  tree.nodes.forEach(n => { nodeMap[n.id] = n; childMap[n.id] = []; });
+  tree.edges.forEach(e => { if (childMap[e.from]) childMap[e.from].push(e.to); });
+  const hiddenSet = new Set();
+  function markHidden(id) { (childMap[id]||[]).forEach(c => { hiddenSet.add(c); markHidden(c); }); }
+  collapsed.forEach(id => markHidden(id));
+  const layers = {};
+  const visited = new Set();
+  function bfs(startId) {
+    const queue = [{id: startId, depth: 0}];
+    visited.add(startId);
+    while (queue.length) {
+      const {id, depth} = queue.shift();
+      if (!layers[depth]) layers[depth] = [];
+      layers[depth].push(id);
+      (childMap[id]||[]).forEach(c => {
+        if (!visited.has(c) && !hiddenSet.has(c)) { visited.add(c); queue.push({id:c, depth:depth+1}); }
+      });
+    }
+  }
+  bfs(tree.root);
+  const positions = {};
+  const maxDepth = Math.max(0, ...Object.keys(layers).map(Number));
+  const layerWidths = {};
+  for (let d = maxDepth; d >= 0; d--) {
+    const ids = layers[d] || [];
+    layerWidths[d] = ids.length * CARD_W + (ids.length - 1) * MIN_GAP;
+  }
+  const maxW = Math.max(...Object.values(layerWidths), 400);
+  for (let d = maxDepth; d >= 0; d--) {
+    const ids = layers[d] || [];
+    if (ids.length === 0) continue;
+    const totalW = ids.length * CARD_W + (ids.length - 1) * MIN_GAP;
+    const startX = (maxW - totalW) / 2;
+    ids.forEach((id, i) => {
+      positions[id] = {x: startX + i * (CARD_W + MIN_GAP) + CARD_W / 2, y: d * LAYER_H + 30};
+    });
+  }
+  for (let pass = 0; pass < 4; pass++) {
+    for (let d = maxDepth; d >= 0; d--) {
+      const ids = layers[d] || [];
+      ids.forEach(id => {
+        const children = (childMap[id]||[]).filter(c => !hiddenSet.has(c) && positions[c]);
+        if (children.length > 0) {
+          positions[id].x = children.reduce((s, c) => s + positions[c].x, 0) / children.length;
+        }
+      });
+      spreadLayer(ids, positions);
+    }
+    for (let d = 0; d <= maxDepth; d++) {
+      const ids = layers[d] || [];
+      ids.forEach(id => {
+        const children = (childMap[id]||[]).filter(c => !hiddenSet.has(c) && positions[c]);
+        if (children.length > 0) {
+          positions[id].x = children.reduce((s, c) => s + positions[c].x, 0) / children.length;
+        }
+      });
+      spreadLayer(ids, positions);
+    }
+  }
+  let actualMaxX = 0;
+  Object.values(positions).forEach(p => { if (p.x + CARD_W/2 > actualMaxX) actualMaxX = p.x + CARD_W/2; });
+  return {positions, maxX: Math.max(actualMaxX + MIN_GAP, 400), maxY: (maxDepth + 1) * LAYER_H + 40, hiddenSet, childMap, nodeMap};
+}
+function spreadLayer(ids, positions) {
+  if (!ids || ids.length <= 1) return;
+  for (let i = 1; i < ids.length; i++) {
+    const prev = positions[ids[i-1]], curr = positions[ids[i]];
+    const minX = prev.x + CARD_W + MIN_GAP;
+    if (curr.x < minX) curr.x = minX;
+  }
+}
+function precomputeDescendants(childMap) {
+  const counts = {};
+  const memo = {};
+  function dfs(id) {
+    if (memo[id] !== undefined) return memo[id];
+    memo[id] = 0;
+    let c = 0;
+    (childMap[id]||[]).forEach(ch => { c += 1 + dfs(ch); });
+    memo[id] = c;
+    return c;
+  }
+  Object.keys(childMap).forEach(id => { counts[id] = dfs(id); });
+  return counts;
+}
+function render() {
+  const tree = getTree();
+  if (!tree || !tree.nodes.length) { svg.innerHTML = ""; document.getElementById("subtitle").textContent = "No dependencies"; return; }
+  const {positions, maxX, maxY, hiddenSet, childMap, nodeMap} = buildLayout();
+  const descCounts = precomputeDescendants(childMap);
+  const pad = 40;
+  const contentW = maxX + pad * 2, contentH = maxY + pad * 2;
+  const cW = container.clientWidth || contentW, cH = container.clientHeight || contentH;
+  const vw = Math.max(contentW, cW), vh = Math.max(contentH, cH);
+  viewBox = {x: -(vw - maxX) / 2, y: -(vh - maxY) / 2, w: vw, h: vh};
+  svg.setAttribute("viewBox", `${viewBox.x} ${viewBox.y} ${viewBox.w} ${viewBox.h}`);
+  const parts = [];
+  parts.push("<defs>");
+  ["normal","weak","strong"].forEach(t => {
+    const col = t === "weak" ? "var(--edge-weak)" : t === "strong" ? "var(--edge-strong)" : "var(--edge-normal)";
+    parts.push(`<marker id="arrow-${t}" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="${col}"/></marker>`);
+  });
+  parts.push("</defs><g class=\"edge-layer\">");
+  tree.edges.forEach(e => {
+    if (hiddenSet.has(e.to) || !positions[e.from] || !positions[e.to]) return;
+    const fp = positions[e.from], tp = positions[e.to];
+    const x1 = fp.x, y1 = fp.y + CARD_H / 2, x2 = tp.x, y2 = tp.y - CARD_H / 2;
+    const my = (y1 + y2) / 2;
+    const col = e.type === "weak" ? "var(--edge-weak)" : e.type === "strong" ? "var(--edge-strong)" : "var(--edge-normal)";
+    const mt = e.type === "no" ? "normal" : e.type;
+    let extra = "";
+    if (e.type === "weak") extra = ' stroke-dasharray="5,3"';
+    if (e.type === "strong") extra = ' stroke-dasharray="3,2"';
+    parts.push(`<path d="M${x1},${y1} C${x1},${my} ${x2},${my} ${x2},${y2}" stroke="${col}" stroke-width="1.3" fill="none" marker-end="url(#arrow-${mt})" opacity="0.6"${extra}/>`);
+  });
+  parts.push("</g><g class=\"node-layer\">");
+  tree.nodes.forEach(n => {
+    if (hiddenSet.has(n.id) || !positions[n.id]) return;
+    const pos = positions[n.id], isRoot = n.id === tree.root;
+    const isColl = collapsed.has(n.id);
+    const cc = (childMap[n.id]||[]).length;
+    const dc = descCounts[n.id]||0;
+    const x = pos.x - CARD_W / 2, y = pos.y - CARD_H / 2;
+    const cursor = cc > 0 ? "pointer" : "default";
+    let s = `<g class="node-g" data-id="${n.id}" style="cursor:${cursor}">`;
+    if (n.installed) {
+      s += `<rect x="${x}" y="${y}" width="3" height="${CARD_H}" fill="var(--node-installed)" rx="2"/>`;
+    }
+    const rx = n.installed ? x + 3 : x, rw = n.installed ? CARD_W - 3 : CARD_W;
+    const sc = isRoot ? "var(--node-root-border)" : "var(--node-border)";
+    const sw = isRoot ? 2 : 1.5;
+    const op = isColl ? ' opacity="0.7"' : "";
+    s += `<rect x="${rx}" y="${y}" width="${rw}" height="${CARD_H}" rx="5" ry="5" fill="var(--node-bg)" stroke="${sc}" stroke-width="${sw}"${op}/>`;
+    s += `<text x="${pos.x}" y="${pos.y - 4}" text-anchor="middle" font-size="11" font-weight="600" fill="var(--text)" font-family="Helvetica Neue,Helvetica,sans-serif">${n.name}</text>`;
+    const vt = n.ver + (n.slot !== "0" ? "  :" + n.slot : "");
+    s += `<text x="${pos.x}" y="${pos.y + 10}" text-anchor="middle" font-size="10" fill="var(--text2)" font-family="Helvetica Neue,Helvetica,sans-serif">${vt}</text>`;
+    if (cc > 0) {
+      const fc = isColl ? "var(--rdepend)" : "var(--text2)";
+      const fw = isColl ? "600" : "normal";
+      const txt = isColl ? "+" + dc : "\u25BE";
+      s += `<text x="${pos.x + CARD_W/2 - 6}" y="${pos.y + CARD_H/2 - 3}" text-anchor="end" font-size="9" fill="${fc}" font-weight="${fw}" font-family="Helvetica Neue,Helvetica,sans-serif">${txt}</text>`;
+    }
+    s += "</g>";
+    parts.push(s);
+  });
+  parts.push("</g>");
+  svg.innerHTML = parts.join("");
+  let visN = 0, visE = 0;
+  tree.nodes.forEach(n => { if (!hiddenSet.has(n.id) && positions[n.id]) visN++; });
+  tree.edges.forEach(e => { if (!hiddenSet.has(e.to) && positions[e.from] && positions[e.to]) visE++; });
+  let minY = Infinity, maxYv = -Infinity;
+  for (const p of Object.values(positions)) { if (p.y < minY) minY = p.y; if (p.y > maxYv) maxYv = p.y; }
+  const levels = minY === Infinity ? 0 : Math.round((maxYv - minY) / LAYER_H) + 1;
+  const total = tree.nodes.length;
+  let sub = `${visN} nodes \u00b7 ${visE} edges \u00b7 ${levels} levels`;
+  if (visN < total) sub += ` (${total} total)`;
+  document.getElementById("subtitle").textContent = sub;
+}
+const nodeIndex = {};
+Object.values(treeData).forEach(t => t.nodes.forEach(n => nodeIndex[n.id] = n));
+let lastChildMap = null;
+function getChildMap() {
+  if (lastChildMap && lastChildMap._type === currentType) return lastChildMap;
+  const tree = getTree(), cm = {};
+  tree.nodes.forEach(n => cm[n.id] = []);
+  tree.edges.forEach(e => { if (cm[e.from]) cm[e.from].push(e.to); });
+  cm._type = currentType; lastChildMap = cm; return cm;
+}
+svg.addEventListener("click", ev => {
+  const g = ev.target.closest(".node-g"); if (!g) return;
+  const id = g.dataset.id, cm = getChildMap();
+  if (!(cm[id]||[]).length) return;
+  if (collapsed.has(id)) collapsed.delete(id); else collapsed.add(id);
+  render();
+});
+svg.addEventListener("mouseover", ev => {
+  const g = ev.target.closest(".node-g"); if (!g) return;
+  const n = nodeIndex[g.dataset.id]; if (!n) return;
+  showTooltip(ev, n);
+});
+svg.addEventListener("mousemove", ev => {
+  if (ev.target.closest(".node-g")) moveTooltip(ev); else hideTooltip();
+});
+svg.addEventListener("mouseout", ev => {
+  const g = ev.target.closest(".node-g");
+  if (g && !g.contains(ev.relatedTarget)) hideTooltip();
+});
+function showTooltip(ev, n) {
+  const useHtml = (n.use||[]).map(u => {
+    const on = u.startsWith("+");
+    return `<span class="use-flag ${on?"on":"off"}">${u}</span>`;
+  }).join("");
+  tooltip.innerHTML = `
+    <div class="tt-title">${n.cat}/${n.name}-${n.ver}</div>
+    ${n.desc ? `<div class="tt-desc">${n.desc}</div>` : ""}
+    <div class="tt-row"><span class="tt-label">Slot</span><span class="tt-value">${n.slot}</span></div>
+    <div class="tt-row"><span class="tt-label">Status</span><span class="${n.installed?"tt-installed":"tt-not-installed"}">${n.installed?"Installed":"Not installed"}</span></div>
+    ${n.homepage ? `<div class="tt-row"><span class="tt-label">Home</span><a class="tt-link" href="${n.homepage}" target="_blank">${n.homepage.replace(/https?:\/\//,"").substring(0,40)}...</a></div>` : ""}
+    ${useHtml ? `<div style="margin-top:4px"><span class="tt-label">USE</span><div class="use-flags">${useHtml}</div></div>` : ""}
+  `; tooltip.style.display = "block"; moveTooltip(ev);
+}
+function moveTooltip(ev) {
+  const pad = 12; let x = ev.clientX + pad, y = ev.clientY + pad;
+  const tw = tooltip.offsetWidth, th = tooltip.offsetHeight;
+  if (x + tw > window.innerWidth - pad) x = ev.clientX - tw - pad;
+  if (y + th > window.innerHeight - pad) y = ev.clientY - th - pad;
+  tooltip.style.left = x + "px"; tooltip.style.top = y + "px";
+}
+function hideTooltip() { tooltip.style.display = "none"; }
+function switchDepType(type) {
+  if (!treeData[type]) return;
+  currentType = type; collapsed.clear(); lastChildMap = null;
+  autoCollapseIfLarge();
+  document.querySelectorAll(".dep-tab").forEach(b => {
+    b.classList.toggle("active", b.dataset.type === type);
+    b.classList.toggle("off", b.dataset.type !== type);
+  }); render();
+}
+function expandAll() {
+  const tree = getTree();
+  if (tree && tree.nodes.length > 500 && !confirm("This tree has " + tree.nodes.length + " nodes. Expanding all may be slow. Continue?")) return;
+  collapsed.clear(); render();
+}
+function collapseAll() {
+  const tree = getTree(); if (!tree) return;
+  const cm = getChildMap();
+  tree.nodes.forEach(n => { if ((cm[n.id]||[]).length > 0 && n.id !== tree.root) collapsed.add(n.id); });
+  render();
+}
+function resetView() { zoom = 1; document.getElementById("zoom-level").textContent = "100%"; render(); }
+function zoomIn() { zoom = Math.min(zoom * 1.25, 4); applyZoom(); }
+function zoomOut() { zoom = Math.max(zoom / 1.25, 0.25); applyZoom(); }
+function applyZoom() {
+  const cx = viewBox.x + viewBox.w / 2, cy = viewBox.y + viewBox.h / 2;
+  const nw = viewBox.w / zoom, nh = viewBox.h / zoom;
+  svg.setAttribute("viewBox", `${cx - nw/2} ${cy - nh/2} ${nw} ${nh}`);
+  document.getElementById("zoom-level").textContent = Math.round(zoom * 100) + "%";
+}
+container.addEventListener("mousedown", e => {
+  if (e.target.closest(".node-g")) return;
+  isPanning = true; panStart = {x: e.clientX, y: e.clientY};
+  const vb = svg.getAttribute("viewBox").split(" ").map(Number);
+  vbStart = {x: vb[0], y: vb[1]}; container.style.cursor = "grabbing";
+});
+container.addEventListener("mousemove", e => {
+  if (!isPanning) return;
+  const vb = svg.getAttribute("viewBox").split(" ").map(Number);
+  const scale = vb[2] / container.clientWidth;
+  const dx = (e.clientX - panStart.x) * scale, dy = (e.clientY - panStart.y) * scale;
+  svg.setAttribute("viewBox", `${vbStart.x - dx} ${vbStart.y - dy} ${vb[2]} ${vb[3]}`);
+});
+container.addEventListener("mouseup", () => { isPanning = false; container.style.cursor = ""; });
+container.addEventListener("mouseleave", () => { isPanning = false; container.style.cursor = ""; });
+container.addEventListener("wheel", e => {
+  e.preventDefault();
+  const factor = e.deltaY > 0 ? 0.9 : 1.1;
+  zoom *= factor; zoom = Math.max(0.25, Math.min(4, zoom));
+  const vb = svg.getAttribute("viewBox").split(" ").map(Number);
+  const rect = container.getBoundingClientRect();
+  const mx = (e.clientX - rect.left) / rect.width, my = (e.clientY - rect.top) / rect.height;
+  const nw = vb[2] / factor, nh = vb[3] / factor;
+  const nx = vb[0] + (vb[2] - nw) * mx, ny = vb[1] + (vb[3] - nh) * my;
+  svg.setAttribute("viewBox", `${nx} ${ny} ${nw} ${nh}`);
+  document.getElementById("zoom-level").textContent = Math.round(zoom * 100) + "%";
+}, {passive: false});
+render();
+</script>
+<script>
+function toggleTheme() {
+  const html = document.documentElement;
+  const cur = html.getAttribute("data-theme") || "dark";
+  const next = cur === "dark" ? "light" : "dark";
+  html.setAttribute("data-theme", next);
+  document.getElementById("theme-btn").innerHTML = next === "light" ? "&#9788;" : "&#9790;";
+  localStorage.setItem("deptree-theme", next);
+}
+(function() {
+  const saved = localStorage.getItem("deptree-theme");
+  if (saved) {
+    document.documentElement.setAttribute("data-theme", saved);
+    document.getElementById("theme-btn").innerHTML = saved === "light" ? "&#9788;" : "&#9790;";
+  }
+})();
+</script>
+</body>
+</html>
