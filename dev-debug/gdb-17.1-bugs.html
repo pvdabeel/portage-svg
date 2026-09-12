@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>try{if(window.parent!==window)document.documentElement.classList.add("embedded");if(localStorage.getItem("png-theme")==="dark")document.documentElement.removeAttribute("data-theme")}catch(e){}</script>
+<title>dev-debug/gdb-17.1 &mdash; Bugs</title>
+<link rel="stylesheet" href="../.portage-ng.css">
+</head>
+<body class="page-glsa page-bugs">
+<header class="docs-top">
+  <a class="brand" href="https://portage-ng.ai"><svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#161a26"/><circle cx="17" cy="23.5" r="5" fill="#a78bfa"/><circle cx="17" cy="40.5" r="5" fill="#a78bfa"/><circle cx="31.5" cy="23.5" r="5" fill="#a78bfa"/><circle cx="31.5" cy="40.5" r="5" fill="#a78bfa"/><rect x="41" y="28.75" width="14.5" height="6.5" rx="3.25" fill="#4ade80"/></svg> portage-ng</a>
+  <span class="crumb">
+    <span class="crumb-sep">/</span>
+    <a href="../index.html">portage</a>
+    <span class="crumb-sep">/</span>
+    <a href="./index.html">dev-debug</a>
+    <span class="crumb-sep">/</span>
+    <a href="./gdb.html">gdb</a>
+    <span class="crumb-sep">/</span>
+    <span class="crumb-current">17.1</span>
+  </span>
+  <div class="top-right">
+    <button class="theme-toggle" id="themeToggle" aria-label="Switch between dark and light theme" title="Toggle theme" onclick="toggleTheme()">
+      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </div>
+</header>
+<div class="graph-main">
+<div class="page-head">
+<div class="nav-rows">
+<div class="nav-bar">
+  <div class="nav-group">
+    <span class="nav-group-label">version</span>
+    <a class="nav-link" href="../dev-debug/gdb-9999-bugs.html" title="dev-debug/gdb-9999">&laquo;</a>
+    <a class="nav-link" href="../dev-debug/gdb-17.2-bugs.html" title="dev-debug/gdb-17.2">&lsaquo;</a>
+    <span class="nav-link active">17.1</span>
+    <a class="nav-link" href="../dev-debug/gdb-16.3-bugs.html" title="dev-debug/gdb-16.3">&rsaquo;</a>
+    <a class="nav-link" href="../dev-debug/gdb-16.3-bugs.html" title="dev-debug/gdb-16.3">&raquo;</a>
+  </div>
+  <div class="nav-group">
+    <span class="nav-group-label">graphs</span>
+    <a class="nav-link" href="../dev-debug/gdb-17.1-detail.html">detail</a>
+    <a class="nav-link" href="../dev-debug/gdb-17.1-deptree.html">deptree</a>
+    <a class="nav-link" href="../dev-debug/gdb-17.1-gantt.html">gantt</a>
+  </div>
+  <div class="nav-group">
+    <span class="nav-group-label">cli</span>
+    <a class="nav-link" href="../dev-debug/gdb-17.1-merge.html">--merge</a>
+    <a class="nav-link" href="../dev-debug/gdb-17.1-fetchonly.html">--fetchonly</a>
+    <a class="nav-link" href="../dev-debug/gdb-17.1-info.html">--info</a>
+  </div>
+  <div class="nav-group">
+    <span class="nav-group-label">security</span>
+    <a class="nav-link" href="../dev-debug/gdb-17.1-glsa.html">glsa</a>
+    <a class="nav-link active">bugs <span class="nav-badge">14</span></a>
+  </div>
+  <div class="nav-group">
+    <span class="nav-group-label">legacy</span>
+    <a class="nav-link" href="../dev-debug/gdb-17.1-emerge.html">emerge</a>
+  </div>
+</div>
+</div>
+</div>
+<div class="term">
+  <div class="term-bar">
+    <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+    <span class="term-title">portage-ng bugs</span>
+  </div>
+  <div class="term-body">
+<div class="glsa-toolbar">
+  <span class="glsa-summary-text"><b>43</b> bugs reference <b>dev-debug/gdb</b> &middot; <b class="glsa-affecting">14</b> open &middot; <b>3</b> name version <b>17.1</b><span id="bugs-shown"></span></span>
+  <span class="glsa-btns">
+    <input class="bug-search" id="bug-search" type="search" placeholder="Filter by text&hellip;" oninput="bugsApply()" aria-label="Filter bugs by text">
+    <button class="action-btn bug-filters-toggle" id="bug-filters-toggle" onclick="bugsToggleFilters()" aria-expanded="false" aria-controls="bug-filters"><span class="glsa-chevron">&#9656;</span>Filters<span class="nav-badge" id="bug-filters-count"></span></button>
+    <button class="action-btn" onclick="bugsReset()">Reset</button>
+    <span class="sep"></span>
+    <button class="action-btn" onclick="bugsSetAll(true)">Expand all</button>
+    <button class="action-btn" onclick="bugsSetAll(false)">Collapse all</button>
+  </span>
+</div>
+<div class="bug-filters collapsed" id="bug-filters">
+  <div class="filter-row">
+    <span class="nav-group-label">status</span>
+    <button class="filter-btn active" data-group="status" data-value="open" onclick="bugsToggle(this)">open</button>
+    <button class="filter-btn" data-group="status" data-value="resolved" onclick="bugsToggle(this)">resolved</button>
+    <span class="sep" aria-hidden="true"></span>
+    <span class="nav-group-label">resolution</span>
+    <button class="filter-btn active" data-group="resolution" data-value="fixed" onclick="bugsToggle(this)">FIXED</button>
+    <button class="filter-btn active" data-group="resolution" data-value="duplicate" onclick="bugsToggle(this)">DUPLICATE</button>
+    <button class="filter-btn active" data-group="resolution" data-value="needinfo" onclick="bugsToggle(this)">NEEDINFO</button>
+  </div>
+  <div class="filter-row">
+    <span class="nav-group-label">version</span>
+    <button class="filter-btn active" data-group="version" data-value="this" onclick="bugsToggle(this)">names 17.1</button>
+    <button class="filter-btn active" data-group="version" data-value="other" onclick="bugsToggle(this)">names another version</button>
+    <button class="filter-btn active" data-group="version" data-value="none" onclick="bugsToggle(this)">no version</button>
+    <span class="sep" aria-hidden="true"></span>
+    <span class="nav-group-label">changed</span>
+    <button class="filter-btn active" data-group="age" data-value="0" onclick="bugsToggle(this)">any time</button>
+    <button class="filter-btn" data-group="age" data-value="30" onclick="bugsToggle(this)">30 days</button>
+    <button class="filter-btn" data-group="age" data-value="90" onclick="bugsToggle(this)">90 days</button>
+    <button class="filter-btn" data-group="age" data-value="365" onclick="bugsToggle(this)">1 year</button>
+  </div>
+  <div class="filter-row">
+    <span class="nav-group-label">component</span>
+    <button class="filter-btn active" data-group="component" data-value="current-packages" onclick="bugsToggle(this)">Current packages</button>
+    <button class="filter-btn" data-group="component" data-value="stabilization" onclick="bugsToggle(this)">Stabilization</button>
+  </div>
+  <div class="filter-row">
+    <span class="nav-group-label">severity</span>
+    <button class="filter-btn active" data-group="severity" data-value="critical" onclick="bugsToggle(this)">critical</button>
+    <button class="filter-btn active" data-group="severity" data-value="major" onclick="bugsToggle(this)">major</button>
+    <button class="filter-btn active" data-group="severity" data-value="normal" onclick="bugsToggle(this)">normal</button>
+    <button class="filter-btn active" data-group="severity" data-value="minor" onclick="bugsToggle(this)">minor</button>
+    <button class="filter-btn active" data-group="severity" data-value="enhancement" onclick="bugsToggle(this)">enhancement</button>
+  </div>
+  <div class="filter-row">
+    <span class="nav-group-label">keyword</span>
+    <button class="filter-btn" data-group="keyword" data-value="cc-arches" onclick="bugsToggle(this)">CC-ARCHES</button>
+    <button class="filter-btn" data-group="keyword" data-value="pullrequest" onclick="bugsToggle(this)">PullRequest</button>
+    <button class="filter-btn" data-group="keyword" data-value="testfailure" onclick="bugsToggle(this)">TESTFAILURE</button>
+    <button class="filter-btn" data-group="keyword" data-value="patch" onclick="bugsToggle(this)">PATCH</button>
+    <button class="filter-btn" data-group="keyword" data-value="pmasked" onclick="bugsToggle(this)">PMASKED</button>
+  </div>
+</div>
+<div class="glsa-list">
+<details class="glsa-item bug-item hidden" id="bug-981378" data-status="resolved" data-version="other" data-resolution="fixed" data-component="current-packages" data-severity="normal" data-keyword="patch" data-changed="2026-08-25" data-search="#981378 dev-debug/gdb-17.2 fails to build on sparc toolchain current packages patch">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#981378</span>
+    <span class="glsa-title">dev-debug/gdb-17.2 fails to build on sparc</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status resolved">RESOLVED FIXED</span>
+      <span class="glsa-badge severity normal">normal</span>
+      <span class="glsa-date">2026-08-25</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>RESOLVED</dd>
+      <dt>Resolution</dt><dd>FIXED</dd>
+      <dt>Severity</dt><dd>normal</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Current packages</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2026-08-25T03:11:38Z</dd>
+      <dt>Changed</dt><dd>2026-08-25T04:06:43Z</dd>
+      <dt>Keywords</dt><dd>PATCH</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=981378" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=981378</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-17.2</li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item" id="bug-980195" data-status="open" data-version="other" data-resolution="other" data-component="current-packages" data-severity="normal" data-keyword="" data-changed="2026-07-31" data-search="#980195 dev-debug/gdb-17.2 - [portage-9999] qa notice: unstripped lto libs toolchain current packages ">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#980195</span>
+    <span class="glsa-title">dev-debug/gdb-17.2 - [portage-9999] QA Notice: unstripped LTO libs</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status open">CONFIRMED</span>
+      <span class="glsa-badge severity normal">normal</span>
+      <span class="glsa-date">2026-07-31</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>CONFIRMED</dd>
+      <dt>Severity</dt><dd>normal</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Current packages</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2026-07-31T21:34:56Z</dd>
+      <dt>Changed</dt><dd>2026-07-31T21:35:08Z</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=980195" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=980195</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-17.2</li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item hidden" id="bug-977575" data-status="resolved" data-version="other" data-resolution="fixed" data-component="stabilization" data-severity="enhancement" data-keyword="cc-arches" data-changed="2026-06-17" data-search="#977575 dev-debug/gdb-17.2: stablereq toolchain stabilization cc-arches">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#977575</span>
+    <span class="glsa-title">dev-debug/gdb-17.2: stablereq</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status resolved">RESOLVED FIXED</span>
+      <span class="glsa-badge severity low">enhancement</span>
+      <span class="glsa-date">2026-06-17</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>RESOLVED</dd>
+      <dt>Resolution</dt><dd>FIXED</dd>
+      <dt>Severity</dt><dd>enhancement</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Stabilization</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2026-06-17T05:22:05Z</dd>
+      <dt>Changed</dt><dd>2026-06-17T12:41:47Z</dd>
+      <dt>Keywords</dt><dd>CC-ARCHES</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=977575" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=977575</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-17.2</li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item hidden" id="bug-970247" data-status="resolved" data-version="this" data-resolution="fixed" data-component="stabilization" data-severity="normal" data-keyword="cc-arches" data-changed="2026-02-19" data-search="#970247 dev-debug/gdb-17.1: stabilisation toolchain stabilization cc-arches">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#970247</span>
+    <span class="glsa-title">dev-debug/gdb-17.1: stabilisation</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status resolved">RESOLVED FIXED</span>
+      <span class="glsa-badge version">names this version</span>
+      <span class="glsa-badge severity normal">normal</span>
+      <span class="glsa-date">2026-02-19</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>RESOLVED</dd>
+      <dt>Resolution</dt><dd>FIXED</dd>
+      <dt>Severity</dt><dd>normal</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Stabilization</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2026-02-18T16:43:39Z</dd>
+      <dt>Changed</dt><dd>2026-02-19T00:20:52Z</dd>
+      <dt>Keywords</dt><dd>CC-ARCHES</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=970247" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=970247</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-17.1</li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item hidden" id="bug-968418" data-status="resolved" data-version="this" data-resolution="duplicate" data-component="current-packages" data-severity="normal" data-keyword="" data-changed="2026-01-05" data-search="#968418 dev-debug/gdb-17.1: fix build failure on musl (patch) bug-wranglers current packages ">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#968418</span>
+    <span class="glsa-title">dev-debug/gdb-17.1: fix build failure on musl (patch)</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status resolved">RESOLVED DUPLICATE</span>
+      <span class="glsa-badge version">names this version</span>
+      <span class="glsa-badge severity normal">normal</span>
+      <span class="glsa-date">2026-01-05</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>RESOLVED</dd>
+      <dt>Resolution</dt><dd>DUPLICATE</dd>
+      <dt>Severity</dt><dd>normal</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Current packages</dd>
+      <dt>Assignee</dt><dd>bug-wranglers</dd>
+      <dt>Created</dt><dd>2026-01-05T22:55:35Z</dd>
+      <dt>Changed</dt><dd>2026-01-05T23:09:11Z</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=968418" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=968418</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-17.1</li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item hidden" id="bug-968134" data-status="resolved" data-version="this" data-resolution="fixed" data-component="current-packages" data-severity="normal" data-keyword="pmasked" data-changed="2026-05-10" data-search="#968134 dev-debug/gdb-17.1: fails to build on musl (error: 'struct termios' has no member named 'c_ospeed'; did you mean '__c_ospeed'?) toolchain current packages pmasked">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#968134</span>
+    <span class="glsa-title">dev-debug/gdb-17.1: Fails to build on musl (error: 'struct termios' has no member named 'c_ospeed'; did you mean '__c_ospeed'?)</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status resolved">RESOLVED FIXED</span>
+      <span class="glsa-badge version">names this version</span>
+      <span class="glsa-badge severity normal">normal</span>
+      <span class="glsa-date">2026-05-10</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>RESOLVED</dd>
+      <dt>Resolution</dt><dd>FIXED</dd>
+      <dt>Severity</dt><dd>normal</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Current packages</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2025-12-29T14:19:13Z</dd>
+      <dt>Changed</dt><dd>2026-05-10T17:59:55Z</dd>
+      <dt>Keywords</dt><dd>PMASKED</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=968134" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=968134</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-17.1</li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item hidden" id="bug-959880" data-status="resolved" data-version="other" data-resolution="fixed" data-component="stabilization" data-severity="enhancement" data-keyword="cc-arches" data-changed="2025-07-13" data-search="#959880 dev-debug/gdb-16.3: stablereq toolchain stabilization cc-arches">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#959880</span>
+    <span class="glsa-title">dev-debug/gdb-16.3: stablereq</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status resolved">RESOLVED FIXED</span>
+      <span class="glsa-badge severity low">enhancement</span>
+      <span class="glsa-date">2025-07-13</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>RESOLVED</dd>
+      <dt>Resolution</dt><dd>FIXED</dd>
+      <dt>Severity</dt><dd>enhancement</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Stabilization</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2025-07-12T01:54:51Z</dd>
+      <dt>Changed</dt><dd>2025-07-13T09:07:36Z</dd>
+      <dt>Keywords</dt><dd>CC-ARCHES</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=959880" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=959880</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-16.3</li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item hidden" id="bug-957048" data-status="resolved" data-version="other" data-resolution="fixed" data-component="current-packages" data-severity="normal" data-keyword="" data-changed="2025-06-02" data-search="#957048 dev-debug/gdb-16.3 fails to compile with gcc 16: invalid application of ‘sizeof’ to incomplete type ‘dwz_file’ toolchain current packages ">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#957048</span>
+    <span class="glsa-title">dev-debug/gdb-16.3 fails to compile with gcc 16: invalid application of ‘sizeof’ to incomplete type ‘dwz_file’</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status resolved">RESOLVED FIXED</span>
+      <span class="glsa-badge severity normal">normal</span>
+      <span class="glsa-date">2025-06-02</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>RESOLVED</dd>
+      <dt>Resolution</dt><dd>FIXED</dd>
+      <dt>Severity</dt><dd>normal</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Current packages</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2025-06-02T10:03:17Z</dd>
+      <dt>Changed</dt><dd>2025-06-02T23:15:49Z</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=957048" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=957048</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-16.3</li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item" id="bug-956554" data-status="open" data-version="other" data-resolution="other" data-component="current-packages" data-severity="normal" data-keyword="" data-changed="2025-05-24" data-search="#956554 dev-debug/gdb-16.2-r2 [sim] compile failure common/nrun.c:233:1: fatal error: opening dependency file riscv/.deps/nrun.tpo: no such file or directory toolchain current packages ">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#956554</span>
+    <span class="glsa-title">dev-debug/gdb-16.2-r2 [sim] compile failure common/nrun.c:233:1: fatal error: opening dependency file riscv/.deps/nrun.Tpo: No such file or directory</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status open">UNCONFIRMED</span>
+      <span class="glsa-badge severity normal">normal</span>
+      <span class="glsa-date">2025-05-24</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>UNCONFIRMED</dd>
+      <dt>Severity</dt><dd>normal</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Current packages</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2025-05-24T10:35:09Z</dd>
+      <dt>Changed</dt><dd>2025-05-24T19:50:54Z</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=956554" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=956554</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-16.2-r2</li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item hidden" id="bug-956267" data-status="resolved" data-version="other" data-resolution="fixed" data-component="stabilization" data-severity="enhancement" data-keyword="cc-arches" data-changed="2025-07-12" data-search="#956267 dev-debug/gdb-16.2-r2: stablereq toolchain stabilization cc-arches">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#956267</span>
+    <span class="glsa-title">dev-debug/gdb-16.2-r2: stablereq</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status resolved">RESOLVED FIXED</span>
+      <span class="glsa-badge severity low">enhancement</span>
+      <span class="glsa-date">2025-07-12</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>RESOLVED</dd>
+      <dt>Resolution</dt><dd>FIXED</dd>
+      <dt>Severity</dt><dd>enhancement</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Stabilization</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2025-05-18T09:19:53Z</dd>
+      <dt>Changed</dt><dd>2025-07-12T01:53:16Z</dd>
+      <dt>Keywords</dt><dd>CC-ARCHES</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=956267" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=956267</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-16.2-r2</li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item" id="bug-954752" data-status="open" data-version="other" data-resolution="other" data-component="current-packages" data-severity="normal" data-keyword="patch" data-changed="2025-04-26" data-search="#954752 dev-debug/gdb-15.2 fails to build with clang: non-type template argument is not a constant expression toolchain current packages patch">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#954752</span>
+    <span class="glsa-title">dev-debug/gdb-15.2 fails to build with clang: non-type template argument is not a constant expression</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status open">UNCONFIRMED</span>
+      <span class="glsa-badge severity normal">normal</span>
+      <span class="glsa-date">2025-04-26</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>UNCONFIRMED</dd>
+      <dt>Severity</dt><dd>normal</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Current packages</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2025-04-26T10:52:19Z</dd>
+      <dt>Changed</dt><dd>2025-04-26T11:08:57Z</dd>
+      <dt>Keywords</dt><dd>PATCH</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=954752" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=954752</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-15.2</li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item hidden" id="bug-954556" data-status="resolved" data-version="other" data-resolution="fixed" data-component="stabilization" data-severity="normal" data-keyword="cc-arches" data-changed="2025-04-26" data-search="#954556 dev-debug/gdb-15.2-r103: stabilisation toolchain stabilization cc-arches">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#954556</span>
+    <span class="glsa-title">dev-debug/gdb-15.2-r103: stabilisation</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status resolved">RESOLVED FIXED</span>
+      <span class="glsa-badge severity normal">normal</span>
+      <span class="glsa-date">2025-04-26</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>RESOLVED</dd>
+      <dt>Resolution</dt><dd>FIXED</dd>
+      <dt>Severity</dt><dd>normal</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Stabilization</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2025-04-26T02:18:47Z</dd>
+      <dt>Changed</dt><dd>2025-04-26T02:21:44Z</dd>
+      <dt>Keywords</dt><dd>CC-ARCHES</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=954556" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=954556</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-15.2-r103</li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item hidden" id="bug-953914" data-status="resolved" data-version="other" data-resolution="duplicate" data-component="current-packages" data-severity="normal" data-keyword="" data-changed="2025-04-21" data-search="#953914 dev-debug/gdb-16.2-r2 - [meson] configure: error: babeltrace is missing or unusable toolchain current packages ">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#953914</span>
+    <span class="glsa-title">dev-debug/gdb-16.2-r2 - [meson] configure: error: babeltrace is missing or unusable</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status resolved">RESOLVED DUPLICATE</span>
+      <span class="glsa-badge severity normal">normal</span>
+      <span class="glsa-date">2025-04-21</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>RESOLVED</dd>
+      <dt>Resolution</dt><dd>DUPLICATE</dd>
+      <dt>Severity</dt><dd>normal</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Current packages</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2025-04-16T16:49:55Z</dd>
+      <dt>Changed</dt><dd>2025-04-21T07:20:43Z</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=953914" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=953914</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-16.2-r2</li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item hidden" id="bug-951652" data-status="resolved" data-version="other" data-resolution="fixed" data-component="current-packages" data-severity="normal" data-keyword="" data-changed="2026-05-11" data-search="#951652 dev-debug/gdb-16.2-r2: incompatible with &gt;=dev-util/babeltrace-2.0 toolchain current packages ">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#951652</span>
+    <span class="glsa-title">dev-debug/gdb-16.2-r2: incompatible with &gt;=dev-util/babeltrace-2.0</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status resolved">RESOLVED FIXED</span>
+      <span class="glsa-badge severity normal">normal</span>
+      <span class="glsa-date">2026-05-11</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>RESOLVED</dd>
+      <dt>Resolution</dt><dd>FIXED</dd>
+      <dt>Severity</dt><dd>normal</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Current packages</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2025-03-20T09:02:10Z</dd>
+      <dt>Changed</dt><dd>2026-05-11T11:29:45Z</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=951652" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=951652</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-16.2-r2</li>
+      <li><a href="../dev-util/babeltrace.html">dev-util/babeltrace</a>-2.0</li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item" id="bug-951321" data-status="open" data-version="none" data-resolution="other" data-component="current-packages" data-severity="normal" data-keyword="" data-changed="2026-04-14" data-search="#951321 dev-debug/gdb[-xml]: segfault when tab completing toolchain current packages ">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#951321</span>
+    <span class="glsa-title">dev-debug/gdb[-xml]: segfault when tab completing</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status open">IN_PROGRESS</span>
+      <span class="glsa-badge severity normal">normal</span>
+      <span class="glsa-date">2026-04-14</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>IN_PROGRESS</dd>
+      <dt>Severity</dt><dd>normal</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Current packages</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2025-03-13T23:51:56Z</dd>
+      <dt>Changed</dt><dd>2026-04-14T10:08:32Z</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=951321" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=951321</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a></li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item" id="bug-949598" data-status="open" data-version="other" data-resolution="other" data-component="current-packages" data-severity="normal" data-keyword="" data-changed="2025-02-11" data-search="#949598 dev-debug/gdb-16.2 - [glibc] [gcc-15] arm/armemu.h: error: conflicting types for armul_scheduleevent; have void(armul_state , long unsigned int, unsigned int ( )(armul_st toolchain current packages ">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#949598</span>
+    <span class="glsa-title">dev-debug/gdb-16.2 - [glibc] [gcc-15] arm/armemu.h: error: conflicting types for ARMul_ScheduleEvent; have void(ARMul_State , long unsigned int, unsigned int ( )(ARMul_St</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status open">CONFIRMED</span>
+      <span class="glsa-badge severity normal">normal</span>
+      <span class="glsa-date">2025-02-11</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>CONFIRMED</dd>
+      <dt>Severity</dt><dd>normal</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Current packages</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2025-02-11T07:35:15Z</dd>
+      <dt>Changed</dt><dd>2025-02-11T07:35:29Z</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=949598" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=949598</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-16.2</li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item hidden" id="bug-948525" data-status="resolved" data-version="other" data-resolution="fixed" data-component="stabilization" data-severity="normal" data-keyword="cc-arches" data-changed="2025-03-24" data-search="#948525 dev-debug/gdb-15.2-r101: stabilisation toolchain stabilization cc-arches">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#948525</span>
+    <span class="glsa-title">dev-debug/gdb-15.2-r101: stabilisation</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status resolved">RESOLVED FIXED</span>
+      <span class="glsa-badge severity normal">normal</span>
+      <span class="glsa-date">2025-03-24</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>RESOLVED</dd>
+      <dt>Resolution</dt><dd>FIXED</dd>
+      <dt>Severity</dt><dd>normal</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Stabilization</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2025-01-22T07:07:24Z</dd>
+      <dt>Changed</dt><dd>2025-03-24T00:32:37Z</dd>
+      <dt>Keywords</dt><dd>CC-ARCHES</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=948525" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=948525</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-15.2-r101</li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item hidden" id="bug-948372" data-status="resolved" data-version="other" data-resolution="fixed" data-component="current-packages" data-severity="normal" data-keyword="pullrequest" data-changed="2025-02-13" data-search="#948372 dev-debug/gdb-16.1 - configure: error: amd-dbgapi is required, but cannot find an appropriate version: package dependency requirement amd-dbgapi &gt;= 0.75.0 could not be sa toolchain current packages pullrequest">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#948372</span>
+    <span class="glsa-title">dev-debug/gdb-16.1 - configure: error: amd-dbgapi is required, but cannot find an appropriate version: Package dependency requirement amd-dbgapi &gt;= 0.75.0 could not be sa</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status resolved">RESOLVED FIXED</span>
+      <span class="glsa-badge severity normal">normal</span>
+      <span class="glsa-date">2025-02-13</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>RESOLVED</dd>
+      <dt>Resolution</dt><dd>FIXED</dd>
+      <dt>Severity</dt><dd>normal</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Current packages</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2025-01-18T21:17:52Z</dd>
+      <dt>Changed</dt><dd>2025-02-13T10:01:49Z</dd>
+      <dt>Keywords</dt><dd>PullRequest</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=948372" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=948372</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-16.1</li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item hidden" id="bug-944176" data-status="resolved" data-version="other" data-resolution="fixed" data-component="current-packages" data-severity="normal" data-keyword="" data-changed="2025-02-06" data-search="#944176 dev-debug/gdb-15.2-r100 - [ncurses-6.5] [meson] [libtool] [gcc-15] mips-formats.h: error: expected identifier or ( before static_assert toolchain current packages ">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#944176</span>
+    <span class="glsa-title">dev-debug/gdb-15.2-r100 - [ncurses-6.5] [meson] [libtool] [gcc-15] mips-formats.h: error: expected identifier or ( before static_assert</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status resolved">RESOLVED FIXED</span>
+      <span class="glsa-badge severity normal">normal</span>
+      <span class="glsa-date">2025-02-06</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>RESOLVED</dd>
+      <dt>Resolution</dt><dd>FIXED</dd>
+      <dt>Severity</dt><dd>normal</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Current packages</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2024-11-20T16:11:03Z</dd>
+      <dt>Changed</dt><dd>2025-02-06T01:29:52Z</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=944176" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=944176</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-15.2-r100</li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item" id="bug-943355" data-status="open" data-version="other" data-resolution="other" data-component="current-packages" data-severity="normal" data-keyword="" data-changed="2026-03-25" data-search="#943355 dev-debug/gdb-15.2-r100[guile] requires dev-scheme/guile- 3.0.10-r102[deprecated] toolchain current packages ">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#943355</span>
+    <span class="glsa-title">dev-debug/gdb-15.2-r100[guile] requires dev-scheme/guile- 3.0.10-r102[deprecated]</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status open">UNCONFIRMED</span>
+      <span class="glsa-badge severity normal">normal</span>
+      <span class="glsa-date">2026-03-25</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>UNCONFIRMED</dd>
+      <dt>Severity</dt><dd>normal</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Current packages</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2024-11-13T11:04:06Z</dd>
+      <dt>Changed</dt><dd>2026-03-25T08:59:15Z</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=943355" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=943355</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-15.2-r100</li>
+      <li><a href="../dev-scheme/guile.html">dev-scheme/guile</a></li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item hidden" id="bug-942834" data-status="resolved" data-version="other" data-resolution="fixed" data-component="stabilization" data-severity="normal" data-keyword="cc-arches" data-changed="2024-11-19" data-search="#942834 dev-scheme/guile-1.8.8-r102, dev-scheme/guile-2.2.7-r102, dev-scheme/guile-3.0.10-r102: slotted guile stabilisation scheme stabilization cc-arches">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#942834</span>
+    <span class="glsa-title">dev-scheme/guile-1.8.8-r102, dev-scheme/guile-2.2.7-r102, dev-scheme/guile-3.0.10-r102: slotted guile stabilisation</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status resolved">RESOLVED FIXED</span>
+      <span class="glsa-badge severity normal">normal</span>
+      <span class="glsa-date">2024-11-19</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>RESOLVED</dd>
+      <dt>Resolution</dt><dd>FIXED</dd>
+      <dt>Severity</dt><dd>normal</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Stabilization</dd>
+      <dt>Assignee</dt><dd>scheme</dd>
+      <dt>Created</dt><dd>2024-11-03T16:41:33Z</dd>
+      <dt>Changed</dt><dd>2024-11-19T14:08:41Z</dd>
+      <dt>Keywords</dt><dd>CC-ARCHES</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=942834" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=942834</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../app-emacs/flycheck-guile.html">app-emacs/flycheck-guile</a>-0.5-r100</li>
+      <li><a href="../app-emacs/geiser-guile.html">app-emacs/geiser-guile</a>-0.28.3-r100</li>
+      <li><a href="../app-office/gnucash.html">app-office/gnucash</a>-5.8-r100</li>
+      <li><a href="../dev-build/make.html">dev-build/make</a>-4.4.1-r100</li>
+      <li><a href="../dev-build/remake.html">dev-build/remake</a>-4.3.1.1.6-r100</li>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-15.2-r100</li>
+      <li><a href="../dev-scheme/goosh.html">dev-scheme/goosh</a>-1.3-r100</li>
+      <li><a href="../dev-scheme/guile.html">dev-scheme/guile</a>-1.8.8-r102</li>
+      <li><a href="../dev-scheme/guile.html">dev-scheme/guile</a>-2.2.7-r102</li>
+      <li><a href="../dev-scheme/guile.html">dev-scheme/guile</a>-3.0.10-r102</li>
+      <li><a href="../dev-scheme/slib.html">dev-scheme/slib</a>-3.3.1-r100</li>
+      <li><a href="../media-gfx/graphviz.html">media-gfx/graphviz</a>-12.0.0-r100</li>
+      <li><a href="../media-sound/denemo.html">media-sound/denemo</a>-2.6.0-r100</li>
+      <li><a href="../media-sound/lilypond.html">media-sound/lilypond</a>-2.24.4-r100</li>
+      <li><a href="../net-irc/weechat.html">net-irc/weechat</a>-4.4.2-r100</li>
+      <li><a href="../net-mail/mailutils.html">net-mail/mailutils</a>-3.17-r100</li>
+      <li><a href="../sci-electronics/geda.html">sci-electronics/geda</a>-1.10.2-r101</li>
+      <li><a href="../sci-electronics/gwave.html">sci-electronics/gwave</a>-20190116-r100</li>
+      <li><a href="../sci-libs/linux-gpib.html">sci-libs/linux-gpib</a>-4.3.6-r100</li>
+      <li><a href="../sci-libs/nlopt.html">sci-libs/nlopt</a>-2.7.1-r100</li>
+      <li><a href="../sys-devel/autogen.html">sys-devel/autogen</a>-5.18.16-r101</li>
+      <li><a href="../www-client/elinks.html">www-client/elinks</a>-0.16.1.1-r100</li>
+      <li><a href="../x11-misc/xbindkeys.html">x11-misc/xbindkeys</a>-1.8.7-r100</li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item hidden" id="bug-941497" data-status="resolved" data-version="other" data-resolution="fixed" data-component="stabilization" data-severity="normal" data-keyword="cc-arches" data-changed="2024-11-13" data-search="#941497 dev-debug/gdb-15.2: stabilisation toolchain stabilization cc-arches">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#941497</span>
+    <span class="glsa-title">dev-debug/gdb-15.2: stabilisation</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status resolved">RESOLVED FIXED</span>
+      <span class="glsa-badge severity normal">normal</span>
+      <span class="glsa-date">2024-11-13</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>RESOLVED</dd>
+      <dt>Resolution</dt><dd>FIXED</dd>
+      <dt>Severity</dt><dd>normal</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Stabilization</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2024-10-13T23:50:43Z</dd>
+      <dt>Changed</dt><dd>2024-11-13T03:49:54Z</dd>
+      <dt>Keywords</dt><dd>CC-ARCHES</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=941497" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=941497</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-15.2</li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item hidden" id="bug-940007" data-status="resolved" data-version="other" data-resolution="duplicate" data-component="current-packages" data-severity="normal" data-keyword="" data-changed="2025-02-06" data-search="#940007 dev-debug/gdb-14.2-r1 - [gcc-15] common/sim-hload.c: fatal error: opening dependency file .../sim-hload.tpo: no such file or directory toolchain current packages ">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#940007</span>
+    <span class="glsa-title">dev-debug/gdb-14.2-r1 - [gcc-15] common/sim-hload.c: fatal error: opening dependency file .../sim-hload.Tpo: No such file or directory</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status resolved">RESOLVED DUPLICATE</span>
+      <span class="glsa-badge severity normal">normal</span>
+      <span class="glsa-date">2025-02-06</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>RESOLVED</dd>
+      <dt>Resolution</dt><dd>DUPLICATE</dd>
+      <dt>Severity</dt><dd>normal</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Current packages</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2024-09-21T17:18:23Z</dd>
+      <dt>Changed</dt><dd>2025-02-06T01:30:11Z</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=940007" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=940007</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-14.2-r1</li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item hidden" id="bug-936192" data-status="resolved" data-version="other" data-resolution="fixed" data-component="stabilization" data-severity="normal" data-keyword="cc-arches" data-changed="2024-10-13" data-search="#936192 dev-debug/gdb-14.2-r1: stabilisation toolchain stabilization cc-arches">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#936192</span>
+    <span class="glsa-title">dev-debug/gdb-14.2-r1: stabilisation</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status resolved">RESOLVED FIXED</span>
+      <span class="glsa-badge severity normal">normal</span>
+      <span class="glsa-date">2024-10-13</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>RESOLVED</dd>
+      <dt>Resolution</dt><dd>FIXED</dd>
+      <dt>Severity</dt><dd>normal</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Stabilization</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2024-07-17T04:37:03Z</dd>
+      <dt>Changed</dt><dd>2024-10-13T23:49:47Z</dd>
+      <dt>Keywords</dt><dd>CC-ARCHES</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=936192" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=936192</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-14.2-r1</li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item hidden" id="bug-930688" data-status="resolved" data-version="other" data-resolution="fixed" data-component="stabilization" data-severity="normal" data-keyword="cc-arches" data-changed="2024-05-13" data-search="#930688 dev-debug/gdb-14.2: stabilisation toolchain stabilization cc-arches">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#930688</span>
+    <span class="glsa-title">dev-debug/gdb-14.2: stabilisation</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status resolved">RESOLVED FIXED</span>
+      <span class="glsa-badge severity normal">normal</span>
+      <span class="glsa-date">2024-05-13</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>RESOLVED</dd>
+      <dt>Resolution</dt><dd>FIXED</dd>
+      <dt>Severity</dt><dd>normal</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Stabilization</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2024-04-25T21:10:28Z</dd>
+      <dt>Changed</dt><dd>2024-05-13T10:33:28Z</dd>
+      <dt>Keywords</dt><dd>CC-ARCHES</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=930688" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=930688</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-14.2</li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item hidden" id="bug-927063" data-status="resolved" data-version="none" data-resolution="needinfo" data-component="current-packages" data-severity="critical" data-keyword="" data-changed="2025-02-06" data-search="#927063 dev-debug/gdb 14.1-r1 error internal-error find_inferior_pid: assertion pid != 0 failed. toolchain current packages ">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#927063</span>
+    <span class="glsa-title">dev-debug/gdb 14.1-r1 error internal-error find_inferior_pid: Assertion pid != 0 failed.</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status resolved">RESOLVED NEEDINFO</span>
+      <span class="glsa-badge severity high">critical</span>
+      <span class="glsa-date">2025-02-06</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>RESOLVED</dd>
+      <dt>Resolution</dt><dd>NEEDINFO</dd>
+      <dt>Severity</dt><dd>critical</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Current packages</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2024-03-15T11:02:37Z</dd>
+      <dt>Changed</dt><dd>2025-02-06T01:24:01Z</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=927063" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=927063</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a></li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item" id="bug-926902" data-status="open" data-version="other" data-resolution="other" data-component="current-packages" data-severity="normal" data-keyword="" data-changed="2024-06-15" data-search="#926902 dev-debug/gdb-14.1-r1 [+sim?] -werror=lto-type-mismatch toolchain current packages ">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#926902</span>
+    <span class="glsa-title">dev-debug/gdb-14.1-r1 [+sim?] -Werror=lto-type-mismatch</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status open">UNCONFIRMED</span>
+      <span class="glsa-badge severity normal">normal</span>
+      <span class="glsa-date">2024-06-15</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>UNCONFIRMED</dd>
+      <dt>Severity</dt><dd>normal</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Current packages</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2024-03-13T12:16:04Z</dd>
+      <dt>Changed</dt><dd>2024-06-15T17:28:26Z</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=926902" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=926902</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-14.1-r1</li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item hidden" id="bug-925034" data-status="resolved" data-version="other" data-resolution="fixed" data-component="stabilization" data-severity="normal" data-keyword="cc-arches" data-changed="2024-02-20" data-search="#925034 dev-debug/gdb-14.1-r1: stabilisation toolchain stabilization cc-arches">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#925034</span>
+    <span class="glsa-title">dev-debug/gdb-14.1-r1: stabilisation</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status resolved">RESOLVED FIXED</span>
+      <span class="glsa-badge severity normal">normal</span>
+      <span class="glsa-date">2024-02-20</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>RESOLVED</dd>
+      <dt>Resolution</dt><dd>FIXED</dd>
+      <dt>Severity</dt><dd>normal</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Stabilization</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2024-02-20T05:29:11Z</dd>
+      <dt>Changed</dt><dd>2024-02-20T07:44:33Z</dd>
+      <dt>Keywords</dt><dd>CC-ARCHES</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=925034" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=925034</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-14.1-r1</li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item" id="bug-923948" data-status="open" data-version="other" data-resolution="other" data-component="current-packages" data-severity="normal" data-keyword="" data-changed="2025-05-29" data-search="#923948 dev-debug/gdb-14.1-r1 fails to compile: rlibtool: error: &lt;compiler&gt; is missing - linux-tdep.c:(.text+0x234c): undefined reference to gcore_elf_build_thread_register_notes(gdbarch, thread_info, gdb_signal, bfd, std::unique_ptr&lt;char, gdb::xfree_deleter&lt;cha toolchain current packages ">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#923948</span>
+    <span class="glsa-title">dev-debug/gdb-14.1-r1 fails to compile: rlibtool: error: &lt;compiler&gt; is missing - linux-tdep.c:(.text+0x234c): undefined reference to gcore_elf_build_thread_register_notes(gdbarch, thread_info, gdb_signal, bfd, std::unique_ptr&lt;char, gdb::xfree_deleter&lt;cha</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status open">CONFIRMED</span>
+      <span class="glsa-badge severity normal">normal</span>
+      <span class="glsa-date">2025-05-29</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>CONFIRMED</dd>
+      <dt>Severity</dt><dd>normal</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Current packages</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2024-02-06T16:19:08Z</dd>
+      <dt>Changed</dt><dd>2025-05-29T15:01:34Z</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=923948" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=923948</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-14.1-r1</li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item hidden" id="bug-922336" data-status="resolved" data-version="other" data-resolution="fixed" data-component="current-packages" data-severity="normal" data-keyword="pullrequest" data-changed="2024-01-24" data-search="#922336 dev-debug/gdb-14.1: segmentation fault when running `list .` toolchain current packages pullrequest">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#922336</span>
+    <span class="glsa-title">dev-debug/gdb-14.1: Segmentation fault when running `list .`</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status resolved">RESOLVED FIXED</span>
+      <span class="glsa-badge severity normal">normal</span>
+      <span class="glsa-date">2024-01-24</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>RESOLVED</dd>
+      <dt>Resolution</dt><dd>FIXED</dd>
+      <dt>Severity</dt><dd>normal</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Current packages</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2024-01-17T23:35:12Z</dd>
+      <dt>Changed</dt><dd>2024-01-24T07:31:58Z</dd>
+      <dt>Keywords</dt><dd>PullRequest</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=922336" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=922336</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-14.1</li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item" id="bug-921647" data-status="open" data-version="other" data-resolution="other" data-component="current-packages" data-severity="normal" data-keyword="" data-changed="2025-02-06" data-search="#921647 dev-debug/gdb-14.1 - common/nrun.c: fatal error: opening dependency file .../nrun.tpo: no such file or directory toolchain current packages ">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#921647</span>
+    <span class="glsa-title">dev-debug/gdb-14.1 - common/nrun.c: fatal error: opening dependency file .../nrun.Tpo: No such file or directory</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status open">CONFIRMED</span>
+      <span class="glsa-badge severity normal">normal</span>
+      <span class="glsa-date">2025-02-06</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>CONFIRMED</dd>
+      <dt>Severity</dt><dd>normal</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Current packages</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2024-01-09T10:04:10Z</dd>
+      <dt>Changed</dt><dd>2025-02-06T01:30:11Z</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=921647" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=921647</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-14.1</li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item hidden" id="bug-919121" data-status="resolved" data-version="other" data-resolution="fixed" data-component="current-packages" data-severity="normal" data-keyword="pullrequest" data-changed="2024-10-31" data-search="#919121 dev-debug/gdb-13.2-r2[sim] - [clang] sem.c: error: incompatible function pointer types passing void (sim_cpu , uint, udi) (aka void (struct _sim_cpu , unsigned int toolchain current packages pullrequest">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#919121</span>
+    <span class="glsa-title">dev-debug/gdb-13.2-r2[sim] - [clang] sem.c: error: incompatible function pointer types passing void (SIM_CPU , UINT, UDI) (aka void (struct _sim_cpu , unsigned int</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status resolved">RESOLVED FIXED</span>
+      <span class="glsa-badge severity normal">normal</span>
+      <span class="glsa-date">2024-10-31</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>RESOLVED</dd>
+      <dt>Resolution</dt><dd>FIXED</dd>
+      <dt>Severity</dt><dd>normal</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Current packages</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2023-12-03T11:02:05Z</dd>
+      <dt>Changed</dt><dd>2024-10-31T17:19:58Z</dd>
+      <dt>Keywords</dt><dd>PullRequest</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=919121" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=919121</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-13.2-r2</li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item hidden" id="bug-915017" data-status="resolved" data-version="none" data-resolution="fixed" data-component="current-packages" data-severity="normal" data-keyword="" data-changed="2025-03-17" data-search="#915017 dev-debug/gdb: automagic dependency on dev-util/babeltrace toolchain current packages ">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#915017</span>
+    <span class="glsa-title">dev-debug/gdb: automagic dependency on dev-util/babeltrace</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status resolved">RESOLVED FIXED</span>
+      <span class="glsa-badge severity normal">normal</span>
+      <span class="glsa-date">2025-03-17</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>RESOLVED</dd>
+      <dt>Resolution</dt><dd>FIXED</dd>
+      <dt>Severity</dt><dd>normal</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Current packages</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2023-10-01T12:49:42Z</dd>
+      <dt>Changed</dt><dd>2025-03-17T21:16:39Z</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=915017" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=915017</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a></li>
+      <li><a href="../dev-util/babeltrace.html">dev-util/babeltrace</a></li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item" id="bug-902777" data-status="open" data-version="other" data-resolution="other" data-component="current-packages" data-severity="major" data-keyword="" data-changed="2024-01-13" data-search="#902777 dev-debug/gdb-13.1-r1: undefined reference to `__atomic_fetch_add_4' on mips (/usr/lib/gcc/mips-unknown-linux-gnu/12/include/g++-v12/ext/atomicity.h:66: more undefined references to `__atomic_fetch_add_4' follow) toolchain current packages ">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#902777</span>
+    <span class="glsa-title">dev-debug/gdb-13.1-r1: undefined reference to `__atomic_fetch_add_4' on MIPS (/usr/lib/gcc/mips-unknown-linux-gnu/12/include/g++-v12/ext/atomicity.h:66: more undefined references to `__atomic_fetch_add_4' follow)</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status open">UNCONFIRMED</span>
+      <span class="glsa-badge severity high">major</span>
+      <span class="glsa-date">2024-01-13</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>UNCONFIRMED</dd>
+      <dt>Severity</dt><dd>major</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Current packages</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2023-03-23T03:36:56Z</dd>
+      <dt>Changed</dt><dd>2024-01-13T11:00:46Z</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=902777" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=902777</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-13.1-r1</li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item" id="bug-878293" data-status="open" data-version="other" data-resolution="other" data-component="current-packages" data-severity="normal" data-keyword="" data-changed="2024-01-13" data-search="#878293 dev-debug/gdb-12.1-r2 - guile/guile.c: error: scm_install_gmp_memory_functions was not declared in this scope toolchain current packages ">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#878293</span>
+    <span class="glsa-title">dev-debug/gdb-12.1-r2 - guile/guile.c: error: scm_install_gmp_memory_functions was not declared in this scope</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status open">CONFIRMED</span>
+      <span class="glsa-badge severity normal">normal</span>
+      <span class="glsa-date">2024-01-13</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>CONFIRMED</dd>
+      <dt>Severity</dt><dd>normal</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Current packages</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2022-10-25T17:49:44Z</dd>
+      <dt>Changed</dt><dd>2024-01-13T11:00:45Z</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=878293" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=878293</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-12.1-r2</li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item hidden" id="bug-871543" data-status="resolved" data-version="other" data-resolution="fixed" data-component="current-packages" data-severity="normal" data-keyword="pullrequest" data-changed="2024-10-27" data-search="#871543 dev-debug/gdb-12.1-r2[+sim] - dv-lm32cpu.c: error: call to undeclared function lm32bf_h_csr_get; iso c99 and later do not support implic toolchain current packages pullrequest">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#871543</span>
+    <span class="glsa-title">dev-debug/gdb-12.1-r2[+sim] - dv-lm32cpu.c: error: call to undeclared function lm32bf_h_csr_get; ISO C99 and later do not support implic</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status resolved">RESOLVED FIXED</span>
+      <span class="glsa-badge severity normal">normal</span>
+      <span class="glsa-date">2024-10-27</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>RESOLVED</dd>
+      <dt>Resolution</dt><dd>FIXED</dd>
+      <dt>Severity</dt><dd>normal</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Current packages</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2022-09-18T18:36:38Z</dd>
+      <dt>Changed</dt><dd>2024-10-27T18:19:04Z</dd>
+      <dt>Keywords</dt><dd>PullRequest</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=871543" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=871543</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-12.1-r2</li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item hidden" id="bug-823770" data-status="resolved" data-version="other" data-resolution="fixed" data-component="current-packages" data-severity="normal" data-keyword="testfailure" data-changed="2025-02-06" data-search="#823770 dev-debug/gdb-11.1 has many test failures toolchain current packages testfailure">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#823770</span>
+    <span class="glsa-title">dev-debug/gdb-11.1 has many test failures</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status resolved">RESOLVED FIXED</span>
+      <span class="glsa-badge severity normal">normal</span>
+      <span class="glsa-date">2025-02-06</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>RESOLVED</dd>
+      <dt>Resolution</dt><dd>FIXED</dd>
+      <dt>Severity</dt><dd>normal</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Current packages</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2021-11-14T21:37:13Z</dd>
+      <dt>Changed</dt><dd>2025-02-06T01:27:36Z</dd>
+      <dt>Keywords</dt><dd>TESTFAILURE</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=823770" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=823770</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-11.1</li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item hidden" id="bug-793035" data-status="resolved" data-version="other" data-resolution="fixed" data-component="current-packages" data-severity="normal" data-keyword="testfailure" data-changed="2025-02-06" data-search="#793035 dev-debug/gdb-10.2 fails tests: - error: test suppressed toolchain current packages testfailure">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#793035</span>
+    <span class="glsa-title">dev-debug/gdb-10.2 fails tests: - ERROR: test suppressed</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status resolved">RESOLVED FIXED</span>
+      <span class="glsa-badge severity normal">normal</span>
+      <span class="glsa-date">2025-02-06</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>RESOLVED</dd>
+      <dt>Resolution</dt><dd>FIXED</dd>
+      <dt>Severity</dt><dd>normal</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Current packages</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2021-05-30T11:32:04Z</dd>
+      <dt>Changed</dt><dd>2025-02-06T01:27:51Z</dd>
+      <dt>Keywords</dt><dd>TESTFAILURE</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=793035" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=793035</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-10.2</li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item hidden" id="bug-792969" data-status="resolved" data-version="other" data-resolution="fixed" data-component="current-packages" data-severity="normal" data-keyword="" data-changed="2024-02-16" data-search="#792969 dev-debug/gdb-10.2 - make[2]: *** no rule to make target ../bfd/libbfd.a, needed by gdb. stop. toolchain current packages ">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#792969</span>
+    <span class="glsa-title">dev-debug/gdb-10.2 - make[2]: *** No rule to make target ../bfd/libbfd.a, needed by gdb. Stop.</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status resolved">RESOLVED FIXED</span>
+      <span class="glsa-badge severity normal">normal</span>
+      <span class="glsa-date">2024-02-16</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>RESOLVED</dd>
+      <dt>Resolution</dt><dd>FIXED</dd>
+      <dt>Severity</dt><dd>normal</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Current packages</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2021-05-30T08:36:23Z</dd>
+      <dt>Changed</dt><dd>2024-02-16T06:52:10Z</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=792969" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=792969</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-10.2</li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item hidden" id="bug-753596" data-status="resolved" data-version="other" data-resolution="fixed" data-component="current-packages" data-severity="normal" data-keyword="testfailure" data-changed="2025-02-07" data-search="#753596 dev-debug/gdb-10.1 fails tests: fail: gdb.base/break-interp.exp: ldprelink=no: ldsepdebug=no: reach-(_dl_debug_state|dl_main): reach toolchain current packages testfailure">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#753596</span>
+    <span class="glsa-title">dev-debug/gdb-10.1 fails tests: FAIL: gdb.base/break-interp.exp: ldprelink=NO: ldsepdebug=NO: reach-(_dl_debug_state|dl_main): reach</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status resolved">RESOLVED FIXED</span>
+      <span class="glsa-badge severity normal">normal</span>
+      <span class="glsa-date">2025-02-07</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>RESOLVED</dd>
+      <dt>Resolution</dt><dd>FIXED</dd>
+      <dt>Severity</dt><dd>normal</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Current packages</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2020-11-08T21:04:20Z</dd>
+      <dt>Changed</dt><dd>2025-02-07T02:00:53Z</dd>
+      <dt>Keywords</dt><dd>TESTFAILURE</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=753596" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=753596</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-10.1</li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item" id="bug-742284" data-status="open" data-version="other" data-resolution="other" data-component="current-packages" data-severity="normal" data-keyword="" data-changed="2024-01-13" data-search="#742284 dev-debug/gdb-9.2 calls commands that do not exist (error: couldn't execute &quot;gnatmake&quot;, no such file or directory  sh: prelink: command not found) toolchain current packages ">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#742284</span>
+    <span class="glsa-title">dev-debug/gdb-9.2 calls commands that do not exist (ERROR: couldn't execute &quot;gnatmake&quot;, no such file or directory  sh: prelink: command not found)</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status open">CONFIRMED</span>
+      <span class="glsa-badge severity normal">normal</span>
+      <span class="glsa-date">2024-01-13</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>CONFIRMED</dd>
+      <dt>Severity</dt><dd>normal</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Current packages</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2020-09-13T08:36:07Z</dd>
+      <dt>Changed</dt><dd>2024-01-13T11:00:44Z</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=742284" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=742284</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-9.2</li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item" id="bug-724614" data-status="open" data-version="other" data-resolution="other" data-component="current-packages" data-severity="normal" data-keyword="patch" data-changed="2024-01-14" data-search="#724614 dev-debug/gdb-9.1 crashes with &quot;sect_index_text not initialized&quot; toolchain current packages patch">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#724614</span>
+    <span class="glsa-title">dev-debug/gdb-9.1 crashes with &quot;sect_index_text not initialized&quot;</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status open">CONFIRMED</span>
+      <span class="glsa-badge severity normal">normal</span>
+      <span class="glsa-date">2024-01-14</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>CONFIRMED</dd>
+      <dt>Severity</dt><dd>normal</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Current packages</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2020-05-23T06:05:06Z</dd>
+      <dt>Changed</dt><dd>2024-01-14T04:45:46Z</dd>
+      <dt>Keywords</dt><dd>PATCH</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=724614" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=724614</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-9.1</li>
+    </ul>
+  </div>
+</details>
+<details class="glsa-item bug-item" id="bug-642558" data-status="open" data-version="other" data-resolution="other" data-component="current-packages" data-severity="minor" data-keyword="" data-changed="2024-01-13" data-search="#642558 dev-debug/gdb-8.0.1 - &quot;sorry, but gdb does not support the linguas: en en_us&quot; toolchain current packages ">
+  <summary class="glsa-summary">
+    <span class="glsa-chevron">&#9656;</span>
+    <span class="glsa-id">#642558</span>
+    <span class="glsa-title">dev-debug/gdb-8.0.1 - &quot;Sorry, but gdb does not support the LINGUAS: en en_US&quot;</span>
+    <span class="glsa-badges">
+      <span class="glsa-badge status open">UNCONFIRMED</span>
+      <span class="glsa-badge severity low">minor</span>
+      <span class="glsa-date">2024-01-13</span>
+    </span>
+  </summary>
+  <div class="glsa-body">
+    <dl class="glsa-meta">
+      <dt>Status</dt><dd>UNCONFIRMED</dd>
+      <dt>Severity</dt><dd>minor</dd>
+      <dt>Priority</dt><dd>Normal</dd>
+      <dt>Product</dt><dd>Gentoo Linux</dd>
+      <dt>Component</dt><dd>Current packages</dd>
+      <dt>Assignee</dt><dd>toolchain</dd>
+      <dt>Created</dt><dd>2017-12-28T19:13:53Z</dd>
+      <dt>Changed</dt><dd>2024-01-13T11:00:43Z</dd>
+      <dt>Bugzilla</dt><dd><a href="https://bugs.gentoo.org/show_bug.cgi?id=642558" rel="noopener">https://bugs.gentoo.org/show_bug.cgi?id=642558</a></dd>
+    </dl>
+    <h4>Packages named</h4>
+    <ul>
+      <li><a href="../dev-debug/gdb.html">dev-debug/gdb</a>-8.0.1</li>
+    </ul>
+  </div>
+</details>
+</div>
+  </div>
+</div>
+<script>
+const bugChips = () => Array.from(document.querySelectorAll("#bug-filters .filter-btn"));
+const bugRows = () => Array.from(document.querySelectorAll("details.bug-item"));
+const bugDefaults = {};
+bugChips().forEach(b => { (bugDefaults[b.dataset.group] = bugDefaults[b.dataset.group] || []); if (b.classList.contains("active")) bugDefaults[b.dataset.group].push(b.dataset.value); });
+function bugsSetAll(open) { bugRows().forEach(d => { d.open = open; }); }
+function bugsLit() {
+  const lit = {};
+  bugChips().forEach(b => { lit[b.dataset.group] = lit[b.dataset.group] || new Set(); if (b.classList.contains("active")) lit[b.dataset.group].add(b.dataset.value); });
+  return lit;
+}
+function bugsApply() {
+  const lit = bugsLit();
+  const has = (g, v) => !lit[g] || lit[g].has(v);
+  const box = document.getElementById("bug-search");
+  const q = box ? box.value.trim().toLowerCase() : "";
+  const days = lit.age ? parseInt(Array.from(lit.age)[0] || "0", 10) : 0;
+  const cutoff = days ? new Date(Date.now() - days * 86400000).toISOString().slice(0, 10) : "";
+  let shown = 0, total = 0;
+  bugRows().forEach(d => {
+    const s = d.dataset; total++;
+    let ok = has("status", s.status) && has("version", s.version) && has("component", s.component) && has("severity", s.severity);
+    if (ok && s.status === "resolved") ok = has("resolution", s.resolution);
+    if (ok && lit.keyword && lit.keyword.size) ok = s.keyword.split(" ").some(k => lit.keyword.has(k));
+    if (ok && cutoff) ok = s.changed >= cutoff;
+    if (ok && q) ok = s.search.indexOf(q) >= 0;
+    d.classList.toggle("hidden", !ok); if (ok) shown++;
+  });
+  const el = document.getElementById("bugs-shown");
+  if (el) el.textContent = shown === total ? "" : " \u00b7 showing " + shown;
+  const badge = document.getElementById("bug-filters-count");
+  if (badge) { const n = bugsChanged(lit).length; badge.textContent = n ? String(n) : ""; badge.classList.toggle("affected", n > 0); }
+}
+function bugsChanged(lit) {
+  return Object.keys(lit).filter(g => Array.from(lit[g]).sort().join(",") !== (bugDefaults[g] || []).slice().sort().join(","));
+}
+function bugsToggleFilters(open) {
+  const box = document.getElementById("bug-filters"), btn = document.getElementById("bug-filters-toggle");
+  if (!box) return;
+  const show = open === undefined ? box.classList.contains("collapsed") : open;
+  box.classList.toggle("collapsed", !show);
+  if (btn) { btn.setAttribute("aria-expanded", show ? "true" : "false"); btn.classList.toggle("active", show); }
+}
+function bugsToggle(btn) {
+  if (btn.dataset.group === "age") bugChips().filter(b => b.dataset.group === "age").forEach(b => b.classList.toggle("active", b === btn));
+  else btn.classList.toggle("active");
+  bugsApply(); bugsWriteHash();
+}
+function bugsReset() {
+  bugChips().forEach(b => b.classList.toggle("active", bugDefaults[b.dataset.group].indexOf(b.dataset.value) >= 0));
+  const box = document.getElementById("bug-search"); if (box) box.value = "";
+  bugsApply(); history.replaceState(null, "", location.pathname + location.search);
+}
+function bugsWriteHash() {
+  const lit = bugsLit(), parts = [];
+  bugsChanged(lit).forEach(g => parts.push(g + "=" + Array.from(lit[g]).sort().join(",")));
+  const box = document.getElementById("bug-search");
+  if (box && box.value.trim()) parts.push("q=" + encodeURIComponent(box.value.trim()));
+  history.replaceState(null, "", location.pathname + location.search + (parts.length ? "#" + parts.join("&") : ""));
+}
+(function () {
+  const h = location.hash.slice(1);
+  if (h.indexOf("bug-") === 0) {
+    const el = document.getElementById(h);
+    if (el && el.tagName === "DETAILS") {
+      bugChips().forEach(b => { const v = el.dataset[b.dataset.group]; if (v !== undefined && v.split(" ").indexOf(b.dataset.value) >= 0 && b.dataset.group !== "keyword") b.classList.add("active"); });
+      bugsApply(); el.open = true; el.scrollIntoView();
+      return;
+    }
+  }
+  if (h && h.indexOf("=") > 0) {
+    h.split("&").forEach(p => {
+      const i = p.indexOf("="), g = p.slice(0, i), vs = p.slice(i + 1);
+      if (g === "q") { const box = document.getElementById("bug-search"); if (box) box.value = decodeURIComponent(vs); return; }
+      const want = vs ? vs.split(",") : [];
+      bugChips().filter(b => b.dataset.group === g).forEach(b => b.classList.toggle("active", want.indexOf(b.dataset.value) >= 0));
+    });
+    bugsToggleFilters(true);
+  }
+  bugsApply();
+})();
+</script>
+</div>
+<script>
+function toggleTheme() {
+  const html = document.documentElement;
+  const light = html.getAttribute("data-theme") === "light";
+  if (light) html.removeAttribute("data-theme");
+  else html.setAttribute("data-theme", "light");
+  try { localStorage.setItem("png-theme", light ? "dark" : "light"); } catch (e) {}
+}
+</script>
+</body>
+</html>
