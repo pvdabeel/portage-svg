@@ -93,6 +93,8 @@
   <div class="filter-toolbar">
     <button class="action-btn" onclick="expandAll()">Expand All</button>
     <button class="action-btn" onclick="collapseAll()">Collapse All</button>
+    <button class="action-btn" id="hover-mode-btn" onclick="toggleHoverMode(this)" aria-pressed="false" title="Hide dependency edges; show only those of the hovered package">Hover</button>
+    <button class="action-btn" id="crit-mode-btn" onclick="toggleCritMode(this)" aria-pressed="false" title="Highlight the longest chain of dependent actions (backward cycle-break edges excluded)">Critical path</button>
   </div>
 </div>
 <div class="global-use">
@@ -11837,6 +11839,7 @@ const filters = {
 };
 const depColors = {bdepend:"#ef6c00",depend:"#e53935",rdepend:"#7e57c2",pdepend:"#00897b",idepend:"#6d4c41"};
 const depDash = {bdepend:"",depend:"",rdepend:"",pdepend:"6,3",idepend:"3,3"};
+let hoverMode=false, hoverPkg=null, critMode=false;
 const deps = [
   ["activemodel-run","activerecord-inst","rdepend"],
   ["activemodel-run","activerecord-run","rdepend"],
@@ -12386,6 +12389,7 @@ function drawOverlays(){
     const p=document.createElementNS(ns,"polygon");p.setAttribute("points","0 0,6 2.5,0 5");
     p.setAttribute("fill",c);m.appendChild(p);defs.appendChild(m);
   }svg.appendChild(defs);
+  const edges=[],stepOf=c=>c.closest("td").cellIndex;
   document.querySelectorAll("#gantt tbody tr[data-pkg]:not(.row-hidden)").forEach(row=>{
     const f=[];row.querySelectorAll("td:not(.pkg)").forEach(td=>{
       const s=td.querySelector(".cell:not(.hidden)");if(s)f.push(s);});
@@ -12397,7 +12401,8 @@ function drawOverlays(){
       l.setAttribute("x2",b.left-wR.left+wr.scrollLeft);
       l.setAttribute("y2",b.top+b.height/2-wR.top+wr.scrollTop);
       l.setAttribute("stroke",barColor);l.setAttribute("stroke-width","2");
-      l.setAttribute("stroke-dasharray","5,4");svg.appendChild(l);}
+      l.setAttribute("stroke-dasharray","5,4");l.setAttribute("class","bar-edge");
+      l.dataset.pkg=row.dataset.pkg;svg.appendChild(l);edges.push({el:l,from:f[i],to:f[i+1]});}
   });
   deps.forEach(([fid,tid,dt])=>{
     if(!filters[dt])return;
@@ -12413,9 +12418,62 @@ function drawOverlays(){
     p.setAttribute("stroke",depColors[dt]);p.setAttribute("stroke-width","1.2");
     p.setAttribute("fill","none");p.setAttribute("marker-end",`url(#arrow-${dt})`);
     p.setAttribute("opacity","0.7");if(depDash[dt])p.setAttribute("stroke-dasharray",depDash[dt]);
+    p.setAttribute("class","dep-edge");p.dataset.fromPkg=fr.dataset.pkg;p.dataset.toPkg=tr2.dataset.pkg;
     svg.appendChild(p);
+    if(stepOf(fe)<stepOf(te))edges.push({el:p,from:fe,to:te});else p.classList.add("back-edge");
   });
+  markCritical(edges,stepOf);
+  if(hoverMode&&hoverPkg)litEdges(hoverPkg);
 }
+function toggleCritMode(btn){
+  critMode=!critMode;
+  btn.classList.toggle("active",critMode);btn.setAttribute("aria-pressed",critMode);
+  document.getElementById("dep-svg").classList.toggle("crit-mode",critMode);
+  document.getElementById("gantt").classList.toggle("crit-mode",critMode);
+  drawOverlays();
+}
+function markCritical(edges,stepOf){
+  document.querySelectorAll("#gantt .cell.crit").forEach(c=>c.classList.remove("crit"));
+  const btn=document.getElementById("crit-mode-btn");
+  if(!critMode){btn.textContent="Critical path";return;}
+  const len=new Map(),pred=new Map(),nodes=new Set();
+  edges.forEach(e=>{nodes.add(e.from);nodes.add(e.to);});
+  const order=[...nodes].sort((a,b)=>stepOf(a)-stepOf(b));
+  order.forEach(n=>len.set(n,1));
+  edges.slice().sort((a,b)=>stepOf(a.from)-stepOf(b.from)).forEach(e=>{
+    const l=len.get(e.from)+1;if(l>len.get(e.to)){len.set(e.to,l);pred.set(e.to,e);}
+  });
+  let end=null;
+  order.forEach(n=>{if(!end||len.get(n)>len.get(end)||(len.get(n)===len.get(end)&&stepOf(n)>stepOf(end)))end=n;});
+  const n=end?len.get(end):0;btn.textContent=`Critical path (${n})`;
+  if(n<2)return;
+  for(let c=end;c;){c.classList.add("crit");const e=pred.get(c);if(!e)break;e.el.classList.add("crit");c=e.from;}
+}
+function toggleHoverMode(btn){
+  hoverMode=!hoverMode;
+  btn.classList.toggle("active",hoverMode);btn.setAttribute("aria-pressed",hoverMode);
+  document.getElementById("dep-svg").classList.toggle("hover-mode",hoverMode);
+  document.getElementById("gantt").classList.toggle("hover-mode",hoverMode);
+  if(!hoverMode)litEdges(null);
+}
+function litEdges(p){
+  hoverPkg=p;
+  document.querySelectorAll("#dep-svg .lit").forEach(e=>e.classList.remove("lit"));
+  document.querySelectorAll("#gantt tr.hover-lit").forEach(r=>r.classList.remove("hover-lit"));
+  if(!p)return;
+  document.querySelectorAll(`#dep-svg [data-pkg="${p}"],#dep-svg [data-from-pkg="${p}"],#dep-svg [data-to-pkg="${p}"]`)
+    .forEach(e=>e.classList.add("lit"));
+  const r=document.querySelector(`#gantt tr[data-pkg="${p}"]`);if(r)r.classList.add("hover-lit");
+}
+(function(){
+  const tb=document.querySelector("#gantt tbody");if(!tb)return;
+  tb.addEventListener("mouseover",e=>{
+    if(!hoverMode)return;
+    const r=e.target.closest("tr[data-pkg],tr.detail-row"),p=r?(r.dataset.pkg||r.dataset.parent):null;
+    if(p!==hoverPkg)litEdges(p);
+  });
+  tb.addEventListener("mouseleave",()=>{if(hoverMode)litEdges(null);});
+})();
 function toggleUseExpand(){
   const f=document.getElementById("global-use-flags"),
         b=f.previousElementSibling;
