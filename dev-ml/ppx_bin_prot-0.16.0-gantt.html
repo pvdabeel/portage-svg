@@ -94,7 +94,8 @@
     <button class="action-btn" onclick="expandAll()">Expand All</button>
     <button class="action-btn" onclick="collapseAll()">Collapse All</button>
     <button class="action-btn" id="hover-mode-btn" onclick="toggleHoverMode(this)" aria-pressed="false" title="Hide dependency edges; show only those of the hovered package">Hover</button>
-    <button class="action-btn" id="crit-mode-btn" onclick="toggleCritMode(this)" aria-pressed="false" title="Highlight the longest chain of dependent actions (backward cycle-break edges excluded)">Critical path</button>
+    <button class="action-btn" id="crit-mode-btn" onclick="toggleCritMode(this)" aria-pressed="false" title="Highlight the longest duration-weighted chain of dependent actions (phase_stats when available; ignored / backward RDEPEND edges excluded)">Critical path</button>
+    <button class="action-btn" id="time-mode-btn" onclick="toggleTimeMode(this)" aria-pressed="false" title="Keep the plan wave order; size each wave by its longest recorded action (a wave starts when the previous wave finishes)">Time</button>
   </div>
 </div>
 <div class="global-use">
@@ -121,13 +122,34 @@
     <th>Step 10</th>
     <th>Step 11</th>
     <th>Step 12</th>
+    <th>Step 13</th>
+    <th>Step 14</th>
+    <th>Step 15</th>
+    <th>Step 16</th>
+    <th>Step 17</th>
+    <th>Step 18</th>
+    <th>Step 19</th>
+    <th>Step 20</th>
+    <th>Step 21</th>
   </tr></thead>
   <tbody>
     <tr data-pkg="ocaml" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-lang/ocaml-4.14.2</td>
-      <td><span class="cell dl" data-type="download" id="ocaml-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="ocaml-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="ocaml-run">run</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="ocaml-dl" id="ocaml-dl" title="1s">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="179" data-timed="1" data-id="ocaml-inst" id="ocaml-inst" title="2m 59s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="ocaml-run" id="ocaml-run">run</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -165,37 +187,6 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-    </tr>
-    <tr data-pkg="dune" data-actions="download install run">
-      <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-ml/dune-3.23.1</td>
-      <td><span class="cell dl" data-type="download" id="dune-dl">download</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="dune-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="dune-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-    </tr>
-    <tr class="detail-row" data-parent="dune">
-      <td class="detail-pkg">
-        <div class="detail-label">USE</div>
-        <div class="use-flags">
-          <span class="use-flag off">-emacs</span>
-          <span class="use-flag off">-test</span>
-        </div>
-      </td>
-      <td class="detail-dl">
-        <table class="src-table">
-          <tr><td><a href="https://github.com/ocaml/dune/archive/3.23.1.tar.gz" target="_blank">dune-3.23.1.tar.gz</a></td><td class="sz">3.5 MB</td><td><span class="src-status pending">fetch</span></td></tr>
-        </table>
-      </td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
@@ -208,11 +199,23 @@
     </tr>
     <tr data-pkg="findlib" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-ml/findlib-1.9.8-r1</td>
-      <td><span class="cell dl" data-type="download" id="findlib-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="findlib-dl" id="findlib-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="findlib-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="findlib-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="23" data-timed="1" data-id="findlib-inst" id="findlib-inst" title="23s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="findlib-run" id="findlib-run">run</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -246,16 +249,98 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+    </tr>
+    <tr data-pkg="dune" data-actions="download install run">
+      <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-ml/dune-3.23.1</td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="dune-dl" id="dune-dl" title="1s">download</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="52" data-timed="1" data-id="dune-inst" id="dune-inst" title="52s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="dune-run" id="dune-run">run</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+    </tr>
+    <tr class="detail-row" data-parent="dune">
+      <td class="detail-pkg">
+        <div class="detail-label">USE</div>
+        <div class="use-flags">
+          <span class="use-flag off">-emacs</span>
+          <span class="use-flag off">-test</span>
+        </div>
+      </td>
+      <td class="detail-dl">
+        <table class="src-table">
+          <tr><td><a href="https://github.com/ocaml/dune/archive/3.23.1.tar.gz" target="_blank">dune-3.23.1.tar.gz</a></td><td class="sz">3.5 MB</td><td><span class="src-status pending">fetch</span></td></tr>
+        </table>
+      </td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="ocaml-compiler-libs" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-ml/ocaml-compiler-libs-0.17.0</td>
-      <td><span class="cell dl" data-type="download" id="ocaml-compiler-libs-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="ocaml-compiler-libs-dl" id="ocaml-compiler-libs-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="ocaml-compiler-libs-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="ocaml-compiler-libs-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="44" data-timed="1" data-id="ocaml-compiler-libs-inst" id="ocaml-compiler-libs-inst" title="44s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="ocaml-compiler-libs-run" id="ocaml-compiler-libs-run">run</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -285,16 +370,37 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="ppx_derivers" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-ml/ppx_derivers-1.2.1</td>
-      <td><span class="cell dl" data-type="download" id="ppx_derivers-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="ppx_derivers-dl" id="ppx_derivers-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="ppx_derivers-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="ppx_derivers-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="32" data-timed="1" data-id="ppx_derivers-inst" id="ppx_derivers-inst" title="32s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="ppx_derivers-run" id="ppx_derivers-run">run</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -324,16 +430,157 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+    </tr>
+    <tr data-pkg="result" data-actions="download install run">
+      <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-ml/result-1.5</td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="result-dl" id="result-dl" title="1s">download</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="20" data-timed="1" data-id="result-inst" id="result-inst" title="20s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="result-run" id="result-run">run</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+    </tr>
+    <tr class="detail-row" data-parent="result">
+      <td class="detail-pkg">
+        <div class="detail-label">USE</div>
+        <div class="use-flags">
+          <span class="use-flag on">+ocamlopt</span>
+        </div>
+      </td>
+      <td class="detail-dl">
+        <table class="src-table">
+          <tr><td><a href="https://github.com/janestreet/result/archive/1.5.tar.gz" target="_blank">result-1.5.tar.gz</a></td><td class="sz">2 KB</td><td><span class="src-status pending">fetch</span></td></tr>
+        </table>
+      </td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+    </tr>
+    <tr data-pkg="sexplib0" data-actions="download install run">
+      <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-ml/sexplib0-0.16.0</td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="sexplib0-dl" id="sexplib0-dl" title="1s">download</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="62" data-timed="1" data-id="sexplib0-inst" id="sexplib0-inst" title="1m 2s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="sexplib0-run" id="sexplib0-run">run</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+    </tr>
+    <tr class="detail-row" data-parent="sexplib0">
+      <td class="detail-pkg">
+        <div class="detail-label">USE</div>
+        <div class="use-flags">
+          <span class="use-flag on">+ocamlopt</span>
+        </div>
+      </td>
+      <td class="detail-dl">
+        <table class="src-table">
+          <tr><td><a href="https://github.com/janestreet/sexplib0/archive/v0.16.0.tar.gz" target="_blank">sexplib0-0.16.0.tar.gz</a></td><td class="sz">22 KB</td><td><span class="src-status pending">fetch</span></td></tr>
+        </table>
+      </td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="stdlib-shims" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-ml/stdlib-shims-0.3.0</td>
-      <td><span class="cell dl" data-type="download" id="stdlib-shims-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="stdlib-shims-dl" id="stdlib-shims-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="stdlib-shims-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="stdlib-shims-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="19" data-timed="1" data-id="stdlib-shims-inst" id="stdlib-shims-inst" title="19s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="stdlib-shims-run" id="stdlib-shims-run">run</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -363,18 +610,39 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="ppxlib" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-ml/ppxlib-0.33.0-r2</td>
-      <td><span class="cell dl" data-type="download" id="ppxlib-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="ppxlib-dl" id="ppxlib-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="ppxlib-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="ppxlib-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="1" data-timed="0" data-id="ppxlib-inst" id="ppxlib-inst">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="ppxlib-run" id="ppxlib-run">run</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -403,10 +671,381 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
-    <tr data-pkg="ppx_here" data-actions="download install">
+    <tr data-pkg="csexp" data-actions="download install run">
+      <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-ml/csexp-1.5.2-r1</td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="csexp-dl" id="csexp-dl" title="1s">download</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="19" data-timed="1" data-id="csexp-inst" id="csexp-inst" title="19s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="csexp-run" id="csexp-run">run</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+    </tr>
+    <tr class="detail-row" data-parent="csexp">
+      <td class="detail-pkg">
+        <div class="detail-label">USE</div>
+        <div class="use-flags">
+          <span class="use-flag on">+ocamlopt</span>
+          <span class="use-flag off">-test</span>
+        </div>
+      </td>
+      <td class="detail-dl">
+        <table class="src-table">
+          <tr><td><a href="https://github.com/ocaml-dune/csexp/releases/download/1.5.2/csexp-1.5.2.tbz" target="_blank">csexp-1.5.2.tbz</a></td><td class="sz">11 KB</td><td><span class="src-status pending">fetch</span></td></tr>
+        </table>
+      </td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+    </tr>
+    <tr data-pkg="dune-configurator" data-actions="download install run">
+      <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-ml/dune-configurator-3.21.1</td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="dune-configurator-dl" id="dune-configurator-dl" title="1s">download</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="22" data-timed="1" data-id="dune-configurator-inst" id="dune-configurator-inst" title="22s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="dune-configurator-run" id="dune-configurator-run">run</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+    </tr>
+    <tr class="detail-row" data-parent="dune-configurator">
+      <td class="detail-pkg">
+        <div class="detail-label">USE</div>
+        <div class="use-flags">
+          <span class="use-flag on">+ocamlopt</span>
+        </div>
+      </td>
+      <td class="detail-dl">
+        <table class="src-table">
+          <tr><td><a href="https://github.com/ocaml/dune/archive/3.21.1.tar.gz" target="_blank">dune-3.21.1.tar.gz</a></td><td class="sz">3.3 MB</td><td><span class="src-status pending">fetch</span></td></tr>
+        </table>
+      </td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+    </tr>
+    <tr data-pkg="base" data-actions="download install run">
+      <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-ml/base-0.16.3-r1</td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="base-dl" id="base-dl" title="1s">download</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="45" data-timed="1" data-id="base-inst" id="base-inst" title="45s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="base-run" id="base-run">run</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+    </tr>
+    <tr class="detail-row" data-parent="base">
+      <td class="detail-pkg">
+        <div class="detail-label">USE</div>
+        <div class="use-flags">
+          <span class="use-flag on">+ocamlopt</span>
+        </div>
+      </td>
+      <td class="detail-dl">
+        <table class="src-table">
+          <tr><td><a href="https://github.com/janestreet/base/archive/v0.16.3.tar.gz" target="_blank">base-0.16.3.tar.gz</a></td><td class="sz">432 KB</td><td><span class="src-status pending">fetch</span></td></tr>
+        </table>
+      </td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+    </tr>
+    <tr data-pkg="variantslib" data-actions="download install run">
+      <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-ml/variantslib-0.16.0</td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="variantslib-dl" id="variantslib-dl" title="1s">download</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="1" data-timed="0" data-id="variantslib-inst" id="variantslib-inst">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="variantslib-run" id="variantslib-run">run</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+    </tr>
+    <tr class="detail-row" data-parent="variantslib">
+      <td class="detail-pkg">
+        <div class="detail-label">USE</div>
+        <div class="use-flags">
+          <span class="use-flag on">+ocamlopt</span>
+        </div>
+      </td>
+      <td class="detail-dl">
+        <table class="src-table">
+          <tr><td><a href="https://github.com/janestreet/variantslib/archive/v0.16.0.tar.gz" target="_blank">variantslib-0.16.0.tar.gz</a></td><td class="sz">3 KB</td><td><span class="src-status pending">fetch</span></td></tr>
+        </table>
+      </td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+    </tr>
+    <tr data-pkg="fieldslib" data-actions="download install run">
+      <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-ml/fieldslib-0.16.0</td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="fieldslib-dl" id="fieldslib-dl" title="1s">download</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="1" data-timed="0" data-id="fieldslib-inst" id="fieldslib-inst">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="fieldslib-run" id="fieldslib-run">run</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+    </tr>
+    <tr class="detail-row" data-parent="fieldslib">
+      <td class="detail-pkg">
+        <div class="detail-label">USE</div>
+        <div class="use-flags">
+          <span class="use-flag on">+ocamlopt</span>
+        </div>
+      </td>
+      <td class="detail-dl">
+        <table class="src-table">
+          <tr><td><a href="https://github.com/janestreet/fieldslib/archive/v0.16.0.tar.gz" target="_blank">fieldslib-0.16.0.tar.gz</a></td><td class="sz">4 KB</td><td><span class="src-status pending">fetch</span></td></tr>
+        </table>
+      </td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+    </tr>
+    <tr data-pkg="ppx_compare" data-actions="download install run">
+      <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-ml/ppx_compare-0.16.0</td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="ppx_compare-dl" id="ppx_compare-dl" title="1s">download</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="1" data-timed="0" data-id="ppx_compare-inst" id="ppx_compare-inst">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="ppx_compare-run" id="ppx_compare-run">run</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+    </tr>
+    <tr class="detail-row" data-parent="ppx_compare">
+      <td class="detail-pkg">
+        <div class="detail-label">USE</div>
+        <div class="use-flags">
+          <span class="use-flag on">+ocamlopt</span>
+        </div>
+      </td>
+      <td class="detail-dl">
+        <table class="src-table">
+          <tr><td><a href="https://github.com/janestreet/ppx_compare/archive/v0.16.0.tar.gz" target="_blank">ppx_compare-0.16.0.tar.gz</a></td><td class="sz">14 KB</td><td><span class="src-status pending">fetch</span></td></tr>
+        </table>
+      </td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+    </tr>
+    <tr data-pkg="ppx_here" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-ml/ppx_here-0.16.0</td>
-      <td><span class="cell dl" data-type="download" id="ppx_here-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="ppx_here-dl" id="ppx_here-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -415,7 +1054,18 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="ppx_here-inst">install</span></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="1" data-timed="0" data-id="ppx_here-inst" id="ppx_here-inst">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="ppx_here-run" id="ppx_here-run">run</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
     </tr>
@@ -442,10 +1092,500 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+    </tr>
+    <tr data-pkg="ppx_sexp_conv" data-actions="download install run">
+      <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-ml/ppx_sexp_conv-0.16.0-r2</td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="ppx_sexp_conv-dl" id="ppx_sexp_conv-dl" title="1s">download</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="1" data-timed="0" data-id="ppx_sexp_conv-inst" id="ppx_sexp_conv-inst">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="ppx_sexp_conv-run" id="ppx_sexp_conv-run">run</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+    </tr>
+    <tr class="detail-row" data-parent="ppx_sexp_conv">
+      <td class="detail-pkg">
+        <div class="detail-label">USE</div>
+        <div class="use-flags">
+          <span class="use-flag on">+ocamlopt</span>
+        </div>
+      </td>
+      <td class="detail-dl">
+        <table class="src-table">
+          <tr><td><a href="https://github.com/janestreet/ppx_sexp_conv/archive/v0.16.0.tar.gz" target="_blank">ppx_sexp_conv-0.16.0.tar.gz</a></td><td class="sz">65 KB</td><td><span class="src-status pending">fetch</span></td></tr>
+        </table>
+      </td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+    </tr>
+    <tr data-pkg="ppx_stable_witness" data-actions="download install run">
+      <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-ml/ppx_stable_witness-0.16.0</td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="ppx_stable_witness-dl" id="ppx_stable_witness-dl" title="1s">download</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="1" data-timed="0" data-id="ppx_stable_witness-inst" id="ppx_stable_witness-inst">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="ppx_stable_witness-run" id="ppx_stable_witness-run">run</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+    </tr>
+    <tr class="detail-row" data-parent="ppx_stable_witness">
+      <td class="detail-pkg">
+        <div class="detail-label">USE</div>
+        <div class="use-flags">
+          <span class="use-flag on">+ocamlopt</span>
+        </div>
+      </td>
+      <td class="detail-dl">
+        <table class="src-table">
+          <tr><td><a href="https://github.com/janestreet/ppx_stable_witness/archive/v0.16.0.tar.gz" target="_blank">ppx_stable_witness-0.16.0.tar.gz</a></td><td class="sz">7 KB</td><td><span class="src-status pending">fetch</span></td></tr>
+        </table>
+      </td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+    </tr>
+    <tr data-pkg="stdio" data-actions="download install run">
+      <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-ml/stdio-0.16.0</td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="stdio-dl" id="stdio-dl" title="1s">download</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="22" data-timed="1" data-id="stdio-inst" id="stdio-inst" title="22s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="stdio-run" id="stdio-run">run</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+    </tr>
+    <tr class="detail-row" data-parent="stdio">
+      <td class="detail-pkg">
+        <div class="detail-label">USE</div>
+        <div class="use-flags">
+          <span class="use-flag on">+ocamlopt</span>
+        </div>
+      </td>
+      <td class="detail-dl">
+        <table class="src-table">
+          <tr><td><a href="https://github.com/janestreet/stdio/archive/v0.16.0.tar.gz" target="_blank">stdio-0.16.0.tar.gz</a></td><td class="sz">8 KB</td><td><span class="src-status pending">fetch</span></td></tr>
+        </table>
+      </td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+    </tr>
+    <tr data-pkg="ppx_custom_printf" data-actions="download install run">
+      <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-ml/ppx_custom_printf-0.16.0</td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="ppx_custom_printf-dl" id="ppx_custom_printf-dl" title="1s">download</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="1" data-timed="0" data-id="ppx_custom_printf-inst" id="ppx_custom_printf-inst">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="ppx_custom_printf-run" id="ppx_custom_printf-run">run</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+    </tr>
+    <tr class="detail-row" data-parent="ppx_custom_printf">
+      <td class="detail-pkg">
+        <div class="detail-label">USE</div>
+        <div class="use-flags">
+          <span class="use-flag on">+ocamlopt</span>
+        </div>
+      </td>
+      <td class="detail-dl">
+        <table class="src-table">
+          <tr><td><a href="https://github.com/janestreet/ppx_custom_printf/archive/v0.16.0.tar.gz" target="_blank">ppx_custom_printf-0.16.0.tar.gz</a></td><td class="sz">10 KB</td><td><span class="src-status pending">fetch</span></td></tr>
+        </table>
+      </td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+    </tr>
+    <tr data-pkg="ppx_fields_conv" data-actions="download install run">
+      <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-ml/ppx_fields_conv-0.16.0</td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="ppx_fields_conv-dl" id="ppx_fields_conv-dl" title="1s">download</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="1" data-timed="0" data-id="ppx_fields_conv-inst" id="ppx_fields_conv-inst">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="ppx_fields_conv-run" id="ppx_fields_conv-run">run</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+    </tr>
+    <tr class="detail-row" data-parent="ppx_fields_conv">
+      <td class="detail-pkg">
+        <div class="detail-label">USE</div>
+        <div class="use-flags">
+          <span class="use-flag on">+ocamlopt</span>
+        </div>
+      </td>
+      <td class="detail-dl">
+        <table class="src-table">
+          <tr><td><a href="https://github.com/janestreet/ppx_fields_conv/archive/v0.16.0.tar.gz" target="_blank">ppx_fields_conv-0.16.0.tar.gz</a></td><td class="sz">21 KB</td><td><span class="src-status pending">fetch</span></td></tr>
+        </table>
+      </td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+    </tr>
+    <tr data-pkg="ppx_optcomp" data-actions="download install run">
+      <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-ml/ppx_optcomp-0.16.0</td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="ppx_optcomp-dl" id="ppx_optcomp-dl" title="1s">download</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="1" data-timed="0" data-id="ppx_optcomp-inst" id="ppx_optcomp-inst">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="ppx_optcomp-run" id="ppx_optcomp-run">run</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+    </tr>
+    <tr class="detail-row" data-parent="ppx_optcomp">
+      <td class="detail-pkg">
+        <div class="detail-label">USE</div>
+        <div class="use-flags">
+          <span class="use-flag on">+ocamlopt</span>
+        </div>
+      </td>
+      <td class="detail-dl">
+        <table class="src-table">
+          <tr><td><a href="https://github.com/janestreet/ppx_optcomp/archive/v0.16.0.tar.gz" target="_blank">ppx_optcomp-0.16.0.tar.gz</a></td><td class="sz">16 KB</td><td><span class="src-status pending">fetch</span></td></tr>
+        </table>
+      </td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+    </tr>
+    <tr data-pkg="ppx_variants_conv" data-actions="download install run">
+      <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-ml/ppx_variants_conv-0.16.0-r1</td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="ppx_variants_conv-dl" id="ppx_variants_conv-dl" title="1s">download</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="1" data-timed="0" data-id="ppx_variants_conv-inst" id="ppx_variants_conv-inst">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="ppx_variants_conv-run" id="ppx_variants_conv-run">run</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+    </tr>
+    <tr class="detail-row" data-parent="ppx_variants_conv">
+      <td class="detail-pkg">
+        <div class="detail-label">USE</div>
+        <div class="use-flags">
+          <span class="use-flag on">+ocamlopt</span>
+        </div>
+      </td>
+      <td class="detail-dl">
+        <table class="src-table">
+          <tr><td><a href="https://github.com/janestreet/ppx_variants_conv/archive/v0.16.0.tar.gz" target="_blank">ppx_variants_conv-0.16.0.tar.gz</a></td><td class="sz">12 KB</td><td><span class="src-status pending">fetch</span></td></tr>
+        </table>
+      </td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+    </tr>
+    <tr data-pkg="bin_prot" data-actions="download install run">
+      <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-ml/bin_prot-0.16.0</td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="bin_prot-dl" id="bin_prot-dl" title="1s">download</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="1" data-timed="0" data-id="bin_prot-inst" id="bin_prot-inst">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="bin_prot-run" id="bin_prot-run">run</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+    </tr>
+    <tr class="detail-row" data-parent="bin_prot">
+      <td class="detail-pkg">
+        <div class="detail-label">USE</div>
+        <div class="use-flags">
+          <span class="use-flag on">+ocamlopt</span>
+        </div>
+      </td>
+      <td class="detail-dl">
+        <table class="src-table">
+          <tr><td><a href="https://github.com/janestreet/bin_prot/archive/v0.16.0.tar.gz" target="_blank">bin_prot-0.16.0.tar.gz</a></td><td class="sz">336 KB</td><td><span class="src-status pending">fetch</span></td></tr>
+        </table>
+      </td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="ppx_bin_prot" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-ml/ppx_bin_prot-0.16.0</td>
-      <td><span class="cell dl" data-type="download" id="ppx_bin_prot-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="ppx_bin_prot-dl" id="ppx_bin_prot-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -455,8 +1595,19 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="ppx_bin_prot-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="ppx_bin_prot-run">run</span></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="1" data-timed="0" data-id="ppx_bin_prot-inst" id="ppx_bin_prot-inst">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="ppx_bin_prot-run" id="ppx_bin_prot-run">run</span>
+</td>
     </tr>
     <tr class="detail-row" data-parent="ppx_bin_prot">
       <td class="detail-pkg">
@@ -471,6 +1622,15 @@
           <tr><td><a href="https://github.com/janestreet/ppx_bin_prot/archive/v0.16.0.tar.gz" target="_blank">ppx_bin_prot-0.16.0.tar.gz</a></td><td class="sz">37 KB</td><td><span class="src-status pending">fetch</span></td></tr>
         </table>
       </td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
@@ -497,6 +1657,7 @@
   <div class="legend-item"><svg width="24" height="12"><line x1="0" y1="6" x2="18" y2="6" stroke="var(--bdepend)" stroke-width="1.5"/><polygon points="18,3.5 24,6 18,8.5" fill="var(--bdepend)"/></svg>BDEPEND</div>
   <div class="legend-item"><svg width="24" height="12"><line x1="0" y1="6" x2="18" y2="6" stroke="var(--depend)" stroke-width="1.5"/><polygon points="18,3.5 24,6 18,8.5" fill="var(--depend)"/></svg>DEPEND</div>
   <div class="legend-item"><svg width="24" height="12"><line x1="0" y1="6" x2="18" y2="6" stroke="var(--rdepend)" stroke-width="1.5"/><polygon points="18,3.5 24,6 18,8.5" fill="var(--rdepend)"/></svg>RDEPEND</div>
+  <div class="legend-item" title="RDEPEND preference voided on a runtime cycle; not an ordering constraint"><svg width="24" height="12"><line x1="0" y1="6" x2="18" y2="6" stroke="var(--rdepend)" stroke-width="1.5" stroke-dasharray="4,3"/><polygon points="18,3.5 24,6 18,8.5" fill="var(--rdepend)"/></svg>RDEPEND (ignored)</div>
   <div class="legend-item"><svg width="24" height="12"><line x1="0" y1="6" x2="18" y2="6" stroke="var(--pdepend)" stroke-width="1.5" stroke-dasharray="4,2"/><polygon points="18,3.5 24,6 18,8.5" fill="var(--pdepend)"/></svg>PDEPEND</div>
   <div class="legend-item"><svg width="24" height="12"><line x1="0" y1="6" x2="18" y2="6" stroke="var(--idepend)" stroke-width="1.5" stroke-dasharray="2,2"/><polygon points="18,3.5 24,6 18,8.5" fill="var(--idepend)"/></svg>IDEPEND</div>
   <div class="legend-item"><svg width="24" height="12"><line x1="0" y1="6" x2="24" y2="6" stroke="var(--bar)" stroke-width="2" stroke-dasharray="4,3"/></svg>same pkg</div>
@@ -511,64 +1672,293 @@ const filters = {
 };
 const depColors = {bdepend:"#ef6c00",depend:"#e53935",rdepend:"#7e57c2",pdepend:"#00897b",idepend:"#6d4c41"};
 const depDash = {bdepend:"",depend:"",rdepend:"",pdepend:"6,3",idepend:"3,3"};
-let hoverMode=false, hoverPkg=null, critMode=false;
+let hoverMode=false, hoverPkg=null, critMode=false, timeMode=false;
 const deps = [
+  ["base-inst","bin_prot-inst","depend"],
+  ["base-inst","fieldslib-inst","depend"],
+  ["base-inst","ppx_compare-inst","depend"],
+  ["base-inst","ppx_fields_conv-inst","depend"],
+  ["base-inst","ppx_here-inst","depend"],
+  ["base-inst","ppx_optcomp-inst","depend"],
+  ["base-inst","ppx_sexp_conv-inst","depend"],
+  ["base-inst","ppx_stable_witness-inst","depend"],
+  ["base-inst","stdio-inst","depend"],
+  ["base-inst","variantslib-inst","depend"],
+  ["base-run","bin_prot-inst","rdepend"],
+  ["base-run","bin_prot-run","rdepend"],
+  ["base-run","fieldslib-inst","rdepend"],
+  ["base-run","fieldslib-run","rdepend"],
+  ["base-run","ppx_compare-inst","rdepend"],
+  ["base-run","ppx_compare-run","rdepend"],
+  ["base-run","ppx_fields_conv-inst","rdepend"],
+  ["base-run","ppx_fields_conv-run","rdepend"],
+  ["base-run","ppx_here-inst","rdepend"],
+  ["base-run","ppx_here-run","rdepend"],
+  ["base-run","ppx_optcomp-inst","rdepend"],
+  ["base-run","ppx_optcomp-run","rdepend"],
+  ["base-run","ppx_sexp_conv-inst","rdepend"],
+  ["base-run","ppx_sexp_conv-run","rdepend"],
+  ["base-run","ppx_stable_witness-inst","rdepend"],
+  ["base-run","ppx_stable_witness-run","rdepend"],
+  ["base-run","stdio-inst","rdepend"],
+  ["base-run","stdio-run","rdepend"],
+  ["base-run","variantslib-inst","rdepend"],
+  ["base-run","variantslib-run","rdepend"],
+  ["bin_prot-inst","ppx_bin_prot-inst","depend"],
+  ["bin_prot-run","ppx_bin_prot-inst","rdepend"],
+  ["bin_prot-run","ppx_bin_prot-run","rdepend"],
+  ["csexp-inst","dune-configurator-inst","depend"],
+  ["csexp-run","dune-configurator-inst","rdepend"],
+  ["csexp-run","dune-configurator-run","rdepend"],
+  ["dune-inst","base-inst","depend"],
+  ["dune-inst","bin_prot-inst","depend"],
+  ["dune-inst","csexp-inst","depend"],
+  ["dune-inst","dune-configurator-inst","depend"],
+  ["dune-inst","fieldslib-inst","depend"],
   ["dune-inst","ocaml-compiler-libs-inst","depend"],
   ["dune-inst","ppx_bin_prot-inst","depend"],
+  ["dune-inst","ppx_compare-inst","depend"],
+  ["dune-inst","ppx_custom_printf-inst","depend"],
   ["dune-inst","ppx_derivers-inst","depend"],
+  ["dune-inst","ppx_fields_conv-inst","depend"],
   ["dune-inst","ppx_here-inst","depend"],
+  ["dune-inst","ppx_optcomp-inst","depend"],
+  ["dune-inst","ppx_sexp_conv-inst","depend"],
+  ["dune-inst","ppx_stable_witness-inst","depend"],
+  ["dune-inst","ppx_variants_conv-inst","depend"],
   ["dune-inst","ppxlib-inst","depend"],
+  ["dune-inst","result-inst","depend"],
+  ["dune-inst","sexplib0-inst","depend"],
+  ["dune-inst","stdio-inst","depend"],
   ["dune-inst","stdlib-shims-inst","depend"],
+  ["dune-inst","variantslib-inst","depend"],
+  ["dune-run","base-inst","rdepend"],
+  ["dune-run","base-run","rdepend"],
+  ["dune-run","bin_prot-inst","rdepend"],
+  ["dune-run","bin_prot-run","rdepend"],
+  ["dune-run","csexp-inst","rdepend"],
+  ["dune-run","csexp-run","rdepend"],
+  ["dune-run","dune-configurator-inst","rdepend"],
+  ["dune-run","dune-configurator-run","rdepend"],
+  ["dune-run","fieldslib-inst","rdepend"],
+  ["dune-run","fieldslib-run","rdepend"],
   ["dune-run","ocaml-compiler-libs-inst","rdepend"],
   ["dune-run","ocaml-compiler-libs-run","rdepend"],
   ["dune-run","ppx_bin_prot-inst","rdepend"],
   ["dune-run","ppx_bin_prot-run","rdepend"],
+  ["dune-run","ppx_compare-inst","rdepend"],
+  ["dune-run","ppx_compare-run","rdepend"],
+  ["dune-run","ppx_custom_printf-inst","rdepend"],
+  ["dune-run","ppx_custom_printf-run","rdepend"],
   ["dune-run","ppx_derivers-inst","rdepend"],
   ["dune-run","ppx_derivers-run","rdepend"],
+  ["dune-run","ppx_fields_conv-inst","rdepend"],
+  ["dune-run","ppx_fields_conv-run","rdepend"],
   ["dune-run","ppx_here-inst","rdepend"],
+  ["dune-run","ppx_here-run","rdepend"],
+  ["dune-run","ppx_optcomp-inst","rdepend"],
+  ["dune-run","ppx_optcomp-run","rdepend"],
+  ["dune-run","ppx_sexp_conv-inst","rdepend"],
+  ["dune-run","ppx_sexp_conv-run","rdepend"],
+  ["dune-run","ppx_stable_witness-inst","rdepend"],
+  ["dune-run","ppx_stable_witness-run","rdepend"],
+  ["dune-run","ppx_variants_conv-inst","rdepend"],
+  ["dune-run","ppx_variants_conv-run","rdepend"],
   ["dune-run","ppxlib-inst","rdepend"],
   ["dune-run","ppxlib-run","rdepend"],
+  ["dune-run","result-inst","rdepend"],
+  ["dune-run","result-run","rdepend"],
+  ["dune-run","sexplib0-inst","rdepend"],
+  ["dune-run","sexplib0-run","rdepend"],
+  ["dune-run","stdio-inst","rdepend"],
+  ["dune-run","stdio-run","rdepend"],
   ["dune-run","stdlib-shims-inst","rdepend"],
   ["dune-run","stdlib-shims-run","rdepend"],
+  ["dune-run","variantslib-inst","rdepend"],
+  ["dune-run","variantslib-run","rdepend"],
+  ["dune-configurator-inst","base-inst","depend"],
+  ["dune-configurator-run","base-inst","rdepend"],
+  ["dune-configurator-run","base-run","rdepend"],
+  ["fieldslib-inst","ppx_fields_conv-inst","depend"],
+  ["fieldslib-run","ppx_fields_conv-inst","rdepend"],
+  ["fieldslib-run","ppx_fields_conv-run","rdepend"],
+  ["findlib-inst","bin_prot-inst","depend"],
+  ["findlib-inst","fieldslib-inst","depend"],
+  ["findlib-inst","ppx_compare-inst","depend"],
   ["findlib-inst","ppx_here-inst","depend"],
+  ["findlib-inst","ppx_optcomp-inst","depend"],
+  ["findlib-inst","ppx_sexp_conv-inst","depend"],
+  ["findlib-run","bin_prot-inst","rdepend"],
+  ["findlib-run","bin_prot-run","rdepend"],
+  ["findlib-run","fieldslib-inst","rdepend"],
+  ["findlib-run","fieldslib-run","rdepend"],
+  ["findlib-run","ppx_compare-inst","rdepend"],
+  ["findlib-run","ppx_compare-run","rdepend"],
   ["findlib-run","ppx_here-inst","rdepend"],
+  ["findlib-run","ppx_here-run","rdepend"],
+  ["findlib-run","ppx_optcomp-inst","rdepend"],
+  ["findlib-run","ppx_optcomp-run","rdepend"],
+  ["findlib-run","ppx_sexp_conv-inst","rdepend"],
+  ["findlib-run","ppx_sexp_conv-run","rdepend"],
+  ["ocaml-inst","base-inst","depend"],
+  ["ocaml-inst","bin_prot-inst","depend"],
+  ["ocaml-inst","csexp-inst","depend"],
   ["ocaml-inst","dune-inst","depend"],
+  ["ocaml-inst","dune-configurator-inst","depend"],
+  ["ocaml-inst","fieldslib-inst","depend"],
   ["ocaml-inst","ocaml-compiler-libs-inst","depend"],
   ["ocaml-inst","ppx_bin_prot-inst","depend"],
+  ["ocaml-inst","ppx_compare-inst","depend"],
+  ["ocaml-inst","ppx_custom_printf-inst","depend"],
   ["ocaml-inst","ppx_derivers-inst","depend"],
+  ["ocaml-inst","ppx_fields_conv-inst","depend"],
   ["ocaml-inst","ppx_here-inst","depend"],
+  ["ocaml-inst","ppx_optcomp-inst","depend"],
+  ["ocaml-inst","ppx_sexp_conv-inst","depend"],
+  ["ocaml-inst","ppx_stable_witness-inst","depend"],
+  ["ocaml-inst","ppx_variants_conv-inst","depend"],
   ["ocaml-inst","ppxlib-inst","depend"],
+  ["ocaml-inst","result-inst","depend"],
+  ["ocaml-inst","sexplib0-inst","depend"],
+  ["ocaml-inst","stdio-inst","depend"],
   ["ocaml-inst","stdlib-shims-inst","depend"],
+  ["ocaml-inst","variantslib-inst","depend"],
+  ["ocaml-run","base-inst","rdepend"],
+  ["ocaml-run","base-run","rdepend"],
+  ["ocaml-run","bin_prot-inst","rdepend"],
+  ["ocaml-run","bin_prot-run","rdepend"],
+  ["ocaml-run","csexp-inst","rdepend"],
+  ["ocaml-run","csexp-run","rdepend"],
   ["ocaml-run","dune-inst","rdepend"],
   ["ocaml-run","dune-run","rdepend"],
+  ["ocaml-run","dune-configurator-inst","rdepend"],
+  ["ocaml-run","dune-configurator-run","rdepend"],
+  ["ocaml-run","fieldslib-inst","rdepend"],
+  ["ocaml-run","fieldslib-run","rdepend"],
   ["ocaml-run","ocaml-compiler-libs-inst","rdepend"],
   ["ocaml-run","ocaml-compiler-libs-run","rdepend"],
   ["ocaml-run","ppx_bin_prot-inst","rdepend"],
   ["ocaml-run","ppx_bin_prot-run","rdepend"],
+  ["ocaml-run","ppx_compare-inst","rdepend"],
+  ["ocaml-run","ppx_compare-run","rdepend"],
+  ["ocaml-run","ppx_custom_printf-inst","rdepend"],
+  ["ocaml-run","ppx_custom_printf-run","rdepend"],
   ["ocaml-run","ppx_derivers-inst","rdepend"],
   ["ocaml-run","ppx_derivers-run","rdepend"],
+  ["ocaml-run","ppx_fields_conv-inst","rdepend"],
+  ["ocaml-run","ppx_fields_conv-run","rdepend"],
   ["ocaml-run","ppx_here-inst","rdepend"],
+  ["ocaml-run","ppx_here-run","rdepend"],
+  ["ocaml-run","ppx_optcomp-inst","rdepend"],
+  ["ocaml-run","ppx_optcomp-run","rdepend"],
+  ["ocaml-run","ppx_sexp_conv-inst","rdepend"],
+  ["ocaml-run","ppx_sexp_conv-run","rdepend"],
+  ["ocaml-run","ppx_stable_witness-inst","rdepend"],
+  ["ocaml-run","ppx_stable_witness-run","rdepend"],
+  ["ocaml-run","ppx_variants_conv-inst","rdepend"],
+  ["ocaml-run","ppx_variants_conv-run","rdepend"],
   ["ocaml-run","ppxlib-inst","rdepend"],
   ["ocaml-run","ppxlib-run","rdepend"],
+  ["ocaml-run","result-inst","rdepend"],
+  ["ocaml-run","result-run","rdepend"],
+  ["ocaml-run","sexplib0-inst","rdepend"],
+  ["ocaml-run","sexplib0-run","rdepend"],
+  ["ocaml-run","stdio-inst","rdepend"],
+  ["ocaml-run","stdio-run","rdepend"],
   ["ocaml-run","stdlib-shims-inst","rdepend"],
   ["ocaml-run","stdlib-shims-run","rdepend"],
+  ["ocaml-run","variantslib-inst","rdepend"],
+  ["ocaml-run","variantslib-run","rdepend"],
   ["ocaml-compiler-libs-inst","ppx_here-inst","depend"],
+  ["ocaml-compiler-libs-inst","ppx_optcomp-inst","depend"],
+  ["ocaml-compiler-libs-inst","ppx_sexp_conv-inst","depend"],
+  ["ocaml-compiler-libs-inst","ppx_variants_conv-inst","depend"],
   ["ocaml-compiler-libs-inst","ppxlib-inst","depend"],
   ["ocaml-compiler-libs-run","ppx_here-inst","rdepend"],
+  ["ocaml-compiler-libs-run","ppx_here-run","rdepend"],
+  ["ocaml-compiler-libs-run","ppx_optcomp-inst","rdepend"],
+  ["ocaml-compiler-libs-run","ppx_optcomp-run","rdepend"],
+  ["ocaml-compiler-libs-run","ppx_sexp_conv-inst","rdepend"],
+  ["ocaml-compiler-libs-run","ppx_sexp_conv-run","rdepend"],
+  ["ocaml-compiler-libs-run","ppx_variants_conv-inst","rdepend"],
+  ["ocaml-compiler-libs-run","ppx_variants_conv-run","rdepend"],
   ["ocaml-compiler-libs-run","ppxlib-inst","rdepend"],
   ["ocaml-compiler-libs-run","ppxlib-run","rdepend"],
+  ["ppx_compare-inst","bin_prot-inst","depend"],
+  ["ppx_compare-run","bin_prot-inst","rdepend"],
+  ["ppx_compare-run","bin_prot-run","rdepend"],
+  ["ppx_custom_printf-inst","bin_prot-inst","depend"],
+  ["ppx_custom_printf-run","bin_prot-inst","rdepend"],
+  ["ppx_custom_printf-run","bin_prot-run","rdepend"],
   ["ppx_derivers-inst","ppxlib-inst","depend"],
   ["ppx_derivers-run","ppxlib-inst","rdepend"],
   ["ppx_derivers-run","ppxlib-run","rdepend"],
+  ["ppx_fields_conv-inst","bin_prot-inst","depend"],
+  ["ppx_fields_conv-run","bin_prot-inst","rdepend"],
+  ["ppx_fields_conv-run","bin_prot-run","rdepend"],
   ["ppx_here-inst","ppx_bin_prot-inst","depend"],
+  ["ppx_here-run","ppx_bin_prot-inst","rdepend"],
+  ["ppx_here-run","ppx_bin_prot-run","rdepend"],
+  ["ppx_optcomp-inst","bin_prot-inst","depend"],
+  ["ppx_optcomp-run","bin_prot-inst","rdepend"],
+  ["ppx_optcomp-run","bin_prot-run","rdepend"],
+  ["ppx_sexp_conv-inst","bin_prot-inst","depend"],
+  ["ppx_sexp_conv-inst","ppx_custom_printf-inst","depend"],
+  ["ppx_sexp_conv-run","bin_prot-inst","rdepend"],
+  ["ppx_sexp_conv-run","bin_prot-run","rdepend"],
+  ["ppx_sexp_conv-run","ppx_custom_printf-inst","rdepend"],
+  ["ppx_sexp_conv-run","ppx_custom_printf-run","rdepend"],
+  ["ppx_stable_witness-inst","bin_prot-inst","depend"],
+  ["ppx_stable_witness-run","bin_prot-inst","rdepend"],
+  ["ppx_stable_witness-run","bin_prot-run","rdepend"],
+  ["ppx_variants_conv-inst","bin_prot-inst","depend"],
+  ["ppx_variants_conv-run","bin_prot-inst","rdepend"],
+  ["ppx_variants_conv-run","bin_prot-run","rdepend"],
   ["ppxlib-inst","ppx_bin_prot-inst","depend"],
+  ["ppxlib-inst","ppx_compare-inst","depend"],
+  ["ppxlib-inst","ppx_custom_printf-inst","depend"],
+  ["ppxlib-inst","ppx_fields_conv-inst","depend"],
   ["ppxlib-inst","ppx_here-inst","depend"],
+  ["ppxlib-inst","ppx_optcomp-inst","depend"],
+  ["ppxlib-inst","ppx_sexp_conv-inst","depend"],
+  ["ppxlib-inst","ppx_stable_witness-inst","depend"],
+  ["ppxlib-inst","ppx_variants_conv-inst","depend"],
   ["ppxlib-run","ppx_bin_prot-inst","rdepend"],
   ["ppxlib-run","ppx_bin_prot-run","rdepend"],
+  ["ppxlib-run","ppx_compare-inst","rdepend"],
+  ["ppxlib-run","ppx_compare-run","rdepend"],
+  ["ppxlib-run","ppx_custom_printf-inst","rdepend"],
+  ["ppxlib-run","ppx_custom_printf-run","rdepend"],
+  ["ppxlib-run","ppx_fields_conv-inst","rdepend"],
+  ["ppxlib-run","ppx_fields_conv-run","rdepend"],
   ["ppxlib-run","ppx_here-inst","rdepend"],
+  ["ppxlib-run","ppx_here-run","rdepend"],
+  ["ppxlib-run","ppx_optcomp-inst","rdepend"],
+  ["ppxlib-run","ppx_optcomp-run","rdepend"],
+  ["ppxlib-run","ppx_sexp_conv-inst","rdepend"],
+  ["ppxlib-run","ppx_sexp_conv-run","rdepend"],
+  ["ppxlib-run","ppx_stable_witness-inst","rdepend"],
+  ["ppxlib-run","ppx_stable_witness-run","rdepend"],
+  ["ppxlib-run","ppx_variants_conv-inst","rdepend"],
+  ["ppxlib-run","ppx_variants_conv-run","rdepend"],
+  ["result-inst","csexp-inst","depend"],
+  ["result-run","csexp-inst","rdepend"],
+  ["result-run","csexp-run","rdepend"],
+  ["sexplib0-inst","base-inst","depend"],
+  ["sexplib0-run","base-inst","rdepend"],
+  ["sexplib0-run","base-run","rdepend"],
+  ["stdio-inst","ppx_optcomp-inst","depend"],
+  ["stdio-run","ppx_optcomp-inst","rdepend"],
+  ["stdio-run","ppx_optcomp-run","rdepend"],
   ["stdlib-shims-inst","ppxlib-inst","depend"],
   ["stdlib-shims-run","ppxlib-inst","rdepend"],
-  ["stdlib-shims-run","ppxlib-run","rdepend"]
+  ["stdlib-shims-run","ppxlib-run","rdepend"],
+  ["variantslib-inst","bin_prot-inst","depend"],
+  ["variantslib-inst","ppx_variants_conv-inst","depend"],
+  ["variantslib-run","bin_prot-inst","rdepend"],
+  ["variantslib-run","bin_prot-run","rdepend"],
+  ["variantslib-run","ppx_variants_conv-inst","rdepend"],
+  ["variantslib-run","ppx_variants_conv-run","rdepend"]
 ];
 function toggleFilter(btn){
   const a=btn.dataset.action; filters[a]=!filters[a];
@@ -603,8 +1993,27 @@ function applyFilters(){
       document.querySelectorAll(`tr.detail-row[data-parent="${p}"]`).forEach(d=>d.classList.remove("visible"));
       const t=r.querySelector(".toggle");if(t)t.classList.remove("open");}
   });
+  syncTimeRows();
+  if(timeMode)layoutTimeView();
   drawOverlays();
 }
+function secs(n){const s=parseFloat(n.dataset.seconds);return Number.isFinite(s)?s:1;}
+function fmtDur(s){s=Math.max(0,Math.round(s));
+  if(s>=3600){const h=Math.floor(s/3600),m=Math.floor((s%3600)/60);return m?`${h}h ${m}m`:`${h}h`;}
+  if(s>=60){const m=Math.floor(s/60),r=s%60;return r?`${m}m ${r}s`:`${m}m`;}
+  return `${s}s`;}
+function rowOf(el){return el.closest(timeMode?".gantt-time-row":"tr");}
+function cellOf(id){const root=timeMode?document.getElementById("gantt-time"):document.getElementById("gantt");
+  return root?root.querySelector(`[data-id="${id}"]`):null;}
+function waveOf(c){if(c.dataset.wave)return +c.dataset.wave;const td=c.closest("td");return td?td.cellIndex:0;}
+function stepOf(c){return timeMode?parseFloat(c.dataset.es||"0"):waveOf(c);}
+function visRows(){return timeMode
+  ?[...document.querySelectorAll("#gantt-time .gantt-time-row:not(.row-hidden)")]
+  :[...document.querySelectorAll("#gantt tbody tr[data-pkg]:not(.row-hidden)")];}
+function rowCells(row){const cs=timeMode
+  ?[...row.querySelectorAll(".cell:not(.hidden)")].sort((a,b)=>waveOf(a)-waveOf(b))
+  :[];if(!timeMode){row.querySelectorAll("td:not(.pkg)").forEach(td=>{const s=td.querySelector(".cell:not(.hidden)");if(s)cs.push(s);});}
+  return cs;}
 function drawOverlays(){
   const svg=document.getElementById("dep-svg"),wr=document.getElementById("gantt-wrapper"),
         wR=wr.getBoundingClientRect(),ns="http://www.w3.org/2000/svg",
@@ -618,10 +2027,9 @@ function drawOverlays(){
     const p=document.createElementNS(ns,"polygon");p.setAttribute("points","0 0,6 2.5,0 5");
     p.setAttribute("fill",c);m.appendChild(p);defs.appendChild(m);
   }svg.appendChild(defs);
-  const edges=[],stepOf=c=>c.closest("td").cellIndex;
-  document.querySelectorAll("#gantt tbody tr[data-pkg]:not(.row-hidden)").forEach(row=>{
-    const f=[];row.querySelectorAll("td:not(.pkg)").forEach(td=>{
-      const s=td.querySelector(".cell:not(.hidden)");if(s)f.push(s);});
+  const edges=[];
+  visRows().forEach(row=>{
+    const f=rowCells(row);
     for(let i=0;i<f.length-1;i++){
       const a=f[i].getBoundingClientRect(),b=f[i+1].getBoundingClientRect(),
             l=document.createElementNS(ns,"line");
@@ -635,10 +2043,10 @@ function drawOverlays(){
   });
   deps.forEach(([fid,tid,dt])=>{
     if(!filters[dt])return;
-    const fe=document.getElementById(fid),te=document.getElementById(tid);
+    const fe=cellOf(fid),te=cellOf(tid);
     if(!fe||!te||fe.classList.contains("hidden")||te.classList.contains("hidden"))return;
-    const fr=fe.closest("tr"),tr2=te.closest("tr");
-    if(fr.classList.contains("row-hidden")||tr2.classList.contains("row-hidden"))return;
+    const fr=rowOf(fe),tr2=rowOf(te);
+    if(!fr||!tr2||fr.classList.contains("row-hidden")||tr2.classList.contains("row-hidden"))return;
     const fR=fe.getBoundingClientRect(),tR=te.getBoundingClientRect(),
           x1=fR.right-wR.left+wr.scrollLeft+2,y1=fR.top+fR.height/2-wR.top+wr.scrollTop,
           x2=tR.left-wR.left+wr.scrollLeft-2,y2=tR.top+tR.height/2-wR.top+wr.scrollTop,
@@ -647,11 +2055,13 @@ function drawOverlays(){
     p.setAttribute("stroke",depColors[dt]);p.setAttribute("stroke-width","1.2");
     p.setAttribute("fill","none");p.setAttribute("marker-end",`url(#arrow-${dt})`);
     p.setAttribute("opacity","0.7");if(depDash[dt])p.setAttribute("stroke-dasharray",depDash[dt]);
-    p.setAttribute("class","dep-edge");p.dataset.fromPkg=fr.dataset.pkg;p.dataset.toPkg=tr2.dataset.pkg;
+    p.setAttribute("class","dep-edge");p.dataset.fromPkg=fr.dataset.pkg;p.dataset.toPkg=tr2.dataset.pkg;p.dataset.depType=dt;
     svg.appendChild(p);
-    if(stepOf(fe)<stepOf(te))edges.push({el:p,from:fe,to:te});else p.classList.add("back-edge");
+    if(waveOf(fe)<waveOf(te))edges.push({el:p,from:fe,to:te});
+    else{p.classList.add("back-edge");
+      if(dt==="rdepend")p.setAttribute("stroke-dasharray","4,3");}
   });
-  markCritical(edges,stepOf);
+  markCritical(edges);
   if(hoverMode&&hoverPkg)litEdges(hoverPkg);
 }
 function toggleCritMode(btn){
@@ -659,50 +2069,106 @@ function toggleCritMode(btn){
   btn.classList.toggle("active",critMode);btn.setAttribute("aria-pressed",critMode);
   document.getElementById("dep-svg").classList.toggle("crit-mode",critMode);
   document.getElementById("gantt").classList.toggle("crit-mode",critMode);
+  const tv=document.getElementById("gantt-time");if(tv)tv.classList.toggle("crit-mode",critMode);
   drawOverlays();
 }
-function markCritical(edges,stepOf){
-  document.querySelectorAll("#gantt .cell.crit").forEach(c=>c.classList.remove("crit"));
+function markCritical(edges){
+  document.querySelectorAll(".cell.crit").forEach(c=>c.classList.remove("crit"));
   const btn=document.getElementById("crit-mode-btn");
   if(!critMode){btn.textContent="Critical path";return;}
   const len=new Map(),pred=new Map(),nodes=new Set();
   edges.forEach(e=>{nodes.add(e.from);nodes.add(e.to);});
-  const order=[...nodes].sort((a,b)=>stepOf(a)-stepOf(b));
-  order.forEach(n=>len.set(n,1));
-  edges.slice().sort((a,b)=>stepOf(a.from)-stepOf(b.from)).forEach(e=>{
-    const l=len.get(e.from)+1;if(l>len.get(e.to)){len.set(e.to,l);pred.set(e.to,e);}
+  const order=[...nodes].sort((a,b)=>waveOf(a)-waveOf(b)||stepOf(a)-stepOf(b));
+  order.forEach(n=>len.set(n,secs(n)));
+  edges.slice().sort((a,b)=>waveOf(a.from)-waveOf(b.from)).forEach(e=>{
+    const l=len.get(e.from)+secs(e.to);if(l>len.get(e.to)){len.set(e.to,l);pred.set(e.to,e);}
   });
   let end=null;
-  order.forEach(n=>{if(!end||len.get(n)>len.get(end)||(len.get(n)===len.get(end)&&stepOf(n)>stepOf(end)))end=n;});
-  const n=end?len.get(end):0;btn.textContent=`Critical path (${n})`;
-  if(n<2)return;
-  for(let c=end;c;){c.classList.add("crit");const e=pred.get(c);if(!e)break;e.el.classList.add("crit");c=e.from;}
+  order.forEach(n=>{if(!end||len.get(n)>len.get(end)||(len.get(n)===len.get(end)&&waveOf(n)>waveOf(end)))end=n;});
+  const total=end?len.get(end):0;
+  if(total<=0){btn.textContent="Critical path";return;}
+  const path=[];for(let c=end;c;){path.push(c);const e=pred.get(c);if(!e)break;c=e.from;}
+  const timed=path.some(n=>n.dataset.timed==="1");
+  btn.textContent=timed?`Critical path (${fmtDur(total)})`:`Critical path (${Math.round(total)})`;
+  if(path.length<2)return;
+  path.forEach(c=>c.classList.add("crit"));
+  for(let c=end;;){const e=pred.get(c);if(!e)break;e.el.classList.add("crit");c=e.from;}
 }
 function toggleHoverMode(btn){
   hoverMode=!hoverMode;
   btn.classList.toggle("active",hoverMode);btn.setAttribute("aria-pressed",hoverMode);
   document.getElementById("dep-svg").classList.toggle("hover-mode",hoverMode);
   document.getElementById("gantt").classList.toggle("hover-mode",hoverMode);
+  const tv=document.getElementById("gantt-time");if(tv)tv.classList.toggle("hover-mode",hoverMode);
   if(!hoverMode)litEdges(null);
 }
 function litEdges(p){
   hoverPkg=p;
   document.querySelectorAll("#dep-svg .lit").forEach(e=>e.classList.remove("lit"));
-  document.querySelectorAll("#gantt tr.hover-lit").forEach(r=>r.classList.remove("hover-lit"));
+  document.querySelectorAll(".hover-lit").forEach(r=>r.classList.remove("hover-lit"));
   if(!p)return;
   document.querySelectorAll(`#dep-svg [data-pkg="${p}"],#dep-svg [data-from-pkg="${p}"],#dep-svg [data-to-pkg="${p}"]`)
     .forEach(e=>e.classList.add("lit"));
-  const r=document.querySelector(`#gantt tr[data-pkg="${p}"]`);if(r)r.classList.add("hover-lit");
+  document.querySelectorAll(`#gantt tr[data-pkg="${p}"],#gantt-time .gantt-time-row[data-pkg="${p}"]`)
+    .forEach(r=>r.classList.add("hover-lit"));
 }
 (function(){
-  const tb=document.querySelector("#gantt tbody");if(!tb)return;
-  tb.addEventListener("mouseover",e=>{
+  const wr=document.getElementById("gantt-wrapper");if(!wr)return;
+  wr.addEventListener("mouseover",e=>{
     if(!hoverMode)return;
-    const r=e.target.closest("tr[data-pkg],tr.detail-row"),p=r?(r.dataset.pkg||r.dataset.parent):null;
+    const r=e.target.closest("tr[data-pkg],tr.detail-row,.gantt-time-row"),p=r?(r.dataset.pkg||r.dataset.parent):null;
     if(p!==hoverPkg)litEdges(p);
   });
-  tb.addEventListener("mouseleave",()=>{if(hoverMode)litEdges(null);});
+  wr.addEventListener("mouseleave",()=>{if(hoverMode)litEdges(null);});
 })();
+function toggleTimeMode(btn){
+  timeMode=!timeMode;
+  btn.classList.toggle("active",timeMode);btn.setAttribute("aria-pressed",timeMode);
+  document.getElementById("gantt-wrapper").classList.toggle("time-mode",timeMode);
+  if(timeMode)layoutTimeView();
+  drawOverlays();
+}
+function ensureTimeView(){
+  let tv=document.getElementById("gantt-time");if(tv)return tv;
+  tv=document.createElement("div");tv.id="gantt-time";tv.className="gantt-time"+(critMode?" crit-mode":"");
+  const ruler=document.createElement("div");ruler.className="gantt-time-ruler";ruler.id="gantt-time-ruler";tv.appendChild(ruler);
+  document.querySelectorAll("#gantt tbody tr[data-pkg]").forEach(row=>{
+    const r=document.createElement("div");r.className="gantt-time-row";r.dataset.pkg=row.dataset.pkg;
+    const lab=document.createElement("div");lab.className="gantt-time-label";
+    lab.textContent=(row.querySelector("td.pkg")||{}).innerText||row.dataset.pkg;
+    const track=document.createElement("div");track.className="gantt-time-track";
+    row.querySelectorAll(".cell").forEach(c=>{
+      const b=c.cloneNode(true);b.removeAttribute("id");b.dataset.wave=String(c.closest("td").cellIndex);
+      track.appendChild(b);});
+    r.appendChild(lab);r.appendChild(track);tv.appendChild(r);});
+  document.getElementById("gantt-wrapper").appendChild(tv);
+  return tv;}
+function syncTimeRows(){
+  document.querySelectorAll("#gantt-time .gantt-time-row").forEach(r=>{
+    const src=document.querySelector(`#gantt tr[data-pkg="${r.dataset.pkg}"]`);
+    if(src)r.classList.toggle("row-hidden",src.classList.contains("row-hidden"));});
+}
+function layoutTimeView(){
+  const tv=ensureTimeView();syncTimeRows();
+  const bars=[...tv.querySelectorAll(".gantt-time-row:not(.row-hidden) .cell:not(.hidden)")];
+  const waveMax=new Map();
+  bars.forEach(b=>{const w=waveOf(b);waveMax.set(w,Math.max(waveMax.get(w)||0,secs(b)));});
+  const waves=[...waveMax.keys()].sort((a,b)=>a-b);
+  const waveStart=new Map();let t=0;
+  waves.forEach(w=>{waveStart.set(w,t);t+=waveMax.get(w);});
+  const maxEnd=t;
+  bars.forEach(b=>b.dataset.es=String(waveStart.get(waveOf(b))||0));
+  const px=Math.max(0.5,Math.min(8,1400/Math.max(maxEnd,1)));
+  const width=Math.max(400,Math.ceil(maxEnd*px)+24);
+  tv.querySelectorAll(".gantt-time-track").forEach(tr=>{tr.style.width=width+"px";});
+  bars.forEach(b=>{const d=Math.max(secs(b),0);b.style.left=((waveStart.get(waveOf(b))||0)*px)+"px";
+    b.style.width=Math.max(d>0?d*px:8,8)+"px";});
+  const ruler=document.getElementById("gantt-time-ruler");ruler.innerHTML="";
+  ruler.style.width=width+"px";
+  const step=maxEnd<=120?30:maxEnd<=600?60:maxEnd<=1800?300:maxEnd<=7200?600:1800;
+  for(let u=0;u<=maxEnd;u+=step){const tick=document.createElement("span");tick.className="gantt-time-tick";
+    tick.style.left=(u*px)+"px";tick.textContent=fmtDur(u);ruler.appendChild(tick);}
+}
 function toggleUseExpand(){
   const f=document.getElementById("global-use-flags"),
         b=f.previousElementSibling;

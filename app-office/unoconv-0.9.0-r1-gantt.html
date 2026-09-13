@@ -94,7 +94,8 @@
     <button class="action-btn" onclick="expandAll()">Expand All</button>
     <button class="action-btn" onclick="collapseAll()">Collapse All</button>
     <button class="action-btn" id="hover-mode-btn" onclick="toggleHoverMode(this)" aria-pressed="false" title="Hide dependency edges; show only those of the hovered package">Hover</button>
-    <button class="action-btn" id="crit-mode-btn" onclick="toggleCritMode(this)" aria-pressed="false" title="Highlight the longest chain of dependent actions (backward cycle-break edges excluded)">Critical path</button>
+    <button class="action-btn" id="crit-mode-btn" onclick="toggleCritMode(this)" aria-pressed="false" title="Highlight the longest duration-weighted chain of dependent actions (phase_stats when available; ignored / backward RDEPEND edges excluded)">Critical path</button>
+    <button class="action-btn" id="time-mode-btn" onclick="toggleTimeMode(this)" aria-pressed="false" title="Keep the plan wave order; size each wave by its longest recorded action (a wave starts when the previous wave finishes)">Time</button>
   </div>
 </div>
 <div class="gantt-wrapper" id="gantt-wrapper">
@@ -127,14 +128,14 @@
     <th>Step 23</th>
     <th>Step 24</th>
     <th>Step 25</th>
-    <th>Step 26</th>
-    <th>Step 27</th>
   </tr></thead>
   <tbody>
     <tr data-pkg="gtk_" data-actions="download install run useflag">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>x11-libs/gtk+-3.24.52</td>
-      <td><span class="cell useflag" data-type="useflag" id="gtk_-uf">useflag</span></td>
-      <td><span class="cell dl" data-type="download" id="gtk_-dl">download</span></td>
+      <td><span class="cell useflag" data-type="useflag" data-seconds="0" data-timed="0" data-id="gtk_-uf" id="gtk_-uf">useflag</span>
+</td>
+      <td><span class="cell dl" data-type="download" data-seconds="2" data-timed="1" data-id="gtk_-dl" id="gtk_-dl" title="2s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -148,13 +149,13 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="gtk_-inst">install</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="108" data-timed="1" data-id="gtk_-inst" id="gtk_-inst" title="1m 48s">install</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td><span class="cell run" data-type="run" id="gtk_-run">run</span></td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="gtk_-run" id="gtk_-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -212,13 +213,13 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="mesa" data-actions="download update useflag">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>media-libs/mesa-26.2.2</td>
-      <td><span class="cell useflag" data-type="useflag" id="mesa-uf">useflag</span></td>
-      <td><span class="cell dl" data-type="download" id="mesa-dl">download</span></td>
+      <td><span class="cell useflag" data-type="useflag" data-seconds="0" data-timed="0" data-id="mesa-uf" id="mesa-uf">useflag</span>
+</td>
+      <td><span class="cell dl" data-type="download" data-seconds="6" data-timed="1" data-id="mesa-dl" id="mesa-dl" title="6s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -230,9 +231,8 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="update" id="mesa-inst">update</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="update" data-seconds="1" data-timed="0" data-id="mesa-inst" id="mesa-inst">update</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -297,17 +297,16 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="harfbuzz" data-actions="download update useflag">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>media-libs/harfbuzz-12.3.2</td>
-      <td><span class="cell useflag" data-type="useflag" id="harfbuzz-uf">useflag</span></td>
-      <td><span class="cell dl" data-type="download" id="harfbuzz-dl">download</span></td>
+      <td><span class="cell useflag" data-type="useflag" data-seconds="0" data-timed="0" data-id="harfbuzz-uf" id="harfbuzz-uf">useflag</span>
+</td>
+      <td><span class="cell dl" data-type="download" data-seconds="2" data-timed="1" data-id="harfbuzz-dl" id="harfbuzz-dl" title="2s">download</span>
+</td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="update" id="harfbuzz-inst">update</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="update" data-seconds="39" data-timed="1" data-id="harfbuzz-inst" id="harfbuzz-inst" title="39s">update</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -377,13 +376,13 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="wheel" data-actions="download update useflag">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-python/wheel-0.48.0</td>
-      <td><span class="cell useflag" data-type="useflag" id="wheel-uf">useflag</span></td>
-      <td><span class="cell dl" data-type="download" id="wheel-dl">download</span></td>
+      <td><span class="cell useflag" data-type="useflag" data-seconds="0" data-timed="0" data-id="wheel-uf" id="wheel-uf">useflag</span>
+</td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="wheel-dl" id="wheel-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -395,9 +394,8 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="update" id="wheel-inst">update</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="update" data-seconds="31" data-timed="1" data-id="wheel-inst" id="wheel-inst" title="31s">update</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -449,13 +447,13 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="setuptools" data-actions="download update useflag">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-python/setuptools-84.0.0</td>
-      <td><span class="cell useflag" data-type="useflag" id="setuptools-uf">useflag</span></td>
-      <td><span class="cell dl" data-type="download" id="setuptools-dl">download</span></td>
+      <td><span class="cell useflag" data-type="useflag" data-seconds="0" data-timed="0" data-id="setuptools-uf" id="setuptools-uf">useflag</span>
+</td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="setuptools-dl" id="setuptools-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -471,10 +469,9 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="update" id="setuptools-inst">update</span></td>
       <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="update" data-seconds="32" data-timed="1" data-id="setuptools-inst" id="setuptools-inst" title="32s">update</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -520,13 +517,13 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="platformdirs" data-actions="download update useflag">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-python/platformdirs-4.11.8</td>
-      <td><span class="cell useflag" data-type="useflag" id="platformdirs-uf">useflag</span></td>
-      <td><span class="cell dl" data-type="download" id="platformdirs-dl">download</span></td>
+      <td><span class="cell useflag" data-type="useflag" data-seconds="0" data-timed="0" data-id="platformdirs-uf" id="platformdirs-uf">useflag</span>
+</td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="platformdirs-dl" id="platformdirs-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -537,9 +534,8 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="update" id="platformdirs-inst">update</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="update" data-seconds="1" data-timed="0" data-id="platformdirs-inst" id="platformdirs-inst">update</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -592,13 +588,13 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="packaging" data-actions="download update useflag">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-python/packaging-26.3</td>
-      <td><span class="cell useflag" data-type="useflag" id="packaging-uf">useflag</span></td>
-      <td><span class="cell dl" data-type="download" id="packaging-dl">download</span></td>
+      <td><span class="cell useflag" data-type="useflag" data-seconds="0" data-timed="0" data-id="packaging-uf" id="packaging-uf">useflag</span>
+</td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="packaging-dl" id="packaging-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -608,9 +604,8 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="update" id="packaging-inst">update</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="update" data-seconds="48" data-timed="1" data-id="packaging-inst" id="packaging-inst" title="48s">update</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -664,13 +659,13 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="more-itertools" data-actions="download update useflag">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-python/more-itertools-11.1.0</td>
-      <td><span class="cell useflag" data-type="useflag" id="more-itertools-uf">useflag</span></td>
-      <td><span class="cell dl" data-type="download" id="more-itertools-dl">download</span></td>
+      <td><span class="cell useflag" data-type="useflag" data-seconds="0" data-timed="0" data-id="more-itertools-uf" id="more-itertools-uf">useflag</span>
+</td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="more-itertools-dl" id="more-itertools-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -681,9 +676,8 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="update" id="more-itertools-inst">update</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="update" data-seconds="51" data-timed="1" data-id="more-itertools-inst" id="more-itertools-inst" title="51s">update</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -735,13 +729,13 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="jaraco-text" data-actions="download update useflag">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-python/jaraco-text-4.3.0</td>
-      <td><span class="cell useflag" data-type="useflag" id="jaraco-text-uf">useflag</span></td>
-      <td><span class="cell dl" data-type="download" id="jaraco-text-dl">download</span></td>
+      <td><span class="cell useflag" data-type="useflag" data-seconds="0" data-timed="0" data-id="jaraco-text-uf" id="jaraco-text-uf">useflag</span>
+</td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="jaraco-text-dl" id="jaraco-text-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -756,9 +750,8 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="update" id="jaraco-text-inst">update</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="update" data-seconds="26" data-timed="1" data-id="jaraco-text-inst" id="jaraco-text-inst" title="26s">update</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -806,13 +799,13 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="jaraco-functools" data-actions="download update useflag">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-python/jaraco-functools-4.6.0</td>
-      <td><span class="cell useflag" data-type="useflag" id="jaraco-functools-uf">useflag</span></td>
-      <td><span class="cell dl" data-type="download" id="jaraco-functools-dl">download</span></td>
+      <td><span class="cell useflag" data-type="useflag" data-seconds="0" data-timed="0" data-id="jaraco-functools-uf" id="jaraco-functools-uf">useflag</span>
+</td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="jaraco-functools-dl" id="jaraco-functools-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -825,9 +818,8 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="update" id="jaraco-functools-inst">update</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="update" data-seconds="31" data-timed="1" data-id="jaraco-functools-inst" id="jaraco-functools-inst" title="31s">update</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -877,13 +869,13 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="jaraco-context" data-actions="download update useflag">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-python/jaraco-context-6.1.2</td>
-      <td><span class="cell useflag" data-type="useflag" id="jaraco-context-uf">useflag</span></td>
-      <td><span class="cell dl" data-type="download" id="jaraco-context-dl">download</span></td>
+      <td><span class="cell useflag" data-type="useflag" data-seconds="0" data-timed="0" data-id="jaraco-context-uf" id="jaraco-context-uf">useflag</span>
+</td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="jaraco-context-dl" id="jaraco-context-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -894,9 +886,8 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="update" id="jaraco-context-inst">update</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="update" data-seconds="47" data-timed="1" data-id="jaraco-context-inst" id="jaraco-context-inst" title="47s">update</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -948,19 +939,18 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="installer" data-actions="download update useflag">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-python/installer-1.0.1</td>
-      <td><span class="cell useflag" data-type="useflag" id="installer-uf">useflag</span></td>
-      <td><span class="cell dl" data-type="download" id="installer-dl">download</span></td>
+      <td><span class="cell useflag" data-type="useflag" data-seconds="0" data-timed="0" data-id="installer-uf" id="installer-uf">useflag</span>
+</td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="installer-dl" id="installer-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="update" id="installer-inst">update</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="update" data-seconds="27" data-timed="1" data-id="installer-inst" id="installer-inst" title="27s">update</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1021,21 +1011,20 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="gpep517" data-actions="download update useflag">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-python/gpep517-22</td>
-      <td><span class="cell useflag" data-type="useflag" id="gpep517-uf">useflag</span></td>
-      <td><span class="cell dl" data-type="download" id="gpep517-dl">download</span></td>
+      <td><span class="cell useflag" data-type="useflag" data-seconds="0" data-timed="0" data-id="gpep517-uf" id="gpep517-uf">useflag</span>
+</td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="gpep517-dl" id="gpep517-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="update" id="gpep517-inst">update</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="update" data-seconds="1" data-timed="0" data-id="gpep517-inst" id="gpep517-inst">update</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1092,22 +1081,21 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="xmlsec" data-actions="download update useflag">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-libs/xmlsec-1.3.12</td>
-      <td><span class="cell useflag" data-type="useflag" id="xmlsec-uf">useflag</span></td>
-      <td><span class="cell dl" data-type="download" id="xmlsec-dl">download</span></td>
+      <td><span class="cell useflag" data-type="useflag" data-seconds="0" data-timed="0" data-id="xmlsec-uf" id="xmlsec-uf">useflag</span>
+</td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="xmlsec-dl" id="xmlsec-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="update" id="xmlsec-inst">update</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="update" data-seconds="82" data-timed="1" data-id="xmlsec-inst" id="xmlsec-inst" title="1m 22s">update</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1171,17 +1159,16 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="xmlto" data-actions="download update useflag">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>app-text/xmlto-0.0.28-r11</td>
-      <td><span class="cell useflag" data-type="useflag" id="xmlto-uf">useflag</span></td>
-      <td><span class="cell dl" data-type="download" id="xmlto-dl">download</span></td>
+      <td><span class="cell useflag" data-type="useflag" data-seconds="0" data-timed="0" data-id="xmlto-uf" id="xmlto-uf">useflag</span>
+</td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="xmlto-dl" id="xmlto-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="update" id="xmlto-inst">update</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="update" data-seconds="32" data-timed="1" data-id="xmlto-inst" id="xmlto-inst" title="32s">update</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1243,16 +1230,14 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="gpgme" data-actions="download update">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>app-crypt/gpgme-2.1.2</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="gpgme-dl">download</span></td>
-      <td><span class="cell inst" data-type="update" id="gpgme-inst">update</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="gpgme-dl" id="gpgme-dl" title="1s">download</span>
+</td>
+      <td><span class="cell inst" data-type="update" data-seconds="84" data-timed="1" data-id="gpgme-inst" id="gpgme-inst" title="1m 24s">update</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1317,16 +1302,14 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="acct-group-libreoffice" data-actions="install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>acct-group/libreoffice-0-r1</td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="acct-group-libreoffice-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="acct-group-libreoffice-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="23" data-timed="1" data-id="acct-group-libreoffice-inst" id="acct-group-libreoffice-inst" title="23s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="acct-group-libreoffice-run" id="acct-group-libreoffice-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1381,16 +1364,14 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="lpadmin" data-actions="install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>acct-group/lpadmin-0-r3</td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="lpadmin-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="lpadmin-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="25" data-timed="1" data-id="lpadmin-inst" id="lpadmin-inst" title="25s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="lpadmin-run" id="lpadmin-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1445,16 +1426,14 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="docbook-xml-dtd" data-actions="download install">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>app-text/docbook-xml-dtd-4.3-r2</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="docbook-xml-dtd-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="docbook-xml-dtd-inst">install</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="docbook-xml-dtd-dl" id="docbook-xml-dtd-dl" title="1s">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="82" data-timed="1" data-id="docbook-xml-dtd-inst" id="docbook-xml-dtd-inst" title="1m 22s">install</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1512,16 +1491,14 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="libatomic_ops" data-actions="download install">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-libs/libatomic_ops-7.10.0</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="libatomic_ops-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="libatomic_ops-inst">install</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="libatomic_ops-dl" id="libatomic_ops-dl" title="1s">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="86" data-timed="1" data-id="libatomic_ops-inst" id="libatomic_ops-inst" title="1m 26s">install</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1579,16 +1556,14 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="oniguruma" data-actions="download install">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-libs/oniguruma-6.9.10</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="oniguruma-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="oniguruma-inst">install</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="oniguruma-dl" id="oniguruma-dl" title="1s">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="29" data-timed="1" data-id="oniguruma-inst" id="oniguruma-inst" title="29s">install</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1651,16 +1626,14 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="stb" data-actions="download install">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-libs/stb-20260415-r1</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="stb-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="stb-inst">install</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="stb-dl" id="stb-dl" title="1s">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="96" data-timed="1" data-id="stb-inst" id="stb-inst" title="1m 36s">install</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1718,16 +1691,14 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="Archive-Zip" data-actions="download install">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-perl/Archive-Zip-1.680.0</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="Archive-Zip-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="Archive-Zip-inst">install</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="Archive-Zip-dl" id="Archive-Zip-dl" title="1s">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="38" data-timed="1" data-id="Archive-Zip-inst" id="Archive-Zip-inst" title="38s">install</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1790,16 +1761,14 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="cppunit" data-actions="download install">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-util/cppunit-1.15.1_p20240106</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="cppunit-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="cppunit-inst">install</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="cppunit-dl" id="cppunit-dl" title="1s">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="104" data-timed="1" data-id="cppunit-inst" id="cppunit-inst" title="1m 44s">install</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1863,16 +1832,14 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="intltool" data-actions="download install">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-util/intltool-0.51.0-r3</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="intltool-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="intltool-inst">install</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="intltool-dl" id="intltool-dl" title="1s">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="26" data-timed="1" data-id="intltool-inst" id="intltool-inst" title="26s">install</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1930,16 +1897,14 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="glm" data-actions="download install">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>media-libs/glm-1.0.3</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="glm-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="glm-inst">install</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="glm-dl" id="glm-dl" title="1s">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="39" data-timed="1" data-id="glm-inst" id="glm-inst" title="39s">install</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2001,17 +1966,16 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="nspr" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-libs/nspr-4.40</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="nspr-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="nspr-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="nspr-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="nspr-dl" id="nspr-dl" title="1s">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="124" data-timed="1" data-id="nspr-inst" id="nspr-inst" title="2m 4s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="nspr-run" id="nspr-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2072,17 +2036,15 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="wayland-scanner" data-actions="download install">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-util/wayland-scanner-1.26.0</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="wayland-scanner-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="wayland-scanner-dl" id="wayland-scanner-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="wayland-scanner-inst">install</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="103" data-timed="1" data-id="wayland-scanner-inst" id="wayland-scanner-inst" title="1m 43s">install</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2139,17 +2101,15 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="llvm" data-actions="download update">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>llvm-core/llvm-22.1.8</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="llvm-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="14" data-timed="1" data-id="llvm-dl" id="llvm-dl" title="14s">download</span>
+</td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="update" id="llvm-inst">update</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="update" data-seconds="884" data-timed="1" data-id="llvm-inst" id="llvm-inst" title="14m 44s">update</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2221,17 +2181,16 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="hunspell" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>app-text/hunspell-1.7.2-r1</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="hunspell-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="hunspell-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="hunspell-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="hunspell-dl" id="hunspell-dl" title="1s">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="164" data-timed="1" data-id="hunspell-inst" id="hunspell-inst" title="2m 44s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="hunspell-run" id="hunspell-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2295,17 +2254,16 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="python" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-lang/python-3.12.14</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="python-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="python-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="python-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="2" data-timed="1" data-id="python-dl" id="python-dl" title="2s">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="120" data-timed="1" data-id="python-inst" id="python-inst" title="2m 0s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="python-run" id="python-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2381,17 +2339,15 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="libdrm" data-actions="download update">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>x11-libs/libdrm-2.4.134</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="libdrm-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="libdrm-dl" id="libdrm-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="update" id="libdrm-inst">update</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="update" data-seconds="42" data-timed="1" data-id="libdrm-inst" id="libdrm-inst" title="42s">update</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2456,17 +2412,16 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="app-arch-cpio" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>app-arch/cpio-2.15</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="app-arch-cpio-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="app-arch-cpio-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="app-arch-cpio-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="app-arch-cpio-dl" id="app-arch-cpio-dl" title="1s">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="115" data-timed="1" data-id="app-arch-cpio-inst" id="app-arch-cpio-inst" title="1m 55s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="app-arch-cpio-run" id="app-arch-cpio-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2527,17 +2482,16 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="zip" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>app-arch/zip-3.0_p16</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="zip-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="zip-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="zip-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="zip-dl" id="zip-dl" title="1s">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="38" data-timed="1" data-id="zip-inst" id="zip-inst" title="38s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="zip-run" id="zip-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2602,17 +2556,16 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="argon2" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>app-crypt/argon2-20190702-r1</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="argon2-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="argon2-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="argon2-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="argon2-dl" id="argon2-dl" title="1s">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="188" data-timed="1" data-id="argon2-inst" id="argon2-inst" title="3m 8s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="argon2-run" id="argon2-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2673,17 +2626,16 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="mhash" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>app-crypt/mhash-0.9.9.9-r4</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="mhash-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="mhash-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="mhash-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="mhash-dl" id="mhash-dl" title="1s">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="84" data-timed="1" data-id="mhash-inst" id="mhash-inst" title="1m 24s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="mhash-run" id="mhash-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2744,17 +2696,16 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="libexttextcat" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>app-text/libexttextcat-3.4.8-r1</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="libexttextcat-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="libexttextcat-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="libexttextcat-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="libexttextcat-dl" id="libexttextcat-dl" title="1s">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="256" data-timed="1" data-id="libexttextcat-inst" id="libexttextcat-inst" title="4m 16s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="libexttextcat-run" id="libexttextcat-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2811,17 +2762,16 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="liblangtag" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>app-text/liblangtag-0.6.8</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="liblangtag-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="liblangtag-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="liblangtag-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="liblangtag-dl" id="liblangtag-dl" title="1s">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="167" data-timed="1" data-id="liblangtag-inst" id="liblangtag-inst" title="2m 47s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="liblangtag-run" id="liblangtag-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2885,17 +2835,16 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="libnumbertext" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>app-text/libnumbertext-1.0.11</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="libnumbertext-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="libnumbertext-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="libnumbertext-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="libnumbertext-dl" id="libnumbertext-dl" title="1s">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="184" data-timed="1" data-id="libnumbertext-inst" id="libnumbertext-inst" title="3m 4s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="libnumbertext-run" id="libnumbertext-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2952,17 +2901,15 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="b2" data-actions="download install">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-build/b2-5.5.3</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="b2-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="b2-dl" id="b2-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="b2-inst">install</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="117" data-timed="1" data-id="b2-inst" id="b2-inst" title="1m 57s">install</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -3023,17 +2970,16 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="clucene" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-cpp/clucene-2.3.3.4-r11</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="clucene-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="clucene-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="clucene-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="clucene-dl" id="clucene-dl" title="1s">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="128" data-timed="1" data-id="clucene-inst" id="clucene-inst" title="2m 8s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="clucene-run" id="clucene-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -3096,17 +3042,16 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="unixODBC" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-db/unixODBC-2.3.14</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="unixODBC-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="unixODBC-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="unixODBC-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="unixODBC-dl" id="unixODBC-dl" title="1s">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="88" data-timed="1" data-id="unixODBC-inst" id="unixODBC-inst" title="1m 28s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="unixODBC-run" id="unixODBC-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -3170,17 +3115,15 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="rust-bin" data-actions="download install">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-lang/rust-bin-1.98.1</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="rust-bin-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="0" data-id="rust-bin-dl" id="rust-bin-dl">download</span>
+</td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="rust-bin-inst">install</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="1" data-timed="0" data-id="rust-bin-inst" id="rust-bin-inst">install</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -3245,17 +3188,16 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="yajl" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-libs/yajl-2.1.0-r6</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="yajl-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="yajl-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="yajl-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="yajl-dl" id="yajl-dl" title="1s">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="38" data-timed="1" data-id="yajl-inst" id="yajl-inst" title="38s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="yajl-run" id="yajl-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -3312,17 +3254,16 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="zxcvbn-c" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-libs/zxcvbn-c-2.6</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="zxcvbn-c-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="zxcvbn-c-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="zxcvbn-c-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="zxcvbn-c-dl" id="zxcvbn-c-dl" title="1s">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="223" data-timed="1" data-id="zxcvbn-c-inst" id="zxcvbn-c-inst" title="3m 43s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="zxcvbn-c-run" id="zxcvbn-c-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -3379,17 +3320,16 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="box2d" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>games-engines/box2d-2.4.2-r1</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="box2d-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="box2d-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="box2d-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="box2d-dl" id="box2d-dl" title="1s">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="196" data-timed="1" data-id="box2d-inst" id="box2d-inst" title="3m 16s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="box2d-run" id="box2d-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -3451,17 +3391,16 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="lld-toolchain-symlinks" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>llvm-core/lld-toolchain-symlinks-22</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="lld-toolchain-symlinks-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="lld-toolchain-symlinks-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="lld-toolchain-symlinks-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="0" data-id="lld-toolchain-symlinks-dl" id="lld-toolchain-symlinks-dl">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="39" data-timed="1" data-id="lld-toolchain-symlinks-inst" id="lld-toolchain-symlinks-inst" title="39s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="lld-toolchain-symlinks-run" id="lld-toolchain-symlinks-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -3520,17 +3459,16 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="liberation-fonts" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>media-fonts/liberation-fonts-2.1.5</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="liberation-fonts-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="liberation-fonts-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="liberation-fonts-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="0" data-id="liberation-fonts-dl" id="liberation-fonts-dl">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="57" data-timed="1" data-id="liberation-fonts-inst" id="liberation-fonts-inst" title="57s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="liberation-fonts-run" id="liberation-fonts-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -3589,17 +3527,16 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="giflib" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>media-libs/giflib-6.1.3</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="giflib-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="giflib-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="giflib-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="giflib-dl" id="giflib-dl" title="1s">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="41" data-timed="1" data-id="giflib-inst" id="giflib-inst" title="41s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="giflib-run" id="giflib-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -3661,17 +3598,16 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="zint" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>media-libs/zint-2.16.0</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="zint-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="zint-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="zint-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="zint-dl" id="zint-dl" title="1s">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="87" data-timed="1" data-id="zint-inst" id="zint-inst" title="1m 27s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="zint-run" id="zint-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -3734,17 +3670,16 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="llhttp" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>net-libs/llhttp-9.4.3</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="llhttp-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="llhttp-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="llhttp-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="llhttp-dl" id="llhttp-dl" title="1s">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="112" data-timed="1" data-id="llhttp-inst" id="llhttp-inst" title="1m 52s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="llhttp-run" id="llhttp-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -3801,17 +3736,16 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="lpsolve" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>sci-mathematics/lpsolve-5.5.2.14</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="lpsolve-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="lpsolve-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="lpsolve-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="lpsolve-dl" id="lpsolve-dl" title="1s">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="149" data-timed="1" data-id="lpsolve-inst" id="lpsolve-inst" title="2m 29s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="lpsolve-run" id="lpsolve-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -3868,17 +3802,16 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="xprop" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>x11-apps/xprop-1.2.8</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="xprop-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="xprop-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="xprop-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="xprop-dl" id="xprop-dl" title="1s">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="39" data-timed="1" data-id="xprop-inst" id="xprop-inst" title="39s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="xprop-run" id="xprop-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -3935,17 +3868,16 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="xset" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>x11-apps/xset-1.2.6</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="xset-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="xset-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="xset-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="xset-dl" id="xset-dl" title="1s">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="1" data-timed="0" data-id="xset-inst" id="xset-inst">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="xset-run" id="xset-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -4002,17 +3934,16 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="libXcomposite" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>x11-libs/libXcomposite-0.4.7</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="libXcomposite-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="libXcomposite-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="libXcomposite-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="libXcomposite-dl" id="libXcomposite-dl" title="1s">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="33" data-timed="1" data-id="libXcomposite-inst" id="libXcomposite-inst" title="33s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="libXcomposite-run" id="libXcomposite-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -4073,17 +4004,16 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="libXcursor" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>x11-libs/libXcursor-1.2.3</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="libXcursor-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="libXcursor-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="libXcursor-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="libXcursor-dl" id="libXcursor-dl" title="1s">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="48" data-timed="1" data-id="libXcursor-inst" id="libXcursor-inst" title="48s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="libXcursor-run" id="libXcursor-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -4144,17 +4074,16 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="libXdamage" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>x11-libs/libXdamage-1.1.7</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="libXdamage-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="libXdamage-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="libXdamage-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="libXdamage-dl" id="libXdamage-dl" title="1s">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="29" data-timed="1" data-id="libXdamage-inst" id="libXdamage-inst" title="29s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="libXdamage-run" id="libXdamage-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -4211,17 +4140,16 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="libXinerama" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>x11-libs/libXinerama-1.1.6</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="libXinerama-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="libXinerama-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="libXinerama-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="libXinerama-dl" id="libXinerama-dl" title="1s">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="39" data-timed="1" data-id="libXinerama-inst" id="libXinerama-inst" title="39s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="libXinerama-run" id="libXinerama-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -4282,17 +4210,16 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="libXres" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>x11-libs/libXres-1.2.3</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="libXres-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="libXres-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="libXres-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="libXres-dl" id="libXres-dl" title="1s">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="42" data-timed="1" data-id="libXres-inst" id="libXres-inst" title="42s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="libXres-run" id="libXres-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -4353,17 +4280,16 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="libXtst" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>x11-libs/libXtst-1.2.5</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="libXtst-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="libXtst-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="libXtst-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="libXtst-dl" id="libXtst-dl" title="1s">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="29" data-timed="1" data-id="libXtst-inst" id="libXtst-inst" title="29s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="libXtst-run" id="libXtst-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -4424,17 +4350,16 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="hicolor-icon-theme" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>x11-themes/hicolor-icon-theme-0.17</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="hicolor-icon-theme-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="hicolor-icon-theme-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="hicolor-icon-theme-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="hicolor-icon-theme-dl" id="hicolor-icon-theme-dl" title="1s">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="51" data-timed="1" data-id="hicolor-icon-theme-inst" id="hicolor-icon-theme-inst" title="51s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="hicolor-icon-theme-run" id="hicolor-icon-theme-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -4491,18 +4416,17 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="libepoxy" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>media-libs/libepoxy-1.5.10-r3</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="libepoxy-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="libepoxy-dl" id="libepoxy-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="libepoxy-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="libepoxy-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="31" data-timed="1" data-id="libepoxy-inst" id="libepoxy-inst" title="31s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="libepoxy-run" id="libepoxy-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -4563,18 +4487,17 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="mariadb-connector-c" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-db/mariadb-connector-c-3.4.7</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="mariadb-connector-c-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="mariadb-connector-c-dl" id="mariadb-connector-c-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="mariadb-connector-c-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="mariadb-connector-c-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="103" data-timed="1" data-id="mariadb-connector-c-inst" id="mariadb-connector-c-inst" title="1m 43s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="mariadb-connector-c-run" id="mariadb-connector-c-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -4638,18 +4561,17 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="rust-common" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-lang/rust-common-1.98.1</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="rust-common-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="20" data-timed="1" data-id="rust-common-dl" id="rust-common-dl" title="20s">download</span>
+</td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="rust-common-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="rust-common-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="1" data-timed="0" data-id="rust-common-inst" id="rust-common-inst">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="rust-common-run" id="rust-common-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -4709,18 +4631,17 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="xkeyboard-config" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>x11-misc/xkeyboard-config-2.48</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="xkeyboard-config-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="xkeyboard-config-dl" id="xkeyboard-config-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="xkeyboard-config-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="xkeyboard-config-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="116" data-timed="1" data-id="xkeyboard-config-inst" id="xkeyboard-config-inst" title="1m 56s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="xkeyboard-config-run" id="xkeyboard-config-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -4780,19 +4701,18 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="gdk-pixbuf" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>x11-libs/gdk-pixbuf-2.44.8</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="gdk-pixbuf-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="gdk-pixbuf-dl" id="gdk-pixbuf-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="gdk-pixbuf-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="gdk-pixbuf-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="1" data-timed="0" data-id="gdk-pixbuf-inst" id="gdk-pixbuf-inst">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="gdk-pixbuf-run" id="gdk-pixbuf-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -4856,8 +4776,6 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="acct-user-libreoffice" data-actions="install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>acct-user/libreoffice-0-r1</td>
@@ -4865,10 +4783,10 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="acct-user-libreoffice-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="acct-user-libreoffice-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="111" data-timed="1" data-id="acct-user-libreoffice-inst" id="acct-user-libreoffice-inst" title="1m 51s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="acct-user-libreoffice-run" id="acct-user-libreoffice-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -4920,19 +4838,18 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="gpgmepp" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-cpp/gpgmepp-2.1.0</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="gpgmepp-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="gpgmepp-dl" id="gpgmepp-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="gpgmepp-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="gpgmepp-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="96" data-timed="1" data-id="gpgmepp-inst" id="gpgmepp-inst" title="1m 36s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="gpgmepp-run" id="gpgmepp-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -4992,20 +4909,19 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="boost" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-libs/boost-1.90.0-r2</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="boost-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="14" data-timed="1" data-id="boost-dl" id="boost-dl" title="14s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="boost-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="boost-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="665" data-timed="1" data-id="boost-inst" id="boost-inst" title="11m 5s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="boost-run" id="boost-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -5078,20 +4994,19 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="at-spi2-core" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>app-accessibility/at-spi2-core-2.60.6</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="at-spi2-core-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="at-spi2-core-dl" id="at-spi2-core-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="at-spi2-core-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="at-spi2-core-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="1" data-timed="0" data-id="at-spi2-core-inst" id="at-spi2-core-inst">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="at-spi2-core-run" id="at-spi2-core-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -5155,20 +5070,19 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="app-alternatives-cpio" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>app-alternatives/cpio-0</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="app-alternatives-cpio-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="0" data-id="app-alternatives-cpio-dl" id="app-alternatives-cpio-dl">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="app-alternatives-cpio-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="app-alternatives-cpio-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="55" data-timed="1" data-id="app-alternatives-cpio-inst" id="app-alternatives-cpio-inst" title="55s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="app-alternatives-cpio-run" id="app-alternatives-cpio-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -5225,20 +5139,19 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="nss" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-libs/nss-3.129</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="nss-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="7" data-timed="1" data-id="nss-dl" id="nss-dl" title="7s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="nss-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="nss-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="1" data-timed="0" data-id="nss-inst" id="nss-inst">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="nss-run" id="nss-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -5299,20 +5212,19 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="wayland" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-libs/wayland-1.26.0</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="wayland-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="wayland-dl" id="wayland-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="wayland-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="wayland-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="69" data-timed="1" data-id="wayland-inst" id="wayland-inst" title="1m 9s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="wayland-run" id="wayland-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -5372,20 +5284,19 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="raptor" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>media-libs/raptor-2.0.16-r1</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="raptor-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="raptor-dl" id="raptor-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="raptor-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="raptor-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="110" data-timed="1" data-id="raptor-inst" id="raptor-inst" title="1m 50s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="raptor-run" id="raptor-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -5445,20 +5356,19 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="mythes" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>app-text/mythes-1.2.6</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="mythes-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="mythes-dl" id="mythes-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="mythes-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="mythes-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="48" data-timed="1" data-id="mythes-inst" id="mythes-inst" title="48s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="mythes-run" id="mythes-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -5516,20 +5426,19 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="hyphen" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-libs/hyphen-2.8.8-r2</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="hyphen-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="hyphen-dl" id="hyphen-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="hyphen-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="hyphen-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="40" data-timed="1" data-id="hyphen-inst" id="hyphen-inst" title="40s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="hyphen-run" id="hyphen-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -5587,20 +5496,19 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="libgit2" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-libs/libgit2-1.9.7</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="libgit2-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="libgit2-dl" id="libgit2-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="libgit2-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="libgit2-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="61" data-timed="1" data-id="libgit2-inst" id="libgit2-inst" title="1m 1s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="libgit2-run" id="libgit2-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -5662,20 +5570,19 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="wayland-protocols" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-libs/wayland-protocols-1.49</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="wayland-protocols-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="wayland-protocols-dl" id="wayland-protocols-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="wayland-protocols-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="wayland-protocols-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="84" data-timed="1" data-id="wayland-protocols-inst" id="wayland-protocols-inst" title="1m 24s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="wayland-protocols-run" id="wayland-protocols-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -5733,20 +5640,19 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="lld" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>llvm-core/lld-22.1.8-r1</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="lld-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="14" data-timed="1" data-id="lld-dl" id="lld-dl" title="14s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="lld-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="lld-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="44" data-timed="1" data-id="lld-inst" id="lld-inst" title="44s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="lld-run" id="lld-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -5807,20 +5713,19 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="fontforge" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>media-gfx/fontforge-20230101-r2</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="fontforge-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="2" data-timed="1" data-id="fontforge-dl" id="fontforge-dl" title="2s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="fontforge-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="fontforge-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="63" data-timed="1" data-id="fontforge-inst" id="fontforge-inst" title="1m 3s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="fontforge-run" id="fontforge-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -5890,20 +5795,19 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="libwebp" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>media-libs/libwebp-1.6.0</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="libwebp-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="libwebp-dl" id="libwebp-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="libwebp-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="libwebp-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="92" data-timed="1" data-id="libwebp-inst" id="libwebp-inst" title="1m 32s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="libwebp-run" id="libwebp-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -5967,20 +5871,19 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="zxing-cpp" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>media-libs/zxing-cpp-3.1.1</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="zxing-cpp-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="zxing-cpp-dl" id="zxing-cpp-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="zxing-cpp-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="zxing-cpp-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="94" data-timed="1" data-id="zxing-cpp-inst" id="zxing-cpp-inst" title="1m 34s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="zxing-cpp-run" id="zxing-cpp-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -6039,20 +5942,19 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="xdg-utils" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>x11-misc/xdg-utils-1.2.1-r11</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="xdg-utils-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="xdg-utils-dl" id="xdg-utils-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="xdg-utils-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="xdg-utils-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="26" data-timed="1" data-id="xdg-utils-inst" id="xdg-utils-inst" title="26s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="xdg-utils-run" id="xdg-utils-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -6115,21 +6017,19 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="rust" data-actions="download install">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-lang/rust-1.98.1</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="rust-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="20" data-timed="1" data-id="rust-dl" id="rust-dl" title="20s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="rust-inst">install</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="1" data-timed="0" data-id="rust-inst" id="rust-inst">install</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -6199,21 +6099,20 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="libxkbcommon" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>x11-libs/libxkbcommon-1.13.2</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="libxkbcommon-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="libxkbcommon-dl" id="libxkbcommon-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="libxkbcommon-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="libxkbcommon-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="37" data-timed="1" data-id="libxkbcommon-inst" id="libxkbcommon-inst" title="37s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="libxkbcommon-run" id="libxkbcommon-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -6275,22 +6174,20 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="rpm2targz" data-actions="download install">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>app-arch/rpm2targz-2021.03.16</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="rpm2targz-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="rpm2targz-dl" id="rpm2targz-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="rpm2targz-inst">install</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="106" data-timed="1" data-id="rpm2targz-inst" id="rpm2targz-inst" title="1m 46s">install</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -6342,22 +6239,21 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="librevenge" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-libs/librevenge-0.0.6</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="librevenge-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="librevenge-dl" id="librevenge-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="librevenge-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="librevenge-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="36" data-timed="1" data-id="librevenge-inst" id="librevenge-inst" title="36s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="librevenge-run" id="librevenge-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -6413,22 +6309,21 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="gtk-update-icon-cache" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-util/gtk-update-icon-cache-3.24.42</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="gtk-update-icon-cache-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="gtk-update-icon-cache-dl" id="gtk-update-icon-cache-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="gtk-update-icon-cache-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="gtk-update-icon-cache-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="29" data-timed="1" data-id="gtk-update-icon-cache-inst" id="gtk-update-icon-cache-inst" title="29s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="gtk-update-icon-cache-run" id="gtk-update-icon-cache-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -6480,23 +6375,22 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="mdds" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-util/mdds-2.1.1-r1</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="mdds-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="mdds-dl" id="mdds-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="mdds-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="mdds-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="73" data-timed="1" data-id="mdds-inst" id="mdds-inst" title="1m 13s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="mdds-run" id="mdds-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -6553,23 +6447,22 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="libcmis" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-cpp/libcmis-0.6.3</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="libcmis-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="libcmis-dl" id="libcmis-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="libcmis-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="libcmis-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="126" data-timed="1" data-id="libcmis-inst" id="libcmis-inst" title="2m 6s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="libcmis-run" id="libcmis-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -6626,23 +6519,22 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="rasqal" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-libs/rasqal-0.9.33-r5</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="rasqal-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="rasqal-dl" id="rasqal-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="rasqal-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="rasqal-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="95" data-timed="1" data-id="rasqal-inst" id="rasqal-inst" title="1m 35s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="rasqal-run" id="rasqal-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -6703,13 +6595,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="flit-core" data-actions="download update">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-python/flit-core-4.0.2</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="flit-core-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="flit-core-dl" id="flit-core-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -6717,9 +6608,8 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="update" id="flit-core-inst">update</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="update" data-seconds="26" data-timed="1" data-id="flit-core-inst" id="flit-core-inst" title="26s">update</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -6775,13 +6665,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="cargo-c" data-actions="download install">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-util/cargo-c-0.10.25</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="cargo-c-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="3" data-timed="1" data-id="cargo-c-dl" id="cargo-c-dl" title="3s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -6789,9 +6678,8 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="cargo-c-inst">install</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="1" data-timed="0" data-id="cargo-c-inst" id="cargo-c-inst">install</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -6847,23 +6735,22 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="cups" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>net-print/cups-2.4.19</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="cups-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="cups-dl" id="cups-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="cups-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="cups-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="86" data-timed="1" data-id="cups-inst" id="cups-inst" title="1m 26s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="cups-run" id="cups-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -6931,13 +6818,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="libreoffice-l10n" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>app-office/libreoffice-l10n-25.2.7.2</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="libreoffice-l10n-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="0" data-id="libreoffice-l10n-dl" id="libreoffice-l10n-dl">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -6946,10 +6832,10 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="libreoffice-l10n-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="libreoffice-l10n-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="42" data-timed="1" data-id="libreoffice-l10n-inst" id="libreoffice-l10n-inst" title="42s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="libreoffice-l10n-run" id="libreoffice-l10n-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -6999,13 +6885,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="libabw" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>app-text/libabw-0.1.4</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="libabw-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="libabw-dl" id="libabw-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -7014,10 +6899,10 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="libabw-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="libabw-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="77" data-timed="1" data-id="libabw-inst" id="libabw-inst" title="1m 17s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="libabw-run" id="libabw-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -7070,13 +6955,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="libebook" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>app-text/libebook-0.1.4</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="libebook-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="libebook-dl" id="libebook-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -7085,10 +6969,10 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="libebook-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="libebook-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="80" data-timed="1" data-id="libebook-inst" id="libebook-inst" title="1m 20s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="libebook-run" id="libebook-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -7143,13 +7027,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="libepubgen" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>app-text/libepubgen-0.1.1-r1</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="libepubgen-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="libepubgen-dl" id="libepubgen-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -7158,10 +7041,10 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="libepubgen-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="libepubgen-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="75" data-timed="1" data-id="libepubgen-inst" id="libepubgen-inst" title="1m 15s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="libepubgen-run" id="libepubgen-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -7216,13 +7099,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="libmspub" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>app-text/libmspub-0.1.5</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="libmspub-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="libmspub-dl" id="libmspub-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -7231,10 +7113,10 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="libmspub-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="libmspub-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="86" data-timed="1" data-id="libmspub-inst" id="libmspub-inst" title="1m 26s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="libmspub-run" id="libmspub-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -7287,13 +7169,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="libmwaw" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>app-text/libmwaw-0.3.23</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="libmwaw-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="libmwaw-dl" id="libmwaw-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -7302,10 +7183,10 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="libmwaw-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="libmwaw-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="73" data-timed="1" data-id="libmwaw-inst" id="libmwaw-inst" title="1m 13s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="libmwaw-run" id="libmwaw-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -7359,13 +7240,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="libodfgen" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>app-text/libodfgen-0.1.8-r1</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="libodfgen-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="libodfgen-dl" id="libodfgen-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -7374,10 +7254,10 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="libodfgen-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="libodfgen-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="51" data-timed="1" data-id="libodfgen-inst" id="libodfgen-inst" title="51s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="libodfgen-run" id="libodfgen-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -7431,13 +7311,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="libqxp" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>app-text/libqxp-0.0.3</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="libqxp-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="libqxp-dl" id="libqxp-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -7446,10 +7325,10 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="libqxp-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="libqxp-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="103" data-timed="1" data-id="libqxp-inst" id="libqxp-inst" title="1m 43s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="libqxp-run" id="libqxp-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -7505,13 +7384,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="libstaroffice" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>app-text/libstaroffice-0.0.8</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="libstaroffice-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="libstaroffice-dl" id="libstaroffice-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -7520,10 +7398,10 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="libstaroffice-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="libstaroffice-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="79" data-timed="1" data-id="libstaroffice-inst" id="libstaroffice-inst" title="1m 19s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="libstaroffice-run" id="libstaroffice-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -7579,13 +7457,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="libwpd" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>app-text/libwpd-0.10.3</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="libwpd-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="libwpd-dl" id="libwpd-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -7594,10 +7471,10 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="libwpd-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="libwpd-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="70" data-timed="1" data-id="libwpd-inst" id="libwpd-inst" title="1m 10s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="libwpd-run" id="libwpd-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -7651,13 +7528,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="libwps" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>app-text/libwps-0.4.14</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="libwps-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="libwps-dl" id="libwps-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -7666,10 +7542,10 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="libwps-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="libwps-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="80" data-timed="1" data-id="libwps-inst" id="libwps-inst" title="1m 20s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="libwps-run" id="libwps-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -7724,13 +7600,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="libcdr" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>media-libs/libcdr-0.1.9</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="libcdr-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="libcdr-dl" id="libcdr-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -7739,10 +7614,10 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="libcdr-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="libcdr-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="73" data-timed="1" data-id="libcdr-inst" id="libcdr-inst" title="1m 13s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="libcdr-run" id="libcdr-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -7796,13 +7671,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="libfreehand" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>media-libs/libfreehand-0.1.3</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="libfreehand-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="libfreehand-dl" id="libfreehand-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -7811,10 +7685,10 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="libfreehand-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="libfreehand-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="62" data-timed="1" data-id="libfreehand-inst" id="libfreehand-inst" title="1m 2s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="libfreehand-run" id="libfreehand-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -7868,13 +7742,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="libpagemaker" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>media-libs/libpagemaker-0.0.4-r1</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="libpagemaker-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="libpagemaker-dl" id="libpagemaker-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -7883,10 +7756,10 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="libpagemaker-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="libpagemaker-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="75" data-timed="1" data-id="libpagemaker-inst" id="libpagemaker-inst" title="1m 15s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="libpagemaker-run" id="libpagemaker-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -7941,13 +7814,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="libvisio" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>media-libs/libvisio-0.1.11</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="libvisio-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="libvisio-dl" id="libvisio-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -7956,10 +7828,10 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="libvisio-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="libvisio-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="93" data-timed="1" data-id="libvisio-inst" id="libvisio-inst" title="1m 33s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="libvisio-run" id="libvisio-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -8014,13 +7886,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="libzmf" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>media-libs/libzmf-0.0.2-r1</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="libzmf-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="libzmf-dl" id="libzmf-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -8029,10 +7900,10 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="libzmf-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="libzmf-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="95" data-timed="1" data-id="libzmf-inst" id="libzmf-inst" title="1m 35s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="libzmf-run" id="libzmf-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -8087,13 +7958,87 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+    </tr>
+    <tr data-pkg="librsvg" data-actions="download install run">
+      <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>gnome-base/librsvg-2.62.3</td>
+      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="3" data-timed="1" data-id="librsvg-dl" id="librsvg-dl" title="3s">download</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="205" data-timed="1" data-id="librsvg-inst" id="librsvg-inst" title="3m 25s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="librsvg-run" id="librsvg-run">run</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+    </tr>
+    <tr class="detail-row" data-parent="librsvg">
+      <td class="detail-pkg">
+        <div class="detail-label">USE</div>
+        <div class="use-flags">
+          <span class="use-flag off">-debug</span>
+          <span class="use-flag off">-gtk-doc</span>
+          <span class="use-flag off">-introspection</span>
+          <span class="use-flag off">-test</span>
+          <span class="use-flag off">-vala</span>
+        </div>
+      </td>
+      <td class="detail-dl">
+        <table class="src-table">
+          <tr><td><a href="https://github.com/gentoo-crate-dist/librsvg/releases/download/2.62.3/librsvg-2.62.3-crates.tar.xz" target="_blank">librsvg-2.62.3-crates.tar.xz</a></td><td class="sz">18.1 MB</td><td><span class="src-status pending">fetch</span></td></tr>
+          <tr><td><a href="	https://download.gnome.org/sources/librsvg/2.62/librsvg-2.62.3.tar.xz" target="_blank">librsvg-2.62.3.tar.xz</a></td><td class="sz">6.4 MB</td><td><span class="src-status pending">fetch</span></td></tr>
+        </table>
+      </td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="libetonyek" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>app-text/libetonyek-0.1.13</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="libetonyek-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="libetonyek-dl" id="libetonyek-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -8103,10 +8048,10 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="libetonyek-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="libetonyek-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="55" data-timed="1" data-id="libetonyek-inst" id="libetonyek-inst" title="55s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="libetonyek-run" id="libetonyek-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -8159,13 +8104,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="libixion" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-libs/libixion-0.19.0-r2</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="libixion-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="libixion-dl" id="libixion-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -8175,10 +8119,10 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="libixion-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="libixion-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="72" data-timed="1" data-id="libixion-inst" id="libixion-inst" title="1m 12s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="libixion-run" id="libixion-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -8231,13 +8175,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="redland" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-libs/redland-1.0.17-r3</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="redland-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="redland-dl" id="redland-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -8247,10 +8190,10 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="redland-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="redland-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="47" data-timed="1" data-id="redland-inst" id="redland-inst" title="47s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="redland-run" id="redland-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -8307,13 +8250,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="libwpg" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>app-text/libwpg-0.3.4</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="libwpg-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="libwpg-dl" id="libwpg-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -8325,10 +8267,10 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="libwpg-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="libwpg-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="36" data-timed="1" data-id="libwpg-inst" id="libwpg-inst" title="36s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="libwpg-run" id="libwpg-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -8378,13 +8320,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="liborcus" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-libs/liborcus-0.19.2-r1</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="liborcus-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="liborcus-dl" id="liborcus-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -8397,10 +8338,10 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="liborcus-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="liborcus-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="79" data-timed="1" data-id="liborcus-inst" id="liborcus-inst" title="1m 19s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="liborcus-run" id="liborcus-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -8452,156 +8393,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-    </tr>
-    <tr data-pkg="librsvg" data-actions="download install run">
-      <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>gnome-base/librsvg-2.62.3</td>
-      <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="librsvg-dl">download</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="librsvg-inst">install</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td><span class="cell run" data-type="run" id="librsvg-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-    </tr>
-    <tr class="detail-row" data-parent="librsvg">
-      <td class="detail-pkg">
-        <div class="detail-label">USE</div>
-        <div class="use-flags">
-          <span class="use-flag off">-debug</span>
-          <span class="use-flag off">-gtk-doc</span>
-          <span class="use-flag off">-introspection</span>
-          <span class="use-flag off">-test</span>
-          <span class="use-flag off">-vala</span>
-        </div>
-      </td>
-      <td class="detail-dl">
-        <table class="src-table">
-          <tr><td><a href="https://github.com/gentoo-crate-dist/librsvg/releases/download/2.62.3/librsvg-2.62.3-crates.tar.xz" target="_blank">librsvg-2.62.3-crates.tar.xz</a></td><td class="sz">18.1 MB</td><td><span class="src-status pending">fetch</span></td></tr>
-          <tr><td><a href="	https://download.gnome.org/sources/librsvg/2.62/librsvg-2.62.3.tar.xz" target="_blank">librsvg-2.62.3.tar.xz</a></td><td class="sz">6.4 MB</td><td><span class="src-status pending">fetch</span></td></tr>
-        </table>
-      </td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-    </tr>
-    <tr data-pkg="adwaita-icon-theme-legacy" data-actions="download install run">
-      <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>x11-themes/adwaita-icon-theme-legacy-46.2</td>
-      <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="adwaita-icon-theme-legacy-dl">download</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="adwaita-icon-theme-legacy-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="adwaita-icon-theme-legacy-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-    </tr>
-    <tr class="detail-row" data-parent="adwaita-icon-theme-legacy">
-      <td class="detail-pkg">
-      </td>
-      <td class="detail-dl">
-        <table class="src-table">
-          <tr><td><a href="	https://download.gnome.org/sources/adwaita-icon-theme-legacy/46/adwaita-icon-theme-legacy-46.2.tar.xz" target="_blank">adwaita-icon-theme-legacy-46.2.tar.xz</a></td><td class="sz">2.0 MB</td><td><span class="src-status pending">fetch</span></td></tr>
-        </table>
-      </td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="adwaita-icon-theme" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>x11-themes/adwaita-icon-theme-49.0</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="adwaita-icon-theme-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="adwaita-icon-theme-dl" id="adwaita-icon-theme-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -8617,10 +8414,10 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="adwaita-icon-theme-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="adwaita-icon-theme-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="26" data-timed="1" data-id="adwaita-icon-theme-inst" id="adwaita-icon-theme-inst" title="26s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="adwaita-icon-theme-run" id="adwaita-icon-theme-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -8666,13 +8463,78 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+    </tr>
+    <tr data-pkg="adwaita-icon-theme-legacy" data-actions="download install run">
+      <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>x11-themes/adwaita-icon-theme-legacy-46.2</td>
+      <td class="empty"></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="adwaita-icon-theme-legacy-dl" id="adwaita-icon-theme-legacy-dl" title="1s">download</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="28" data-timed="1" data-id="adwaita-icon-theme-legacy-inst" id="adwaita-icon-theme-legacy-inst" title="28s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="adwaita-icon-theme-legacy-run" id="adwaita-icon-theme-legacy-run">run</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+    </tr>
+    <tr class="detail-row" data-parent="adwaita-icon-theme-legacy">
+      <td class="detail-pkg">
+      </td>
+      <td class="detail-dl">
+        <table class="src-table">
+          <tr><td><a href="	https://download.gnome.org/sources/adwaita-icon-theme-legacy/46/adwaita-icon-theme-legacy-46.2.tar.xz" target="_blank">adwaita-icon-theme-legacy-46.2.tar.xz</a></td><td class="sz">2.0 MB</td><td><span class="src-status pending">fetch</span></td></tr>
+        </table>
+      </td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="app-office-libreoffice" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>app-office/libreoffice-25.2.7.2-r1</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="app-office-libreoffice-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="85" data-timed="1" data-id="app-office-libreoffice-dl" id="app-office-libreoffice-dl" title="1m 25s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -8691,10 +8553,10 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="app-office-libreoffice-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="app-office-libreoffice-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="1829" data-timed="1" data-id="app-office-libreoffice-inst" id="app-office-libreoffice-inst" title="30m 29s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="app-office-libreoffice-run" id="app-office-libreoffice-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -8766,8 +8628,6 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="ooo" data-actions="install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>virtual/ooo-1</td>
@@ -8793,10 +8653,10 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="ooo-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="ooo-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="21" data-timed="1" data-id="ooo-inst" id="ooo-inst" title="21s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="ooo-run" id="ooo-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
     </tr>
@@ -8830,13 +8690,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="unoconv" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>app-office/unoconv-0.9.0-r1</td>
       <td class="empty"></td>
-      <td><span class="cell dl" data-type="download" id="unoconv-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="unoconv-dl" id="unoconv-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -8859,10 +8718,10 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="unoconv-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="unoconv-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="26" data-timed="1" data-id="unoconv-inst" id="unoconv-inst" title="26s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="unoconv-run" id="unoconv-run">run</span>
+</td>
     </tr>
     <tr class="detail-row" data-parent="unoconv">
       <td class="detail-pkg">
@@ -8872,8 +8731,6 @@
           <tr><td><a href="https://github.com/dagwieers/unoconv/archive/0.9.0.tar.gz" target="_blank">unoconv-0.9.0.tar.gz</a></td><td class="sz">106 KB</td><td><span class="src-status pending">fetch</span></td></tr>
         </table>
       </td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
@@ -8914,6 +8771,7 @@
   <div class="legend-item"><svg width="24" height="12"><line x1="0" y1="6" x2="18" y2="6" stroke="var(--bdepend)" stroke-width="1.5"/><polygon points="18,3.5 24,6 18,8.5" fill="var(--bdepend)"/></svg>BDEPEND</div>
   <div class="legend-item"><svg width="24" height="12"><line x1="0" y1="6" x2="18" y2="6" stroke="var(--depend)" stroke-width="1.5"/><polygon points="18,3.5 24,6 18,8.5" fill="var(--depend)"/></svg>DEPEND</div>
   <div class="legend-item"><svg width="24" height="12"><line x1="0" y1="6" x2="18" y2="6" stroke="var(--rdepend)" stroke-width="1.5"/><polygon points="18,3.5 24,6 18,8.5" fill="var(--rdepend)"/></svg>RDEPEND</div>
+  <div class="legend-item" title="RDEPEND preference voided on a runtime cycle; not an ordering constraint"><svg width="24" height="12"><line x1="0" y1="6" x2="18" y2="6" stroke="var(--rdepend)" stroke-width="1.5" stroke-dasharray="4,3"/><polygon points="18,3.5 24,6 18,8.5" fill="var(--rdepend)"/></svg>RDEPEND (ignored)</div>
   <div class="legend-item"><svg width="24" height="12"><line x1="0" y1="6" x2="18" y2="6" stroke="var(--pdepend)" stroke-width="1.5" stroke-dasharray="4,2"/><polygon points="18,3.5 24,6 18,8.5" fill="var(--pdepend)"/></svg>PDEPEND</div>
   <div class="legend-item"><svg width="24" height="12"><line x1="0" y1="6" x2="18" y2="6" stroke="var(--idepend)" stroke-width="1.5" stroke-dasharray="2,2"/><polygon points="18,3.5 24,6 18,8.5" fill="var(--idepend)"/></svg>IDEPEND</div>
   <div class="legend-item"><svg width="24" height="12"><line x1="0" y1="6" x2="24" y2="6" stroke="var(--bar)" stroke-width="2" stroke-dasharray="4,3"/></svg>same pkg</div>
@@ -8928,7 +8786,7 @@ const filters = {
 };
 const depColors = {bdepend:"#ef6c00",depend:"#e53935",rdepend:"#7e57c2",pdepend:"#00897b",idepend:"#6d4c41"};
 const depDash = {bdepend:"",depend:"",rdepend:"",pdepend:"6,3",idepend:"3,3"};
-let hoverMode=false, hoverPkg=null, critMode=false;
+let hoverMode=false, hoverPkg=null, critMode=false, timeMode=false;
 const deps = [
   ["Archive-Zip-inst","app-office-libreoffice-inst","depend"],
   ["acct-group-libreoffice-run","acct-user-libreoffice-inst","rdepend"],
@@ -9452,8 +9310,27 @@ function applyFilters(){
       document.querySelectorAll(`tr.detail-row[data-parent="${p}"]`).forEach(d=>d.classList.remove("visible"));
       const t=r.querySelector(".toggle");if(t)t.classList.remove("open");}
   });
+  syncTimeRows();
+  if(timeMode)layoutTimeView();
   drawOverlays();
 }
+function secs(n){const s=parseFloat(n.dataset.seconds);return Number.isFinite(s)?s:1;}
+function fmtDur(s){s=Math.max(0,Math.round(s));
+  if(s>=3600){const h=Math.floor(s/3600),m=Math.floor((s%3600)/60);return m?`${h}h ${m}m`:`${h}h`;}
+  if(s>=60){const m=Math.floor(s/60),r=s%60;return r?`${m}m ${r}s`:`${m}m`;}
+  return `${s}s`;}
+function rowOf(el){return el.closest(timeMode?".gantt-time-row":"tr");}
+function cellOf(id){const root=timeMode?document.getElementById("gantt-time"):document.getElementById("gantt");
+  return root?root.querySelector(`[data-id="${id}"]`):null;}
+function waveOf(c){if(c.dataset.wave)return +c.dataset.wave;const td=c.closest("td");return td?td.cellIndex:0;}
+function stepOf(c){return timeMode?parseFloat(c.dataset.es||"0"):waveOf(c);}
+function visRows(){return timeMode
+  ?[...document.querySelectorAll("#gantt-time .gantt-time-row:not(.row-hidden)")]
+  :[...document.querySelectorAll("#gantt tbody tr[data-pkg]:not(.row-hidden)")];}
+function rowCells(row){const cs=timeMode
+  ?[...row.querySelectorAll(".cell:not(.hidden)")].sort((a,b)=>waveOf(a)-waveOf(b))
+  :[];if(!timeMode){row.querySelectorAll("td:not(.pkg)").forEach(td=>{const s=td.querySelector(".cell:not(.hidden)");if(s)cs.push(s);});}
+  return cs;}
 function drawOverlays(){
   const svg=document.getElementById("dep-svg"),wr=document.getElementById("gantt-wrapper"),
         wR=wr.getBoundingClientRect(),ns="http://www.w3.org/2000/svg",
@@ -9467,10 +9344,9 @@ function drawOverlays(){
     const p=document.createElementNS(ns,"polygon");p.setAttribute("points","0 0,6 2.5,0 5");
     p.setAttribute("fill",c);m.appendChild(p);defs.appendChild(m);
   }svg.appendChild(defs);
-  const edges=[],stepOf=c=>c.closest("td").cellIndex;
-  document.querySelectorAll("#gantt tbody tr[data-pkg]:not(.row-hidden)").forEach(row=>{
-    const f=[];row.querySelectorAll("td:not(.pkg)").forEach(td=>{
-      const s=td.querySelector(".cell:not(.hidden)");if(s)f.push(s);});
+  const edges=[];
+  visRows().forEach(row=>{
+    const f=rowCells(row);
     for(let i=0;i<f.length-1;i++){
       const a=f[i].getBoundingClientRect(),b=f[i+1].getBoundingClientRect(),
             l=document.createElementNS(ns,"line");
@@ -9484,10 +9360,10 @@ function drawOverlays(){
   });
   deps.forEach(([fid,tid,dt])=>{
     if(!filters[dt])return;
-    const fe=document.getElementById(fid),te=document.getElementById(tid);
+    const fe=cellOf(fid),te=cellOf(tid);
     if(!fe||!te||fe.classList.contains("hidden")||te.classList.contains("hidden"))return;
-    const fr=fe.closest("tr"),tr2=te.closest("tr");
-    if(fr.classList.contains("row-hidden")||tr2.classList.contains("row-hidden"))return;
+    const fr=rowOf(fe),tr2=rowOf(te);
+    if(!fr||!tr2||fr.classList.contains("row-hidden")||tr2.classList.contains("row-hidden"))return;
     const fR=fe.getBoundingClientRect(),tR=te.getBoundingClientRect(),
           x1=fR.right-wR.left+wr.scrollLeft+2,y1=fR.top+fR.height/2-wR.top+wr.scrollTop,
           x2=tR.left-wR.left+wr.scrollLeft-2,y2=tR.top+tR.height/2-wR.top+wr.scrollTop,
@@ -9496,11 +9372,13 @@ function drawOverlays(){
     p.setAttribute("stroke",depColors[dt]);p.setAttribute("stroke-width","1.2");
     p.setAttribute("fill","none");p.setAttribute("marker-end",`url(#arrow-${dt})`);
     p.setAttribute("opacity","0.7");if(depDash[dt])p.setAttribute("stroke-dasharray",depDash[dt]);
-    p.setAttribute("class","dep-edge");p.dataset.fromPkg=fr.dataset.pkg;p.dataset.toPkg=tr2.dataset.pkg;
+    p.setAttribute("class","dep-edge");p.dataset.fromPkg=fr.dataset.pkg;p.dataset.toPkg=tr2.dataset.pkg;p.dataset.depType=dt;
     svg.appendChild(p);
-    if(stepOf(fe)<stepOf(te))edges.push({el:p,from:fe,to:te});else p.classList.add("back-edge");
+    if(waveOf(fe)<waveOf(te))edges.push({el:p,from:fe,to:te});
+    else{p.classList.add("back-edge");
+      if(dt==="rdepend")p.setAttribute("stroke-dasharray","4,3");}
   });
-  markCritical(edges,stepOf);
+  markCritical(edges);
   if(hoverMode&&hoverPkg)litEdges(hoverPkg);
 }
 function toggleCritMode(btn){
@@ -9508,50 +9386,106 @@ function toggleCritMode(btn){
   btn.classList.toggle("active",critMode);btn.setAttribute("aria-pressed",critMode);
   document.getElementById("dep-svg").classList.toggle("crit-mode",critMode);
   document.getElementById("gantt").classList.toggle("crit-mode",critMode);
+  const tv=document.getElementById("gantt-time");if(tv)tv.classList.toggle("crit-mode",critMode);
   drawOverlays();
 }
-function markCritical(edges,stepOf){
-  document.querySelectorAll("#gantt .cell.crit").forEach(c=>c.classList.remove("crit"));
+function markCritical(edges){
+  document.querySelectorAll(".cell.crit").forEach(c=>c.classList.remove("crit"));
   const btn=document.getElementById("crit-mode-btn");
   if(!critMode){btn.textContent="Critical path";return;}
   const len=new Map(),pred=new Map(),nodes=new Set();
   edges.forEach(e=>{nodes.add(e.from);nodes.add(e.to);});
-  const order=[...nodes].sort((a,b)=>stepOf(a)-stepOf(b));
-  order.forEach(n=>len.set(n,1));
-  edges.slice().sort((a,b)=>stepOf(a.from)-stepOf(b.from)).forEach(e=>{
-    const l=len.get(e.from)+1;if(l>len.get(e.to)){len.set(e.to,l);pred.set(e.to,e);}
+  const order=[...nodes].sort((a,b)=>waveOf(a)-waveOf(b)||stepOf(a)-stepOf(b));
+  order.forEach(n=>len.set(n,secs(n)));
+  edges.slice().sort((a,b)=>waveOf(a.from)-waveOf(b.from)).forEach(e=>{
+    const l=len.get(e.from)+secs(e.to);if(l>len.get(e.to)){len.set(e.to,l);pred.set(e.to,e);}
   });
   let end=null;
-  order.forEach(n=>{if(!end||len.get(n)>len.get(end)||(len.get(n)===len.get(end)&&stepOf(n)>stepOf(end)))end=n;});
-  const n=end?len.get(end):0;btn.textContent=`Critical path (${n})`;
-  if(n<2)return;
-  for(let c=end;c;){c.classList.add("crit");const e=pred.get(c);if(!e)break;e.el.classList.add("crit");c=e.from;}
+  order.forEach(n=>{if(!end||len.get(n)>len.get(end)||(len.get(n)===len.get(end)&&waveOf(n)>waveOf(end)))end=n;});
+  const total=end?len.get(end):0;
+  if(total<=0){btn.textContent="Critical path";return;}
+  const path=[];for(let c=end;c;){path.push(c);const e=pred.get(c);if(!e)break;c=e.from;}
+  const timed=path.some(n=>n.dataset.timed==="1");
+  btn.textContent=timed?`Critical path (${fmtDur(total)})`:`Critical path (${Math.round(total)})`;
+  if(path.length<2)return;
+  path.forEach(c=>c.classList.add("crit"));
+  for(let c=end;;){const e=pred.get(c);if(!e)break;e.el.classList.add("crit");c=e.from;}
 }
 function toggleHoverMode(btn){
   hoverMode=!hoverMode;
   btn.classList.toggle("active",hoverMode);btn.setAttribute("aria-pressed",hoverMode);
   document.getElementById("dep-svg").classList.toggle("hover-mode",hoverMode);
   document.getElementById("gantt").classList.toggle("hover-mode",hoverMode);
+  const tv=document.getElementById("gantt-time");if(tv)tv.classList.toggle("hover-mode",hoverMode);
   if(!hoverMode)litEdges(null);
 }
 function litEdges(p){
   hoverPkg=p;
   document.querySelectorAll("#dep-svg .lit").forEach(e=>e.classList.remove("lit"));
-  document.querySelectorAll("#gantt tr.hover-lit").forEach(r=>r.classList.remove("hover-lit"));
+  document.querySelectorAll(".hover-lit").forEach(r=>r.classList.remove("hover-lit"));
   if(!p)return;
   document.querySelectorAll(`#dep-svg [data-pkg="${p}"],#dep-svg [data-from-pkg="${p}"],#dep-svg [data-to-pkg="${p}"]`)
     .forEach(e=>e.classList.add("lit"));
-  const r=document.querySelector(`#gantt tr[data-pkg="${p}"]`);if(r)r.classList.add("hover-lit");
+  document.querySelectorAll(`#gantt tr[data-pkg="${p}"],#gantt-time .gantt-time-row[data-pkg="${p}"]`)
+    .forEach(r=>r.classList.add("hover-lit"));
 }
 (function(){
-  const tb=document.querySelector("#gantt tbody");if(!tb)return;
-  tb.addEventListener("mouseover",e=>{
+  const wr=document.getElementById("gantt-wrapper");if(!wr)return;
+  wr.addEventListener("mouseover",e=>{
     if(!hoverMode)return;
-    const r=e.target.closest("tr[data-pkg],tr.detail-row"),p=r?(r.dataset.pkg||r.dataset.parent):null;
+    const r=e.target.closest("tr[data-pkg],tr.detail-row,.gantt-time-row"),p=r?(r.dataset.pkg||r.dataset.parent):null;
     if(p!==hoverPkg)litEdges(p);
   });
-  tb.addEventListener("mouseleave",()=>{if(hoverMode)litEdges(null);});
+  wr.addEventListener("mouseleave",()=>{if(hoverMode)litEdges(null);});
 })();
+function toggleTimeMode(btn){
+  timeMode=!timeMode;
+  btn.classList.toggle("active",timeMode);btn.setAttribute("aria-pressed",timeMode);
+  document.getElementById("gantt-wrapper").classList.toggle("time-mode",timeMode);
+  if(timeMode)layoutTimeView();
+  drawOverlays();
+}
+function ensureTimeView(){
+  let tv=document.getElementById("gantt-time");if(tv)return tv;
+  tv=document.createElement("div");tv.id="gantt-time";tv.className="gantt-time"+(critMode?" crit-mode":"");
+  const ruler=document.createElement("div");ruler.className="gantt-time-ruler";ruler.id="gantt-time-ruler";tv.appendChild(ruler);
+  document.querySelectorAll("#gantt tbody tr[data-pkg]").forEach(row=>{
+    const r=document.createElement("div");r.className="gantt-time-row";r.dataset.pkg=row.dataset.pkg;
+    const lab=document.createElement("div");lab.className="gantt-time-label";
+    lab.textContent=(row.querySelector("td.pkg")||{}).innerText||row.dataset.pkg;
+    const track=document.createElement("div");track.className="gantt-time-track";
+    row.querySelectorAll(".cell").forEach(c=>{
+      const b=c.cloneNode(true);b.removeAttribute("id");b.dataset.wave=String(c.closest("td").cellIndex);
+      track.appendChild(b);});
+    r.appendChild(lab);r.appendChild(track);tv.appendChild(r);});
+  document.getElementById("gantt-wrapper").appendChild(tv);
+  return tv;}
+function syncTimeRows(){
+  document.querySelectorAll("#gantt-time .gantt-time-row").forEach(r=>{
+    const src=document.querySelector(`#gantt tr[data-pkg="${r.dataset.pkg}"]`);
+    if(src)r.classList.toggle("row-hidden",src.classList.contains("row-hidden"));});
+}
+function layoutTimeView(){
+  const tv=ensureTimeView();syncTimeRows();
+  const bars=[...tv.querySelectorAll(".gantt-time-row:not(.row-hidden) .cell:not(.hidden)")];
+  const waveMax=new Map();
+  bars.forEach(b=>{const w=waveOf(b);waveMax.set(w,Math.max(waveMax.get(w)||0,secs(b)));});
+  const waves=[...waveMax.keys()].sort((a,b)=>a-b);
+  const waveStart=new Map();let t=0;
+  waves.forEach(w=>{waveStart.set(w,t);t+=waveMax.get(w);});
+  const maxEnd=t;
+  bars.forEach(b=>b.dataset.es=String(waveStart.get(waveOf(b))||0));
+  const px=Math.max(0.5,Math.min(8,1400/Math.max(maxEnd,1)));
+  const width=Math.max(400,Math.ceil(maxEnd*px)+24);
+  tv.querySelectorAll(".gantt-time-track").forEach(tr=>{tr.style.width=width+"px";});
+  bars.forEach(b=>{const d=Math.max(secs(b),0);b.style.left=((waveStart.get(waveOf(b))||0)*px)+"px";
+    b.style.width=Math.max(d>0?d*px:8,8)+"px";});
+  const ruler=document.getElementById("gantt-time-ruler");ruler.innerHTML="";
+  ruler.style.width=width+"px";
+  const step=maxEnd<=120?30:maxEnd<=600?60:maxEnd<=1800?300:maxEnd<=7200?600:1800;
+  for(let u=0;u<=maxEnd;u+=step){const tick=document.createElement("span");tick.className="gantt-time-tick";
+    tick.style.left=(u*px)+"px";tick.textContent=fmtDur(u);ruler.appendChild(tick);}
+}
 function toggleUseExpand(){
   const f=document.getElementById("global-use-flags"),
         b=f.previousElementSibling;

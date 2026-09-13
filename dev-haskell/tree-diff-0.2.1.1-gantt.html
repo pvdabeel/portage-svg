@@ -94,7 +94,8 @@
     <button class="action-btn" onclick="expandAll()">Expand All</button>
     <button class="action-btn" onclick="collapseAll()">Collapse All</button>
     <button class="action-btn" id="hover-mode-btn" onclick="toggleHoverMode(this)" aria-pressed="false" title="Hide dependency edges; show only those of the hovered package">Hover</button>
-    <button class="action-btn" id="crit-mode-btn" onclick="toggleCritMode(this)" aria-pressed="false" title="Highlight the longest chain of dependent actions (backward cycle-break edges excluded)">Critical path</button>
+    <button class="action-btn" id="crit-mode-btn" onclick="toggleCritMode(this)" aria-pressed="false" title="Highlight the longest duration-weighted chain of dependent actions (phase_stats when available; ignored / backward RDEPEND edges excluded)">Critical path</button>
+    <button class="action-btn" id="time-mode-btn" onclick="toggleTimeMode(this)" aria-pressed="false" title="Keep the plan wave order; size each wave by its longest recorded action (a wave starts when the previous wave finishes)">Time</button>
   </div>
 </div>
 <div class="global-use">
@@ -141,12 +142,16 @@
     <th>Step 28</th>
     <th>Step 29</th>
     <th>Step 30</th>
+    <th>Step 31</th>
   </tr></thead>
   <tbody>
     <tr data-pkg="dos2unix" data-actions="download install">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>app-text/dos2unix-7.5.6</td>
-      <td><span class="cell dl" data-type="download" id="dos2unix-dl">download</span></td>
-      <td><span class="cell inst" data-type="install" id="dos2unix-inst">install</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="dos2unix-dl" id="dos2unix-dl" title="1s">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="21" data-timed="1" data-id="dos2unix-inst" id="dos2unix-inst" title="21s">install</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -220,14 +225,19 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="haskell-updater" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>app-admin/haskell-updater-1.5.0.0</td>
-      <td><span class="cell dl" data-type="download" id="haskell-updater-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="haskell-updater-dl" id="haskell-updater-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="haskell-updater-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="haskell-updater-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="42" data-timed="1" data-id="haskell-updater-inst" id="haskell-updater-inst" title="42s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="haskell-updater-run" id="haskell-updater-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -292,15 +302,20 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="ghc" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-lang/ghc-9.8.4-r1</td>
-      <td><span class="cell dl" data-type="download" id="ghc-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="3" data-timed="1" data-id="ghc-dl" id="ghc-dl" title="3s">download</span>
+</td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="ghc-inst">install</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="3722" data-timed="1" data-id="ghc-inst" id="ghc-inst" title="1h 2m">install</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell run" data-type="run" id="ghc-run">run</span></td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="ghc-run" id="ghc-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -380,17 +395,22 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="text" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/text-2.1.1</td>
-      <td><span class="cell dl" data-type="download" id="text-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="text-dl" id="text-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="text-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="text-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="26" data-timed="1" data-id="text-inst" id="text-inst" title="26s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="text-run" id="text-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -458,17 +478,22 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="parsec" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/parsec-3.1.17.0</td>
-      <td><span class="cell dl" data-type="download" id="parsec-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="parsec-dl" id="parsec-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="parsec-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="parsec-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="26" data-timed="1" data-id="parsec-inst" id="parsec-inst" title="26s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="parsec-run" id="parsec-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -535,10 +560,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="cabal-syntax" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/cabal-syntax-3.10.3.0</td>
-      <td><span class="cell dl" data-type="download" id="cabal-syntax-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="cabal-syntax-dl" id="cabal-syntax-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -546,8 +573,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="cabal-syntax-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="cabal-syntax-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="23" data-timed="1" data-id="cabal-syntax-inst" id="cabal-syntax-inst" title="23s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="cabal-syntax-run" id="cabal-syntax-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -612,10 +642,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="cabal" data-actions="download install">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/cabal-3.10.3.0</td>
-      <td><span class="cell dl" data-type="download" id="cabal-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="cabal-dl" id="cabal-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -625,7 +657,9 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="cabal-inst">install</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="23" data-timed="1" data-id="cabal-inst" id="cabal-inst" title="23s">install</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -689,89 +723,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-    </tr>
-    <tr data-pkg="attoparsec" data-actions="download install">
-      <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/attoparsec-0.14.4-r1</td>
-      <td><span class="cell dl" data-type="download" id="attoparsec-dl">download</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="attoparsec-inst">install</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-    </tr>
-    <tr class="detail-row" data-parent="attoparsec">
-      <td class="detail-pkg">
-        <div class="detail-label">USE</div>
-        <div class="use-flags">
-          <span class="use-flag off">-doc</span>
-          <span class="use-flag off">-hscolour</span>
-          <span class="use-flag off">-profile</span>
-          <span class="use-flag off">-test</span>
-        </div>
-      </td>
-      <td class="detail-dl">
-        <table class="src-table">
-          <tr><td><a href="https://hackage.haskell.org/package/attoparsec-0.14.4/revision/6.cabal" target="_blank">attoparsec-0.14.4-rev6.cabal</a></td><td class="sz">6 KB</td><td><span class="src-status pending">fetch</span></td></tr>
-          <tr><td><a href="https://hackage.haskell.org/package/attoparsec-0.14.4/attoparsec-0.14.4.tar.gz" target="_blank">attoparsec-0.14.4.tar.gz</a></td><td class="sz">157 KB</td><td><span class="src-status pending">fetch</span></td></tr>
-        </table>
-      </td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
       <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="tagged" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/tagged-0.8.10</td>
-      <td><span class="cell dl" data-type="download" id="tagged-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="tagged-dl" id="tagged-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -782,8 +739,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="tagged-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="tagged-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="68" data-timed="1" data-id="tagged-inst" id="tagged-inst" title="1m 8s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="tagged-run" id="tagged-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -847,10 +807,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="base-orphans" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/base-orphans-0.9.3</td>
-      <td><span class="cell dl" data-type="download" id="base-orphans-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="base-orphans-dl" id="base-orphans-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -861,8 +823,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="base-orphans-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="base-orphans-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="79" data-timed="1" data-id="base-orphans-inst" id="base-orphans-inst" title="1m 19s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="base-orphans-run" id="base-orphans-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -925,10 +890,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="primitive" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/primitive-0.7.4.0</td>
-      <td><span class="cell dl" data-type="download" id="primitive-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="primitive-dl" id="primitive-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -939,8 +906,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="primitive-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="primitive-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="178" data-timed="1" data-id="primitive-inst" id="primitive-inst" title="2m 58s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="primitive-run" id="primitive-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1004,10 +974,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="base-compat" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/base-compat-0.12.1</td>
-      <td><span class="cell dl" data-type="download" id="base-compat-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="base-compat-dl" id="base-compat-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1018,8 +990,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="base-compat-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="base-compat-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="1" data-timed="0" data-id="base-compat-inst" id="base-compat-inst">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="base-compat-run" id="base-compat-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1081,10 +1056,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="th-abstraction" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/th-abstraction-0.4.5.0</td>
-      <td><span class="cell dl" data-type="download" id="th-abstraction-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="th-abstraction-dl" id="th-abstraction-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1095,8 +1072,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="th-abstraction-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="th-abstraction-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="202" data-timed="1" data-id="th-abstraction-inst" id="th-abstraction-inst" title="3m 22s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="th-abstraction-run" id="th-abstraction-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1160,10 +1140,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="bytestring-builder" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/bytestring-builder-0.10.8.2.0-r1</td>
-      <td><span class="cell dl" data-type="download" id="bytestring-builder-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="bytestring-builder-dl" id="bytestring-builder-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1174,8 +1156,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="bytestring-builder-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="bytestring-builder-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="29" data-timed="1" data-id="bytestring-builder-inst" id="bytestring-builder-inst" title="29s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="bytestring-builder-run" id="bytestring-builder-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1237,10 +1222,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="colour" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/colour-2.3.6</td>
-      <td><span class="cell dl" data-type="download" id="colour-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="colour-dl" id="colour-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1251,8 +1238,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="colour-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="colour-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="85" data-timed="1" data-id="colour-inst" id="colour-inst" title="1m 25s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="colour-run" id="colour-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1315,10 +1305,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="data-array-byte" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/data-array-byte-0.1.0.2</td>
-      <td><span class="cell dl" data-type="download" id="data-array-byte-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="data-array-byte-dl" id="data-array-byte-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1329,8 +1321,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="data-array-byte-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="data-array-byte-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="58" data-timed="1" data-id="data-array-byte-inst" id="data-array-byte-inst" title="58s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="data-array-byte-run" id="data-array-byte-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1393,10 +1388,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="dlist" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/dlist-1.0</td>
-      <td><span class="cell dl" data-type="download" id="dlist-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="dlist-dl" id="dlist-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1407,8 +1404,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="dlist-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="dlist-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="130" data-timed="1" data-id="dlist-inst" id="dlist-inst" title="2m 10s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="dlist-run" id="dlist-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1473,10 +1473,95 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+    </tr>
+    <tr data-pkg="integer-logarithms" data-actions="download install run">
+      <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/integer-logarithms-1.0.5</td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="integer-logarithms-dl" id="integer-logarithms-dl" title="1s">download</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="102" data-timed="1" data-id="integer-logarithms-inst" id="integer-logarithms-inst" title="1m 42s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="integer-logarithms-run" id="integer-logarithms-run">run</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+    </tr>
+    <tr class="detail-row" data-parent="integer-logarithms">
+      <td class="detail-pkg">
+        <div class="detail-label">USE</div>
+        <div class="use-flags">
+          <span class="use-flag off">-doc</span>
+          <span class="use-flag off">-hscolour</span>
+          <span class="use-flag off">-profile</span>
+          <span class="use-flag off">-test</span>
+        </div>
+      </td>
+      <td class="detail-dl">
+        <table class="src-table">
+          <tr><td><a href="https://hackage.haskell.org/package/integer-logarithms-1.0.5/integer-logarithms-1.0.5.tar.gz" target="_blank">integer-logarithms-1.0.5.tar.gz</a></td><td class="sz">9 KB</td><td><span class="src-status pending">fetch</span></td></tr>
+        </table>
+      </td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="os-string" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/os-string-2.0.8</td>
-      <td><span class="cell dl" data-type="download" id="os-string-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="os-string-dl" id="os-string-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1487,8 +1572,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="os-string-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="os-string-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="67" data-timed="1" data-id="os-string-inst" id="os-string-inst" title="1m 7s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="os-string-run" id="os-string-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1551,10 +1639,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="splitmix" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/splitmix-0.1.3.2</td>
-      <td><span class="cell dl" data-type="download" id="splitmix-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="splitmix-dl" id="splitmix-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1565,8 +1655,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="splitmix-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="splitmix-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="68" data-timed="1" data-id="splitmix-inst" id="splitmix-inst" title="1m 8s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="splitmix-run" id="splitmix-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1630,10 +1723,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="statevar" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/statevar-1.2.2-r1</td>
-      <td><span class="cell dl" data-type="download" id="statevar-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="statevar-dl" id="statevar-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1644,8 +1739,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="statevar-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="statevar-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="102" data-timed="1" data-id="statevar-inst" id="statevar-inst" title="1m 42s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="statevar-run" id="statevar-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1707,10 +1805,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="transformers-compat" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/transformers-compat-0.7.2</td>
-      <td><span class="cell dl" data-type="download" id="transformers-compat-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="transformers-compat-dl" id="transformers-compat-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1721,8 +1821,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="transformers-compat-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="transformers-compat-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="81" data-timed="1" data-id="transformers-compat-inst" id="transformers-compat-inst" title="1m 21s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="transformers-compat-run" id="transformers-compat-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1784,10 +1887,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="hashable" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/hashable-1.4.7.0</td>
-      <td><span class="cell dl" data-type="download" id="hashable-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="hashable-dl" id="hashable-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1800,8 +1905,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="hashable-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="hashable-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="52" data-timed="1" data-id="hashable-inst" id="hashable-inst" title="52s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="hashable-run" id="hashable-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1862,10 +1970,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="vector" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/vector-0.12.3.1-r1</td>
-      <td><span class="cell dl" data-type="download" id="vector-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="vector-dl" id="vector-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1878,8 +1988,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="vector-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="vector-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="309" data-timed="1" data-id="vector-inst" id="vector-inst" title="5m 9s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="vector-run" id="vector-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1944,10 +2057,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="contravariant" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/contravariant-1.5.5</td>
-      <td><span class="cell dl" data-type="download" id="contravariant-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="contravariant-dl" id="contravariant-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -1960,8 +2075,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="contravariant-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="contravariant-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="69" data-timed="1" data-id="contravariant-inst" id="contravariant-inst" title="1m 9s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="contravariant-run" id="contravariant-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2024,10 +2142,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="ansi-terminal" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/ansi-terminal-0.10.3</td>
-      <td><span class="cell dl" data-type="download" id="ansi-terminal-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="ansi-terminal-dl" id="ansi-terminal-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2040,8 +2160,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="ansi-terminal-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="ansi-terminal-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="1" data-timed="0" data-id="ansi-terminal-inst" id="ansi-terminal-inst">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="ansi-terminal-run" id="ansi-terminal-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2102,10 +2225,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="random" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/random-1.2.1.3</td>
-      <td><span class="cell dl" data-type="download" id="random-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="random-dl" id="random-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2118,8 +2243,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="random-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="random-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="63" data-timed="1" data-id="random-inst" id="random-inst" title="1m 3s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="random-run" id="random-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2180,10 +2308,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="distributive" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/distributive-0.6.3</td>
-      <td><span class="cell dl" data-type="download" id="distributive-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="distributive-dl" id="distributive-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2196,8 +2326,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="distributive-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="distributive-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="69" data-timed="1" data-id="distributive-inst" id="distributive-inst" title="1m 9s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="distributive-run" id="distributive-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2258,10 +2391,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="foldable1-classes-compat" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/foldable1-classes-compat-0.1.3</td>
-      <td><span class="cell dl" data-type="download" id="foldable1-classes-compat-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="foldable1-classes-compat-dl" id="foldable1-classes-compat-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2274,8 +2409,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="foldable1-classes-compat-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="foldable1-classes-compat-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="60" data-timed="1" data-id="foldable1-classes-compat-inst" id="foldable1-classes-compat-inst" title="1m 0s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="foldable1-classes-compat-run" id="foldable1-classes-compat-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2338,10 +2476,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="onetuple" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/onetuple-0.4.2.1</td>
-      <td><span class="cell dl" data-type="download" id="onetuple-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="onetuple-dl" id="onetuple-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2354,8 +2494,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="onetuple-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="onetuple-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="72" data-timed="1" data-id="onetuple-inst" id="onetuple-inst" title="1m 12s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="onetuple-run" id="onetuple-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2416,10 +2559,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="unordered-containers" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/unordered-containers-0.2.21</td>
-      <td><span class="cell dl" data-type="download" id="unordered-containers-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="unordered-containers-dl" id="unordered-containers-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2434,8 +2579,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="unordered-containers-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="unordered-containers-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="77" data-timed="1" data-id="unordered-containers-inst" id="unordered-containers-inst" title="1m 17s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="unordered-containers-run" id="unordered-containers-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2495,10 +2643,95 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+    </tr>
+    <tr data-pkg="scientific" data-actions="download install run">
+      <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/scientific-0.3.8.1</td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="scientific-dl" id="scientific-dl" title="1s">download</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="70" data-timed="1" data-id="scientific-inst" id="scientific-inst" title="1m 10s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="scientific-run" id="scientific-run">run</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+    </tr>
+    <tr class="detail-row" data-parent="scientific">
+      <td class="detail-pkg">
+        <div class="detail-label">USE</div>
+        <div class="use-flags">
+          <span class="use-flag off">-doc</span>
+          <span class="use-flag off">-hscolour</span>
+          <span class="use-flag off">-profile</span>
+          <span class="use-flag off">-test</span>
+        </div>
+      </td>
+      <td class="detail-dl">
+        <table class="src-table">
+          <tr><td><a href="https://hackage.haskell.org/package/scientific-0.3.8.1/scientific-0.3.8.1.tar.gz" target="_blank">scientific-0.3.8.1.tar.gz</a></td><td class="sz">24 KB</td><td><span class="src-status pending">fetch</span></td></tr>
+        </table>
+      </td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="indexed-traversable" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/indexed-traversable-0.1.4</td>
-      <td><span class="cell dl" data-type="download" id="indexed-traversable-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="indexed-traversable-dl" id="indexed-traversable-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2513,8 +2746,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="indexed-traversable-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="indexed-traversable-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="67" data-timed="1" data-id="indexed-traversable-inst" id="indexed-traversable-inst" title="1m 7s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="indexed-traversable-run" id="indexed-traversable-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2573,10 +2809,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="uuid-types" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/uuid-types-1.0.6.1</td>
-      <td><span class="cell dl" data-type="download" id="uuid-types-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="uuid-types-dl" id="uuid-types-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2591,8 +2829,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="uuid-types-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="uuid-types-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="90" data-timed="1" data-id="uuid-types-inst" id="uuid-types-inst" title="1m 30s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="uuid-types-run" id="uuid-types-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2651,10 +2892,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="ansi-wl-pprint" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/ansi-wl-pprint-0.6.9</td>
-      <td><span class="cell dl" data-type="download" id="ansi-wl-pprint-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="ansi-wl-pprint-dl" id="ansi-wl-pprint-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2669,8 +2912,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="ansi-wl-pprint-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="ansi-wl-pprint-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="1" data-timed="0" data-id="ansi-wl-pprint-inst" id="ansi-wl-pprint-inst">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="ansi-wl-pprint-run" id="ansi-wl-pprint-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2730,10 +2976,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="base-compat-batteries" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/base-compat-batteries-0.12.1</td>
-      <td><span class="cell dl" data-type="download" id="base-compat-batteries-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="base-compat-batteries-dl" id="base-compat-batteries-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2748,8 +2996,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="base-compat-batteries-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="base-compat-batteries-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="1" data-timed="0" data-id="base-compat-batteries-inst" id="base-compat-batteries-inst">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="base-compat-batteries-run" id="base-compat-batteries-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2809,10 +3060,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="data-fix" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/data-fix-0.3.4</td>
-      <td><span class="cell dl" data-type="download" id="data-fix-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="data-fix-dl" id="data-fix-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2827,8 +3080,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="data-fix-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="data-fix-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="86" data-timed="1" data-id="data-fix-inst" id="data-fix-inst" title="1m 26s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="data-fix-run" id="data-fix-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2887,10 +3143,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="quickcheck" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/quickcheck-2.14.3-r1</td>
-      <td><span class="cell dl" data-type="download" id="quickcheck-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="quickcheck-dl" id="quickcheck-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2905,8 +3163,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="quickcheck-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="quickcheck-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="52" data-timed="1" data-id="quickcheck-inst" id="quickcheck-inst" title="52s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="quickcheck-run" id="quickcheck-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2966,10 +3227,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="text-short" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/text-short-0.1.6.1</td>
-      <td><span class="cell dl" data-type="download" id="text-short-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="text-short-dl" id="text-short-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -2984,8 +3247,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="text-short-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="text-short-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="86" data-timed="1" data-id="text-short-inst" id="text-short-inst" title="1m 26s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="text-short-run" id="text-short-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -3045,10 +3311,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="time-compat" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/time-compat-1.9.8-r1</td>
-      <td><span class="cell dl" data-type="download" id="time-compat-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="time-compat-dl" id="time-compat-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -3063,8 +3331,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="time-compat-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="time-compat-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="93" data-timed="1" data-id="time-compat-inst" id="time-compat-inst" title="1m 33s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="time-compat-run" id="time-compat-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -3123,10 +3394,96 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+    </tr>
+    <tr data-pkg="attoparsec" data-actions="download install run">
+      <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/attoparsec-0.14.4-r1</td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="attoparsec-dl" id="attoparsec-dl" title="1s">download</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="80" data-timed="1" data-id="attoparsec-inst" id="attoparsec-inst" title="1m 20s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="attoparsec-run" id="attoparsec-run">run</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+    </tr>
+    <tr class="detail-row" data-parent="attoparsec">
+      <td class="detail-pkg">
+        <div class="detail-label">USE</div>
+        <div class="use-flags">
+          <span class="use-flag off">-doc</span>
+          <span class="use-flag off">-hscolour</span>
+          <span class="use-flag off">-profile</span>
+          <span class="use-flag off">-test</span>
+        </div>
+      </td>
+      <td class="detail-dl">
+        <table class="src-table">
+          <tr><td><a href="https://hackage.haskell.org/package/attoparsec-0.14.4/revision/6.cabal" target="_blank">attoparsec-0.14.4-rev6.cabal</a></td><td class="sz">6 KB</td><td><span class="src-status pending">fetch</span></td></tr>
+          <tr><td><a href="https://hackage.haskell.org/package/attoparsec-0.14.4/attoparsec-0.14.4.tar.gz" target="_blank">attoparsec-0.14.4.tar.gz</a></td><td class="sz">157 KB</td><td><span class="src-status pending">fetch</span></td></tr>
+        </table>
+      </td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="comonad" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/comonad-5.0.10</td>
-      <td><span class="cell dl" data-type="download" id="comonad-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="comonad-dl" id="comonad-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -3143,8 +3500,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="comonad-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="comonad-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="46" data-timed="1" data-id="comonad-inst" id="comonad-inst" title="46s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="comonad-run" id="comonad-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -3201,10 +3561,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="charset" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/charset-0.3.11</td>
-      <td><span class="cell dl" data-type="download" id="charset-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="charset-dl" id="charset-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -3221,8 +3583,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="charset-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="charset-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="59" data-timed="1" data-id="charset-inst" id="charset-inst" title="59s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="charset-run" id="charset-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -3278,10 +3643,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="indexed-traversable-instances" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/indexed-traversable-instances-0.1.2</td>
-      <td><span class="cell dl" data-type="download" id="indexed-traversable-instances-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="indexed-traversable-instances-dl" id="indexed-traversable-instances-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -3298,8 +3665,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="indexed-traversable-instances-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="indexed-traversable-instances-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="35" data-timed="1" data-id="indexed-traversable-instances-inst" id="indexed-traversable-instances-inst" title="35s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="indexed-traversable-instances-run" id="indexed-traversable-instances-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -3357,10 +3727,97 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
-    <tr data-pkg="parsers" data-actions="download install">
+    <tr data-pkg="bifunctors" data-actions="download install run">
+      <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/bifunctors-5.5.15</td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="bifunctors-dl" id="bifunctors-dl" title="1s">download</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="1" data-timed="0" data-id="bifunctors-inst" id="bifunctors-inst">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="bifunctors-run" id="bifunctors-run">run</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+    </tr>
+    <tr class="detail-row" data-parent="bifunctors">
+      <td class="detail-pkg">
+        <div class="detail-label">USE</div>
+        <div class="use-flags">
+          <span class="use-flag off">-doc</span>
+          <span class="use-flag off">-hscolour</span>
+          <span class="use-flag off">-profile</span>
+          <span class="use-flag on">+semigroups</span>
+          <span class="use-flag on">+tagged</span>
+          <span class="use-flag off">-test</span>
+        </div>
+      </td>
+      <td class="detail-dl">
+        <table class="src-table">
+          <tr><td><a href="https://hackage.haskell.org/package/bifunctors-5.5.15/bifunctors-5.5.15.tar.gz" target="_blank">bifunctors-5.5.15.tar.gz</a></td><td class="sz">46 KB</td><td><span class="src-status pending">fetch</span></td></tr>
+        </table>
+      </td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+    </tr>
+    <tr data-pkg="parsers" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/parsers-0.12.12</td>
-      <td><span class="cell dl" data-type="download" id="parsers-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="parsers-dl" id="parsers-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -3379,7 +3836,10 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="parsers-inst">install</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="50" data-timed="1" data-id="parsers-inst" id="parsers-inst" title="50s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="parsers-run" id="parsers-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -3438,90 +3898,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
-    </tr>
-    <tr data-pkg="bifunctors" data-actions="download install run">
-      <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/bifunctors-5.5.15</td>
-      <td><span class="cell dl" data-type="download" id="bifunctors-dl">download</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="bifunctors-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="bifunctors-run">run</span></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-      <td class="empty"></td>
-    </tr>
-    <tr class="detail-row" data-parent="bifunctors">
-      <td class="detail-pkg">
-        <div class="detail-label">USE</div>
-        <div class="use-flags">
-          <span class="use-flag off">-doc</span>
-          <span class="use-flag off">-hscolour</span>
-          <span class="use-flag off">-profile</span>
-          <span class="use-flag on">+semigroups</span>
-          <span class="use-flag on">+tagged</span>
-          <span class="use-flag off">-test</span>
-        </div>
-      </td>
-      <td class="detail-dl">
-        <table class="src-table">
-          <tr><td><a href="https://hackage.haskell.org/package/bifunctors-5.5.15/bifunctors-5.5.15.tar.gz" target="_blank">bifunctors-5.5.15.tar.gz</a></td><td class="sz">46 KB</td><td><span class="src-status pending">fetch</span></td></tr>
-        </table>
-      </td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
-      <td class="detail-empty"></td>
       <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="witherable" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/witherable-0.4.2-r1</td>
-      <td><span class="cell dl" data-type="download" id="witherable-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="witherable-dl" id="witherable-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -3540,8 +3922,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="witherable-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="witherable-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="71" data-timed="1" data-id="witherable-inst" id="witherable-inst" title="1m 11s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="witherable-run" id="witherable-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -3597,10 +3982,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="assoc" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/assoc-1.0.2</td>
-      <td><span class="cell dl" data-type="download" id="assoc-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="assoc-dl" id="assoc-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -3621,8 +4008,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="assoc-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="assoc-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="1" data-timed="0" data-id="assoc-inst" id="assoc-inst">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="assoc-run" id="assoc-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -3674,10 +4064,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="semigroupoids" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/semigroupoids-5.3.7-r1</td>
-      <td><span class="cell dl" data-type="download" id="semigroupoids-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="semigroupoids-dl" id="semigroupoids-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -3698,8 +4090,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="semigroupoids-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="semigroupoids-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="81" data-timed="1" data-id="semigroupoids-inst" id="semigroupoids-inst" title="1m 21s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="semigroupoids-run" id="semigroupoids-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -3751,10 +4146,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="these" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/these-1.1.1.1</td>
-      <td><span class="cell dl" data-type="download" id="these-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="these-dl" id="these-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -3777,8 +4174,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="these-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="these-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="1" data-timed="0" data-id="these-inst" id="these-inst">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="these-run" id="these-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -3829,10 +4229,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="semialign" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/semialign-1.2.0.1</td>
-      <td><span class="cell dl" data-type="download" id="semialign-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="semialign-dl" id="semialign-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -3857,8 +4259,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="semialign-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="semialign-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="1" data-timed="0" data-id="semialign-inst" id="semialign-inst">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="semialign-run" id="semialign-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -3907,10 +4312,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="strict" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/strict-0.4.0.1</td>
-      <td><span class="cell dl" data-type="download" id="strict-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="strict-dl" id="strict-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -3935,8 +4342,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="strict-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="strict-run">run</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="1" data-timed="0" data-id="strict-inst" id="strict-inst">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="strict-run" id="strict-run">run</span>
+</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -3985,10 +4395,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
-    <tr data-pkg="aeson" data-actions="download install">
+    <tr data-pkg="aeson" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/aeson-2.0.3.0</td>
-      <td><span class="cell dl" data-type="download" id="aeson-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="aeson-dl" id="aeson-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -4015,7 +4427,10 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="aeson-inst">install</span></td>
+      <td><span class="cell inst" data-type="install" data-seconds="1" data-timed="0" data-id="aeson-inst" id="aeson-inst">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="aeson-run" id="aeson-run">run</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
     </tr>
@@ -4066,10 +4481,12 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="tree-diff" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-haskell/tree-diff-0.2.1.1</td>
-      <td><span class="cell dl" data-type="download" id="tree-diff-dl">download</span></td>
+      <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="tree-diff-dl" id="tree-diff-dl" title="1s">download</span>
+</td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -4097,8 +4514,11 @@
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
-      <td><span class="cell inst" data-type="install" id="tree-diff-inst">install</span></td>
-      <td><span class="cell run" data-type="run" id="tree-diff-run">run</span></td>
+      <td class="empty"></td>
+      <td><span class="cell inst" data-type="install" data-seconds="1" data-timed="0" data-id="tree-diff-inst" id="tree-diff-inst">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="tree-diff-run" id="tree-diff-run">run</span>
+</td>
     </tr>
     <tr class="detail-row" data-parent="tree-diff">
       <td class="detail-pkg">
@@ -4144,6 +4564,7 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
   </tbody>
 </table>
@@ -4159,6 +4580,7 @@
   <div class="legend-item"><svg width="24" height="12"><line x1="0" y1="6" x2="18" y2="6" stroke="var(--bdepend)" stroke-width="1.5"/><polygon points="18,3.5 24,6 18,8.5" fill="var(--bdepend)"/></svg>BDEPEND</div>
   <div class="legend-item"><svg width="24" height="12"><line x1="0" y1="6" x2="18" y2="6" stroke="var(--depend)" stroke-width="1.5"/><polygon points="18,3.5 24,6 18,8.5" fill="var(--depend)"/></svg>DEPEND</div>
   <div class="legend-item"><svg width="24" height="12"><line x1="0" y1="6" x2="18" y2="6" stroke="var(--rdepend)" stroke-width="1.5"/><polygon points="18,3.5 24,6 18,8.5" fill="var(--rdepend)"/></svg>RDEPEND</div>
+  <div class="legend-item" title="RDEPEND preference voided on a runtime cycle; not an ordering constraint"><svg width="24" height="12"><line x1="0" y1="6" x2="18" y2="6" stroke="var(--rdepend)" stroke-width="1.5" stroke-dasharray="4,3"/><polygon points="18,3.5 24,6 18,8.5" fill="var(--rdepend)"/></svg>RDEPEND (ignored)</div>
   <div class="legend-item"><svg width="24" height="12"><line x1="0" y1="6" x2="18" y2="6" stroke="var(--pdepend)" stroke-width="1.5" stroke-dasharray="4,2"/><polygon points="18,3.5 24,6 18,8.5" fill="var(--pdepend)"/></svg>PDEPEND</div>
   <div class="legend-item"><svg width="24" height="12"><line x1="0" y1="6" x2="18" y2="6" stroke="var(--idepend)" stroke-width="1.5" stroke-dasharray="2,2"/><polygon points="18,3.5 24,6 18,8.5" fill="var(--idepend)"/></svg>IDEPEND</div>
   <div class="legend-item"><svg width="24" height="12"><line x1="0" y1="6" x2="24" y2="6" stroke="var(--bar)" stroke-width="2" stroke-dasharray="4,3"/></svg>same pkg</div>
@@ -4173,9 +4595,11 @@ const filters = {
 };
 const depColors = {bdepend:"#ef6c00",depend:"#e53935",rdepend:"#7e57c2",pdepend:"#00897b",idepend:"#6d4c41"};
 const depDash = {bdepend:"",depend:"",rdepend:"",pdepend:"6,3",idepend:"3,3"};
-let hoverMode=false, hoverPkg=null, critMode=false;
+let hoverMode=false, hoverPkg=null, critMode=false, timeMode=false;
 const deps = [
   ["aeson-inst","tree-diff-inst","depend"],
+  ["aeson-run","tree-diff-inst","rdepend"],
+  ["aeson-run","tree-diff-run","rdepend"],
   ["ansi-terminal-inst","ansi-wl-pprint-inst","depend"],
   ["ansi-terminal-inst","tree-diff-inst","depend"],
   ["ansi-terminal-run","ansi-wl-pprint-inst","rdepend"],
@@ -4191,7 +4615,12 @@ const deps = [
   ["assoc-run","strict-run","rdepend"],
   ["assoc-run","these-inst","rdepend"],
   ["assoc-run","these-run","rdepend"],
+  ["attoparsec-inst","aeson-inst","depend"],
   ["attoparsec-inst","parsers-inst","depend"],
+  ["attoparsec-run","aeson-inst","rdepend"],
+  ["attoparsec-run","aeson-run","rdepend"],
+  ["attoparsec-run","parsers-inst","rdepend"],
+  ["attoparsec-run","parsers-run","rdepend"],
   ["base-compat-inst","base-compat-batteries-inst","depend"],
   ["base-compat-inst","tree-diff-inst","depend"],
   ["base-compat-run","base-compat-batteries-inst","rdepend"],
@@ -4200,6 +4629,7 @@ const deps = [
   ["base-compat-run","tree-diff-run","rdepend"],
   ["base-compat-batteries-inst","aeson-inst","depend"],
   ["base-compat-batteries-run","aeson-inst","rdepend"],
+  ["base-compat-batteries-run","aeson-run","rdepend"],
   ["base-orphans-inst","bifunctors-inst","depend"],
   ["base-orphans-inst","onetuple-inst","depend"],
   ["base-orphans-inst","semigroupoids-inst","depend"],
@@ -4246,12 +4676,14 @@ const deps = [
   ["cabal-inst","hashable-inst","depend"],
   ["cabal-inst","indexed-traversable-inst","depend"],
   ["cabal-inst","indexed-traversable-instances-inst","depend"],
+  ["cabal-inst","integer-logarithms-inst","depend"],
   ["cabal-inst","onetuple-inst","depend"],
   ["cabal-inst","os-string-inst","depend"],
   ["cabal-inst","parsers-inst","depend"],
   ["cabal-inst","primitive-inst","depend"],
   ["cabal-inst","quickcheck-inst","depend"],
   ["cabal-inst","random-inst","depend"],
+  ["cabal-inst","scientific-inst","depend"],
   ["cabal-inst","semialign-inst","depend"],
   ["cabal-inst","semigroupoids-inst","depend"],
   ["cabal-inst","splitmix-inst","depend"],
@@ -4272,6 +4704,7 @@ const deps = [
   ["cabal-syntax-run","cabal-inst","rdepend"],
   ["charset-inst","parsers-inst","depend"],
   ["charset-run","parsers-inst","rdepend"],
+  ["charset-run","parsers-run","rdepend"],
   ["colour-inst","ansi-terminal-inst","depend"],
   ["colour-run","ansi-terminal-inst","rdepend"],
   ["colour-run","ansi-terminal-run","rdepend"],
@@ -4285,6 +4718,7 @@ const deps = [
   ["contravariant-inst","base-compat-batteries-inst","depend"],
   ["contravariant-inst","semigroupoids-inst","depend"],
   ["contravariant-run","aeson-inst","rdepend"],
+  ["contravariant-run","aeson-run","rdepend"],
   ["contravariant-run","base-compat-batteries-inst","rdepend"],
   ["contravariant-run","base-compat-batteries-run","rdepend"],
   ["contravariant-run","semigroupoids-inst","rdepend"],
@@ -4294,6 +4728,7 @@ const deps = [
   ["data-array-byte-run","hashable-run","rdepend"],
   ["data-fix-inst","aeson-inst","depend"],
   ["data-fix-run","aeson-inst","rdepend"],
+  ["data-fix-run","aeson-run","rdepend"],
   ["distributive-inst","comonad-inst","depend"],
   ["distributive-inst","semigroupoids-inst","depend"],
   ["distributive-run","comonad-inst","rdepend"],
@@ -4302,6 +4737,7 @@ const deps = [
   ["distributive-run","semigroupoids-run","rdepend"],
   ["dlist-inst","aeson-inst","depend"],
   ["dlist-run","aeson-inst","rdepend"],
+  ["dlist-run","aeson-run","rdepend"],
   ["dos2unix-inst","aeson-inst","depend"],
   ["dos2unix-inst","ansi-terminal-inst","depend"],
   ["dos2unix-inst","ansi-wl-pprint-inst","depend"],
@@ -4328,6 +4764,7 @@ const deps = [
   ["dos2unix-inst","haskell-updater-inst","depend"],
   ["dos2unix-inst","indexed-traversable-inst","depend"],
   ["dos2unix-inst","indexed-traversable-instances-inst","depend"],
+  ["dos2unix-inst","integer-logarithms-inst","depend"],
   ["dos2unix-inst","onetuple-inst","depend"],
   ["dos2unix-inst","os-string-inst","depend"],
   ["dos2unix-inst","parsec-inst","depend"],
@@ -4335,6 +4772,7 @@ const deps = [
   ["dos2unix-inst","primitive-inst","depend"],
   ["dos2unix-inst","quickcheck-inst","depend"],
   ["dos2unix-inst","random-inst","depend"],
+  ["dos2unix-inst","scientific-inst","depend"],
   ["dos2unix-inst","semialign-inst","depend"],
   ["dos2unix-inst","semigroupoids-inst","depend"],
   ["dos2unix-inst","splitmix-inst","depend"],
@@ -4381,6 +4819,7 @@ const deps = [
   ["ghc-inst","haskell-updater-inst","pdepend"],
   ["ghc-inst","indexed-traversable-inst","depend"],
   ["ghc-inst","indexed-traversable-instances-inst","depend"],
+  ["ghc-inst","integer-logarithms-inst","depend"],
   ["ghc-inst","onetuple-inst","depend"],
   ["ghc-inst","os-string-inst","depend"],
   ["ghc-inst","parsec-inst","depend"],
@@ -4388,6 +4827,7 @@ const deps = [
   ["ghc-inst","primitive-inst","depend"],
   ["ghc-inst","quickcheck-inst","depend"],
   ["ghc-inst","random-inst","depend"],
+  ["ghc-inst","scientific-inst","depend"],
   ["ghc-inst","semialign-inst","depend"],
   ["ghc-inst","semigroupoids-inst","depend"],
   ["ghc-inst","splitmix-inst","depend"],
@@ -4406,6 +4846,7 @@ const deps = [
   ["ghc-inst","vector-inst","depend"],
   ["ghc-inst","witherable-inst","depend"],
   ["ghc-run","aeson-inst","rdepend"],
+  ["ghc-run","aeson-run","rdepend"],
   ["ghc-run","ansi-terminal-inst","rdepend"],
   ["ghc-run","ansi-terminal-run","rdepend"],
   ["ghc-run","ansi-wl-pprint-inst","rdepend"],
@@ -4413,6 +4854,7 @@ const deps = [
   ["ghc-run","assoc-inst","rdepend"],
   ["ghc-run","assoc-run","rdepend"],
   ["ghc-run","attoparsec-inst","rdepend"],
+  ["ghc-run","attoparsec-run","rdepend"],
   ["ghc-run","base-compat-inst","rdepend"],
   ["ghc-run","base-compat-run","rdepend"],
   ["ghc-run","base-compat-batteries-inst","rdepend"],
@@ -4450,6 +4892,8 @@ const deps = [
   ["ghc-run","indexed-traversable-run","rdepend"],
   ["ghc-run","indexed-traversable-instances-inst","rdepend"],
   ["ghc-run","indexed-traversable-instances-run","rdepend"],
+  ["ghc-run","integer-logarithms-inst","rdepend"],
+  ["ghc-run","integer-logarithms-run","rdepend"],
   ["ghc-run","onetuple-inst","rdepend"],
   ["ghc-run","onetuple-run","rdepend"],
   ["ghc-run","os-string-inst","rdepend"],
@@ -4457,12 +4901,15 @@ const deps = [
   ["ghc-run","parsec-inst","rdepend"],
   ["ghc-run","parsec-run","rdepend"],
   ["ghc-run","parsers-inst","rdepend"],
+  ["ghc-run","parsers-run","rdepend"],
   ["ghc-run","primitive-inst","rdepend"],
   ["ghc-run","primitive-run","rdepend"],
   ["ghc-run","quickcheck-inst","rdepend"],
   ["ghc-run","quickcheck-run","rdepend"],
   ["ghc-run","random-inst","rdepend"],
   ["ghc-run","random-run","rdepend"],
+  ["ghc-run","scientific-inst","rdepend"],
+  ["ghc-run","scientific-run","rdepend"],
   ["ghc-run","semialign-inst","rdepend"],
   ["ghc-run","semialign-run","rdepend"],
   ["ghc-run","semigroupoids-inst","rdepend"],
@@ -4499,6 +4946,7 @@ const deps = [
   ["ghc-run","witherable-run","rdepend"],
   ["hashable-inst","aeson-inst","depend"],
   ["hashable-inst","data-fix-inst","depend"],
+  ["hashable-inst","scientific-inst","depend"],
   ["hashable-inst","semialign-inst","depend"],
   ["hashable-inst","semigroupoids-inst","depend"],
   ["hashable-inst","strict-inst","depend"],
@@ -4510,8 +4958,11 @@ const deps = [
   ["hashable-inst","uuid-types-inst","depend"],
   ["hashable-inst","witherable-inst","depend"],
   ["hashable-run","aeson-inst","rdepend"],
+  ["hashable-run","aeson-run","rdepend"],
   ["hashable-run","data-fix-inst","rdepend"],
   ["hashable-run","data-fix-run","rdepend"],
+  ["hashable-run","scientific-inst","rdepend"],
+  ["hashable-run","scientific-run","rdepend"],
   ["hashable-run","semialign-inst","rdepend"],
   ["hashable-run","semialign-run","rdepend"],
   ["hashable-run","semigroupoids-inst","rdepend"],
@@ -4538,6 +4989,7 @@ const deps = [
   ["indexed-traversable-inst","semialign-inst","depend"],
   ["indexed-traversable-inst","witherable-inst","depend"],
   ["indexed-traversable-run","aeson-inst","rdepend"],
+  ["indexed-traversable-run","aeson-run","rdepend"],
   ["indexed-traversable-run","comonad-inst","rdepend"],
   ["indexed-traversable-run","comonad-run","rdepend"],
   ["indexed-traversable-run","indexed-traversable-instances-inst","rdepend"],
@@ -4552,6 +5004,9 @@ const deps = [
   ["indexed-traversable-instances-run","semialign-run","rdepend"],
   ["indexed-traversable-instances-run","witherable-inst","rdepend"],
   ["indexed-traversable-instances-run","witherable-run","rdepend"],
+  ["integer-logarithms-inst","scientific-inst","depend"],
+  ["integer-logarithms-run","scientific-inst","rdepend"],
+  ["integer-logarithms-run","scientific-run","rdepend"],
   ["onetuple-inst","indexed-traversable-instances-inst","depend"],
   ["onetuple-run","indexed-traversable-instances-inst","rdepend"],
   ["onetuple-run","indexed-traversable-instances-run","rdepend"],
@@ -4565,11 +5020,15 @@ const deps = [
   ["parsec-run","cabal-syntax-inst","rdepend"],
   ["parsec-run","cabal-syntax-run","rdepend"],
   ["parsec-run","parsers-inst","rdepend"],
+  ["parsec-run","parsers-run","rdepend"],
   ["parsers-inst","tree-diff-inst","depend"],
+  ["parsers-run","tree-diff-inst","rdepend"],
+  ["parsers-run","tree-diff-run","rdepend"],
   ["primitive-inst","aeson-inst","depend"],
   ["primitive-inst","tree-diff-inst","depend"],
   ["primitive-inst","vector-inst","depend"],
   ["primitive-run","aeson-inst","rdepend"],
+  ["primitive-run","aeson-run","rdepend"],
   ["primitive-run","tree-diff-inst","rdepend"],
   ["primitive-run","tree-diff-run","rdepend"],
   ["primitive-run","vector-inst","rdepend"],
@@ -4577,6 +5036,7 @@ const deps = [
   ["quickcheck-inst","aeson-inst","depend"],
   ["quickcheck-inst","tree-diff-inst","depend"],
   ["quickcheck-run","aeson-inst","rdepend"],
+  ["quickcheck-run","aeson-run","rdepend"],
   ["quickcheck-run","tree-diff-inst","rdepend"],
   ["quickcheck-run","tree-diff-run","rdepend"],
   ["random-inst","quickcheck-inst","depend"],
@@ -4585,9 +5045,22 @@ const deps = [
   ["random-run","quickcheck-run","rdepend"],
   ["random-run","uuid-types-inst","rdepend"],
   ["random-run","uuid-types-run","rdepend"],
+  ["scientific-inst","aeson-inst","depend"],
+  ["scientific-inst","attoparsec-inst","depend"],
+  ["scientific-inst","parsers-inst","depend"],
+  ["scientific-inst","tree-diff-inst","depend"],
+  ["scientific-run","aeson-inst","rdepend"],
+  ["scientific-run","aeson-run","rdepend"],
+  ["scientific-run","attoparsec-inst","rdepend"],
+  ["scientific-run","attoparsec-run","rdepend"],
+  ["scientific-run","parsers-inst","rdepend"],
+  ["scientific-run","parsers-run","rdepend"],
+  ["scientific-run","tree-diff-inst","rdepend"],
+  ["scientific-run","tree-diff-run","rdepend"],
   ["semialign-inst","aeson-inst","depend"],
   ["semialign-inst","tree-diff-inst","depend"],
   ["semialign-run","aeson-inst","rdepend"],
+  ["semialign-run","aeson-run","rdepend"],
   ["semialign-run","tree-diff-inst","rdepend"],
   ["semialign-run","tree-diff-run","rdepend"],
   ["semigroupoids-inst","semialign-inst","depend"],
@@ -4605,6 +5078,7 @@ const deps = [
   ["strict-inst","aeson-inst","depend"],
   ["strict-inst","tree-diff-inst","depend"],
   ["strict-run","aeson-inst","rdepend"],
+  ["strict-run","aeson-run","rdepend"],
   ["strict-run","tree-diff-inst","rdepend"],
   ["strict-run","tree-diff-run","rdepend"],
   ["tagged-inst","aeson-inst","depend"],
@@ -4618,6 +5092,7 @@ const deps = [
   ["tagged-inst","semigroupoids-inst","depend"],
   ["tagged-inst","tree-diff-inst","depend"],
   ["tagged-run","aeson-inst","rdepend"],
+  ["tagged-run","aeson-run","rdepend"],
   ["tagged-run","assoc-inst","rdepend"],
   ["tagged-run","assoc-run","rdepend"],
   ["tagged-run","bifunctors-inst","rdepend"],
@@ -4641,24 +5116,31 @@ const deps = [
   ["text-inst","cabal-syntax-inst","depend"],
   ["text-inst","hashable-inst","depend"],
   ["text-inst","parsers-inst","depend"],
+  ["text-inst","scientific-inst","depend"],
   ["text-inst","text-short-inst","depend"],
   ["text-inst","uuid-types-inst","depend"],
   ["text-run","attoparsec-inst","rdepend"],
+  ["text-run","attoparsec-run","rdepend"],
   ["text-run","cabal-inst","rdepend"],
   ["text-run","cabal-syntax-inst","rdepend"],
   ["text-run","cabal-syntax-run","rdepend"],
   ["text-run","hashable-inst","rdepend"],
   ["text-run","hashable-run","rdepend"],
   ["text-run","parsers-inst","rdepend"],
+  ["text-run","parsers-run","rdepend"],
+  ["text-run","scientific-inst","rdepend"],
+  ["text-run","scientific-run","rdepend"],
   ["text-run","text-short-inst","rdepend"],
   ["text-run","text-short-run","rdepend"],
   ["text-run","uuid-types-inst","rdepend"],
   ["text-run","uuid-types-run","rdepend"],
   ["text-short-inst","aeson-inst","depend"],
   ["text-short-run","aeson-inst","rdepend"],
+  ["text-short-run","aeson-run","rdepend"],
   ["th-abstraction-inst","aeson-inst","depend"],
   ["th-abstraction-inst","bifunctors-inst","depend"],
   ["th-abstraction-run","aeson-inst","rdepend"],
+  ["th-abstraction-run","aeson-run","rdepend"],
   ["th-abstraction-run","bifunctors-inst","rdepend"],
   ["th-abstraction-run","bifunctors-run","rdepend"],
   ["these-inst","aeson-inst","depend"],
@@ -4666,6 +5148,7 @@ const deps = [
   ["these-inst","strict-inst","depend"],
   ["these-inst","tree-diff-inst","depend"],
   ["these-run","aeson-inst","rdepend"],
+  ["these-run","aeson-run","rdepend"],
   ["these-run","semialign-inst","rdepend"],
   ["these-run","semialign-run","rdepend"],
   ["these-run","strict-inst","rdepend"],
@@ -4674,6 +5157,7 @@ const deps = [
   ["these-run","tree-diff-run","rdepend"],
   ["time-compat-inst","aeson-inst","depend"],
   ["time-compat-run","aeson-inst","rdepend"],
+  ["time-compat-run","aeson-run","rdepend"],
   ["transformers-compat-inst","semigroupoids-inst","depend"],
   ["transformers-compat-run","semigroupoids-inst","rdepend"],
   ["transformers-compat-run","semigroupoids-run","rdepend"],
@@ -4686,11 +5170,13 @@ const deps = [
   ["unordered-containers-inst","tree-diff-inst","depend"],
   ["unordered-containers-inst","witherable-inst","depend"],
   ["unordered-containers-run","aeson-inst","rdepend"],
+  ["unordered-containers-run","aeson-run","rdepend"],
   ["unordered-containers-run","charset-inst","rdepend"],
   ["unordered-containers-run","charset-run","rdepend"],
   ["unordered-containers-run","indexed-traversable-instances-inst","rdepend"],
   ["unordered-containers-run","indexed-traversable-instances-run","rdepend"],
   ["unordered-containers-run","parsers-inst","rdepend"],
+  ["unordered-containers-run","parsers-run","rdepend"],
   ["unordered-containers-run","semialign-inst","rdepend"],
   ["unordered-containers-run","semialign-run","rdepend"],
   ["unordered-containers-run","semigroupoids-inst","rdepend"],
@@ -4702,6 +5188,7 @@ const deps = [
   ["uuid-types-inst","aeson-inst","depend"],
   ["uuid-types-inst","tree-diff-inst","depend"],
   ["uuid-types-run","aeson-inst","rdepend"],
+  ["uuid-types-run","aeson-run","rdepend"],
   ["uuid-types-run","tree-diff-inst","rdepend"],
   ["uuid-types-run","tree-diff-run","rdepend"],
   ["vector-inst","aeson-inst","depend"],
@@ -4709,6 +5196,7 @@ const deps = [
   ["vector-inst","tree-diff-inst","depend"],
   ["vector-inst","witherable-inst","depend"],
   ["vector-run","aeson-inst","rdepend"],
+  ["vector-run","aeson-run","rdepend"],
   ["vector-run","semialign-inst","rdepend"],
   ["vector-run","semialign-run","rdepend"],
   ["vector-run","tree-diff-inst","rdepend"],
@@ -4716,7 +5204,8 @@ const deps = [
   ["vector-run","witherable-inst","rdepend"],
   ["vector-run","witherable-run","rdepend"],
   ["witherable-inst","aeson-inst","depend"],
-  ["witherable-run","aeson-inst","rdepend"]
+  ["witherable-run","aeson-inst","rdepend"],
+  ["witherable-run","aeson-run","rdepend"]
 ];
 function toggleFilter(btn){
   const a=btn.dataset.action; filters[a]=!filters[a];
@@ -4751,8 +5240,27 @@ function applyFilters(){
       document.querySelectorAll(`tr.detail-row[data-parent="${p}"]`).forEach(d=>d.classList.remove("visible"));
       const t=r.querySelector(".toggle");if(t)t.classList.remove("open");}
   });
+  syncTimeRows();
+  if(timeMode)layoutTimeView();
   drawOverlays();
 }
+function secs(n){const s=parseFloat(n.dataset.seconds);return Number.isFinite(s)?s:1;}
+function fmtDur(s){s=Math.max(0,Math.round(s));
+  if(s>=3600){const h=Math.floor(s/3600),m=Math.floor((s%3600)/60);return m?`${h}h ${m}m`:`${h}h`;}
+  if(s>=60){const m=Math.floor(s/60),r=s%60;return r?`${m}m ${r}s`:`${m}m`;}
+  return `${s}s`;}
+function rowOf(el){return el.closest(timeMode?".gantt-time-row":"tr");}
+function cellOf(id){const root=timeMode?document.getElementById("gantt-time"):document.getElementById("gantt");
+  return root?root.querySelector(`[data-id="${id}"]`):null;}
+function waveOf(c){if(c.dataset.wave)return +c.dataset.wave;const td=c.closest("td");return td?td.cellIndex:0;}
+function stepOf(c){return timeMode?parseFloat(c.dataset.es||"0"):waveOf(c);}
+function visRows(){return timeMode
+  ?[...document.querySelectorAll("#gantt-time .gantt-time-row:not(.row-hidden)")]
+  :[...document.querySelectorAll("#gantt tbody tr[data-pkg]:not(.row-hidden)")];}
+function rowCells(row){const cs=timeMode
+  ?[...row.querySelectorAll(".cell:not(.hidden)")].sort((a,b)=>waveOf(a)-waveOf(b))
+  :[];if(!timeMode){row.querySelectorAll("td:not(.pkg)").forEach(td=>{const s=td.querySelector(".cell:not(.hidden)");if(s)cs.push(s);});}
+  return cs;}
 function drawOverlays(){
   const svg=document.getElementById("dep-svg"),wr=document.getElementById("gantt-wrapper"),
         wR=wr.getBoundingClientRect(),ns="http://www.w3.org/2000/svg",
@@ -4766,10 +5274,9 @@ function drawOverlays(){
     const p=document.createElementNS(ns,"polygon");p.setAttribute("points","0 0,6 2.5,0 5");
     p.setAttribute("fill",c);m.appendChild(p);defs.appendChild(m);
   }svg.appendChild(defs);
-  const edges=[],stepOf=c=>c.closest("td").cellIndex;
-  document.querySelectorAll("#gantt tbody tr[data-pkg]:not(.row-hidden)").forEach(row=>{
-    const f=[];row.querySelectorAll("td:not(.pkg)").forEach(td=>{
-      const s=td.querySelector(".cell:not(.hidden)");if(s)f.push(s);});
+  const edges=[];
+  visRows().forEach(row=>{
+    const f=rowCells(row);
     for(let i=0;i<f.length-1;i++){
       const a=f[i].getBoundingClientRect(),b=f[i+1].getBoundingClientRect(),
             l=document.createElementNS(ns,"line");
@@ -4783,10 +5290,10 @@ function drawOverlays(){
   });
   deps.forEach(([fid,tid,dt])=>{
     if(!filters[dt])return;
-    const fe=document.getElementById(fid),te=document.getElementById(tid);
+    const fe=cellOf(fid),te=cellOf(tid);
     if(!fe||!te||fe.classList.contains("hidden")||te.classList.contains("hidden"))return;
-    const fr=fe.closest("tr"),tr2=te.closest("tr");
-    if(fr.classList.contains("row-hidden")||tr2.classList.contains("row-hidden"))return;
+    const fr=rowOf(fe),tr2=rowOf(te);
+    if(!fr||!tr2||fr.classList.contains("row-hidden")||tr2.classList.contains("row-hidden"))return;
     const fR=fe.getBoundingClientRect(),tR=te.getBoundingClientRect(),
           x1=fR.right-wR.left+wr.scrollLeft+2,y1=fR.top+fR.height/2-wR.top+wr.scrollTop,
           x2=tR.left-wR.left+wr.scrollLeft-2,y2=tR.top+tR.height/2-wR.top+wr.scrollTop,
@@ -4795,11 +5302,13 @@ function drawOverlays(){
     p.setAttribute("stroke",depColors[dt]);p.setAttribute("stroke-width","1.2");
     p.setAttribute("fill","none");p.setAttribute("marker-end",`url(#arrow-${dt})`);
     p.setAttribute("opacity","0.7");if(depDash[dt])p.setAttribute("stroke-dasharray",depDash[dt]);
-    p.setAttribute("class","dep-edge");p.dataset.fromPkg=fr.dataset.pkg;p.dataset.toPkg=tr2.dataset.pkg;
+    p.setAttribute("class","dep-edge");p.dataset.fromPkg=fr.dataset.pkg;p.dataset.toPkg=tr2.dataset.pkg;p.dataset.depType=dt;
     svg.appendChild(p);
-    if(stepOf(fe)<stepOf(te))edges.push({el:p,from:fe,to:te});else p.classList.add("back-edge");
+    if(waveOf(fe)<waveOf(te))edges.push({el:p,from:fe,to:te});
+    else{p.classList.add("back-edge");
+      if(dt==="rdepend")p.setAttribute("stroke-dasharray","4,3");}
   });
-  markCritical(edges,stepOf);
+  markCritical(edges);
   if(hoverMode&&hoverPkg)litEdges(hoverPkg);
 }
 function toggleCritMode(btn){
@@ -4807,50 +5316,106 @@ function toggleCritMode(btn){
   btn.classList.toggle("active",critMode);btn.setAttribute("aria-pressed",critMode);
   document.getElementById("dep-svg").classList.toggle("crit-mode",critMode);
   document.getElementById("gantt").classList.toggle("crit-mode",critMode);
+  const tv=document.getElementById("gantt-time");if(tv)tv.classList.toggle("crit-mode",critMode);
   drawOverlays();
 }
-function markCritical(edges,stepOf){
-  document.querySelectorAll("#gantt .cell.crit").forEach(c=>c.classList.remove("crit"));
+function markCritical(edges){
+  document.querySelectorAll(".cell.crit").forEach(c=>c.classList.remove("crit"));
   const btn=document.getElementById("crit-mode-btn");
   if(!critMode){btn.textContent="Critical path";return;}
   const len=new Map(),pred=new Map(),nodes=new Set();
   edges.forEach(e=>{nodes.add(e.from);nodes.add(e.to);});
-  const order=[...nodes].sort((a,b)=>stepOf(a)-stepOf(b));
-  order.forEach(n=>len.set(n,1));
-  edges.slice().sort((a,b)=>stepOf(a.from)-stepOf(b.from)).forEach(e=>{
-    const l=len.get(e.from)+1;if(l>len.get(e.to)){len.set(e.to,l);pred.set(e.to,e);}
+  const order=[...nodes].sort((a,b)=>waveOf(a)-waveOf(b)||stepOf(a)-stepOf(b));
+  order.forEach(n=>len.set(n,secs(n)));
+  edges.slice().sort((a,b)=>waveOf(a.from)-waveOf(b.from)).forEach(e=>{
+    const l=len.get(e.from)+secs(e.to);if(l>len.get(e.to)){len.set(e.to,l);pred.set(e.to,e);}
   });
   let end=null;
-  order.forEach(n=>{if(!end||len.get(n)>len.get(end)||(len.get(n)===len.get(end)&&stepOf(n)>stepOf(end)))end=n;});
-  const n=end?len.get(end):0;btn.textContent=`Critical path (${n})`;
-  if(n<2)return;
-  for(let c=end;c;){c.classList.add("crit");const e=pred.get(c);if(!e)break;e.el.classList.add("crit");c=e.from;}
+  order.forEach(n=>{if(!end||len.get(n)>len.get(end)||(len.get(n)===len.get(end)&&waveOf(n)>waveOf(end)))end=n;});
+  const total=end?len.get(end):0;
+  if(total<=0){btn.textContent="Critical path";return;}
+  const path=[];for(let c=end;c;){path.push(c);const e=pred.get(c);if(!e)break;c=e.from;}
+  const timed=path.some(n=>n.dataset.timed==="1");
+  btn.textContent=timed?`Critical path (${fmtDur(total)})`:`Critical path (${Math.round(total)})`;
+  if(path.length<2)return;
+  path.forEach(c=>c.classList.add("crit"));
+  for(let c=end;;){const e=pred.get(c);if(!e)break;e.el.classList.add("crit");c=e.from;}
 }
 function toggleHoverMode(btn){
   hoverMode=!hoverMode;
   btn.classList.toggle("active",hoverMode);btn.setAttribute("aria-pressed",hoverMode);
   document.getElementById("dep-svg").classList.toggle("hover-mode",hoverMode);
   document.getElementById("gantt").classList.toggle("hover-mode",hoverMode);
+  const tv=document.getElementById("gantt-time");if(tv)tv.classList.toggle("hover-mode",hoverMode);
   if(!hoverMode)litEdges(null);
 }
 function litEdges(p){
   hoverPkg=p;
   document.querySelectorAll("#dep-svg .lit").forEach(e=>e.classList.remove("lit"));
-  document.querySelectorAll("#gantt tr.hover-lit").forEach(r=>r.classList.remove("hover-lit"));
+  document.querySelectorAll(".hover-lit").forEach(r=>r.classList.remove("hover-lit"));
   if(!p)return;
   document.querySelectorAll(`#dep-svg [data-pkg="${p}"],#dep-svg [data-from-pkg="${p}"],#dep-svg [data-to-pkg="${p}"]`)
     .forEach(e=>e.classList.add("lit"));
-  const r=document.querySelector(`#gantt tr[data-pkg="${p}"]`);if(r)r.classList.add("hover-lit");
+  document.querySelectorAll(`#gantt tr[data-pkg="${p}"],#gantt-time .gantt-time-row[data-pkg="${p}"]`)
+    .forEach(r=>r.classList.add("hover-lit"));
 }
 (function(){
-  const tb=document.querySelector("#gantt tbody");if(!tb)return;
-  tb.addEventListener("mouseover",e=>{
+  const wr=document.getElementById("gantt-wrapper");if(!wr)return;
+  wr.addEventListener("mouseover",e=>{
     if(!hoverMode)return;
-    const r=e.target.closest("tr[data-pkg],tr.detail-row"),p=r?(r.dataset.pkg||r.dataset.parent):null;
+    const r=e.target.closest("tr[data-pkg],tr.detail-row,.gantt-time-row"),p=r?(r.dataset.pkg||r.dataset.parent):null;
     if(p!==hoverPkg)litEdges(p);
   });
-  tb.addEventListener("mouseleave",()=>{if(hoverMode)litEdges(null);});
+  wr.addEventListener("mouseleave",()=>{if(hoverMode)litEdges(null);});
 })();
+function toggleTimeMode(btn){
+  timeMode=!timeMode;
+  btn.classList.toggle("active",timeMode);btn.setAttribute("aria-pressed",timeMode);
+  document.getElementById("gantt-wrapper").classList.toggle("time-mode",timeMode);
+  if(timeMode)layoutTimeView();
+  drawOverlays();
+}
+function ensureTimeView(){
+  let tv=document.getElementById("gantt-time");if(tv)return tv;
+  tv=document.createElement("div");tv.id="gantt-time";tv.className="gantt-time"+(critMode?" crit-mode":"");
+  const ruler=document.createElement("div");ruler.className="gantt-time-ruler";ruler.id="gantt-time-ruler";tv.appendChild(ruler);
+  document.querySelectorAll("#gantt tbody tr[data-pkg]").forEach(row=>{
+    const r=document.createElement("div");r.className="gantt-time-row";r.dataset.pkg=row.dataset.pkg;
+    const lab=document.createElement("div");lab.className="gantt-time-label";
+    lab.textContent=(row.querySelector("td.pkg")||{}).innerText||row.dataset.pkg;
+    const track=document.createElement("div");track.className="gantt-time-track";
+    row.querySelectorAll(".cell").forEach(c=>{
+      const b=c.cloneNode(true);b.removeAttribute("id");b.dataset.wave=String(c.closest("td").cellIndex);
+      track.appendChild(b);});
+    r.appendChild(lab);r.appendChild(track);tv.appendChild(r);});
+  document.getElementById("gantt-wrapper").appendChild(tv);
+  return tv;}
+function syncTimeRows(){
+  document.querySelectorAll("#gantt-time .gantt-time-row").forEach(r=>{
+    const src=document.querySelector(`#gantt tr[data-pkg="${r.dataset.pkg}"]`);
+    if(src)r.classList.toggle("row-hidden",src.classList.contains("row-hidden"));});
+}
+function layoutTimeView(){
+  const tv=ensureTimeView();syncTimeRows();
+  const bars=[...tv.querySelectorAll(".gantt-time-row:not(.row-hidden) .cell:not(.hidden)")];
+  const waveMax=new Map();
+  bars.forEach(b=>{const w=waveOf(b);waveMax.set(w,Math.max(waveMax.get(w)||0,secs(b)));});
+  const waves=[...waveMax.keys()].sort((a,b)=>a-b);
+  const waveStart=new Map();let t=0;
+  waves.forEach(w=>{waveStart.set(w,t);t+=waveMax.get(w);});
+  const maxEnd=t;
+  bars.forEach(b=>b.dataset.es=String(waveStart.get(waveOf(b))||0));
+  const px=Math.max(0.5,Math.min(8,1400/Math.max(maxEnd,1)));
+  const width=Math.max(400,Math.ceil(maxEnd*px)+24);
+  tv.querySelectorAll(".gantt-time-track").forEach(tr=>{tr.style.width=width+"px";});
+  bars.forEach(b=>{const d=Math.max(secs(b),0);b.style.left=((waveStart.get(waveOf(b))||0)*px)+"px";
+    b.style.width=Math.max(d>0?d*px:8,8)+"px";});
+  const ruler=document.getElementById("gantt-time-ruler");ruler.innerHTML="";
+  ruler.style.width=width+"px";
+  const step=maxEnd<=120?30:maxEnd<=600?60:maxEnd<=1800?300:maxEnd<=7200?600:1800;
+  for(let u=0;u<=maxEnd;u+=step){const tick=document.createElement("span");tick.className="gantt-time-tick";
+    tick.style.left=(u*px)+"px";tick.textContent=fmtDur(u);ruler.appendChild(tick);}
+}
 function toggleUseExpand(){
   const f=document.getElementById("global-use-flags"),
         b=f.previousElementSibling;
