@@ -10,7 +10,6 @@
    candrews@gentoo.org
 [01m[90mlicense : [00m
    GPL-2+
-   Apache-2.0
    GPL-2+
    [90m[00m[100muse[00m[90m[00m [31m-system-ffmpeg[37m[00m
 [90m[00m      GPL-2
@@ -47,6 +46,7 @@
    samba
    soc
    [32m+system-ffmpeg[00m
+   system-swig
    test
    udf
    udev
@@ -69,11 +69,13 @@
    python_single_target_python3_12
    python_single_target_python3_13
    python_single_target_python3_14
+   python_single_target_python3_15
 [01m[90mrequired_use : [00m
    [90m[00m[100mone[00m[90m[00m [00m
 [90m[00m      python_single_target_python3_12
 [90m[00m      python_single_target_python3_13
 [90m[00m      python_single_target_python3_14
+[90m[00m      python_single_target_python3_15
    [90m[00m[100many[00m[90m[00m [00m
 [90m[00m      gbm
 [90m[00m      wayland
@@ -135,18 +137,17 @@
 [03m[37m   [not set][00m[00m
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 [01m[90msrc_uri : [00m
-   apache-groovy-binary-4.0.30.zip
-   commons-lang3-3.20.0-bin.tar.gz
-   commons-text-1.15.0-bin.tar.gz
    libdvdnav-7.0.0.tar.bz2
    libdvdread-7.0.1.tar.bz2
    [90m[00m[100muse[00m[90m[00m [32mcss[37m[00m
 [90m[00m      libdvdcss-1.5.0.tar.bz2
    [90m[00m[100muse[00m[90m[00m [31m-system-ffmpeg[37m[00m
-[90m[00m      ffmpeg-8.1.2.tar.xz
+[90m[00m      ffmpeg-9.0.2.tar.xz
    [90m[00m[100muse[00m[90m[00m [32msystem-ffmpeg[37m[00m
 [90m[00m      [90m[00m[100muse[00m[90m[00m [32mpostproc[37m[00m
-[90m[00m         ffmpeg-8.1.2.tar.xz
+[90m[00m         ffmpeg-9.0.2.tar.xz
+   [90m[00m[100muse[00m[90m[00m [31m-system-swig[37m[00m
+[90m[00m      swig-4.5.0.tar.gz
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 [01m[90mbdepend : [00m
    >=dev-libs/flatbuffers-23.3.3[37m:=[00m
@@ -158,11 +159,13 @@
 [90m[00m      dev-cpp/waylandpp[37m:=[00m
    app-arch/unzip
    dev-build/cmake
-   dev-lang/swig
    virtual/pkgconfig
-   <=virtual/jre-25-r9999[37m:*[00m
    [90m[00m[100muse[00m[90m[00m [32mdoc[37m[00m
 [90m[00m      app-text/doxygen
+   [90m[00m[100muse[00m[90m[00m [32msystem-swig[37m[00m
+[90m[00m      [90m[00m[100many[00m[90m[00m [00m
+[90m[00m         ~dev-lang/swig-4.5.1
+[90m[00m         ~dev-lang/swig-4.5.0
    sys-devel/gnuconfig
    >=app-portage/elt-patches-20250306
    [90m[00m[100many[00m[90m[00m [00m
@@ -190,6 +193,8 @@
 [90m[00m      dev-lang/python[37m:3.13[00m[36m [ sqlite ssl ][00m
    [90m[00m[100muse[00m[90m[00m [32mpython_single_target_python3_14[37m[00m
 [90m[00m      dev-lang/python[37m:3.14[00m[36m [ sqlite ssl ][00m
+   [90m[00m[100muse[00m[90m[00m [32mpython_single_target_python3_15[37m[00m
+[90m[00m      dev-lang/python[37m:3.15[00m[36m [ sqlite ssl ][00m
    >=net-misc/curl-7.68.0[36m [ http2 ][00m
    >=virtual/zlib-1.2.11[37m:=[00m
    dev-db/sqlite[37m:3[00m
@@ -222,6 +227,9 @@
    [90m[00m[100muse[00m[90m[00m [32mpython_single_target_python3_14[37m[00m
 [90m[00m      dev-python/pillow[36m [ python_targets_python3_14(-) ][00m
 [90m[00m      dev-python/pycryptodome[36m [ python_targets_python3_14(-) ][00m
+   [90m[00m[100muse[00m[90m[00m [32mpython_single_target_python3_15[37m[00m
+[90m[00m      dev-python/pillow[36m [ python_targets_python3_15(-) ][00m
+[90m[00m      dev-python/pycryptodome[36m [ python_targets_python3_15(-) ][00m
    [90m[00m[100muse[00m[90m[00m [32mairplay[37m[00m
 [90m[00m      >=app-pda/libplist-2.0.0[37m:=[00m
 [90m[00m      net-libs/shairplay
@@ -234,7 +242,7 @@
    [90m[00m[100muse[00m[90m[00m [32mcaps[37m[00m
 [90m[00m      sys-libs/libcap
    [90m[00m[100muse[00m[90m[00m [32mcec[37m[00m
-[90m[00m      >=dev-libs/libcec-4.0[37m:=[00m
+[90m[00m      >=dev-libs/libcec-7.0.0[37m:=[00m
    [90m[00m[100muse[00m[90m[00m [32mdbus[37m[00m
 [90m[00m      sys-apps/dbus
    [90m[00m[100muse[00m[90m[00m [32mgbm[37m[00m
@@ -265,7 +273,7 @@
 [90m[00m      >=net-fs/samba-3.4.6[36m [ smbclient(+) ][00m
    [90m[00m[100muse[00m[90m[00m [32msystem-ffmpeg[37m[00m
 [90m[00m      [90m[00m[100muse[00m[90m[00m [32mpostproc[37m[00m
-[90m[00m         wildcardmedia-video/ffmpeg-8.1*[37m:=[00m[36m [ encode(+) soc(-)? vaapi? vdpau? X? ][00m
+[90m[00m         wildcardmedia-video/ffmpeg-9.0*[37m:=[00m[36m [ encode(+) soc(-)? vaapi? vdpau? X? ][00m
 [90m[00m      [90m[00m[100muse[00m[90m[00m [31m-postproc[37m[00m
 [90m[00m         >=media-video/ffmpeg-7[37m:=[00m[36m [ encode(+) soc(-)? vaapi? vdpau? X? ][00m
    [90m[00m[100muse[00m[90m[00m [31m-system-ffmpeg[37m[00m
@@ -324,6 +332,8 @@
 [90m[00m      dev-lang/python[37m:3.13[00m[36m [ sqlite ssl ][00m
    [90m[00m[100muse[00m[90m[00m [32mpython_single_target_python3_14[37m[00m
 [90m[00m      dev-lang/python[37m:3.14[00m[36m [ sqlite ssl ][00m
+   [90m[00m[100muse[00m[90m[00m [32mpython_single_target_python3_15[37m[00m
+[90m[00m      dev-lang/python[37m:3.15[00m[36m [ sqlite ssl ][00m
    >=net-misc/curl-7.68.0[36m [ http2 ][00m
    >=virtual/zlib-1.2.11[37m:=[00m
    dev-db/sqlite[37m:3[00m
@@ -356,6 +366,9 @@
    [90m[00m[100muse[00m[90m[00m [32mpython_single_target_python3_14[37m[00m
 [90m[00m      dev-python/pillow[36m [ python_targets_python3_14(-) ][00m
 [90m[00m      dev-python/pycryptodome[36m [ python_targets_python3_14(-) ][00m
+   [90m[00m[100muse[00m[90m[00m [32mpython_single_target_python3_15[37m[00m
+[90m[00m      dev-python/pillow[36m [ python_targets_python3_15(-) ][00m
+[90m[00m      dev-python/pycryptodome[36m [ python_targets_python3_15(-) ][00m
    [90m[00m[100muse[00m[90m[00m [32mairplay[37m[00m
 [90m[00m      >=app-pda/libplist-2.0.0[37m:=[00m
 [90m[00m      net-libs/shairplay
@@ -368,7 +381,7 @@
    [90m[00m[100muse[00m[90m[00m [32mcaps[37m[00m
 [90m[00m      sys-libs/libcap
    [90m[00m[100muse[00m[90m[00m [32mcec[37m[00m
-[90m[00m      >=dev-libs/libcec-4.0[37m:=[00m
+[90m[00m      >=dev-libs/libcec-7.0.0[37m:=[00m
    [90m[00m[100muse[00m[90m[00m [32mdbus[37m[00m
 [90m[00m      sys-apps/dbus
    [90m[00m[100muse[00m[90m[00m [32mgbm[37m[00m
@@ -399,7 +412,7 @@
 [90m[00m      >=net-fs/samba-3.4.6[36m [ smbclient(+) ][00m
    [90m[00m[100muse[00m[90m[00m [32msystem-ffmpeg[37m[00m
 [90m[00m      [90m[00m[100muse[00m[90m[00m [32mpostproc[37m[00m
-[90m[00m         wildcardmedia-video/ffmpeg-8.1*[37m:=[00m[36m [ encode(+) soc(-)? vaapi? vdpau? X? ][00m
+[90m[00m         wildcardmedia-video/ffmpeg-9.0*[37m:=[00m[36m [ encode(+) soc(-)? vaapi? vdpau? X? ][00m
 [90m[00m      [90m[00m[100muse[00m[90m[00m [31m-postproc[37m[00m
 [90m[00m         >=media-video/ffmpeg-7[37m:=[00m[36m [ encode(+) soc(-)? vaapi? vdpau? X? ][00m
    [90m[00m[100muse[00m[90m[00m [31m-system-ffmpeg[37m[00m
