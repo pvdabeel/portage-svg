@@ -7087,11 +7087,36 @@ function rowCells(row){const cs=timeMode
   ?[...row.querySelectorAll(".cell:not(.hidden)")].sort((a,b)=>waveOf(a)-waveOf(b))
   :[];if(!timeMode){row.querySelectorAll("td:not(.pkg)").forEach(td=>{const s=td.querySelector(".cell:not(.hidden)");if(s)cs.push(s);});}
   return cs;}
+function clipSeg(x1,y1,x2,y2,w,h){
+  const dx=x2-x1,dy=y2-y1,p=[-dx,dx,-dy,dy],q=[x1,w-x1,y1,h-y1];
+  let u1=0,u2=1;
+  for(let i=0;i<4;i++){
+    if(p[i]===0){if(q[i]<0)return null;}
+    else{const t=q[i]/p[i];
+      if(p[i]<0){if(t>u2)return null;if(t>u1)u1=t;}
+      else{if(t<u1)return null;if(t<u2)u2=t;}}
+  }
+  return [x1+u1*dx,y1+u1*dy,x1+u2*dx,y1+u2*dy];
+}
+function dashPath(x1,y1,x2,y2){
+  const dx=x2-x1,dy=y2-y1,len=Math.hypot(dx,dy);
+  if(len<0.5) return "";
+  const ux=dx/len,uy=dy/len,on=5,step=9;
+  let d="",t=0;
+  while(t<len){const b=Math.min(t+on,len);
+    d+=`M${x1+ux*t},${y1+uy*t}L${x1+ux*b},${y1+uy*b}`;t+=step;}
+  return d;
+}
 function drawOverlays(){
   const svg=document.getElementById("dep-svg"),wr=document.getElementById("gantt-wrapper"),
         wR=wr.getBoundingClientRect(),ns="http://www.w3.org/2000/svg",
         barColor=getComputedStyle(document.documentElement).getPropertyValue("--bar").trim();
-  svg.setAttribute("width",wr.scrollWidth);svg.setAttribute("height",wr.scrollHeight);svg.innerHTML="";
+  /* Pin the overlay to the visible scrollport. Edge coordinates are
+     relative to that viewport; scroll redraws them so curves that
+     leave the first screen stay attached to their bars. */
+  svg.style.left=wr.scrollLeft+"px";svg.style.top=wr.scrollTop+"px";
+  svg.style.width=wr.clientWidth+"px";svg.style.height=wr.clientHeight+"px";
+  svg.setAttribute("width",wr.clientWidth);svg.setAttribute("height",wr.clientHeight);svg.innerHTML="";
   const defs=document.createElementNS(ns,"defs");
   for(const[t,c]of Object.entries(depColors)){
     const m=document.createElementNS(ns,"marker");m.setAttribute("id","arrow-"+t);
@@ -7105,14 +7130,20 @@ function drawOverlays(){
     const f=rowCells(row);
     for(let i=0;i<f.length-1;i++){
       const a=f[i].getBoundingClientRect(),b=f[i+1].getBoundingClientRect(),
-            l=document.createElementNS(ns,"line");
-      l.setAttribute("x1",a.right-wR.left+wr.scrollLeft);
-      l.setAttribute("y1",a.top+a.height/2-wR.top+wr.scrollTop);
-      l.setAttribute("x2",b.left-wR.left+wr.scrollLeft);
-      l.setAttribute("y2",b.top+b.height/2-wR.top+wr.scrollTop);
-      l.setAttribute("stroke",barColor);l.setAttribute("stroke-width","2");
-      l.setAttribute("stroke-dasharray","5,4");l.setAttribute("class","bar-edge");
-      l.dataset.pkg=row.dataset.pkg;svg.appendChild(l);edges.push({el:l,from:f[i],to:f[i+1]});}
+            x1=a.right-wR.left,y1=a.top+a.height/2-wR.top,
+            x2=b.left-wR.left,y2=b.top+b.height/2-wR.top,
+            seg=clipSeg(x1,y1,x2,y2,wr.clientWidth,wr.clientHeight),
+            l=document.createElementNS(ns,"path");
+      /* stroke-dasharray on a long connector stops painting partway.
+         Each dash is its own short stroke. */
+      if(seg){
+        const d=dashPath(seg[0],seg[1],seg[2],seg[3]);
+        if(d){l.setAttribute("d",d);
+        l.setAttribute("fill","none");
+        l.setAttribute("stroke",barColor);l.setAttribute("stroke-width","2");
+        l.setAttribute("class","bar-edge");
+        l.dataset.pkg=row.dataset.pkg;svg.appendChild(l);}}
+      edges.push({el:l,from:f[i],to:f[i+1]});}
   });
   deps.forEach(([fid,tid,dt])=>{
     if(!filters[dt])return;
@@ -7121,8 +7152,8 @@ function drawOverlays(){
     const fr=rowOf(fe),tr2=rowOf(te);
     if(!fr||!tr2||fr.classList.contains("row-hidden")||tr2.classList.contains("row-hidden"))return;
     const fR=fe.getBoundingClientRect(),tR=te.getBoundingClientRect(),
-          x1=fR.right-wR.left+wr.scrollLeft+2,y1=fR.top+fR.height/2-wR.top+wr.scrollTop,
-          x2=tR.left-wR.left+wr.scrollLeft-2,y2=tR.top+tR.height/2-wR.top+wr.scrollTop,
+          x1=fR.right-wR.left+2,y1=fR.top+fR.height/2-wR.top,
+          x2=tR.left-wR.left-2,y2=tR.top+tR.height/2-wR.top,
           mx=(x1+x2)/2,p=document.createElementNS(ns,"path");
     p.setAttribute("d",`M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`);
     p.setAttribute("stroke",depColors[dt]);p.setAttribute("stroke-width","1.2");
@@ -7233,7 +7264,10 @@ function layoutTimeView(){
   bars.forEach(b=>b.dataset.es=String(waveStart.get(waveOf(b))||0));
   const px=Math.max(0.5,Math.min(8,1400/Math.max(maxEnd,1)));
   const width=Math.max(400,Math.ceil(maxEnd*px)+24);
-  tv.querySelectorAll(".gantt-time-track").forEach(tr=>{tr.style.width=width+"px";});
+  /* One width for the whole timeline. Per-row max-content ends each
+     rule at that row's own last bar. */
+  tv.style.width=(210+width)+"px";
+  tv.querySelectorAll(".gantt-time-track").forEach(tr=>{tr.style.flex="none";tr.style.width=width+"px";});
   bars.forEach(b=>{const d=Math.max(secs(b),0);b.style.left=((waveStart.get(waveOf(b))||0)*px)+"px";
     b.style.width=Math.max(d>0?d*px:8,8)+"px";});
   const ruler=document.getElementById("gantt-time-ruler");ruler.innerHTML="";
@@ -7248,8 +7282,14 @@ function toggleUseExpand(){
   f.classList.toggle("collapsed");
   b.classList.toggle("open");
 }
+let overlayFrame=0;
+function scheduleOverlays(){
+  if(overlayFrame)return;
+  overlayFrame=requestAnimationFrame(()=>{overlayFrame=0;drawOverlays();});
+}
 window.addEventListener("load",drawOverlays);
-window.addEventListener("resize",drawOverlays);
+window.addEventListener("resize",scheduleOverlays);
+document.getElementById("gantt-wrapper").addEventListener("scroll",scheduleOverlays);
 </script>
 </div>
 <script>
