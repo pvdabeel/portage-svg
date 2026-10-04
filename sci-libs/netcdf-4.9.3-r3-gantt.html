@@ -122,6 +122,7 @@
 <table class="gantt" id="gantt">
   <thead><tr>
     <th>Package</th>
+    <th>Pre</th>
     <th>Step 1</th>
     <th>Step 2</th>
     <th>Step 3</th>
@@ -132,8 +133,55 @@
     <th>Step 8</th>
   </tr></thead>
   <tbody>
+    <tr data-pkg="hdf5" data-actions="download install run useflag">
+      <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>sci-libs/hdf5-1.14.6-r2</td>
+      <td><span class="cell useflag" data-type="useflag" data-seconds="0" data-timed="0" data-id="hdf5-uf" id="hdf5-uf">useflag</span>
+</td>
+      <td><span class="cell dl" data-type="download" data-seconds="4" data-timed="1" data-id="hdf5-dl" id="hdf5-dl" title="4s">download</span>
+</td>
+      <td><span class="cell inst" data-type="install" data-seconds="74" data-timed="1" data-id="hdf5-inst" id="hdf5-inst" title="1m 14s">install</span>
+</td>
+      <td><span class="cell run" data-type="run" data-seconds="0" data-timed="0" data-id="hdf5-run" id="hdf5-run">run</span>
+</td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+      <td class="empty"></td>
+    </tr>
+    <tr class="detail-row" data-parent="hdf5">
+      <td class="detail-pkg">
+        <div class="detail-label">USE</div>
+        <div class="use-flags">
+          <span class="use-flag off">-cxx</span>
+          <span class="use-flag off">-debug</span>
+          <span class="use-flag off">-fortran</span>
+          <span class="use-flag on">+hl</span>
+          <span class="use-flag off">-mpi</span>
+          <span class="use-flag off">-szip</span>
+          <span class="use-flag off">-test</span>
+          <span class="use-flag on">+threads</span>
+          <span class="use-flag off">-unsupported</span>
+          <span class="use-flag on">+zlib</span>
+        </div>
+      </td>
+      <td class="detail-dl">
+        <table class="src-table">
+          <tr><td><a href="https://github.com/HDFGroup/hdf5/releases/download/hdf5_1.14.6/hdf5-1.14.6.tar.gz" target="_blank">hdf5-1.14.6.tar.gz</a></td><td class="sz">37.5 MB</td><td><span class="src-status pending">fetch</span></td></tr>
+        </table>
+      </td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
+    </tr>
     <tr data-pkg="libzip" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>dev-libs/libzip-1.11.4-r2</td>
+      <td class="empty"></td>
       <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="libzip-dl" id="libzip-dl" title="1s">download</span>
 </td>
       <td><span class="cell inst" data-type="install" data-seconds="69" data-timed="1" data-id="libzip-inst" id="libzip-inst" title="1m 9s">install</span>
@@ -172,9 +220,11 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="libaec" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>sci-libs/libaec-1.1.4</td>
+      <td class="empty"></td>
       <td><span class="cell dl" data-type="download" data-seconds="1" data-timed="1" data-id="libaec-dl" id="libaec-dl" title="1s">download</span>
 </td>
       <td class="empty"></td>
@@ -207,9 +257,11 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="szip" data-actions="install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>virtual/szip-2.1</td>
+      <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
       <td class="empty"></td>
@@ -233,9 +285,11 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
     <tr data-pkg="netcdf" data-actions="download install run">
       <td class="pkg"><span class="toggle" onclick="toggleDetail(this)">&#9654;</span>sci-libs/netcdf-4.9.3-r3</td>
+      <td class="empty"></td>
       <td><span class="cell dl" data-type="download" data-seconds="2" data-timed="1" data-id="netcdf-dl" id="netcdf-dl" title="2s">download</span>
 </td>
       <td class="empty"></td>
@@ -278,6 +332,7 @@
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
       <td class="detail-empty"></td>
+      <td class="detail-empty"></td>
     </tr>
   </tbody>
 </table>
@@ -310,6 +365,9 @@ const depColors = {bdepend:"#ef6c00",depend:"#e53935",rdepend:"#7e57c2",pdepend:
 const depDash = {bdepend:"",depend:"",rdepend:"",pdepend:"6,3",idepend:"3,3"};
 let hoverMode=false, hoverPkg=null, critMode=false, timeMode=false;
 const deps = [
+  ["hdf5-inst","netcdf-inst","depend"],
+  ["hdf5-run","netcdf-inst","rdepend"],
+  ["hdf5-run","netcdf-run","rdepend"],
   ["libaec-run","szip-inst","rdepend"],
   ["libaec-run","szip-run","rdepend"],
   ["libzip-inst","netcdf-inst","depend"],
